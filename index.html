@@ -944,7 +944,7 @@ function cardHTML(s,i){
   const stLabel=st==='want'?'Want':st==='watching'?'Watching':st==='done'?'Done':'';
   return `<article class="card" style="animation-delay:${i*0.03}s;--c1:${s.colors[0]};--c2:${s.colors[1]}" onclick="openModal(${s.id})">
     <div class="card-header">
-      ${artHTML(s)}
+      ${artHTML(s,i)}
       ${s.isFind?`<span class="new-badge">NEW FIND</span>`:`<span class="year-tag">${s.type==='new'?'New Series':'New Season'}</span>`}
       <span class="platform-tag ${s.platform==='Hulu'?'hulu':s.platform==='Prime Video'?'prime':s.platform==='Netflix'?'netflix':'apple'}">${s.platform}</span>
       <div class="card-title-area"><div class="card-title">${s.title}</div><div class="card-genre">${s.genre}</div></div>
@@ -1347,12 +1347,18 @@ function posterOf(id) {
 /* Poster art layer for a card / modal header.
    Posters are portrait but these headers are landscape, so a blurred zoomed
    copy fills the box behind the true poster instead of cropping into faces. */
-function artHTML(s) {
+function artHTML(s, i) {
   const p = posterOf(s.id);
   if (!p) return '';
   const alt = ('Poster for ' + s.title).replace(/"/g, '');
+  // The first rows are on screen immediately — lazy-loading those leaves visibly
+  // blank cards on arrival (and stays blank in a background tab). Load them
+  // eagerly and lazy-load only what is further down.
+  const eager = typeof i !== 'number' || i < 8;
   return '<div class="art-wrap">' +
-    '<img class="art-poster" src="' + p + '" alt="' + alt + '" loading="lazy" ' +
+    '<img class="art-poster" src="' + p + '" alt="' + alt + '" ' +
+      (eager ? 'loading="eager" fetchpriority="high" ' : 'loading="lazy" ') +
+      'decoding="async" ' +
       'onerror="this.closest(\'.art-wrap\').remove()">' +
     '</div>';
 }
