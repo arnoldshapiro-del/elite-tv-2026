@@ -110,3 +110,40 @@ finds in their own labelled section rather than blended into the main grid.
 - The two API keys must be added as env vars in the Vercel dashboard, then redeploy.
 - Desktop `.url` shortcut + arnies-app-showcase gallery card still pending the
   live URL.
+
+## Session — 2026-07-30 (Phases 2 + 3, feature-complete)
+
+Arnie: "Finish the whole thing and don't stop till you're done. Including
+deploying to Vercel."
+
+**Built and deployed:** where-to-watch deep links, cast browsing, custom lists,
+per-episode ratings + notes, taste-based recommendations, binge planner, length
+filter, poster wall, and whole-catalogue TMDB search on the function.
+
+**New baked-in data:** scraped 465 cast credits (458 with photos, character
+names included) from TMDB's public cast pages for all 60 shows → `data/cast.json`
+→ embedded as `CAST`. 455 unique people, 10 of whom appear on 2+ shows, which is
+what makes the "also in N more here" cross-reference worth having.
+
+**Design decisions worth remembering**
+- Where-to-watch links are DERIVED from each show's platform + title rather than
+  fetched, so they cannot go stale and need no key.
+- Cast cross-referencing is a local lookup over `CAST`. No person API calls.
+- Recommendations are computed client-side from the user's own signals. No key,
+  and nothing about his taste leaves the browser.
+- Rating an episode marks it watched — you cannot rate what you have not seen.
+- Import merges instead of replacing. An import should never lose data.
+
+**Verified on the LIVE site (not just locally):** 60 shows, 536 episodes, 465
+cast credits, 12 poster-wall images, 2 watch links, 8 cast cards, 8 episode rows,
+40 per-episode stars, binge box present, 8 recommendation cards, Up Next
+populated, 100 calendar items, length filter cuts 60 → 26 for short binges, no
+undefined, no NaN, **zero console errors**. Served page byte-identical to local
+(sha 7f35f2fe431c360a).
+
+**Still outstanding (needs Arnie, affects only 2 features):**
+- TMDB account email verification, then re-copy the API key → enables Find New
+  Shows and whole-catalogue search.
+- `OMDB_API_KEY` in Vercel must be exactly `180774c9` (currently holds a garbled
+  voice-dictation value with his username appended).
+Everything else works with no keys at all.

@@ -117,6 +117,48 @@ given app ids of `100000 + tmdbId` so they can never collide with the curated
 1-60. `getShow(id)` resolves either kind; watchlist, ratings, notes, modal and
 trailers all work on them with no special cases.
 
+## Feature set (complete as of 2026-07-30)
+Built from what reviewers praise in the top-rated trackers, after TV Time shut
+down on 2026-07-15 and deleted everyone's history.
+
+Tracking
+- Episode-by-episode ticking, with a one-tap "↧ to here" catch-up.
+- Up Next tab: the exact next unwatched episode of everything in progress.
+- Progress bars on cards and in the modal. Watchlist status FOLLOWS progress
+  (`autoStatusFromProgress`) so it can never disagree with itself.
+- Watch-time stats: watched, ticked, left to finish, per-show remaining.
+- Binge planner: episodes left, hours left, finish-by date at 2 a night.
+- Per-episode 5-star ratings and private notes. Rating implies watched.
+
+Discovery
+- Poster wall across Discover, highest-rated first.
+- Length filter (short ≤6h / medium / long haul) from REAL episode runtimes.
+- For You tab: recommendations scored from the user's own ratings, finished
+  shows and progress, weighting genre + mood + service, and it states WHY.
+  Entirely local, no key.
+- Custom lists, unlimited, named anything.
+- Where to watch: deep links into Netflix / Hulu / Prime / Apple TV search plus
+  a JustWatch lookup. Derived from each show's platform, so nothing expires.
+- Cast browsing: 465 real credits with photos and character names. Tapping a
+  name lists every OTHER show on the list they're in (local lookup). 10 actors
+  span 2+ shows. Links out to their TMDB filmography.
+- Calendar rebuilt from 536 real episode air dates with countdowns, split into
+  Coming up / Already aired.
+- Find New Shows (needs the two keys) and whole-catalogue TMDB search (`?q=`).
+
+Portability
+- Export carries ratings, statuses, notes, EPISODE PROGRESS, custom lists,
+  per-episode ratings/notes and discovered shows. Import MERGES rather than
+  overwrites, so restoring never costs current data.
+
+## Baked-in data (no API key needed at runtime)
+- `EPISODES` — 536 episodes for all 60 shows (number, title, air date, runtime)
+- `CAST` — 465 top-billed credits (person id, name, photo, character)
+- `MEDIA` — poster, verified trailer id, TMDB id per show
+All scraped from TMDB's public pages and committed under `data/`. Refresh with
+the scripts referenced in SESSION_NOTES.md. Deliberate choice: the app keeps
+working if a key lapses.
+
 ## File Structure
 - index.html — the entire app (CSS + HTML + JS + all 60 shows + MEDIA map)
 - lib/discover-core.js — shared server logic for the Find New Shows button
