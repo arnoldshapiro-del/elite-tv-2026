@@ -598,6 +598,73 @@ footer {
 }
 .ep-upto:hover { border-color: var(--accent); color: var(--accent); }
 
+/* ---- Where to watch ----------------------------------------------------- */
+.watch-links { display: flex; gap: 8px; flex-wrap: wrap; }
+.watch-btn {
+  font-size: 12px; font-weight: 700; padding: 9px 14px; border-radius: 10px;
+  background: var(--accent); border: 1px solid var(--accent); color: #fff;
+  text-decoration: none; transition: filter 0.15s;
+}
+.watch-btn:hover { filter: brightness(1.12); }
+.watch-btn.alt { background: var(--surface2); border-color: var(--border); color: var(--text); }
+.watch-btn.alt:hover { border-color: var(--accent); color: var(--accent); filter: none; }
+
+/* ---- Chips (lists, filters) --------------------------------------------- */
+.chip-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip {
+  font-size: 12px; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+  background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+}
+.chip:hover { border-color: var(--accent); }
+.chip.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+
+/* ---- Cast --------------------------------------------------------------- */
+.cast-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; }
+.cast-card {
+  width: 96px; flex-shrink: 0; cursor: pointer; text-align: center;
+  border-radius: 10px; padding: 6px; transition: background 0.15s;
+}
+.cast-card:hover { background: var(--surface2); }
+.cast-face {
+  width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 6px; overflow: hidden;
+  background: var(--surface3); display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; font-weight: 700; color: var(--muted);
+}
+.cast-face img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cast-name { font-size: 11px; font-weight: 700; line-height: 1.25; }
+.cast-role { font-size: 10px; color: var(--muted); line-height: 1.25; margin-top: 2px; }
+.cast-more { font-size: 9px; color: var(--accent); font-weight: 700; margin-top: 3px; }
+
+/* ---- Per-episode rating + note ------------------------------------------ */
+.ep-extra { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.ep-star {
+  background: none; border: none; cursor: pointer; font-size: 12px; padding: 0 1px;
+  color: var(--border); line-height: 1;
+}
+.ep-star.lit { color: var(--gold); }
+.ep-star:hover { color: var(--gold); }
+.ep-note-btn { background: none; border: none; cursor: pointer; font-size: 12px; color: var(--muted); }
+.ep-note-btn.has { color: var(--accent); }
+.ep-row .ep-extra { opacity: 0.35; transition: opacity 0.15s; }
+.ep-row:hover .ep-extra, .ep-row.seen .ep-extra { opacity: 1; }
+
+/* ---- Recommendations / binge -------------------------------------------- */
+.rec-why { font-size: 11px; color: var(--accent); font-weight: 600; margin-top: 3px; }
+.binge-box {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 12px; font-size: 12px; color: var(--muted); margin-bottom: 12px;
+}
+.binge-box strong { color: var(--text); }
+
+/* ---- Poster wall hero --------------------------------------------------- */
+.wall { display: flex; gap: 6px; overflow: hidden; border-radius: var(--radius); margin-bottom: 20px; height: 150px; }
+.wall img {
+  flex: 1; min-width: 0; height: 100%; object-fit: cover; cursor: pointer;
+  filter: saturate(0.85) brightness(0.75); transition: filter 0.25s, flex-grow 0.25s;
+}
+.wall img:hover { filter: saturate(1.1) brightness(1); flex-grow: 2.2; }
+@media (max-width: 700px) { .wall { height: 110px; } .wall img:nth-child(n+7) { display: none; } }
+
 /* ---- Up Next ------------------------------------------------------------ */
 .upnext-list { display: flex; flex-direction: column; gap: 12px; }
 .upnext-row {
@@ -682,6 +749,7 @@ footer {
     <div class="nav-tabs">
       <button class="nav-tab active" data-section="discover">Discover</button>
       <button class="nav-tab" data-section="upnext">Up Next</button>
+      <button class="nav-tab" data-section="foryou">For You</button>
       <button class="nav-tab" data-section="finds">New Finds</button>
       <button class="nav-tab" data-section="watchlist">My List</button>
       <button class="nav-tab" data-section="stats">Stats</button>
@@ -709,6 +777,7 @@ footer {
       <span class="ppill netflix">Netflix</span>
     </div>
   </div>
+  <div class="wall" id="wall" title="Your highest-rated posters — click any of them"></div>
   <div class="controls">
     <div class="controls-row">
       <div class="search-wrap">
@@ -749,6 +818,12 @@ footer {
         <button class="btn" data-type="new">New Series</button>
         <button class="btn" data-type="season">New Season</button>
       </div>
+      <div class="btn-group" id="lengthFilter" title="Filter by how big a commitment it is">
+        <button class="btn active" data-len="all">Any Length</button>
+        <button class="btn" data-len="short">Short binge (≤6h)</button>
+        <button class="btn" data-len="medium">Medium (6–12h)</button>
+        <button class="btn" data-len="long">Long haul (12h+)</button>
+      </div>
       <div class="btn-group" id="statusFilter">
         <button class="btn active" data-status="all">Any Status</button>
         <button class="btn" data-status="none">Not Listed</button>
@@ -772,6 +847,23 @@ footer {
     <span style="font-size:12px;color:var(--muted)" id="viewLabel">Grid view</span>
   </div>
   <div class="grid" id="grid"></div>
+</section>
+
+<section class="section" id="foryou">
+  <div class="hero" style="padding-bottom:16px">
+    <h1>For You</h1>
+    <p>Picks based on what you've actually rated and watched — and your own custom lists</p>
+  </div>
+  <div id="tasteSummary"></div>
+  <div class="grid" id="recGrid" style="margin-bottom:28px"></div>
+  <div class="controls">
+    <div class="controls-row">
+      <strong style="font-size:14px">Your lists</strong>
+      <button class="btn" onclick="createList()" style="background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700">+ New list</button>
+      <div class="btn-group" id="listTabs"></div>
+    </div>
+  </div>
+  <div class="grid" id="listGrid"></div>
 </section>
 
 <section class="section" id="upnext">
@@ -1051,6 +1143,139 @@ function upNextQueue(){
   return out;
 }
 
+if(!state.lists)state.lists={};       // { listName: [showIds] }  — custom collections
+if(!state.epRatings)state.epRatings={}; // { "showId:epNum": 1..5 }
+if(!state.epNotes)state.epNotes={};     // { "showId:epNum": "text" }
+
+/* ---------------------------------------------------------------------------
+   WHERE TO WATCH
+   JustWatch's whole reason for existing is answering "where can I watch this,
+   right now". Each show already knows its service, so we can deep-link straight
+   into that service's own search — no API key, nothing to go stale — plus a
+   JustWatch lookup for every other option.
+--------------------------------------------------------------------------- */
+const WATCH_LINKS = {
+  'Netflix':     t => 'https://www.netflix.com/search?q=' + encodeURIComponent(t),
+  'Hulu':        t => 'https://www.hulu.com/search?q=' + encodeURIComponent(t),
+  'Prime Video': t => 'https://www.amazon.com/s?k=' + encodeURIComponent(t) + '&i=instant-video',
+  'Apple TV':    t => 'https://tv.apple.com/search?term=' + encodeURIComponent(t),
+};
+function watchLinksFor(s){
+  const clean = String(s.title).replace(/\s*\((?:S\d+|Final[^)]*|Limited[^)]*)\)\s*$/i, '').trim();
+  const out = [];
+  String(s.platform).split(/\s*·\s*/).forEach(p => {
+    const f = WATCH_LINKS[p.trim()];
+    if (f) out.push({ label: p.trim(), url: f(clean) });
+  });
+  out.push({ label: 'All services (JustWatch)', url: 'https://www.justwatch.com/us/search?q=' + encodeURIComponent(clean), alt: true });
+  return out;
+}
+
+/* ---------------------------------------------------------------------------
+   CUSTOM LISTS — collections beyond Want / Watching / Finished
+--------------------------------------------------------------------------- */
+function listNames(){ return Object.keys(state.lists).sort((a,b)=>a.localeCompare(b)); }
+function listsFor(id){ return listNames().filter(n => state.lists[n].indexOf(id) !== -1); }
+function toggleList(name, id){
+  if (!state.lists[name]) state.lists[name] = [];
+  const at = state.lists[name].indexOf(id);
+  if (at === -1) state.lists[name].push(id); else state.lists[name].splice(at, 1);
+  save(); refreshOpenModal(id); renderLists();
+  toast(at === -1 ? 'Added to ' + name : 'Removed from ' + name);
+}
+function createList(){
+  const name = (prompt('Name your new list (e.g. "Weekend binge", "Watch with Ela")') || '').trim();
+  if (!name) return;
+  if (state.lists[name]) { toast('You already have a list called that'); return; }
+  state.lists[name] = [];
+  save(); renderLists();
+  toast('Created list: ' + name);
+}
+function deleteList(name){
+  if (!confirm('Delete the list "' + name + '"? The shows themselves are not affected.')) return;
+  delete state.lists[name];
+  save(); renderLists();
+  toast('Deleted list: ' + name);
+}
+
+/* ---------------------------------------------------------------------------
+   PER-EPISODE RATINGS AND NOTES — the Serializd / "Letterboxd for TV" idea
+--------------------------------------------------------------------------- */
+const epKey = (id, n) => id + ':' + n;
+function epRating(id, n){ return state.epRatings[epKey(id,n)] || 0; }
+function setEpRating(id, n, v){
+  const k = epKey(id,n);
+  if (state.epRatings[k] === v) delete state.epRatings[k]; else state.epRatings[k] = v;
+  if (!isWatched(id,n) && state.epRatings[k]) toggleEpisode(id, n, true);  // rating it implies you saw it
+  save(); refreshOpenModal(id);
+}
+function epNote(id, n){ return state.epNotes[epKey(id,n)] || ''; }
+function promptEpNote(id, n, title){
+  const cur = epNote(id, n);
+  const v = prompt('Your note on E' + n + (title ? ' — ' + title : ''), cur);
+  if (v === null) return;
+  const k = epKey(id,n);
+  if (v.trim()) state.epNotes[k] = v.trim(); else delete state.epNotes[k];
+  save(); refreshOpenModal(id);
+  toast(v.trim() ? 'Note saved' : 'Note cleared');
+}
+
+/* ---------------------------------------------------------------------------
+   RECOMMENDATIONS FROM YOUR OWN TASTE
+   Learns from what you rated highly, finished, or marked Want, then scores
+   everything you have NOT engaged with by genre, mood and service overlap.
+--------------------------------------------------------------------------- */
+function tasteProfile(){
+  const g = {}, m = {}, p = {};
+  let signals = 0;
+  SHOWS.concat(findsAsShows()).forEach(s => {
+    let w = 0;
+    const r = getUserRating(s.id);
+    if (r >= 4) w += r - 2;                       // 4★ -> 2, 5★ -> 3
+    if (getStatus(s.id) === 'done') w += 2;
+    if (getStatus(s.id) === 'watching') w += 1.5;
+    if (getStatus(s.id) === 'want') w += 1;
+    const prog = progressOf(s.id);
+    if (prog.total && prog.seen) w += Math.min(2, (prog.seen / prog.total) * 2);
+    if (w <= 0) return;
+    signals += w;
+    String(s.genre).split(',').map(x=>x.trim()).forEach(x => { if(x) g[x] = (g[x]||0) + w; });
+    (s.moods||[]).forEach(x => { m[x] = (m[x]||0) + w; });
+    p[s.platform] = (p[s.platform]||0) + w;
+  });
+  return { g, m, p, signals };
+}
+function recommendations(n){
+  const t = tasteProfile();
+  if (t.signals < 1) return { ready:false, items:[] };
+  const scored = SHOWS.concat(findsAsShows()).filter(s => {
+    if (getStatus(s.id) === 'done' || getStatus(s.id) === 'watching') return false;
+    if (getUserRating(s.id)) return false;
+    if (progressOf(s.id).seen) return false;
+    return true;
+  }).map(s => {
+    let sc = 0; const why = [];
+    String(s.genre).split(',').map(x=>x.trim()).forEach(x => { if (t.g[x]) { sc += t.g[x] * 2; why.push(x); } });
+    (s.moods||[]).forEach(x => { if (t.m[x]) sc += t.m[x]; });
+    if (t.p[s.platform]) sc += t.p[s.platform] * 0.5;
+    sc += (s.imdb - 7.5) * 3;                     // quality nudge, never the whole story
+    return { s, sc, why: [...new Set(why)].slice(0,2) };
+  }).filter(x => x.sc > 0).sort((a,b) => b.sc - a.sc).slice(0, n);
+  return { ready:true, items:scored, profile:t };
+}
+
+/* Binge planner: how long, and when you'd finish at N episodes a night. */
+function bingePlan(id){
+  const left = epsOf(id).filter(e => !isWatched(id, e[0]));
+  if (!left.length) return null;
+  const mins = minutesRemainingFor(id);
+  const perNight = 2;
+  const nights = Math.ceil(left.length / perNight);
+  const d = new Date(); d.setDate(d.getDate() + nights - 1);
+  return { episodes: left.length, mins, nights,
+           finishBy: d.toLocaleDateString('en',{month:'short',day:'numeric'}) };
+}
+
 const FIND_ID_BASE = 100000;
 const findAppId = tmdb => FIND_ID_BASE + Number(tmdb);
 const isFindId = id => Number(id) >= FIND_ID_BASE;
@@ -1080,7 +1305,7 @@ function findsAsShows(){
 function getShow(id){
   return SHOWS.find(x => x.id === id) || findsAsShows().find(x => x.id === id) || null;
 }
-let currentType='all',currentStatus='all',currentView='grid',currentMood='any',wlFilter='all';
+let currentType='all',currentStatus='all',currentView='grid',currentMood='any',wlFilter='all',currentLength='all';
 function save(){localStorage.setItem('eliteTV2026',JSON.stringify(state));}
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
 function applyTheme(){document.documentElement.setAttribute('data-theme',state.theme==='light'?'light':'dark');}
@@ -1092,6 +1317,7 @@ document.querySelectorAll('.nav-tab').forEach(tab=>{
     document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
     document.getElementById(tab.dataset.section).classList.add('active');
     if(tab.dataset.section==='upnext')renderUpNext();
+    if(tab.dataset.section==='foryou')renderForYou();
     if(tab.dataset.section==='finds')renderFinds();
     if(tab.dataset.section==='watchlist')renderWatchlist();
     if(tab.dataset.section==='stats')renderStats();
@@ -1113,7 +1339,16 @@ function render(){
     const matchType=currentType==='all'||s.type===currentType;
     const st=getStatus(s.id);
     const matchStatus=currentStatus==='all'||(currentStatus==='none'&&!st)||st===currentStatus;
-    return matchSearch&&matchPlatform&&matchGenre&&matchType&&matchStatus;
+    // total commitment, from real episode runtimes where we have them
+    const totalMin=epsOf(s.id).length
+      ? epsOf(s.id).reduce((n,e)=>n+epRuntime(s.id,e),0)
+      : (s.eps||0)*(s.runtime||0);
+    const hrs=totalMin/60;
+    const matchLen = currentLength==='all'
+      || (currentLength==='short'&&hrs<=6)
+      || (currentLength==='medium'&&hrs>6&&hrs<=12)
+      || (currentLength==='long'&&hrs>12);
+    return matchSearch&&matchPlatform&&matchGenre&&matchType&&matchStatus&&matchLen;
   });
   filtered.sort((a,b)=>{
     switch(sort){
@@ -1134,6 +1369,7 @@ function render(){
   document.getElementById('avgRT').textContent=(filtered.reduce((s,x)=>s+x.rt,0)/filtered.length).toFixed(0)+'%';
   document.getElementById('avgIMDb').textContent=(filtered.reduce((s,x)=>s+x.imdb,0)/filtered.length).toFixed(1);
   grid.innerHTML=filtered.map((s,i)=>cardHTML(s,i)).join('');
+  renderWall();
 }
 function cardHTML(s,i){
   const st=getStatus(s.id);const ur=getUserRating(s.id);
@@ -1306,6 +1542,67 @@ async function runFind(){
     btn.disabled = false;
     btn.textContent = label;
   }
+}
+
+let activeList = null;
+
+function renderForYou(){
+  const rec = recommendations(8);
+  const sum = document.getElementById('tasteSummary');
+  const grid = document.getElementById('recGrid');
+
+  if (!rec.ready){
+    sum.innerHTML = '';
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+      <h3>Rate a few things first</h3>
+      <p>Give some shows 4 or 5 stars, tick off a few episodes, or mark things ★ Want —
+      then this fills with picks chosen from your own taste, and tells you why.</p></div>`;
+  } else {
+    const top = k => Object.entries(rec.profile[k]).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x=>x[0]);
+    const g = top('g'), p = top('p');
+    sum.innerHTML = `<div class="binge-box" style="margin-bottom:16px">
+      Reading your taste as <strong>${g.map(escapeHTML).join(', ')||'still learning'}</strong>${p.length?` on <strong>${p.map(escapeHTML).join(', ')}</strong>`:''}.
+      These are the ${rec.items.length} best matches you haven't started.
+    </div>`;
+    grid.className = 'grid';
+    grid.innerHTML = rec.items.map(({s,why},i)=>
+      cardHTML(s,i).replace('</p>\n      <div class="card-footer">',
+        `</p>${why.length?`<div class="rec-why">Because you like ${why.map(escapeHTML).join(' + ')}</div>`:''}\n      <div class="card-footer">`)
+    ).join('');
+  }
+
+  // custom lists
+  const names = listNames();
+  const tabs = document.getElementById('listTabs');
+  if (!names.length){
+    tabs.innerHTML = '<span style="font-size:12px;color:var(--muted)">No lists yet — make one, then add shows from any show\'s page.</span>';
+    document.getElementById('listGrid').innerHTML = '';
+    return;
+  }
+  if (!activeList || names.indexOf(activeList) === -1) activeList = names[0];
+  tabs.innerHTML = names.map(n=>
+    `<button class="btn ${n===activeList?'active':''}" onclick="activeList=${JSON.stringify(n).replace(/"/g,'&quot;')};renderForYou()">${escapeHTML(n)} <span style="opacity:.6">${state.lists[n].length}</span></button>`
+  ).join('') + `<button class="btn" onclick="deleteList(${JSON.stringify(activeList).replace(/"/g,'&quot;')})" title="Delete this list" style="color:var(--danger)">🗑</button>`;
+
+  const items = state.lists[activeList].map(id=>getShow(id)).filter(Boolean);
+  const lg = document.getElementById('listGrid');
+  lg.className = 'grid';
+  lg.innerHTML = items.length
+    ? items.map((s,i)=>cardHTML(s,i)).join('')
+    : `<div class="empty-state" style="grid-column:1/-1"><h3>"${escapeHTML(activeList)}" is empty</h3>
+       <p>Open any show and tap this list under “Your lists”.</p></div>`;
+}
+function renderLists(){ if (document.getElementById('foryou').classList.contains('active')) renderForYou(); }
+
+/* Poster wall across the top of Discover — visual browsing, straight from the
+   highest-rated posters you have. */
+function renderWall(){
+  const el = document.getElementById('wall');
+  if (!el) return;
+  const picks = SHOWS.filter(s=>posterOf(s.id)).sort((a,b)=>b.imdb-a.imdb).slice(0,12);
+  el.innerHTML = picks.map(s=>
+    `<img src="${posterOf(s.id)}" alt="${escapeHTML(s.title)}" title="${escapeHTML(s.title)} · IMDb ${s.imdb}"
+      loading="eager" onclick="openModal(${s.id})" onerror="this.remove()">`).join('');
 }
 
 function renderUpNext(){
@@ -1499,6 +1796,18 @@ function doCompare(){
    A null air date means TMDB has no date yet; a null runtime means unknown.
 --------------------------------------------------------------------------- */
 const EPISODES = {"1":{"s":1,"e":[[1,"Welcome to Widow's Bay!","2026-04-28",42],[2,"Lodging","2026-04-28",37],[3,"The Inaugural Swim","2026-05-05",38],[4,"Beach Reads","2026-05-12",36],[5,"What to Expect on Your Trip","2026-05-19",37],[6,"Our History","2026-05-26",38],[7,"Seasickness","2026-05-26",43],[8,"Your Baggage","2026-06-02",34],[9,"Emergency Shelter","2026-06-09",32],[10,"We Hope You Enjoyed Your Time!","2026-06-16",49]]},"2":{"s":1,"e":[[1,"The Book of Judith","2026-07-15",55],[2,"The Yellow Wood","2026-07-15",49],[3,"Strangers on a Train","2026-07-15",53],[4,"The Spanish Prisoner","2026-07-15",52],[5,"The Count of Monte Carlo","2026-07-15",52],[6,"Moonlight on the Bosphorus","2026-07-15",53],[7,"The Geneva Convention","2026-07-15",53],[8,"The Song of Deborah","2026-07-15",56]]},"3":{"s":1,"e":[[1,"The Gorgon","2026-07-27",52],[2,"My life had stood - a Loaded Gun","2026-07-27",55],[3,"Memory Distortion","2026-07-27",54],[4,"Flash Flood","2026-08-03",null],[5,"Pick a Sticker","2026-08-10",null],[6,"They Make a Noise Like Feathers","2026-08-17",null],[7,"Hart Island","2026-08-24",null],[8,"Some Days It Don't Come Easy","2026-08-31",null]]},"4":{"s":15,"e":[[1,"Failure to Hard Launch","2026-07-20",24],[2,"Care of the Dog","2026-07-20",24],[3,"Searching for Bobby Phisher","2026-07-20",24],[4,"Hank Encounters of the Nerd Kind","2026-07-20",25],[5,"The Best Little Marriage in Texas","2026-07-20",24],[6,"Ch-Ch-Ch-Changes","2026-07-20",24],[7,"Hank Ruffles Some Feathers","2026-07-20",24],[8,"No-Cuddle Offense","2026-07-20",24],[9,"Reality Bites","2026-07-20",25],[10,"Propane Recall","2026-07-20",24]]},"5":{"s":1,"e":[[1,"The Hungry Ghost","2026-04-14",36],[2,"Homecoming","2026-04-14",38],[3,"Jinxed","2026-04-14",42],[4,"Buddies","2026-04-21",36],[5,"Flamingoes","2026-04-28",45],[6,"Grudge Match","2026-05-05",40],[7,"Lariat Takedown","2026-05-12",37],[8,"Lock and Load","2026-05-19",41]]},"6":{"s":1,"e":[[1,"BLATANT, NOT SUBTLE","2026-03-25",25],[2,"TO TROLL, TO PROVOKE","2026-03-25",27],[3,"HOUSE OR HOME","2026-03-25",27],[4,"LOYALTY, ALLEGIANCE","2026-03-25",23],[5,"LURE, PART OF A TRAP","2026-03-25",27],[6,"THE SUBTLE ONE","2026-03-25",24]]},"7":{"s":1,"e":[[1,"The Deal","2026-05-13",53],[2,"The Practice","2026-05-13",50],[3,"The Orgasm","2026-05-13",46],[4,"The Breakup","2026-05-13",54],[5,"The Cold Turkey","2026-05-13",47],[6,"The Breakaway","2026-05-13",55],[7,"The Faceoff","2026-05-13",54],[8,"The Line Change","2026-05-13",56]]},"8":{"s":1,"e":[[1,"Step into My Office","2026-05-25",45],[2,"Tread Lightly","2026-05-25",41],[3,"Double Cross","2026-05-25",44],[4,"A Mistake I'll Never Make Again","2026-05-25",47],[5,"Betrayal","2026-05-25",48],[6,"Nightmare on a Gurney","2026-05-25",41],[7,"Nobody's Hero","2026-05-25",41],[8,"The Man in the Mask","2026-05-25",46]]},"9":{"s":1,"e":[[1,"Detroit","2026-06-07",50],[2,"Toledo","2026-06-14",56],[3,"Toronto","2026-06-21",54],[4,"The Devil's Road","2026-06-28",54],[5,"New York","2026-07-05",55],[6,"Montreal","2026-07-12",55],[7,"The Failures","2026-07-19",56]]},"10":{"s":5,"e":[[1,"Keep It Simple","2025-12-25",21],[2,"The Great One","2025-12-25",23],[3,"A Winning Culture","2026-01-01",23],[4,"Practice How You Play","2026-01-08",27],[5,"Total Buy-In","2026-01-15",27],[6,"Who Are We?","2026-01-22",26]]},"11":{"s":1,"e":[[1,"Day of Hunting","2026-03-04",50],[2,"The Return","2026-03-04",50],[3,"Collateral Damage","2026-03-11",47],[4,"Mountain Law","2026-03-18",53],[5,"Positional Warfare","2026-03-25",51],[6,"The Assault","2026-04-01",47]]},"12":{"s":2,"e":[[1,"Brute Force","2026-07-31",null],[2,"Rocket's Red Glare","2026-07-31",null],[3,"Deep Cover","2026-07-31",null],[4,"The Devil's Due","2026-07-31",null],[5,"The Spectral Hand","2026-07-31",null],[6,"Sudden Fear","2026-07-31",null],[7,"Her Dark Reflection","2026-07-31",null],[8,"Zero Hour","2026-07-31",null],[9,"Dead Before Dawn","2026-07-31",null],[10,"The Laughing Death","2026-07-31",null]]},"13":{"s":1,"e":[[1,"An Oath for Peace","2026-04-05",26],[2,"Toryumon","2026-04-12",26],[3,"Imperial Council","2026-04-19",26],[4,"The Seii Coup","2026-04-26",26],[5,"The Borderland General Corps Marches Out","2026-05-03",26],[6,"Eve of War","2026-05-10",26],[7,"The Kanazawa Night Raid","2026-05-17",26],[8,"Dragon vs. Tiger","2026-05-24",26],[9,"Tears for Yayakichi","2026-05-31",26],[10,"Reunion of Mortal Enemies","2026-06-07",26],[11,"Lie on Firewood and Council the Heavens","2026-06-14",24],[12,"The Fall of Seii","2026-06-21",24]]},"14":{"s":1,"e":[[1,"Magnets","2026-05-19",40],[2,"YABA","2026-05-19",36],[3,"Chunnel","2026-05-26",35],[4,"Raisins","2026-06-02",33],[5,"Scamboy","2026-06-09",37],[6,"Rosebuds","2026-06-16",29],[7,"Flighting","2026-06-23",35],[8,"Hallidays","2026-06-30",34],[9,"Erroneous","2026-07-07",28],[10,"Queens","2026-07-14",38]]},"15":{"s":2,"e":[[1,"Blessings","2024-05-30",25],[2,"Bacon in the Drawer","2024-06-06",26],[3,"Heavy","2024-06-06",28],[4,"Ethical Porn","2024-06-13",27],[5,"Waterfall","2024-06-13",31],[6,"Yass King","2024-06-20",26],[7,"Wawam","2024-06-20",28],[8,"Speedy Susans","2024-06-27",26]]},"16":{"s":1,"e":[[1,"Episode 1","2026-07-17",46],[2,"Episode 2","2026-07-17",53],[3,"Episode 3","2026-07-17",49],[4,"Episode 4","2026-07-17",54],[5,"Episode 5","2026-07-17",46],[6,"Episode 6","2026-07-17",50],[7,"Episode 7","2026-07-17",46],[8,"Episode 8","2026-07-17",59]]},"17":{"s":4,"e":[[1,"The Waltz","2026-01-29",null],[2,"Time Transfixed","2026-01-29",null],[3,"The Field Next to the Other Road","2026-01-29",null],[4,"An Offer from a Gentleman","2026-01-29",null],[5,"Yes or No","2026-02-26",null],[6,"The Passing Winter","2026-02-26",null],[7,"The Beyond","2026-02-26",null],[8,"Dance in the Country","2026-02-26",null]]},"18":{"s":2,"e":[[1,"THE BEGINNING AND THE END","2026-03-10",null],[2,"GOOD WHALE HUNTING","2026-03-10",null],[3,"WHISKY BUSINESS","2026-03-10",null],[4,"BIG TROUBLE IN LITTLE GARDEN","2026-03-10",55],[5,"WAX ON, WAX OFF","2026-03-10",58],[6,"NAMI DEEREST","2026-03-10",56],[7,"REINDEER SHAMES","2026-03-10",null],[8,"DEER AND LOATHING IN DRUM KINGDOM","2026-03-10",null]]},"19":{"s":1,"e":[[1,"Welcome to The Boroughs","2026-05-21",55],[2,"The Mourning After","2026-05-21",50],[3,"A Pyramid","2026-05-21",40],[4,"Forbidden Fruit","2026-05-21",48],[5,"Another Beautiful Day","2026-05-21",43],[6,"The Grey Rebellion","2026-05-21",47],[7,"Time to Go","2026-05-21",42],[8,"Triple Audible","2026-05-21",44]]},"20":{"s":1,"e":[[1,"Episode 1","2026-01-08",47],[2,"Episode 2","2026-01-08",44],[3,"Episode 3","2026-01-08",41],[4,"Episode 4","2026-01-08",48],[5,"Episode 5","2026-01-08",45],[6,"Episode 6","2026-01-08",40]]},"21":{"s":1,"e":[[1,"Episode 1","2026-06-04",57],[2,"Episode 2","2026-06-04",49],[3,"Episode 3","2026-06-04",47]]},"22":{"s":2,"e":[[1,"Somewhere Safe","2026-06-25",null],[2,"A Fight, Once Begun","2026-06-25",null],[3,"City of Walls and Secrets","2026-06-25",null],[4,"The Water Falls, the Stones Emerge","2026-06-25",null],[5,"Ten Thousand Things","2026-06-25",null],[6,"The Parable of the Two Dragons","2026-06-25",56],[7,"Something Broken","2026-06-25",null]]},"23":{"s":1,"e":[[1,"Episode 1","2026-06-18",48],[2,"Episode 2","2026-06-18",45],[3,"Episode 3","2026-06-18",38],[4,"Episode 4","2026-06-18",45],[5,"Episode 5","2026-06-18",45],[6,"Episode 6","2026-06-18",38],[7,"Episode 7","2026-06-18",36],[8,"Episode 8","2026-06-18",37]]},"24":{"s":1,"e":[[1,"Independence","2026-07-09",53],[2,"The House on the Prairie","2026-07-09",52],[3,"News of the World","2026-07-09",46],[4,"Life Let Us Cherish","2026-07-09",49],[5,"A Circle of Blue Sky","2026-07-09",46],[6,"Peace on Earth","2026-07-09",42],[7,"A Softer Note in the Sound of the Wind","2026-07-09",52],[8,"This Is Now","2026-07-09",57]]},"25":{"s":2,"e":[[1,"Hey There, Cowboy","2026-07-23",46],[2,"Edge of My Seat Here, Quinn","2026-07-23",45],[3,"That Dog Won't Hunt","2026-07-23",43],[4,"Forever and Always","2026-07-23",44],[5,"That Leaves Two","2026-07-23",44],[6,"Can't Never Could","2026-07-23",46],[7,"No Place Like Home","2026-07-23",44],[8,"Love Is a Canyon","2026-07-23",58]]},"26":{"s":1,"e":[[1,"Episode 1","2026-06-05",52],[2,"Episode 2","2026-06-05",57],[3,"Episode 3","2026-06-05",null],[4,"Episode 4","2026-06-05",null],[5,"Episode 5","2026-06-05",null],[6,"Episode 6","2026-06-05",null],[7,"Episode 7","2026-06-05",null],[8,"Episode 8","2026-06-05",null],[9,"Episode 9","2026-06-05",null],[10,"Episode 10","2026-06-05",null]]},"27":{"s":1,"e":[[1,"A Long Time Coming","2026-05-14",56],[2,"Breaking Protocol","2026-05-14",57],[3,"Tête-À-Tête","2026-05-14",null],[4,"It Was a Good Day","2026-05-14",null],[5,"Business. Never Personal.","2026-05-14",56],[6,"The Die Is Cast","2026-05-14",56],[7,"Repercussions","2026-05-14",56],[8,"Zugzwang","2026-05-14",58]]},"28":{"s":3,"e":[[1,"Call Waiting","2026-02-19",57],[2,"Package Deal","2026-02-19",49],[3,"Dark Matters","2026-02-19",52],[4,"Orion","2026-02-19",55],[5,"The Isolation Play","2026-02-19",52],[6,"Murky Waters","2026-02-19",48],[7,"Once Upon a Time...","2026-02-19",55],[8,"Truth Be Told","2026-02-19",55],[9,"Lockstep","2026-02-19",53],[10,"Razzmatazz","2026-02-19",48]]},"29":{"s":8,"e":[[1,"New Kids on the Track","2026-02-27",52],[2,"Strictly Business","2026-02-27",44],[3,"The Number 1 Problem","2026-02-27",47],[4,"The Bull with No Horns","2026-02-27",39],[5,"The Sky's the Limit","2026-02-27",46],[6,"The Duel","2026-02-27",44],[7,"What Happens in Vegas","2026-02-27",38],[8,"Call Me Chucky","2026-02-27",51]]},"30":{"s":6,"e":[[1,"The Unfortunate Destruction of the Diamond Making Machine","2025-10-13",24],[2,"The Eternal Sleep Sack","2025-10-13",26],[3,"The Sci-Fi Slingshot","2025-10-13",24],[4,"The Paternal Oil","2025-10-13",23],[5,"The Family Memories VHS Mix Tape","2025-10-13",23],[6,"The Maturity Point Redistribution Device","2025-10-13",25],[7,"The Realm of Satin and Swords","2025-10-13",26],[8,"The Last Flight of Ariana 1","2025-10-13",27],[9,"The Goocleus and the Protoshlorpian","2025-10-13",24],[10,"What Is the Mission Anyway?","2025-10-13",27]]},"31":{"s":2,"e":[[1,"7:00 A.M.","2026-01-08",53],[2,"8:00 A.M.","2026-01-15",46],[3,"9:00 A.M.","2026-01-22",45],[4,"10:00 A.M.","2026-01-29",49],[5,"11:00 A.M.","2026-02-05",44],[6,"12:00 P.M.","2026-02-12",50],[7,"1:00 P.M.","2026-02-19",53],[8,"2:00 P.M.","2026-02-26",45],[9,"3:00 P.M.","2026-03-05",49],[10,"4:00 P.M.","2026-03-12",43],[11,"5:00 P.M.","2026-03-19",49],[12,"6:00 P.M.","2026-03-26",52],[13,"7:00 P.M.","2026-04-02",49],[14,"8:00 P.M.","2026-04-09",42],[15,"9:00 P.M.","2026-04-16",50]]},"32":{"s":1,"e":[[1,"Ghosts of Past, Present & Future","2026-07-29",42],[2,"Til Drag Do Us Part","2026-07-29",42],[3,"Episode 3","2026-08-05",null]]},"33":{"s":1,"e":[[1,"Pilot","2026-08-05",null],[2,"Don't You Want Me","2026-08-05",null],[3,"Help Me! Rhonda","2026-08-12",null],[4,"Robert's Party","2026-08-12",null],[5,"Murder on the Dancefloor","2026-08-19",null],[6,"Homecoming (1)","2026-08-26",null],[7,"Homecoming (2)","2026-08-26",null],[8,"Episode 8",null,null],[9,"Episode 9",null,null],[10,"Episode 10",null,null]]},"34":{"s":2,"e":[[1,"The Scrub","2026-08-27",null],[2,"Talia","2026-08-27",null],[3,"Fake ID","2026-09-03",null],[4,"Episode 4","2026-09-03",null],[5,"Episode 5","2026-09-10",null],[6,"Episode 6","2026-09-10",null],[7,"Episode 7","2026-09-17",null],[8,"Episode 8","2026-09-17",null]]},"35":{"s":6,"e":[[1,"Episode 1","2026-11-15",null],[2,"Episode 2","2026-11-15",null],[3,"Episode 3","2026-11-15",null],[4,"Episode 4","2026-11-22",null],[5,"Episode 5","2026-11-29",null],[6,"Episode 6","2026-12-06",null],[7,"Crucifixion","2027-03-12",null]]},"36":{"s":3,"e":[[1,"You F*cked It, Friend","2026-01-13",59],[2,"We Can't Help It If We Are a Problem","2026-01-13",48],[3,"Repent","2026-01-13",47],[4,"Fix Me Up, Girl","2026-01-20",53],[5,"I'd Like to Hold Her Head Under Water","2026-01-27",55],[6,"I Don't Cry When I'm Sad Anymore","2026-02-03",54],[7,"I Will Promise Not to Sting","2026-02-10",null],[8,"Are You Happy Now, That I'm on My Knees?","2026-02-17",null]]},"37":{"s":5,"e":[[1,"Operating","2026-06-03",49],[2,"Storming","2026-06-03",51],[3,"Tripping","2026-06-03",43],[4,"Updating","2026-06-03",54],[5,"Decapitating","2026-06-10",49],[6,"Frazzling","2026-06-10",55],[7,"Sickening","2026-06-17",51],[8,"Reaping","2026-06-17",null]]},"38":{"s":5,"e":[[1,"Soda","2026-06-25",22],[2,"Lamb","2026-06-25",26],[3,"Mint","2026-06-25",24],[4,"Ribs","2026-06-25",39],[5,"Raspberries","2026-06-25",29],[6,"Focaccia","2026-06-25",29],[7,"Caramel","2026-06-25",53],[8,"The Original Beef of Chicagoland","2026-06-25",null]]},"39":{"s":3,"e":[[1,"Episode 1","2027-01-06",null]]},"40":{"s":5,"e":[[1,"Team Building","2025-10-01",22],[2,"Cheating","2025-10-08",22],[3,"Ballgame","2025-10-15",22],[4,"Game Night","2025-10-22",22],[5,"Camping","2025-10-29",22],[6,"No Phones","2025-11-05",22],[7,"Goofgirl","2025-12-03",22],[8,"Birthday","2025-12-10",22],[9,"Mall (1)","2026-01-07",22],[10,"Mall (2): Questions & Concerns","2026-01-14",22],[11,"Mall (3): Heroes","2026-01-21",22],[12,"Picture Day","2026-01-28",22],[13,"Candygrams","2026-02-04",22],[14,"Aide","2026-03-04",22],[15,"Safety Day","2026-03-11",22],[16,"Campaign","2026-03-18",22],[17,"No Homework","2026-03-25",22],[18,"April Fools","2026-04-01",22],[19,"Trip","2026-04-08",22],[20,"Night Out","2026-04-15",22],[21,"Ava & Fest","2026-04-22",22],[22,"Miami","2026-04-22",22]]},"41":{"s":4,"e":[[1,"Episode 1","2026-08-12",null],[2,"Episode 2","2026-08-12",null],[3,"Episode 3","2026-08-12",null],[4,"Episode 4","2026-08-19",null],[5,"Episode 5","2026-08-26",null],[6,"Episode 6","2026-09-02",null],[7,"Episode 7","2026-09-09",null],[8,"Episode 8","2026-09-16",null]]},"42":{"s":5,"e":[[1,"Fifteen Inches of Sheer Dynamite","2026-04-08",null],[2,"Teenage Kix","2026-04-08",null],[3,"Every One of You Sons of Bitches","2026-04-15",null],[4,"King of Hell","2026-04-22",null],[5,"One-Shots","2026-04-29",null],[6,"Though the Heavens Fall","2026-05-06",null],[7,"The Frenchman, the Female, and the Man Called Mother's Milk","2026-05-13",null],[8,"Blood and Bone","2026-05-20",null]]},"43":{"s":2,"e":[[1,"The Innovator","2025-12-16",null],[2,"The Golden Rule","2025-12-24",59],[3,"The Profligate","2025-12-31",55],[4,"The Demon in the Snow","2026-01-07",49],[5,"The Wrangler","2026-01-14",57],[6,"The Other Player","2026-01-21",52],[7,"The Handoff","2026-01-27",51],[8,"The Strip","2026-02-03",57]]},"44":{"s":9,"e":[[1,"There's Something About Morty","2026-05-24",23],[2,"Ricks Days, Seven Nights","2026-05-31",23],[3,"Rick Fu Hustle","2026-06-07",24],[4,"A Ricker Runs Through It","2026-06-14",23],[5,"Jer Bud","2026-06-21",23],[6,"Erickerhead","2026-06-28",24],[7,"Mortgully: The Last Rickforest","2026-07-05",24],[8,"Rickuiem Mort a Dream","2026-07-12",23],[9,"Salute Your Morts","2026-07-19",24],[10,"Field of Dreams","2026-07-26",24]]},"45":{"s":3,"e":[[1,"Episode 1","2026-11-11",null],[2,"Episode 2","2026-11-11",null],[3,"Episode 3","2026-11-11",null],[4,"Episode 4","2026-11-11",null],[5,"Episode 5","2026-11-18",null],[6,"Episode 6","2026-11-18",null],[7,"Episode 7","2026-11-25",null],[8,"Episode 8","2026-11-25",null]]},"46":{"s":4,"e":[[1,"Wedding Weekend","2025-08-25",38],[2,"Workload","2025-08-25",32],[3,"Spa Day","2025-08-25",35],[4,"Mile End","2025-08-25",46]]},"47":{"s":2,"e":[[1,"Episode 1","2026-10-21",null],[2,"Episode 2","2026-10-21",null],[3,"Episode 3","2026-10-21",null],[4,"Episode 4","2026-10-21",null],[5,"Episode 5","2026-10-21",null],[6,"Episode 6","2026-10-21",null],[7,"Episode 7","2026-10-21",null],[8,"Episode 8","2026-10-21",null]]},"48":{"s":8,"e":[[1,"Soul of a Rebel","2026-03-06",null],[2,"Prophecies","2026-03-13",59],[3,"Abies Fraseri","2026-03-20",null],[4,"Muskets, Liberty, and Sauerkraut","2026-03-27",null],[5,"Send for the Devil","2026-04-03",57],[6,"Blessed Are the Merciful","2026-04-10",null],[7,"Evidence of Things Not Seen","2026-04-17",null],[8,"In the Forest","2026-04-24",56],[9,"Pharos","2026-05-08",54],[10,"And the World Was All Around Us","2026-05-15",null]]},"49":{"s":6,"e":[[1,"STEEL BALL RUN","2026-03-19",49],[2,"Episode 2","2026-09-25",null],[3,"Episode 3","2026-10-02",null],[4,"Episode 4","2026-10-09",null],[5,"Episode 5","2026-10-16",null],[6,"Episode 6","2026-10-23",null],[7,"Episode 7","2026-10-30",null],[8,"Episode 8","2026-11-06",null],[9,"Episode 9","2026-11-13",null],[10,"Episode 10","2026-11-20",null],[11,"Episode 11","2026-11-27",null],[12,"Episode 12","2026-12-04",null]]},"50":{"s":4,"e":[[1,"One Year Later...","2026-06-03",31],[2,"Trial by Water","2026-06-03",27],[3,"The Coronation","2026-06-03",26],[4,"Taryon, My Wayward Son","2026-06-10",26],[5,"De Rolo's Eleven","2026-06-10",26],[6,"We Are His Blood","2026-06-10",28],[7,"The Ghosts of Whitestone","2026-06-17",27],[8,"The Bard's Lament","2026-06-17",27],[9,"The Temple of Truth","2026-06-17",25],[10,"The Poisoned Ear","2026-06-24",28],[11,"Let the End Begin","2026-06-24",25],[12,"The Ascension","2026-06-24",29]]},"51":{"s":18,"e":[[1,"Frank Marries a Corpse","2026-08-17",null],[2,"Dennis and Dee Don't Get Rich","2026-08-17",null],[3,"The Gang Gets Tested","2026-08-24",null],[4,"2026: A Virtual Insanity","2026-08-31",null]]},"52":{"s":4,"e":[[1,"MAKING THE WORLD A BETTER PLACE","2026-03-18",53],[2,"I'LL GIVE YOU THE GRAND TOUR","2026-03-18",51],[3,"I GOTTA GET SOME AIR","2026-03-18",49],[4,"HURM","2026-03-25",56],[5,"GIVE US A MOMENT","2026-04-01",52],[6,"YOU LOOK HORRIBLE","2026-04-08",53],[7,"DON'T DO ANYTHING RASH","2026-04-15",54],[8,"DON'T LEAVE ME HANGING HERE","2026-04-22",52]]},"53":{"s":4,"e":[[1,"Home","2026-08-04",42],[2,"Episode 2","2026-08-11",47],[3,"Episode 3","2026-08-18",47],[4,"Episode 4","2026-08-25",44],[5,"Episode 5","2026-09-01",null],[6,"Episode 6","2026-09-08",null],[7,"Episode 7","2026-09-15",null],[8,"Episode 8","2026-09-22",null],[9,"Episode 9","2026-09-29",null],[10,"Episode 10","2026-10-06",null]]},"54":{"s":5,"e":[[1,"First Light","2026-03-26",59],[2,"The Hard Six","2026-04-02",46],[3,"Home","2026-04-09",null],[4,"Open Source","2026-04-16",57],[5,"Svoboda","2026-04-23",53],[6,"No Sudden Moves","2026-04-30",49],[7,"The Sirens of Titan","2026-05-07",52],[8,"Brave New World","2026-05-14",53],[9,"Sons and Daughters","2026-05-21",44],[10,"This Land Is Our Land","2026-05-28",null]]},"55":{"s":5,"e":[[1,"Bad Dates","2025-09-24",46],[2,"Incommunicado","2025-10-01",48],[3,"Tall Tales","2025-10-08",40],[4,"Missiles","2025-10-15",40],[5,"Circus","2025-10-22",45],[6,"Scars","2025-10-29",52]]},"56":{"s":3,"e":[[1,"My Bad","2026-01-27",null],[2,"Happiness Mission","2026-02-03",35],[3,"D-Day","2026-02-10",36],[4,"The Field","2026-02-17",36],[5,"Hold Your Horsies","2026-02-24",33],[6,"Dereks Don't Die","2026-03-03",34],[7,"I Will Be Grape","2026-03-10",34],[8,"Depression Diet","2026-03-17",34],[9,"Daddy Issues","2026-03-24",35],[10,"The Bodyguard of Sadness","2026-03-31",37],[11,"And That's Our Time","2026-04-07",36]]},"57":{"s":3,"e":[[1,"A Song for the End of Everything","2025-07-10",52],[2,"Shadows in the Math","2025-07-17",49],[3,"When a Book Finds You","2025-07-24",51],[4,"The Stress of Her Regard","2025-07-31",49],[5,"Where Tyrants Spend Eternity","2025-08-07",47],[6,"The Shape of Time","2025-08-14",45],[7,"Foundation's End","2025-08-21",null],[8,"Skin in the Game","2025-08-28",47],[9,"The Paths That Choose Us","2025-09-04",47],[10,"The Darkness","2025-09-11",52]]},"58":{"s":1,"e":[[1,"Black Bread and Iridescent Hope","2026-01-15",24],[2,"Feeling Blue","2026-01-15",26],[3,"Lilies","2026-01-15",23],[4,"His Rough Sketch","2026-01-15",26],[5,"Views of a Honey Gold Summer","2026-01-15",29],[6,"An Asymmetrical World","2026-01-15",40],[7,"A Red Rose Has Thorns","2026-01-15",24],[8,"The Perspective of Childhood Friends","2026-01-15",28],[9,"A Gradation of Talent and Effort","2026-01-15",24],[10,"Outlines of Triangles","2026-01-15",27],[11,"A Portrait in Sepia","2026-01-15",26],[12,"The Golden Ratio Between Them","2026-01-15",30],[13,"A Collage of Joy and Sorrow","2026-01-15",28],[14,"Farewell on the Sea","2026-01-15",27],[15,"Stormy Crossroads","2026-01-15",25],[16,"Colorless Cubism of the Heart","2026-01-15",22],[17,"A Confession Gone with the Waves","2026-01-15",24],[18,"Five Years Later, an Engagement Ring","2026-01-15",26],[19,"Drawn by Destiny","2026-01-15",30],[20,"Love Through a Prism","2026-01-15",37]]},"59":{"s":1,"e":[[1,"Asa and Yuru","2026-04-04",24],[2,"Right and Left","2026-04-11",24],[3,"Dera and Hana","2026-04-18",24],[4,"Jin and Yuru","2026-04-25",24],[5,"Hare and Tortoise","2026-05-02",24],[6,"The Kagemori Clan and the Unknown Assailants","2026-05-09",24],[7,"Asa and Break","2026-05-16",24],[8,"Suspicion and Conviction","2026-05-23",24],[9,"Embrace and Whisper","2026-05-30",24],[10,"Long-Arm and Long-Leg","2026-06-06",24],[11,"Big Brother and Little Brother","2026-06-13",24],[12,"Retainer and Shaman","2026-06-20",24],[13,"Daikyo and Shokyo","2026-07-04",24],[14,"Family and Friends","2026-07-11",24],[15,"Yuru and Danji","2026-07-18",24],[16,"Kagemori and Shingo","2026-07-25",24],[17,"Crybaby and Naughty Child","2026-08-01",null],[18,"Episode 18","2026-08-08",null],[19,"Episode 19","2026-08-15",null],[20,"Episode 20","2026-08-22",null],[21,"Episode 21","2026-08-29",null],[22,"Episode 22","2026-09-05",null],[23,"Episode 23","2026-09-12",null],[24,"Episode 24","2026-09-19",null]]},"60":{"s":1,"e":[[1,"Episode 1","2026-04-18",null],[2,"Episode 2","2026-04-19",null],[3,"Episode 3","2026-04-25",null],[4,"Episode 4","2026-04-26",null],[5,"Episode 5","2026-05-02",null],[6,"Episode 6","2026-05-03",null],[7,"Episode 7","2026-05-09",null],[8,"Episode 8","2026-05-10",null],[9,"Episode 9","2026-05-16",null],[10,"Episode 10","2026-05-17",null],[11,"Episode 11","2026-05-23",null],[12,"Episode 12","2026-05-24",null]]}};
+
+
+/* ---------------------------------------------------------------------------
+   CAST — top-billed cast per show, from TMDB, baked in at build time.
+   Shape: showId: [ [personId, name, profileImage, role], ... ]
+   Clicking a name shows every OTHER show on this list they appear in, which is
+   a pure local lookup — no key, no network.
+--------------------------------------------------------------------------- */
+const TMDB_IMG_FACE = "https://image.tmdb.org/t/p/w185";
+const CAST_RAW = {"1":[[29528,"Matthew Rhys","8uktKexgPn0tsW3dsXVNqkqiNh7.jpg","Mayor Tom Loftis"],[65446,"Kate O'Flynn","7yAy3O75MXimZJF3bFqlTE4Mhkk.jpg","Patricia Moyer"],[6950,"Kevin Carroll","8G4rrDJfwurNWv4BJY7PlPXqIiK.jpg","Sheriff Bechir Clemmons"],[46814,"Dale Dickey","588WXHw17JYi2rAqIVQXzgYENu3.jpg","Rosemary"],[1190037,"Kingston Rumi Southwick","q9vcRroJ1BKvC3aofRS49PJ5KAP.jpg","Evan Loftis"],[17401,"Stephen Root","2Zwi6AydqQQ9InVdhjYcfJXNzkp.jpg","Wyck Crawford"],[143236,"Jeff Hiller","nyaD40aVXJoeabL8U7y0oKx6BdG.jpg","Dale"],[41729,"K Callan","iaoZ23x9IBHA7xBsC28F1SW2PPm.jpg","Ruth"]],"2":[[1278487,"Hannah Waddingham","eHAICyhvjiRZCgzKyJCk9hWnnjr.jpg","Judith Burton"],[6944,"Octavia Spencer","zDGydyM1fmvNWzQlTAns9IZjNxT.jpg","Debbie Claybourne"],[2440,"Bill Nighy","ixFI2YCGNGJfwlpI8iyhvVZRg8C.jpg","The Director"],[1047649,"Ed Skrein","btJvbQbWf3ciYM4SM5tMWSJEkXX.jpg","Billy Donovan"],[3671470,"Nova Foueillis-Mosé","iIuCix0sg3j2Xo33zvnfUR4k3Jp.jpg","Queenie"]],"3":[[4730,"Emmy Rossum","wq9ALe33ZGg38Yf1JsKnEcbhZQo.jpg","Alice Black"],[1969732,"Lola Petticrew","ykw2gQrbHmL07Eb17jYcG4RxVTn.jpg","Catherine"],[59233,"Scoot McNairy","oP2LJEqupxVZ2XdEW1lN5Q5LF3M.jpg","Danny Kelly"],[1465486,"Quincy Tyler Bernstine","yaLaEHdxnhDqIMxyvzzx1pMKBVP.jpg","Nora Washington"]],"4":[[17403,"Mike Judge","ol4kd4mSOK7Hx3r86ydez84bwEI.jpg","Hank Hill / Boomhauer (voice)"],[11074,"Kathy Najimy","nqbZF7Igr0SC8Xq8y0jwmx0mLDN.jpg","Peggy Hill (voice)"],[21063,"Pamela Adlon","5eIRHUbNOH7ibXa0IfUfFvj5I5L.jpg","Bobby Hill (voice)"],[17401,"Stephen Root","2Zwi6AydqQQ9InVdhjYcfJXNzkp.jpg","Bill Dauterive (voice)"],[18271,"Toby Huss","dUqygHlDDnOBZLnE51MPJHkHWvQ.jpg","Cotton Hill / Kahn Souphanousinphone (voice)"],[1229344,"Johnny Hardwick","8rNuINzi8VK5EBJuTemwu70sxZp.jpg","Dale Gribble (voice)"],[328,"Brittany Murphy","uLOrqcSk2h5o3ekNfcuGFDzN13W.jpg","Luanne Platter (voice)"],[15100,"Lauren Tom","fTKFspRRQ275AkzvtPERLZnXe0n.jpg","Minh Souphanousinphone / Connie Souphanousinphone (voice)"]],"5":[[18050,"Elle Fanning","ucC5faqfEYVhoC25M6Hi3znZmab.jpg","Margo"],[1160,"Michelle Pfeiffer","8qwNMFzmM3BxGKIj1iIqiHHBpx3.jpg","Shyanne"],[17039,"Nick Offerman","f6z3mPVtaF40ewfdmZydprAjmYd.jpg","Jinx"],[17141,"Greg Kinnear","iJezGc9XjY0DFPs00SypkuKImFK.jpg","Kenny"],[2515060,"Thaddea Graham","A9JcILciCMWx5v0eMQYADaMB60z.jpg","Susie"],[6141987,"Graham Hendrix",null,"Bodhi"],[6151353,"River Cabrera-Kelley",null,"Bodhi"],[11665,"Michael Angarano","q4SOVndGsnCmSZKBllLaJCNM72c.jpg","Mark"]],"6":[[53240,"Riz Ahmed","1uP9RaX7BGVx7XGTEmwObBJJzsC.jpg","Shah Latif"],[2037501,"Guz Khan","pY2ND9eZhUtPuRBZPEoM1BRPZBd.jpg","Zulfi"],[1976368,"Aasiya Shah","qi6fGjxtR0TkvNsysxJP77CJjcl.jpg","Q"],[1246564,"Sheeba Chaddha","yWBQeR47GmnGJn33w4c8QzakkSh.jpg","Tahira"],[1238937,"Sajid Hasan",null,"Parvez"],[1742596,"Ritu Arya","bBRGCBAW0wNS7fQeGQroOeA60yw.jpg","Yasmin"],[1948465,"Weruche Opia","pPgIOuM9lRO1zH6eDnqDpf0w7da.jpg","Felicia"],[6520,"Soni Razdan","yOkPrW9Dnut5FqePGz34PdTpF2s.jpg","Nalia"]],"7":[[2478377,"Ella Bright","frdjTC8xrHJAbSUCNcrUvnU0SVx.jpg","Hannah Wells"],[2286570,"Belmont Cameli","fFzsXbUqgqmUha7FBYBMMEdkuf.jpg","Garrett Graham"],[1186941,"Mika Abdalla","x4wvmpRu8qJAdCWYCk8jaOMdaet.jpg","Allie Hayes"],[2573266,"Stephen Kalyn","2vuVAhIHHIKtOaqBNR6YltYKn6k.jpg","Dean Di Laurentis"],[2444677,"Jalen Thomas Brooks","987XKn86U2OED1ooCjxuHmx6Eut.jpg","John Tucker"],[2225794,"Antonio Cipriano","sYYRDGRYQPesvmQFfgMxlskYGVb.jpg","John Logan"],[584542,"Julia Sarah Stone","y9eM2R23IJWEhyfdjyFQK63if1S.jpg","Jules Logan"],[81388,"Steve Howey","7pkqToPpwV6id92cHDwigS77qdv.jpg","Phil Graham"]],"8":[[2963,"Nicolas Cage","y1RtezurZYveYkVNRht7CwEgSYY.jpg","Ben Reilly / The Spider"],[1181327,"Lamorne Morris","9qPDnMsF7JbYSSn1K9yryFBmmXl.jpg","Joe 'Robbie' Robertson"],[1321015,"Li Jun Li","y8hAcbThfxkrSRWhuXl9TsYAggP.jpg","Cat Hardy"],[3966106,"Karen Rodriguez","3CxunqumXE9ZYofJ0rhF7nSSMqX.jpg","Janet Ruiz"],[1432064,"Abraham Popoola","r5mojn6TjWgHefdMCJNiohvY82f.jpg","Lonnie Lincoln / Tombstone"],[54738,"Jack Huston","qWGoZaUbeuaOLbDvyP5txYr9Hct.jpg","Flint Marko"],[2039,"Brendan Gleeson","ctPPJu5ZYDZr1IPmzoNpezczrm0.jpg","Finn 'Silvermane' Byrne"],[935497,"Joe Massingill","vokyCO9SR3ZFBHKYID6k7zVNnTp.jpg","Pudge"]],"9":[[589650,"Sam Reid","ec8uyzmv1Sz0iAfhiRYxgGmFF0A.jpg","Lestat de Lioncourt / Jarda Klapek"],[964792,"Jacob Anderson","cWO1DdhFXWs5r8baNOPaVaJ56x6.jpg","Louis de Pointe du Lac"],[1780975,"Assad Zaman","6rKrmK8xK9wdf7Wy1HNS4ltnRTE.jpg","Armand"],[3542158,"Joseph Potter","n7i9vuFe93updKretmCjVllztZG.jpg","Nicolas de Lenfent"],[2414422,"Delainey Hayles","4S2sn1n0vHWL8G8CXCPf49nLSe1.jpg","Regina / Claudia de Lioncourt de Pointe du Lac"],[49971,"Jennifer Ehle","kMddVKineLFpxsUoGrb3E6edkOv.jpg","Gabriella Vece"],[10866,"Eric Bogosian","lUtLCWoLh18UFVOHBFr1VpUpoYJ.jpg","Daniel Molloy"],[1799783,"Ryan Kattner",null,"Salamander"]],"10":[[205053,"Jared Keeso","8otnzB0CmGpYr9EExYQ5YU2mibc.jpg","Shoresy"],[1390882,"Tasya Teles","mfTimAo8fHOYL8uVabCle7feJw7.jpg","Nat"],[3578777,"Harlan Blayne Kytwayhat","3JpW1upAqAij14t69eNVRF8MpIe.jpg","Sanguinet"],[3479440,"Blair Lamora","5TdQ6zUtCTr9fqFAmZB0mfAWtFN.jpg","Ziigwan"],[1712696,"Keilani Elizabeth Rose","9S8NG5NXCmtMxtmTub0top6Szul.jpg","Miigwan"],[2257507,"Jonathan-Ismaël Diaby","dFTeWo51o8h6FKF3abCnErUKNyY.jpg","Dolo"],[3630626,"Terry Ryan","dQ9FfpPAomiUqTfoILBYNDQqaQo.jpg","Ted 'Hitch' Hitchcock"],[3630627,"Max Bouffard","w396xKa1vBBKVhYX6i32sm7r9E3.jpg","JJ Frankie JJ"]],"11":[[5442,"Benoît Magimel","3AZThxcr97NMaAXONubwUcJwpXO.jpg","Franck"],[19119,"Mélanie Laurent","i99ogEo4gQyanCmHWYYoS6hsUqL.jpg","Krystel"],[579211,"Damien Bonnard","jZLowoW3gGxKbrscwZintPBsQR5.jpg","Xavier"],[1644239,"Manuel Guillot","9CCf47gNbScsuWBgytN69yi3Bjo.jpg","Gilles"],[1580289,"Cédric Appietto","gZmZqY1aM0yVeNiVV5HkYqqlNka.jpg","Simon"],[437381,"Frédéric Maranber","jBX6BWxXSBMypnZYLmtKhMG0ZOw.jpg","Leo"],[5800569,"Angelyna Danabe Mignot",null,"—"],[3746090,"Paul Beaurepaire","uQ6GjEcqE6VZ4hhy5F4WBtXuXlR.jpg","—"]],"12":[[184581,"Hamish Linklater","AnpxdQjBk3v2OQTgyyb9EuUxAow.jpg","Batman / Bruce Wayne (voice)"],[63608,"Jason Watkins","jGQOdzZ1sCz7WKtYSROMWv4menu.jpg","Alfred Pennyworth (voice)"],[54043,"Gary Anthony Williams","96BbiV8rQOeGyoDxgrepRd6lUjm.jpg","Flass (voice)"],[5727,"Diedrich Bader","z7CctykPTuXDfAs7pkAA7vW4b3T.jpg","Harvey Dent (voice)"],[31531,"John DiMaggio","qcbQe71nSlULDsP1OxTqltEKFbl.jpg","Bullock (voice)"],[28104,"Eric Morgan Stuart","14Krtyw8xjNV8Q1coVsJPE6Nu2D.jpg","Commissioner Gordon (voice)"],[1967809,"Krystal Joy Brown","5RlZjZoE8MesOazeFpHSPT8CBvr.jpg","Barbara Gordon (voice)"],[61285,"Michelle Bonilla","4XOtQ6YTL3Hiy1D1aV9CamdqoRO.jpg","Renee Montoya (voice)"]],"13":[[1065297,"Kensho Ono","wUYJ3HIeygHfh4rAqupE4RPoG3W.jpg","Aoteru Misumi (voice)"],[131563,"Jun Fukuyama","eT9eloyIaIkTvTqMmpcsAleP2hM.jpg","Asama Yoshitune (voice)"],[553794,"Takashi Nagasako","7DLrEXccZELodYFHV6hllZuizO3.jpg","Denki Taira (voice)"],[1254672,"Asami Seto","iKKCPgKrNd4pJ0iBOC1SBZy2Y4Y.jpg","Saki Higashimachi (voice)"],[1164931,"Megumi Han","cwnwrPg1YvB19TbfouC4ShGPmbQ.jpg","Narrator (voice)"],[552339,"Kazuhiro Yamaji","fgGTdhTiWViGmjl2kABHWzLIpZ0.jpg","Mitsuhide Ryūmon (voice)"],[1221114,"Yuichi Nakamura","wb8behVKjBHX9XXrEydvNINCYwH.jpg","Yasuaki Kaku (voice)"],[3943324,"Taihi Kimura","sE3h0G6BxS77N8opXqBBDZxXsqE.jpg","Fuji III (voice)"]],"14":[[61134,"Tatiana Maslany","x8lBkm9CBJbIlLpqjEwkQydZ2or.jpg","Paula Sanders"],[543505,"Jake Johnson","3UNfW2qZgRkW81neNVfQvaRC92K.jpg","Karl Hendricks"],[1513304,"Dolly de Leon","mNskbR6hayRY3DjTcECqIJ7eQsO.jpg","Detective Sofia Gonzalez"],[1019049,"Jessy Hodges","cRGqWZqxxqomvtRvxdVninq6P0k.jpg","Mallory"],[1224051,"Jon Michael Hill","cn8a3KUxhBIV5mJ04JldUeGrx3D.jpg","Detective Baxter"],[2452847,"Charlie Hall","ekdtnSKDXJRqwI0Uwi0N9mot3dB.jpg","Rudy"],[2582593,"Kiarra Hamagami Goldberg","1n4wC4Ni1TIpDtvxRIY8grHKYGV.jpg","Geri"],[5613942,"Nola Wallace","laBa1bTz20p6hDTB5PshpllOoif.jpg","Hazel"]],"15":[[1539693,"Harriet Dyer","7IPlBqrPRicjvUSix7a2uk0Mf88.jpg","Ashley"],[221032,"Patrick Brammall","l4IlGBxkYcCwqtfuKfWyHa9JCn6.jpg","Gordon"],[2896640,"Emma Harvie","bO0mlsy29XiJ5SaDCZHLq1ilfEa.jpg","Megan"],[1618512,"Genevieve Hegney","vpzOtoU5fMQVGmdNucbZxY94ET.jpg","Chiara"],[2626180,"Michael Logo","5cB0ENHqemY19DsMZyXF9tQ5a03.jpg","Brett"],[94876,"Helen Thomson","uTKMoAEGLbkCHWCuBKbKMM3mR80.jpg","Lynelle"],[75539,"Glenn Hazeldine","rnFyqPHkytoBcz0nE86zSTHDCMD.jpg","Gene"],[221684,"Darren Gilshenan","fvPJlP52dDpp0JZO5bW8WLnWyXH.jpg","Professor Lee"]],"16":[[1459772,"Nam Joo-hyuk","kuLC8pR24kbEIAjfg3WpKW41Kcl.jpg","Gu-cheon"],[3218480,"Roh Yoon-seo","A67wGhTozfav5saZ1Umi5f98Ezb.jpg","Saeng-gang"],[126495,"Cho Seung-woo","agXysHUmaUdHrEQAZ2ZMvMR5oCU.jpg","King (Lee Yeon)"],[93996,"Jang Young-nam","u0hl8WSswFhKVaKwaMAERU0xUJk.jpg","Queen Dowager"],[1503655,"Hong Seo-jun","4XMMegusqQLp07XBtkoFgvpZs5c.jpg","Chief Eunuch Kim"],[4107104,"Choi Hyuk-joo","pVb7t3c5h58X8I18uteX71sH7GA.jpg","Lady Jang"],[1385609,"Kwak Dong-yeon","klgX8YheSFFXqEdjuCQY5rxTTGa.jpg","Crown Prince"],[4011201,"Choi So-yul","qnYVMDQW9XBBBAdkUhQtOdrcOm1.jpg","Saeng-gang (child)"]],"17":[[18031,"Ruth Gemmell","hPtU8FTFMOneRQg7LQQdkeakJOe.jpg","Lady Violet Bridgerton"],[1127887,"Luke Thompson","2MG3W8vmwYLcZaZzARv5O7GaLe2.jpg","Benedict Bridgerton"],[1439488,"Claudia Jessie","urv0p4Mi81m1jZO8YWF1i9NpLL7.jpg","Eloise Bridgerton"],[2908684,"Florence Hunt","2PQxOhgqnS4S4JNiAmQtquqgDjF.jpg","Hyacinth Bridgerton"],[1686681,"Will Tilston","fdIByL5EeTImhVHtSPaEMBErF2C.jpg","Gregory Bridgerton"],[109651,"Adjoa Andoh","4dsLkxU3Vcw1P97JoyGWlbYhV1h.jpg","Lady Agatha Danbury"],[5823,"Julie Andrews","yQ0J92DMiLtQYoytLJ6CuBkdeN0.jpg","Lady Whistledown (voice)"],[1856875,"Golda Rosheuvel","nlSIvTWzMEzZGljKYgpZxGcsJtv.jpg","Queen Charlotte"]],"18":[[2177750,"Iñaki Godoy","oPwyLvGfgApD7MfRwj8zp7HOLMF.jpg","Monkey D. Luffy"],[1568101,"Emily Rudd","vVl4ABlqUuh5n1M2B9AOOa9r6kV.jpg","Nami"],[1566805,"Mackenyu","y4FTSASxsO1F61p3hFIPMCeprut.jpg","Roronoa Zoro"],[2355316,"Jacob Gibson","rjBm6lA9A077Id2lAnoNyryo268.jpg","Usopp"],[2498631,"Taz Skylar","3EXMkfzB8EXn3ZJPJvK6OfPWLfz.jpg","Sanji"],[9831,"Vincent Regan","7VHu79GciN5QlQTmWdBS86eE2mu.jpg","Vice-Admiral Garp"],[1031249,"Jeff Ward","55Vj8VuALnptdxjJYCH6EdPyR0j.jpg","Buggy the Clown"],[3327515,"Charithra Chandran","xLFgJmfXjd2Nnbjx3ZtavReGwjK.jpg","Miss Wednesday / Nefertari Vivi"]],"19":[[658,"Alfred Molina","nJo91Czesn6z0d0pkfbDoVZY3sg.jpg","Sam Cooper"],[1981,"Alfre Woodard","erXesg092Pi7SHKEK2UHeimPPKf.jpg","Judy Daniels"],[81681,"Denis O'Hare","zMim5sdMnyd2GFfPd9Jh59Vcog3.jpg","Wally Baker"],[61011,"Clarke Peters","ouDHDpocxXgXrosF3vShAEkOjHL.jpg","Art Daniels"],[39007,"Carlos Miranda","psSkpxrspzeayJ3dR6TnsPfNBWU.jpg","Paz Navarro"],[20089,"Jena Malone","kGwV9iLmfUxJ6a73ehr0QvAnc8C.jpg","Claire Cooper"],[234136,"Seth Numrich","7G9knd2kMDe02GK8nebZPJSC2xj.jpg","Blaine Shaw"],[1357037,"Alice Kremelberg","l82uQGCwzJ5AaotsoH7tRxIFsTR.jpg","Anneliese Shaw"]],"20":[[62561,"Tessa Thompson","19ze60jXlb2j7dXc2UpA3MujXA8.jpg","Anna Andrews"],[19498,"Jon Bernthal","o0t6EVkJOrFAjESDilZUlf46IbQ.jpg","Det. Jack Harper"],[59254,"Pablo Schreiber","trKW3kwhwx4UeCNZg43A1x1h4Uv.jpg","Richard Jones"],[164094,"Marin Ireland","jAIOQNraHjvIAdqk81QDV5Phupp.jpg","Zoe Harper"],[1375002,"Sunita Mani","xQo4rkMEphSAt8F9D1OyWv0GBLx.jpg","Priya 'Boston' Patel"],[1369367,"Rebecca Rittenhouse","jQMrD7E4FCEBOD8tqQsi6q5FwH.jpg","Lexy Jones"],[4445,"Chris Bauer","1AjdNxbVmy6azlOxIfnCX5OruEA.jpg","Clyde Duffie"],[2392602,"Poppy Liu","i36QkUChZN7K8BQa1ReaZHes6L4.jpg","Helen Wang"]],"21":[[1674734,"Jordan Bolger","zGSxXrllgm3MNVT0jjvnAQFacPS.jpg","André Hanscombe"],[2251714,"Max Fincham","cR1voDGyAcGWrOHMZ4WJgX87Vqn.jpg","Alex Hanscombe"],[30433,"Neil Maskell","12dDCWSE8GXrhnzHuaEWxNJFfrN.jpg","DI Keith Pedder"],[39185,"Kevin Eldon","1S3ft0f71Hho9QlHUnuyJVHrfKH.jpg","DCI Mick Wickerson"],[220372,"Kerry Godliman","eLbKxu58ZPFCGl6WF9rbRJdg7R4.jpg","June"],[2021396,"Jon Pointing","44uiVF37L3jsIq90bBWVFUh8XAB.jpg","DC Nick Sparshatt"],[1587576,"James Dryden","66DNJWRWXzv0Sl3OHB9o5DSqFEo.jpg","DC Paul Miller"],[1345950,"Mark Stanley","3ABvmcomWJxKsDnfqyVsIzjvul8.jpg","DS Ivan Agnew"]],"22":[[2447707,"Gordon Cormier","1l7hsuaMZ9lmpmJAkxJfM1nJq3p.jpg","Aang"],[2718335,"Kiawentiio","x75kxaA0Nur9aI2lfKntkY878a4.jpg","Katara"],[2595507,"Ian Ousley","ijBAHEOoDyCjt3iYhHm6yBVwka2.jpg","Sokka"],[1792920,"Dallas Liu","aismdzGeONTJHiPfofNaKGZSKZu.jpg","Zuko"],[178068,"Paul Sun-Hyung Lee","qyJG3qC1TImpJYN0zCgnFSQzzOF.jpg","Uncle Iroh"],[157067,"Matthew Yang King","4ck5cTZit0GZVynMSPOEbrF6qTp.jpg","Appa / Momo (voice)"],[3417134,"Elizabeth Yu","1oNayhi4DS9nbN9cncKpPtOZXeQ.jpg","Azula"],[18307,"Daniel Dae Kim","AtKRWsC4UhEjzorWlL2eguzZ9XM.jpg","Fire Lord Ozai"]],"23":[[65731,"Sam Worthington","vM1WIfYQ1HUBtlVPwB9Hp9fLcn8.jpg","David Burroughs"],[973497,"Britt Lower","5XIcTMDSyj7hRICQAcnY9U83ujF.jpg","Rachel Mills"],[8687,"Chi McBride","cesCeJZ5gSywA9lTYReB5uhkfek.jpg","Max Williams"],[93376,"Logan Browning","zKEsvVQCZORJ32wzp1a1exsHU0P.jpg","Sarah Greer"],[990300,"Erin Richards","uVCvOipf16ifApCqrM5jdL427wu.jpg","Cheryl Dreason"],[17243,"Jonathan Tucker","9rHZEb3Xfb8PkpVAQc5v8lz3PKh.jpg","Adam Mackenzie"],[16501,"Milo Ventimiglia","9yFPsQCYi9sbPQ0xJGtoAF4Ar6v.jpg","Hayden Payne"],[231,"Greg Bryk","1I3SxKFvQSam6KOMT4j5f0nFxRg.jpg","Stephano Stavros"]],"24":[[972356,"Luke Bracey","ot2h7IrXpC8XSnIZDSVsj2FQ5cx.jpg","Charles Ingalls"],[2444579,"Crosby Fitzgerald","6f2qL5xTgdce8cqVjReEVIw2iyB.jpg","Caroline Ingalls"],[4342311,"Alice Halsey","3HLnsGJvhqQkGftOyn6ZpywGVzp.jpg","Laura Ingalls"],[3318616,"Skywalker Hughes","odWo2m7Xdcnw3WdxsZfvRBqbmY.jpg","Mary Ingalls"],[4515249,"Kowen Cadorath","m7IC89Xzv1tyY7kxNm5KTEM0Me3.jpg","Caleb"],[1702827,"Barrett Doss","kmllxoRWq92gSVG4Tt1CTdL7dJT.jpg","Emily Henderson"],[1488952,"Mary Holland","iwEK2fIrU1q7aijjD8FI9hCUMEL.jpg","Jemma James"],[107939,"Jocko Sims","qcJASKAB9jt2s7seb3AwFP7DbeX.jpg","Dr. George Tann"]],"25":[[19536,"Josh Duhamel","5Rp9aeWdN2S623KCjwfii9MhDK1.jpg","Staten Kirkland"],[96625,"Minka Kelly","A7k2z1JGuJwcrqMgCBqcPjzbLAL.jpg","Quinn O'Grady"],[1520844,"Lizzy Greene","iWoWhGJ9gBi206SbVeHY7X2LTiG.jpg","Lauren Brigman"],[1446466,"Garrett Wareing","ghJmP5QlDsVSQEF8XlDSciZ4q6x.jpg","Lucas Russell"],[2980860,"Marianly Tejada","sxnkidP9iZ2Rgv5f8rtGNIpDXsF.jpg","Ellie Estevez"],[3563646,"Jack Schumacher","pMRUZPW4vnzSqC86A0jElpXHkD9.jpg","Yancy Grey"],[2045794,"Casey W. Johnson","avhhoQTdWvjIw2WoH7HYILd680I.jpg","Kit Russell"],[1306474,"Justin Johnson Cortez","nXYj0TkQ3TEReIwqDzNNgbjLnOR.jpg","Kai Flores"]],"26":[[84788,"Kim Moo-yul","wLuVca9icDLjUkOG84IlEmfP52b.jpg","Na Hwa-jin"],[141548,"Lee Sung-min","p71yyyIQmHbrOZHU2lphMvjlVIk.jpg","Choi Kang-seok"],[1564175,"Jin Ki-joo","xwhR8nrFKxalOjmADxJPTouxE0g.jpg","Im Han-rim"],[1878886,"Pyo Ji-hoon","rg2fuaF8yRmKBgyGWdpvEmtCBmU.jpg","Bong Geun-dae"],[1295417,"Kim Jong-soo","bcZLy3t0EXvRY4EWsD5BoEt3xOM.jpg","Hwang Gi-tae"],[3031138,"Ahn Ha-young","a4BwdtRS1VjzARuqmCV2JWQUf43.jpg","Choi Ga-yun"],[4045713,"Lee Bong-joon","xaWFn1sMb20AHa1jfP7igFcDqzt.jpg","Cho Gyu-cheol"],[560065,"Kim Beong-choun","bxinKyCtIY3RVxhTaxFfxm9dYiu.jpg","Lee Cheol-myeon"]],"27":[[2513799,"Matthew Law","bGCYMu3GErcLgmAd3nIEP468vFs.jpg","Isaiah Stiles"],[1694278,"Y'lan Noel","hVR9aDPZUZSF4EGgGlDVST58IUA.jpg","Coltrane Wilder"],[217055,"Cleopatra Coleman","vA0KiqXasmcvjafImY4hwoxYe8d.jpg","Ebony Wilder"],[1800820,"Tre Hale","yASkZD15DmMgoDgGabuF7ZetGYk.jpg","Darren 'Stro' Stroman"],[17941,"Domenick Lombardozzi","ygbrVKqVQe2rog9CFhHhLcBElj8.jpg","Dave Cerullo"],[1702392,"Ariana Guerra","1bZcu30gkzKkLHRKgz5b2dg59et.jpg","Yvette Cruz"],[1074677,"Jonnie Park","lcIPg223TayLkrDvaizIOwSADQY.jpg","Chris Choi"],[124501,"Gabrielle Dennis","rKhkx7aBAlGegA87JNedmhziUTN.jpg","Candace Stiles"]],"28":[[222122,"Gabriel Basso","6jHYQf6Y37BEouavp03WWpWpFyR.jpg","Peter Sutherland"],[1610713,"Fola Evans-Akingbola","2IPTdmVsnRJnsZluXhu7UMM2pBj.jpg","Chelsea Arrington"],[1399806,"Luciane Buchanan","9fTzSU4310StDoO9T0nQyGOLurn.jpg","Rose Larkin"],[93228,"Louis Herthum","7QarKov7OLIKKv6m152rnEyOnfq.jpg","Jacob Monroe"],[164382,"Albert Jones","tv3l8Lmvig9pHLmRUykOy4VPPDd.jpg","Aiden Mosley"],[1170657,"Amanda Warren","zoI2ejKVCDs7dy7RL1hGVOHOaXo.jpg","Catherine Weaver"],[94436,"Ward Horton","qN28HktqfOCIaLVRK8W6bofdbvs.jpg","Governor Richard Hagan"],[1066284,"Sarah Desjardins","amQ52JYS7bGJ7Hr0y27YmugIpvH.jpg","Maddie Redfield"]],"29":[[2576399,"Toto Wolff","3hK8H1drIosN4wkToBlFy7XdIk5.jpg","Self"],[4262844,"Christian Horner","dxz1fkfJNAUiYEpaGlvV0Ecxgk3.jpg","Self"],[1448051,"Max Verstappen","gKbcvU93FhwKZspWqJSq4tZWkcr.jpg","Self"],[216294,"Lewis Hamilton","5DTGgay9x3kbacqeGArXlL4Q2Ho.jpg","Self"],[2380350,"Charles Leclerc","fgBdveQfJS1FXHNCx38af1lw2wU.jpg","Self"],[1448059,"Sergio Pérez","ckqnrX7nO1dK2pzO7HuPiNnnPRI.jpg","Self"],[2309871,"Carlos Sainz Jr.","98sT9SizuO1cdXTWIZUs5fhjGMb.jpg","Self"],[1448046,"Valtteri Bottas","9KEbNwWsDyjo8ksEDBwbjVRdeAx.jpg","Self"]],"30":[[111678,"Thomas Middleditch","2c15BQ6DWSiDSBTRjvdsp8X4AAe.jpg","Terry (voice)"],[1258699,"Sean Giambrone","aZsln4KlPnQ3CQ85b1aBcofP5K5.jpg","Yumyulack (voice)"],[2506479,"Mary Mack","a1rFLfcxzxmfAz178mFKFIQ8wIT.jpg","Jesse (voice)"],[6217031,"Daniel Korenfeld","8yOmpxFVmxKSteuHy0UOHcZv8h0.jpg","Shlerb (voice)"],[5536987,"Sagan McMahan",null,"The Pupa (voice)"],[221018,"Dan Stevens","fFsgginZKH527o38ZfdDxuzx7Ew.jpg","Korvo (voice)"],[1230868,"Tiffany Haddish","pvAYqQD4LXavzDkBqCrC4IgVBur.jpg","Aisha (voice)"],[1245733,"Justin Roiland","wYApP38aXe6ZcEtlBAfNRxJTQQi.jpg","Korvo (voice)"]],"31":[[13526,"Noah Wyle","nwyLCQepwg8FX7OXJ4AT4ej8c7i.jpg","Dr. Michael 'Robby' Robinavitch"],[2126992,"Patrick Ball","av5aBJtHb2l2A49Sln8cM7P81PX.jpg","Dr. Frank Langdon"],[169337,"Katherine LaNasa","7X3f4MG24XLG2fNPJt5H38d8YCV.jpg","Charge Nurse Dana Evans"],[2288895,"Supriya Ganesh","psUdosBoBVMfnSpCpe4UTAsegTP.jpg","Dr. Samira Mohan"],[204468,"Fiona Dourif","54wAh4mfzmT6NqGpghDKjYRgES2.jpg","Dr. Cassie McKay"],[1731714,"Taylor Dearden","9FQlLsWxiheH8QJvOaISsHg6KvZ.jpg","Dr. Melissa King"],[2290706,"Isa Briones","5x93Cg0Ac29PPLwiDzCxkaUonrR.jpg","Dr. Trinity Santos"],[1234583,"Gerran Howell","ssyzz4yiGtbHOghoSYZIqQBEh4d.jpg","Student Doctor Dennis Whitaker"]],"32":[[1562326,"Stassi Schroeder","Armjb76GtVI6eifAkGpfc66A2nr.jpg","Self"]],"33":[[2982416,"Igby Rigney","fky5xTDneWgX6stcDK4QLEFI3Qv.jpg","Bret Easton Ellis"],[1957145,"Kaia Gerber","wO3y1JaO32GhqTVE7AE3ABkz1o7.jpg","Susan Reynolds"],[4704845,"Homer Gere","bZAfJ2GbeCCYGEDDz25hPBdqMHD.jpg","Robert Mallory"],[5642946,"Hayes Warner","53jrzoTL9ZiDVMrrYtvcF93fEyW.jpg","Debbie Schaffer"],[5622327,"Graham Campbell","km4WcqbKnh6kPZATLQ2D88uvMbx.jpg","Thom Wright"],[38940,"Evan Rachel Wood","ksXTb2bvqt60bCGRwBlWrNbZHnr.jpg","Liz Schaffer"],[8210,"Wes Bentley","voD93lzFZrr9xfAggwFcPRBi84i.jpg","Terry Schaffer"]],"34":[[4228139,"Malik Elassal","4El5xGscnSOKnd0zuvP3rgi8WS5.jpg","Samir Rahman"],[1825530,"Lucy Freyer","l0NhTPgAwu1OTOsoiE2PnhxG3Jm.jpg","Billie Schaeffer"],[4855821,"Jack Innanen","zaretZWlulyMSH9xvsNY64pcqYh.jpg","Paul Baker"],[4855824,"Amita Rao","e48ULfNeCY3YeKkhiLJGHiFeJlA.jpg","Issa"],[2023314,"Owen Thiele","po9m5RptExM2cS78KnYWS6GGZ2B.jpg","Anton Evans"],[2531244,"Rachel Marsh","6R0pDuQuSf4CEtZHCRnZkqc2EAN.jpg","Carly"],[23458,"Charlie Cox","jBHDZ8MA4I7krNQx4IfqdfPfleD.jpg","Mr. Teacher"],[2371446,"Julia Fox","cuRGm9ySxto57ifv3tSAYhOLAYA.jpg","Julia Fox"]],"35":[[1355937,"Elizabeth Tabish","gG1aYOUzruR0f3wyYGuYa0xxcqO.jpg","Mary Magdalene"],[1495825,"Jonathan Roumie","3YNwBebw2jNzV0FvbhAsDZoOjuQ.jpg","Jesus of Nazareth"],[1410477,"Shahar Isaac","5pkfXfiSHfA6Fcgs0nvHnjRx5Oz.jpg","Simon Peter"],[1598773,"Paras Patel","lZXovS6lvhBuAT5hQppOcT1LyYa.jpg","Matthew"],[1314134,"Noah James","j2s00uBQ0BOqSnIzRI4ecAthVTP.jpg","Andrew"],[1689733,"George H. Xanthis","7P2faHqF2kAEREImeH7E7MpHRJz.jpg","John"],[2253349,"Giavani Cairo","yA99DJRJvQSwHc7QoP6WqtzzYMG.jpg","Thaddeus"],[2698361,"Jordan Walker Ross","4xKPN9nHnHCb6lkknIVmQkBBn0w.jpg","Little James"]],"36":[[1472783,"Grace Van Patten","2I5bXUYmjX10OzIqTpYhUrBwNkg.jpg","Lucy Albright"],[1898600,"Jackson White","dXTJFTkti0mpssgsYvMa00W59jB.jpg","Stephen DeMarco"],[1190034,"Catherine Missal","1ZTS2f5CELHKPBeUlX7KnSLiPyC.jpg","Bree"],[2878092,"Alicia Crowder","e6CWcuzhi9LZeMYfm3XyIeAKk6N.jpg","Diana"],[3023893,"Sonia Mena","5CV4KB1crGMLmhNUIvpFz3yExtp.jpg","Pippa"],[3110335,"Branden Cook","xnjgiv2KQjcBQX6lkDTr88L00XO.jpg","Evan"],[1732426,"Spencer House","h7MvmWQgQsaYicZ0gdTzbgnvblO.jpg","Wrigley"],[2115351,"Benjamin Wadsworth","smNGeAw59reyB1btRIQOaxgbLZ4.jpg","Drew"]],"37":[[81113,"Jeremy Clarkson","8tnYaTYfbSzmGyHeEeBCoNUzCdZ.jpg","Self - Host"],[3124613,"Kaleb Cooper","2CmPu8wrrDhmQwYoHJAnJ4GC4F1.jpg","Self - Farmer"],[3124614,"Charlie Ireland","mP8MdynbIpI1G9CBwmaf7EVDash.jpg","Self - Land Agent"],[3124615,"Lisa Hogan","6vwYpmmQrFulM7f0SybsOeAOEuN.jpg","Self"],[3124616,"Gerald Cooper","7E1vwVc7ztKJjgK6ionnVDhifHl.jpg","Self - Dry Stone Waller"],[4719913,"Alan Townsend","eilXWmFlnJmfIn5rgI4oJ8icJdG.jpg","Self - Builder"],[4723209,"Dilwyn Evans",null,"Self - Vet"],[3137869,"Ellen Helliwell","nMMfSC1t6b596uAChnJ7QVsompQ.jpg","Self - Shepherdess"]],"38":[[206905,"Jeremy Allen White","pXRADDRhprgaQ4Bri44NH3bYeu6.jpg","Carmen 'Carmy' Berzatto"],[21042,"Ebon Moss-Bachrach","xD8GVNayMpiTZxLfahy2DseYcQq.jpg","Richard 'Richie' Jerimovich"],[2195140,"Ayo Edebiri","wrqYWaAmVPM2yueEEQUtMo6kCp2.jpg","Sydney Adamu"],[2320708,"Lionel Boyce","hpIxX5nkfA3pWCW8rYkEUCSBVyS.jpg","Marcus Brooks"],[1240486,"Abby Elliott","v7h08EsTce2pLHkZiaFe1QRuYbU.jpg","Natalie 'Sugar' Berzatto"],[59693,"Liza Colón-Zayas","q2gHcef0wckji0AS8ZEO6cYx065.jpg","Bettina 'Tina' Marrero"],[1646864,"Matty Matheson","p1H19bBP5ePOxNpfOXIYpMgRfS7.jpg","Neil Fak"],[1472895,"Edwin Lee Gibson","wyDPu35soTnBi4VClpS8fv2atkE.jpg","Ebraheim"]],"39":[[95102,"Kaitlin Olson","z84SKRCVl9zPhP9AINVS8Bx8dRO.jpg","Morgan Gillory"],[10582,"Daniel Sunjata","w3Wa0d7j2auA2R8FQvjrgfB3ozo.jpg","Adam Karadec"],[159657,"Judy Reyes","DQ8kIRHru9Zzy6CftVryHmIOJs.jpg","Selena Soto"],[1697199,"Javicia Leslie","eXZHYQQmL0GYvqYP1Sdbprkxo3A.jpg","Daphne Forrester"],[145246,"Deniz Akdeniz","dP8YJtscZgYH5qpYD0YUG6oSMSu.jpg","Lev 'Oz' Ozdil"],[3046586,"Amirah J","ywkWIPb8n56t4B746BqBBZ6RSOV.jpg","Ava Gillory"],[3598148,"Matthew Lamb","ebWptEAvCAzaD6QL4vEaY3GA80S.jpg","Elliot Radovic"],[1213573,"Taran Killam","aFHLtL5Ni57uIS0fN30HZBWbla6.jpg","Ludo Radovic"]],"40":[[1745988,"Quinta Brunson","4x2ltnaGHF9rhaDRlkyNs7HOUI8.jpg","Janine Teagues"],[1214870,"Tyler James Williams","iuPSybfJYExEgUfSmIdN540gdHp.jpg","Gregory Eddie"],[33613,"Sheryl Lee Ralph","eq7FeNDJFUVtdHAtvzNkOIapzX.jpg","Barbara Howard"],[4494,"Lisa Ann Walter","56vu6e7zmXLVwDG7eVa9phEe4gA.jpg","Melissa Schemmenti"],[1344739,"Chris Perfetti","qBTVPc07f3lxqCnM9ou4SOHt9js.jpg","Jacob Hill"],[2692283,"Janelle James","vLiXGdCRCfWhamrPdUGYiBRZk6y.jpg","Ava Coleman"],[1227552,"William Stanford Davis","rCQ0Q7dvG21EhwcrxNPjTFmqfPv.jpg","Mr. Johnson"],[2220282,"Zack Fox","dYAAoPXh2WSndYAFDd9kxtFZkHe.jpg","Tariq"]],"41":[[64295,"Alan Ritchson","92YNEEpCyugkTzPprJwZpvVtvuK.jpg","Jack Reacher"],[2123496,"Maria Sten","7QlPWbZRH2ORMmAHKAj0rq54t4A.jpg","Frances Neagley"],[57997,"Malcolm Goodwin","h2AVP07OdXOsX3ERNwpsQuvrUEB.jpg","Oscar Finlay"],[1318650,"Willa Fitzgerald","hXvCqRAtmrfjozHtVNrBgXFzzao.jpg","Roscoe Conklin"],[86268,"Serinda Swan","wVjTGPIvCGEQmSq5dr9fj1RbUHG.jpg","Karla Dixon"],[56547,"Chris Webster","yo97GZJnU75mMdTLNQ85SCWOTka.jpg","KJ"],[65772,"Shaun Sipos","jc3Zy3lhMGIfk43BkBNrfRrfun.jpg","David O'Donnell"],[14888,"Bruce McGill","j4mn0fPdhhXfRqQwheAwCU8Hwrm.jpg","Mayor Teale"]],"42":[[1372,"Karl Urban","7Y96dAfg0HcFrcLjlD5eD9N0uj4.jpg","Billy Butcher"],[1030513,"Jack Quaid","320qW5yEbxpmyxQ3evmClJbtKag.jpg","Hugh 'Hughie' Campbell"],[60373,"Antony Starr","xx3As5SWcE8vYOKZgtjDjqmT3jc.jpg","Homelander"],[990393,"Erin Moriarty","2tFblvjBRUYwcVT1V1i79Ppd6wG.jpg","Annie January / Starlight"],[10964,"Laz Alonso","nmgOd3X2Xn3jIp9OLCRJzLExRWN.jpg","Marvin T. 'Mother's Milk' Milk / M.M."],[60899,"Chace Crawford","wz7s1JT3bYi2vd4fWwmLT809cnT.jpg","Kevin Moskowitz / The Deep"],[1550587,"Tomer Capone","3IhYEhV3Tmx2CawG5DvcWQyephv.jpg","Serge / Frenchie"],[1461608,"Karen Fukuhara","sG6CWLdENCtzukNFkFYyPxqyRmS.jpg","Kimiko Miyashiro"]],"43":[[989325,"Ella Purnell","jqrYg35GHuMGwGqEVUthqTLQnay.jpg","Lucy MacLean"],[1386221,"Aaron Moten","h2CJjnDEy2nCbCy6dWzXLmZ4p47.jpg","Maximus"],[57412,"Moisés Arias","fc7krDmEA4VkIY4KOJjpMXGdsfg.jpg","Norm MacLean"],[27740,"Walton Goggins","5lcVMJbWrNDFiWa1WxK4oR8zwev.jpg","The Ghoul / Cooper Howard"],[1845809,"Frances Turner","ik2MNJFA2CzeuGtdwrpgUJaidef.jpg","Barb Howard"],[6677,"Kyle MacLachlan","7gNyx8fYAUdOp2jpCEH3dyFbeV.jpg","Overseer Hank MacLean"],[2146538,"Dave Register","bJYuf9SpvFPPsjfA7GG4LMgARmB.jpg","Chet"],[122750,"Leslie Uggams","8zQO5GNWQwJG4we5AYfjopblRFe.jpg","Betty Pearson"]],"44":[[51382,"Chris Parnell","9Ga03Y9TVIqTZJ4I9rfL740ibgJ.jpg","Jerry Smith (voice)"],[176823,"Spencer Grammer","1L8Y45RJo2YxUXl6ldIowQay1V7.jpg","Summer Smith (voice)"],[49001,"Sarah Chalke","ycwiu89cpjqCtSNC5FjbJggjj5R.jpg","Beth Smith (voice)"],[1245733,"Justin Roiland","wYApP38aXe6ZcEtlBAfNRxJTQQi.jpg","Rick Sanchez / Morty Smith (voice)"],[116315,"Kari Wahlgren","kc0BOnSdzCfq8w9qoNVEm5K12x1.jpg","(voice)"],[1365425,"Ryan Ridley","mSFssRpQl6ax2QrYTxBBfluVgy2.jpg","Paul Fleishman (voice)"],[57194,"Dan Harmon","gDwFosoyPTd0pmnKParzGj3kaMg.jpg","Additional Voices (voice)"],[78798,"Tom Kenny","dKOxpGnRkIMaPkZSHKIns99WxQa.jpg","Additional Voices (voice)"]],"45":[[1321628,"Morfydd Clark","kG1Xg85F9yAggCMquo4XouAOjdo.jpg","Galadriel"],[1648346,"Robert Aramayo","1wqSZVvB018H2mZbemMSn6gH4zq.jpg","Elrond"],[1274938,"Owain Arthur","ljqVjVzp9pgcfTTU3oJbKtnd6im.jpg","Durin IV"],[2056333,"Sophia Nomvete","fRglwdtHHjLGAMIoCkqXwQ9bIfd.jpg","Disa"],[2138256,"Markella Kavenagh","gHBoS2Ql0ywj6kfkxixqPPryqTQ.jpg","Elanor 'Nori' Brandyfoot"],[1100144,"Ismael Cruz Cordova","oXcrsQGndk60iFkNB8qFnMHlNzL.jpg","Arondir"],[2309879,"Charlie Vickers","nIn0RTnOukikIKiVwtzRwkpcJvy.jpg","Halbrand"],[281527,"Charles Edwards","zyzow44jiPve8nU9O1F1X9wnrtU.jpg","Lord Celebrimbor"]],"46":[[1223726,"Robbie Amell","5MPx1TEdgPs9UEXV65nd80JikSH.jpg","Nathan Brown"],[1732263,"Andy Allo","6qIvEPbFLeKjYdyMb1DXylDEgWU.jpg","Nora Antony"],[2569925,"Allegra Edwards","nF3UoejILNYNmjsyCJKu1mgka5W.jpg","Ingrid Kannerman"],[1703599,"Zainab Johnson","vOVwfVcfie3SJyKrFc60e7U7PZD.jpg","Aleesha"],[1032886,"Kevin Bigley","AwG0kWnJ4rbPapAEq2OLqnBGVr3.jpg","Luke"],[2569924,"Owen Daniels","eOt3d46ysoYpuGiBhxVC9Lsoa75.jpg","A.I. Guy"],[1232640,"Andrea Rosen","b7rVDcERhUWpDfby0rpv8UIVmhp.jpg","Lucy Slack"],[1610942,"Josh Banday","47dbW4ph07vGkTrW0B9ijEbWY9S.jpg","Ivan Spelich"]],"47":[[73457,"Chris Pratt","cRH6HPAQ98PlOwwEvhYO4CM9lwu.jpg","James Reece"],[10478,"Jeanne Tripplehorn","q7D9MDnMVc5PAm99853gszHwJy7.jpg","Secretary Hartley"],[98522,"Riley Keough","wsodGduU4frFdMy1roqeDmj4kZ.jpg","Lauren Reece"],[60900,"Taylor Kitsch","pTFkwvE2URbbftiaofexfolhkH9.jpg","Ben Edwards"],[206444,"Constance Wu","dMx2RlHDuCabtk8GHiijWtVOH8h.jpg","Katie Buranek"],[1981665,"Arlo Mertz","5IB4Zf5eZE1Hj2TgZP8qFp34hmz.jpg","Lucy Reece"],[3072032,"Jared Shaw","4y3mbMlUibEjiZBPp7fo9NRWWCB.jpg","Ernest 'Boozer' Vickers"],[1094385,"LaMonica Garrett","yE5TBZ2qC5LAPDduBQAERo7EF3r.jpg","Commander Bill Cox"]],"48":[[147056,"Caitríona Balfe","f6Z35mFE47aIZonVQAWa96fbu5n.jpg","Claire Randall Fraser"],[209326,"Sam Heughan","toBZ2mxZ2AbYYBfFV3Xvwm2QR4I.jpg","Jamie Fraser"],[1623273,"Sophie Skelton","oBkearm8XdrYTEK0VCWCGmwURt6.jpg","Brianna MacKenzie"],[1287731,"Richard Rankin","gmtK4zTBxlOEcHQgvXOwdfLHObc.jpg","Roger MacKenzie"],[126667,"John Bell","aPMEzcv36aAXyCLgsRkP0H2ezf6.jpg","Ian Fraser Murray"],[1317739,"Duncan Lacroix","5Ic9o2pMorNiD4HWvQ8rp5qY7h5.jpg","Murtagh Fitzgibbons Fraser"],[439097,"César Domboy","gM5gsLf5IzUOrhAtavVzkzEIVwN.jpg","Fergus Claudel Fraser"],[2063213,"Lauren Lyle","hlAAP180b300r6AdszNScugWKFq.jpg","Marsali MacKimmie Fraser"]],"49":[[1241498,"Daisuke Ono","5rjl28lx84JjRS0hzq3Ajvx2dhp.jpg","Jotaro Kujo (voice)"],[84508,"Takehito Koyasu","8uBkNDKPNmp9JWgMUI02NVyfhi1.jpg","DIO (voice)"],[225603,"Kenta Miyake","7YL8vM2KYzPMeQqTpHWmNj6s1AP.jpg","Muhammad Avdol (voice)"],[68916,"Unsho Ishizuka","nmj1vTrJc0zvuUYqxSyWXmIGBlP.jpg","Joseph Joestar (voice)"],[1563028,"Fuminori Komatsu","zI2Wh6fiEkWfWREGDcyAsXsDhBc.jpg","Jean-Pierre Polnareff (voice)"],[1096528,"Daisuke Hirakawa","8uDi5NxFdxFvfVyo4n5CeOSLWEf.jpg","Noriaki Kakyoin (voice)"],[149894,"Yuki Kaji","8wKdPV11IwowfwoqGqMMNt9hmp6.jpg","Koichi Hirose (voice)"],[9721,"Junichi Suwabe","4S7c3n3r07A83HvkLrnWZGVhiHg.jpg","Leone Abbacchio (voice)"]],"50":[[75037,"Laura Bailey","xrq33v9N78hhmApcfkoYx0TAw1A.jpg","Vex'ahlia (voice)"],[37713,"Taliesin Jaffe","6J7WD9B9ijvP8rw5hREV47MQbUt.jpg","Percy (voice)"],[34486,"Ashley Johnson","8s36QwB7Zq3PrbY1W6a6ctTFFoe.jpg","Pike (voice)"],[89966,"Liam O'Brien","ko7Bba6fQEaAbVFAp1kQHTzuYCp.jpg","Vax'ildan (voice)"],[1485055,"Marisha Ray","pLP67Y4iV6vQVaV1O2K7FNmvXJX.jpg","Keyleth (voice)"],[1221888,"Travis Willingham","clvP30k6cUMf4hukRQqZD3k9z4S.jpg","Grog (voice)"],[96116,"Sam Riegel","fgQMEXtqK4xubDf0a2P8r4VJ8SF.jpg","Scanlan (voice)"],[556275,"Matthew Mercer","fe1S317253vfMuNuIDjhp9vtNSs.jpg","Orthax (voice)"]],"51":[[95101,"Charlie Day","c0HNhjChGybnHa4eoLyqO4dDu1j.jpg","Charlie Kelly"],[77870,"Glenn Howerton","r3KJd0Ea7lyrAHWl2Ww8lMh29hx.jpg","Dennis Reynolds"],[78597,"Rob Mac","gcep3ItyxaZ3ljH1IS6Lfkm8IAs.jpg","Ronald 'Mac' McDonald"],[95102,"Kaitlin Olson","z84SKRCVl9zPhP9AINVS8Bx8dRO.jpg","Dee Reynolds"],[518,"Danny DeVito","6kO4IN7ndoIGw2JhyhAQN3SFmdx.jpg","Frank Reynolds"],[139309,"Mary Elizabeth Ellis","dxU1L86zV6gjcOdATfO4uo6zIpt.jpg","Waitress"],[1219546,"David Hornsby","wL20daMDqsa9ALA7EQrzgFyIMvz.jpg","Matthew 'Rickety Cricket' Mara"],[1214638,"Artemis Pebdani","ctwVQYbcOuTIQJ866fi3AhzqKBM.jpg","Artemis"]],"52":[[215055,"Steven Yeun","fOMFO2Xx4duzpNgS9Q5ytO44yGb.jpg","Mark Grayson / Invincible (voice)"],[25540,"Sandra Oh","zU8vjebHxcP60ESEL5Ok68KWZvj.jpg","Debbie Grayson (voice)"],[18999,"J.K. Simmons","ScmKoJ9eiSUOthAt1PDNLi8Fkw.jpg","Nolan Grayson / Omni-Man (voice)"],[94098,"Gillian Jacobs","sbZVI3F2t5CjmRANwHk3X6iOQpt.jpg","Eve (voice)"],[27740,"Walton Goggins","5lcVMJbWrNDFiWa1WxK4oR8zwev.jpg","Cecil (voice)"],[15761,"Grey DeLisle","vrUHaXe1pG56yZkgH7Hs3LGRLTT.jpg","Shrinking Rae / Monster Girl / GDA Tech (voice)"],[1217648,"Chris Diamantopoulos","oenBtpk0RTId4wacQKYU4cPcq8Z.jpg","Donald (voice)"],[555249,"Ross Marquand","2CxkVPimin0c2v7fUK3MGjgEnLt.jpg","Immortal / Rudy (voice)"]],"53":[[58224,"Jason Sudeikis","uuacnP9DOHMsmj8FhBi0cWWDgrn.jpg","Ted Lasso"],[1278487,"Hannah Waddingham","eHAICyhvjiRZCgzKyJCk9hWnnjr.jpg","Rebecca Welton"],[3555,"Jeremy Swift","muRh4WbyEE4S2763bv777ywpKP3.jpg","Leslie Higgins"],[21422,"Brett Goldstein","xYdFNE7EkncE8uiPJzT3RrkqcAQ.jpg","Roy Kent"],[1113365,"Brendan Hunt","7Z8q2WUop3q5BdyaBD6YvweGWrZ.jpg","Coach Beard"],[36594,"Juno Temple","wMpZcKp7zaHnmNQooqbve33577Q.jpg","Keeley Jones"],[1502430,"Phil Dunster","mKPBzvglLwMoL2LwShO8eHYGgjo.jpg","Jamie Tartt"],[1509615,"Nick Mohammed","2cFSHotCLLauzqq8iDKWK6meRAY.jpg","Nathan Shelley"]],"54":[[92404,"Joel Kinnaman","cVfYzTyQdJ4xtxKPZe7IcW3BJN4.jpg","Ed Baldwin"],[205772,"Wrenn Schmidt","4zi3u7pbYWk1HapRlw0Db5t1Lb9.jpg","Margo Madison"],[1550779,"Cynthy Wu","g6mrybJgL2bUIrljDhcxHoS9anO.jpg","Kelly Baldwin"],[1636811,"Coral Peña","A2EPFe4fW3QQ2TY44JlFwB83jix.jpg","Aleida Rosales"],[1555306,"Krys Marshall","cJtnJMuRNjqgzC7CmIH74mWyBWX.jpg","Danielle Poole"],[94423,"Shantel VanSanten","pjTcORzZ8TUKtJwYBuzgmT9aLsO.jpg","Karen Baldwin"],[139901,"Jodi Balfour","6MbFmoFtHdxcy6CPTJJhTu2FBGp.jpg","Ellen Wilson"],[39391,"Edi Gathegi","dt8yMyycDlzxkjhmuuJJ4tXDbp4.jpg","Dev Ayesa"]],"55":[[64,"Gary Oldman","yhaSM5habNNI1Tf4ALRwRk3VvSZ.jpg","Jackson Lamb"],[1334638,"Jack Lowden","3wSE6uHLkslE9xvRiMbnphuI0VK.jpg","River Cartwright"],[5470,"Kristin Scott Thomas","axksw0vAjBPSW02ZqpcC0V8rPD7.jpg","Diana Taverner"],[13363,"Saskia Reeves","1NM6rp95ec83tPa2Tnq66RV6Frc.jpg","Catherine Standish"],[1239342,"Christopher Chung","wV4r6tVjP9Prk2acj7bYTmdtaMF.jpg","Roddy Ho"],[1682679,"Rosalind Eleazar","9Tb1rLSnyCfnZXYixfjWJuQJig9.jpg","Louisa Guy"],[1224269,"Aimee-Ffion Edwards","mpsq3UnNiFgmd3MY2Q6a3ZBMGQ8.jpg","Shirley Dander"],[1411379,"Kadiff Kirwan","dSCcuypWkQzspAQQq4AuejMzYfo.jpg","Marcus Longridge"]],"56":[[41088,"Jason Segel","aG6tVNSbl1YEjN65G3luFYnWbUM.jpg","Jimmy"],[3,"Harrison Ford","pjBMJVPpcZK23Vt1nzr1zEBTWrP.jpg","Dr. Paul Rhodes"],[1394648,"Jessica Williams","tcEvFYXqb34Gp29VT4302P5ZQfQ.jpg","Gaby"],[2101951,"Luke Tennie","nLn4tj69OEL9ZPZMxcSRWk2mOmG.jpg","Sean"],[123795,"Michael Urie","jnht4uEQEM9d8YXAKckD1aWamPN.jpg","Brian"],[1709431,"Lukita Maxwell","g5g6XxUAtSdPfsJrSoFkl7vH51d.jpg","Alice"],[212821,"Christa Miller","gfLL2dM209v3WfVrovwGszjgtB3.jpg","Liz"],[18982,"Ted McGinley","nUeN0vYFDgqX6LtLf29TgvnNhnJ.jpg","Derek"]],"57":[[15440,"Jared Harris","jAyPWkmge3BqXtgxIG9MfXBzOGj.jpg","Hari Seldon"],[72095,"Lee Pace","eeTc0d2AX1vFYVxZ6Qw7qZpg4Tz.jpg","Brother Day"],[2476148,"Lou Llobell","vjCaa2EhEFgkraE6l2Vypzb93fz.jpg","Gaal Dornick"],[212815,"Laura Birn","67BraXKgQwZplWBS7PUh8tWssWL.jpg","Demerzel"],[2476156,"Cassian Bilton","kOsyQKk5UvamKORAsu6F7FN2oDG.jpg","Brother Dawn"],[19260,"Terrence Mann","b8W9t5x8wF7B14Ui05wVLN9Z4fF.jpg","Brother Dusk"],[1765346,"Leah Harvey","j5bEw0gtE9RGTq2y4WoQ6HUa9di.jpg","Salvor Hardin"],[1229432,"Daniel MacPherson","aBvJnrSlzXeU8K3glUa6XQ6nbuK.jpg","Hugo Crast"]],"58":[[1588597,"Atsumi Tanezaki","6tM8GU7QvrdUCvR4kxqVUZivtvO.jpg","Lili Ichijoin (voice)"],[1254052,"Koki Uchiyama","sllSm3iZZWVLTBrDZQRtWrZUfEj.jpg","Kit Church (voice)"],[149894,"Yuki Kaji","8wKdPV11IwowfwoqGqMMNt9hmp6.jpg","Shinnosuke Kobayakawa (voice)"],[1164931,"Megumi Han","cwnwrPg1YvB19TbfouC4ShGPmbQ.jpg","Dorothy Brown (voice)"],[2220797,"Yohei Azakami","rLIqw8pIjVIxPb5engrTbu9iOex.jpg","Joffrey O'Brien (voice)"],[2812912,"Shogo Sakata","fRRPNBz3OCNRdmLdUTdpq7dGqxM.jpg","Peter Anthony (voice)"],[1368254,"Sumire Uesaka","AbouCe2WVBHvMlBm9NnG7GHyJpa.jpg","Catherine Astor (voice)"],[1563442,"Akari Kito","AoRQOZRC0yINB0WeKnM569rV1wF.jpg","Sakura Kobayakawa (voice)"]],"59":[[1065297,"Kensho Ono","wUYJ3HIeygHfh4rAqupE4RPoG3W.jpg","Yuru (voice)"],[1772522,"Yume Miyamoto","8PzHX7owawEZKq7Eg9WwcmWYx9s.jpg","Asa (voice)"],[1221114,"Yuichi Nakamura","wb8behVKjBHX9XXrEydvNINCYwH.jpg","Dera (voice)"],[151182,"Misaki Kuno","hVtE4gdKaqofYZmXXtlJs4Q9XTL.jpg","Gabu-chan (voice)"],[79004,"Takako Honda","LekbnCX6TcabG3EjSOKOgIGrvJ.jpg","Left (voice)"],[237076,"Rikiya Koyama","hsZm87BORLpzhaycBaWOD5xpjVC.jpg","Right (voice)"],[2256610,"Miyuri Shimabukuro","rjhyRM2hn1deQG1V6cwC8AEEKNT.jpg","Hana (voice)"],[9721,"Junichi Suwabe","4S7c3n3r07A83HvkLrnWZGVhiHg.jpg","Jin (voice)"]],"60":[[1096458,"Koo Kyo-hwan","aFwCpSKPGFqoiTStY6ljXnD5CwH.jpg","Hwang Dong-man"],[2791233,"Go Youn-jung","wQbPu0QF0IeyXpqJmdmRbfNk6CM.jpg","Byeon Eun-a"],[998412,"Oh Jung-se","oIqRAdI5e777odhOJl6e4Jc9ADj.jpg","Park Kyeong-se"],[2256730,"Kang Mal-geum","aQcgxtVnbHnWwjR3yUtnbvwARSR.jpg","Ko Hye-jin"],[1292971,"Park Hae-joon","heNKjLHWCQXXfkDB1Hb2nhuhDCf.jpg","Hwang Jin-man"],[1094648,"Bae Jong-ok","sIn8u0JmFNd9MYqW6wgC0Rv52xY.jpg","Oh Jeong-hee"],[1258626,"Han Seon-hwa","daP8g9eByOuJnnKUROrKwAGU1Yp.jpg","Jang Mi-ran"],[1258630,"Choi Won-young","fd6mthn1EonRrsk2WTtfQhzHCgn.jpg","Choi Dong-hyeon"]]};
+const CAST = Object.fromEntries(Object.entries(CAST_RAW).map(([k,v])=>
+  [k, v.map(a=>({id:a[0], name:a[1], img:a[2], role:a[3]}))]));
 
 const TMDB_IMG = 'https://image.tmdb.org/t/p/w500';
 const MEDIA = {
@@ -1734,6 +2043,9 @@ function openModal(id){
         <button class="btn ${st==='done'?'active':''}" onclick="setStatus(${id},'done');openModal(${id})">✓ Done</button>
         <button class="btn" onclick="saveNote(${id})">Save Note</button>
       </div>
+      ${watchSectionHTML(s)}
+      ${listsSectionHTML(id)}
+      ${castSectionHTML(id)}
       ${episodeSectionHTML(id)}
       <div class="similar-section">
         <h3 style="font-size:14px;font-weight:700;margin-bottom:10px">See 10 more series rated as high (or nearly as high)</h3>
@@ -1758,6 +2070,93 @@ function openModal(id){
     btn.onclick=(e)=>{e.stopPropagation();state.ratings[id]=+btn.dataset.n;save();openModal(id);render();toast(`Rated ${btn.dataset.n} stars`);};
   });
 }
+function watchSectionHTML(s){
+  const links = watchLinksFor(s);
+  return `<div class="ep-section">
+    <div class="ep-head"><h3>Where to watch</h3></div>
+    <div class="watch-links">
+      ${links.map(l=>`<a class="watch-btn ${l.alt?'alt':''}" href="${l.url}" target="_blank" rel="noopener">${escapeHTML(l.label)} ↗</a>`).join('')}
+    </div>
+  </div>`;
+}
+
+function listsSectionHTML(id){
+  const names = listNames();
+  const mine = listsFor(id);
+  return `<div class="ep-section">
+    <div class="ep-head">
+      <h3>Your lists</h3>
+      <div class="ep-actions"><button class="ep-mini" onclick="createList()">+ New list</button></div>
+    </div>
+    ${names.length
+      ? `<div class="chip-row">${names.map(n=>`
+          <button class="chip ${mine.indexOf(n)!==-1?'on':''}" onclick="toggleList('${n.replace(/'/g,"\\'")}',${id})">
+            ${mine.indexOf(n)!==-1?'✓ ':''}${escapeHTML(n)}
+          </button>`).join('')}</div>`
+      : `<p style="font-size:12px;color:var(--muted)">No lists yet. Make one — "Weekend binge", "Watch with Ela", anything.</p>`}
+  </div>`;
+}
+
+function castSectionHTML(id){
+  const cast = (typeof CAST !== 'undefined' && CAST[id]) ? CAST[id] : [];
+  if (!cast.length) return '';
+  return `<div class="ep-section">
+    <div class="ep-head"><h3>Cast</h3></div>
+    <div class="cast-row">
+      ${cast.map(c=>{
+        const others = showsWithPerson(c.id).filter(x=>x.id!==id);
+        return `<div class="cast-card" onclick="showPerson(${c.id})" title="${escapeHTML(c.name)}${others.length?' — also in '+others.length+' more on your list':''}">
+          <div class="cast-face">${c.img?`<img src="${TMDB_IMG_FACE}/${c.img}" alt="" loading="lazy" onerror="this.remove()">`:`<span>${escapeHTML(c.name.charAt(0))}</span>`}</div>
+          <div class="cast-name">${escapeHTML(c.name)}</div>
+          ${c.role?`<div class="cast-role">${escapeHTML(c.role)}</div>`:''}
+          ${others.length?`<div class="cast-more">+${others.length} more here</div>`:''}
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+}
+
+// Which shows on the list feature this person? Pure lookup, no network.
+function showsWithPerson(personId){
+  if (typeof CAST === 'undefined') return [];
+  const out = [];
+  Object.keys(CAST).forEach(sid => {
+    if (CAST[sid].some(c => c.id === personId)) {
+      const s = getShow(Number(sid));
+      if (s) out.push(s);
+    }
+  });
+  return out;
+}
+function showPerson(personId){
+  const shows = showsWithPerson(personId);
+  if (!shows.length) return;
+  let name = personId;
+  Object.values(CAST).forEach(list => { const f = list.find(c=>c.id===personId); if (f) name = f.name; });
+  const overlay = document.getElementById('modal');
+  overlay.classList.add('open');
+  overlay.dataset.showId = '';
+  overlay.innerHTML = `<div class="modal">
+    <div class="modal-body">
+      <button class="modal-close" style="position:absolute;top:12px;right:12px" onclick="closeModal()">×</button>
+      <h2 style="margin-bottom:4px">${escapeHTML(String(name))}</h2>
+      <p class="modal-meta">On ${shows.length} ${shows.length===1?'show':'shows'} in your list</p>
+      <div class="similar-list">
+        ${shows.map(s=>`<div class="similar-item" onclick="openModal(${s.id})" style="--c1:${s.colors[0]};--c2:${s.colors[1]}">
+          <div class="similar-thumb">${posterOf(s.id)?`<img src="${posterOf(s.id)}" alt="" loading="lazy" onerror="this.remove()">`:escapeHTML(s.title.charAt(0))}</div>
+          <div class="similar-info">
+            <div class="similar-title">${escapeHTML(s.title)}</div>
+            <div class="similar-meta">${escapeHTML(s.platform)} · IMDb ${s.imdb}</div>
+          </div>
+        </div>`).join('')}
+      </div>
+      <p style="margin-top:14px;font-size:12px;color:var(--muted)">
+        <a href="https://www.themoviedb.org/person/${personId}" target="_blank" rel="noopener" style="color:var(--accent)">Full filmography on TMDB ↗</a>
+      </p>
+    </div>
+  </div>`;
+}
+
 /* Episode checklist for the modal: one tap per episode, plus a "watched up to
    here" catch-up and a live progress + time-remaining readout. */
 function episodeSectionHTML(id){
@@ -1786,6 +2185,10 @@ function episodeSectionHTML(id){
         ? `Finished · ${humanTime(minutesWatchedFor(id))} watched`
         : `${humanTime(remain)} left to finish${p.seen?` · ${humanTime(minutesWatchedFor(id))} watched`:''}`}
     </div>
+    ${(()=>{const b=bingePlan(id);return b?`<div class="binge-box">
+      <strong>${b.episodes} ${b.episodes===1?'episode':'episodes'} left · ${humanTime(b.mins)}.</strong>
+      At two a night you'd finish around <strong>${b.finishBy}</strong>.
+    </div>`:'';})()}
     <div class="ep-list">
       ${eps.map(e=>{
         const seen = isWatched(id,e[0]);
@@ -1798,6 +2201,10 @@ function episodeSectionHTML(id){
           <span class="ep-num">E${String(e[0]).padStart(2,'0')}</span>
           <span class="ep-name">${escapeHTML(e[1])}${future?' <span style="color:var(--warning);font-size:10px">· not aired</span>':''}</span>
           <span class="ep-meta">${bits.join(' · ')}</span>
+          <div class="ep-extra" onclick="event.stopPropagation()">
+            ${[1,2,3,4,5].map(v=>`<button class="ep-star ${epRating(id,e[0])>=v?'lit':''}" title="Rate this episode ${v}" onclick="setEpRating(${id},${e[0]},${v})">★</button>`).join('')}
+            <button class="ep-note-btn ${epNote(id,e[0])?'has':''}" title="${epNote(id,e[0])?escapeHTML(epNote(id,e[0])):'Add a note on this episode'}" onclick="promptEpNote(${id},${e[0]},'${String(e[1]).replace(/'/g,"\\'").replace(/\\/g,'')}')">✎</button>
+          </div>
           ${!seen&&e[0]>1?`<button class="ep-upto" onclick="event.stopPropagation();markUpTo(${id},${e[0]})" title="Mark this and everything before it as watched">↧ to here</button>`:''}
         </div>`;
       }).join('')}
@@ -1891,6 +2298,9 @@ document.getElementById('genre').onchange=render;
 document.getElementById('sort').onchange=render;
 document.querySelectorAll('#typeFilter .btn').forEach(btn=>{
   btn.onclick=()=>{document.querySelectorAll('#typeFilter .btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentType=btn.dataset.type;render();};
+});
+document.querySelectorAll('#lengthFilter .btn').forEach(btn=>{
+  btn.onclick=()=>{document.querySelectorAll('#lengthFilter .btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentLength=btn.dataset.len;render();};
 });
 document.querySelectorAll('#statusFilter .btn').forEach(btn=>{
   btn.onclick=()=>{document.querySelectorAll('#statusFilter .btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentStatus=btn.dataset.status;render();};
