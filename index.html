@@ -128,9 +128,12 @@ select:hover, .btn:hover { border-color: var(--accent); }
   display: flex; align-items: center; justify-content: center;
 }
 .view-btn.active { color: #fff; background: var(--accent); border-color: var(--accent); }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+/* Big cards. A 300px minimum let 6 narrow columns fit on a wide monitor, which
+   made every card smaller the wider the window got. A larger minimum keeps the
+   cards generous — roughly 4 across on a 1990px display. */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(430px, 100%), 1fr)); gap: 24px; }
 .grid.list-view { grid-template-columns: 1fr; }
-.grid.compact-view { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.grid.compact-view { grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); gap: 14px; }
 .card {
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
   overflow: hidden; transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
@@ -508,7 +511,7 @@ footer {
    poster with blurred bars either side, which left the real image using only a
    third of the card width and looked squashed. Now it covers the full header,
    anchored high so faces and title treatments survive the crop. */
-.card-header { height: 230px; overflow: hidden; }
+.card-header { height: 310px; overflow: hidden; }
 .compact-view .card-header { height: 180px; }
 .art-wrap { position: absolute; inset: 0; overflow: hidden; }
 .art-poster {
