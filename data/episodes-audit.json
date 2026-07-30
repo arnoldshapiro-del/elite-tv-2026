@@ -1,0 +1,361 @@
+[
+  {
+    "id": 1,
+    "title": "Widow's Bay",
+    "problems": [
+      "app says premiere 2026-04-29, TMDB first episode aired 2026-04-28"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Margo's Got Money Troubles",
+    "problems": [
+      "app says premiere 2026-04-15, TMDB first episode aired 2026-04-14"
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Off Campus",
+    "problems": [
+      "app says premiere 2026-02-14, TMDB first episode aired 2026-05-13"
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Spider-Noir",
+    "problems": [
+      "app says premiere 2026-01-20, TMDB first episode aired 2026-05-25"
+    ]
+  },
+  {
+    "id": 9,
+    "title": "The Vampire Lestat",
+    "problems": [
+      "app says 8 episodes, TMDB has 7",
+      "app says premiere 2026-06-15, TMDB first episode aired 2026-06-07"
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Shoresy (S5)",
+    "problems": [
+      "app says premiere 2026-03-10, TMDB first episode aired 2025-12-25"
+    ]
+  },
+  {
+    "id": 11,
+    "title": "Trying (S5)",
+    "problems": [
+      "claimed Season 5 has no episodes on TMDB yet; tracking Season 1 instead",
+      "app says 8 episodes, TMDB has 1",
+      "app says premiere 2026-07-08, TMDB first episode aired 2023-09-06"
+    ]
+  },
+  {
+    "id": 13,
+    "title": "Sunny Nights",
+    "problems": [
+      "app says premiere 2026-03-05, TMDB first episode aired 2025-12-26"
+    ]
+  },
+  {
+    "id": 14,
+    "title": "Maximum Pleasure Guaranteed",
+    "problems": [
+      "app says 8 episodes, TMDB has 10",
+      "app says premiere 2026-05-20, TMDB first episode aired 2026-05-19"
+    ]
+  },
+  {
+    "id": 15,
+    "title": "Colin from Accounts (S2)",
+    "problems": [
+      "app says premiere 2026-02-01, TMDB first episode aired 2024-05-30"
+    ]
+  },
+  {
+    "id": 18,
+    "title": "One Piece (S2)",
+    "problems": [
+      "app says premiere 2026-03-01, TMDB first episode aired 2026-03-10"
+    ]
+  },
+  {
+    "id": 19,
+    "title": "The Boroughs",
+    "problems": [
+      "app says premiere 2026-05-01, TMDB first episode aired 2026-05-21"
+    ]
+  },
+  {
+    "id": 20,
+    "title": "His & Hers",
+    "problems": [
+      "app says premiere 2026-01-15, TMDB first episode aired 2026-01-08"
+    ]
+  },
+  {
+    "id": 21,
+    "title": "The Witness",
+    "problems": [
+      "app says 6 episodes, TMDB has 3"
+    ]
+  },
+  {
+    "id": 22,
+    "title": "Avatar: The Last Airbender (S2)",
+    "problems": [
+      "app says 8 episodes, TMDB has 7"
+    ]
+  },
+  {
+    "id": 25,
+    "title": "Ransom Canyon (S2)",
+    "problems": [
+      "app says 10 episodes, TMDB has 8"
+    ]
+  },
+  {
+    "id": 26,
+    "title": "Teach You a Lesson",
+    "problems": [
+      "app says 8 episodes, TMDB has 10"
+    ]
+  },
+  {
+    "id": 28,
+    "title": "The Night Agent (S3)",
+    "problems": [
+      "app says premiere 2026-03-20, TMDB first episode aired 2026-02-19"
+    ]
+  },
+  {
+    "id": 29,
+    "title": "A Good Girl's Guide to Murder",
+    "problems": [
+      "app says premiere 2026-05-27, TMDB first episode aired 2024-07-10"
+    ]
+  },
+  {
+    "id": 30,
+    "title": "Solar Opposites (S6)",
+    "problems": [
+      "app says 12 episodes, TMDB has 10",
+      "app says premiere 2026-06-10, TMDB first episode aired 2025-10-13"
+    ]
+  },
+  {
+    "id": 31,
+    "title": "The Pitt (S2)",
+    "problems": [
+      "app says premiere 2026-01-10, TMDB first episode aired 2026-01-08"
+    ]
+  },
+  {
+    "id": 32,
+    "title": "House of Stassi",
+    "problems": [
+      "app says 10 episodes, TMDB has 3",
+      "app says premiere 2026-07-30, TMDB first episode aired 2026-07-29"
+    ]
+  },
+  {
+    "id": 33,
+    "title": "The Shards",
+    "problems": [
+      "app says 8 episodes, TMDB has 10"
+    ]
+  },
+  {
+    "id": 34,
+    "title": "Adults (S2)",
+    "problems": [
+      "app says premiere 2026-08-01, TMDB first episode aired 2026-08-27"
+    ]
+  },
+  {
+    "id": 35,
+    "title": "Futurama (S14)",
+    "problems": [
+      "claimed Season 14 has no episodes on TMDB yet; tracking Season 11 instead"
+    ]
+  },
+  {
+    "id": 36,
+    "title": "Tell Me Lies (S3)",
+    "problems": [
+      "app says 10 episodes, TMDB has 8",
+      "app says premiere 2026-04-01, TMDB first episode aired 2026-01-13"
+    ]
+  },
+  {
+    "id": 37,
+    "title": "Only Murders in the Building (S6)",
+    "problems": [
+      "claimed Season 6 has no episodes on TMDB yet; tracking Season 5 instead",
+      "app says premiere 2026-08-20, TMDB first episode aired 2025-09-09"
+    ]
+  },
+  {
+    "id": 38,
+    "title": "The Bear (Final)",
+    "problems": [
+      "app says 10 episodes, TMDB has 8"
+    ]
+  },
+  {
+    "id": 39,
+    "title": "High Potential (S3)",
+    "problems": [
+      "app says 13 episodes, TMDB has 1",
+      "app says premiere 2026-09-01, TMDB first episode aired 2027-01-06"
+    ]
+  },
+  {
+    "id": 40,
+    "title": "Abbott Elementary (S5)",
+    "problems": [
+      "app says premiere 2026-09-15, TMDB first episode aired 2025-10-01"
+    ]
+  },
+  {
+    "id": 42,
+    "title": "The Boys (S5)",
+    "problems": [
+      "app says premiere 2026-06-01, TMDB first episode aired 2026-04-08"
+    ]
+  },
+  {
+    "id": 43,
+    "title": "Fallout (S2)",
+    "problems": [
+      "app says premiere 2026-04-10, TMDB first episode aired 2025-12-16"
+    ]
+  },
+  {
+    "id": 44,
+    "title": "Mr. & Mrs. Smith (S2)",
+    "problems": [
+      "claimed Season 2 has no episodes on TMDB yet; tracking Season 1 instead",
+      "app says premiere 2026-02-20, TMDB first episode aired 2024-02-01"
+    ]
+  },
+  {
+    "id": 45,
+    "title": "The Lord of the Rings: The Rings of Power (S3)",
+    "problems": [
+      "app says premiere 2026-08-20, TMDB first episode aired 2026-11-11"
+    ]
+  },
+  {
+    "id": 46,
+    "title": "Upload (S4)",
+    "problems": [
+      "app says 8 episodes, TMDB has 4",
+      "app says premiere 2026-05-15, TMDB first episode aired 2025-08-25"
+    ]
+  },
+  {
+    "id": 47,
+    "title": "The Terminal List (S2)",
+    "problems": [
+      "app says premiere 2026-03-05, TMDB first episode aired 2026-10-21"
+    ]
+  },
+  {
+    "id": 48,
+    "title": "Expats",
+    "problems": [
+      "app says premiere 2026-01-25, TMDB first episode aired 2024-01-25"
+    ]
+  },
+  {
+    "id": 49,
+    "title": "A Murder at the End of the World",
+    "problems": [
+      "app says premiere 2026-02-10, TMDB first episode aired 2023-11-14"
+    ]
+  },
+  {
+    "id": 50,
+    "title": "The Legend of Vox Machina (S4)",
+    "problems": [
+      "app says premiere 2026-01-15, TMDB first episode aired 2026-06-03"
+    ]
+  },
+  {
+    "id": 51,
+    "title": "Severance (S3)",
+    "problems": [
+      "claimed Season 3 has no episodes on TMDB yet; tracking Season 2 instead",
+      "app says premiere 2026-03-20, TMDB first episode aired 2025-01-16"
+    ]
+  },
+  {
+    "id": 52,
+    "title": "The Morning Show (S5)",
+    "problems": [
+      "claimed Season 5 has no episodes on TMDB yet; tracking Season 4 instead",
+      "app says premiere 2026-09-10, TMDB first episode aired 2025-09-16"
+    ]
+  },
+  {
+    "id": 53,
+    "title": "Ted Lasso (S4)",
+    "problems": [
+      "app says 12 episodes, TMDB has 10",
+      "app says premiere 2026-08-05, TMDB first episode aired 2026-08-04"
+    ]
+  },
+  {
+    "id": 54,
+    "title": "For All Mankind (S5)",
+    "problems": [
+      "app says premiere 2026-04-15, TMDB first episode aired 2026-03-26"
+    ]
+  },
+  {
+    "id": 55,
+    "title": "Slow Horses (S5)",
+    "problems": [
+      "app says premiere 2026-09-01, TMDB first episode aired 2025-09-24"
+    ]
+  },
+  {
+    "id": 56,
+    "title": "Shrinking (S3)",
+    "problems": [
+      "app says 10 episodes, TMDB has 11",
+      "app says premiere 2026-02-28, TMDB first episode aired 2026-01-27"
+    ]
+  },
+  {
+    "id": 57,
+    "title": "Foundation (S3)",
+    "problems": [
+      "app says premiere 2026-07-15, TMDB first episode aired 2025-07-10"
+    ]
+  },
+  {
+    "id": 58,
+    "title": "The New Look",
+    "problems": [
+      "app says premiere 2026-02-14, TMDB first episode aired 2024-02-13"
+    ]
+  },
+  {
+    "id": 59,
+    "title": "Masters of the Air",
+    "problems": [
+      "app says premiere 2026-01-26, TMDB first episode aired 2024-01-25"
+    ]
+  },
+  {
+    "id": 60,
+    "title": "Pachinko (S3)",
+    "problems": [
+      "claimed Season 3 has no episodes on TMDB yet; tracking Season 2 instead",
+      "app says premiere 2026-08-15, TMDB first episode aired 2024-08-22"
+    ]
+  }
+]

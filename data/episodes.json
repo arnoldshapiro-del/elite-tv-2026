@@ -1,0 +1,5118 @@
+{
+  "1": {
+    "id": 1,
+    "title": "Widow's Bay",
+    "tmdb": 270476,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2026",
+        "eps": 10
+      },
+      {
+        "n": 2,
+        "year": null,
+        "eps": 0
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Welcome to Widow's Bay!",
+        "air": "2026-04-28",
+        "runtime": 42,
+        "overview": "We hope you enjoyed the three-hour ferry to New England's best-kept secret! Ignore the warnings about the fog. Everything's fine."
+      },
+      {
+        "n": 2,
+        "title": "Lodging",
+        "air": "2026-04-28",
+        "runtime": 37,
+        "overview": "Cherish the historical charm of our local inn, which Mayor Loftis will prove is safe by spending a night there alone."
+      },
+      {
+        "n": 3,
+        "title": "The Inaugural Swim",
+        "air": "2026-05-05",
+        "runtime": 38,
+        "overview": "It's time for the annual beach opening. Lay out a towel as the mayor \"tests the waters.\" Unrelated: Do not pick up hitchhikers."
+      },
+      {
+        "n": 4,
+        "title": "Beach Reads",
+        "air": "2026-05-12",
+        "runtime": 36,
+        "overview": "Make sure you pack a good read for the beach! (We do not recommend self-help books on the island.)"
+      },
+      {
+        "n": 5,
+        "title": "What to Expect on Your Trip",
+        "air": "2026-05-19",
+        "runtime": 37,
+        "overview": "We apologize for the curfew. Please remain calm as we determine what's happening. On a separate note, keep your teenagers inside after dark."
+      },
+      {
+        "n": 6,
+        "title": "Our History",
+        "air": "2026-05-26",
+        "runtime": 38,
+        "overview": "The history of Widow's Bay is a beautiful tale of marriage, loyalty, and a love that endures beyond lifetimes. That's all."
+      },
+      {
+        "n": 7,
+        "title": "Seasickness",
+        "air": "2026-05-26",
+        "runtime": 43,
+        "overview": "Set out to sea with Mayor Loftis and cherished local figure, Wyck! They are attending to some business—best to simply enjoy the voyage."
+      },
+      {
+        "n": 8,
+        "title": "Your Baggage",
+        "air": "2026-06-02",
+        "runtime": 34,
+        "overview": "Don't worry about misplaced luggage. Old baggage always resurfaces in Widow's Bay."
+      },
+      {
+        "n": 9,
+        "title": "Emergency Shelter",
+        "air": "2026-06-09",
+        "runtime": 32,
+        "overview": "Please seek shelter should a centuries-old storm rage toward the island and plunge us into darkness. Enjoy a card game."
+      },
+      {
+        "n": 10,
+        "title": "We Hope You Enjoyed Your Time!",
+        "air": "2026-06-16",
+        "runtime": 49,
+        "overview": "We understand that hard choices had to be made and we may never be the same, but we hope you'll visit again!"
+      }
+    ]
+  },
+  "2": {
+    "id": 2,
+    "title": "Ride or Die",
+    "tmdb": 241882,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2026",
+        "eps": 8
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "The Book of Judith",
+        "air": "2026-07-15",
+        "runtime": 55,
+        "overview": "Best friends Debbie Claybourne and Judith Burton have their world's turned upside down when Debbie discovers Judith isn't a forensic accountant, she's an international assassin! When a mysterious figure from Judith's past emerges and a hit goes badly wrong, they're forced to go on the run together."
+      },
+      {
+        "n": 2,
+        "title": "The Yellow Wood",
+        "air": "2026-07-15",
+        "runtime": 49,
+        "overview": "In the aftermath of the Gala, Judith scrambles to uncover who set her up. Debbie searches for answers about her husband and makes a terrible discovery. The Director gives Judith one last chance to finish her assignment, and Sam discovers where Billy Donovan is hiding."
+      },
+      {
+        "n": 3,
+        "title": "Strangers on a Train",
+        "air": "2026-07-15",
+        "runtime": 53,
+        "overview": "Debbie and Judith's road trip to Europe takes an unexpected turn when they're forced to travel by luxury train, only to discover they've been followed. Sam's one night stand is not what she seems. Queenie agrees to help Sam find a body. The Albanians are given a lead. Debbie makes an impossible discovery."
+      },
+      {
+        "n": 4,
+        "title": "The Spanish Prisoner",
+        "air": "2026-07-15",
+        "runtime": 52,
+        "overview": "Judith and Debbie make it to Spain, reeling from their discovery about David. The Director gives Judith an impossible choice. Interpol detective Jacques Boucher investigates a body on the train. Debbie and Judith work together to find Billy Donovan, and Debbie gets her groove back. Sam and Queenie make a dangerous decision. The Albanians close in."
+      },
+      {
+        "n": 5,
+        "title": "The Count of Monte Carlo",
+        "air": "2026-07-15",
+        "runtime": 52,
+        "overview": "An unlikely trio sets off for Monte Carlo to track down David's missing bribe money. Judith is forced to adopt an old cover, Debbie comes up with a very risky plan and neither of them know if they can trust Billy Donovan. Sam disappoints Queenie. Mrs. Williams is visited by a former colleague."
+      },
+      {
+        "n": 6,
+        "title": "Moonlight on the Bosphorus",
+        "air": "2026-07-15",
+        "runtime": 53,
+        "overview": "With Judith in life-threatening peril, Debbie and Billy must decide what to do next. A lifeline from Sam provides Judith with terrifying information, and secrets about her past are revealed. Queenie confronts The Director, Jacques offers Debbie a deal, and Sam and Queenie take matters into their own hands and embark on a dangerous mission."
+      },
+      {
+        "n": 7,
+        "title": "The Geneva Convention",
+        "air": "2026-07-15",
+        "runtime": 53,
+        "overview": "All roads converge in Geneva as everyone closes in on the stolen money. Judith discovers some unexpected guests, Interpol and the Albanians make their move, and romance blossoms. When the plan goes sideways, Judith and Debbie find themselves in mortal danger."
+      },
+      {
+        "n": 8,
+        "title": "The Song of Deborah",
+        "air": "2026-07-15",
+        "runtime": 56,
+        "overview": "Back in London, Judith and Debbie's friendship seems beyond repair. Queenie learns a shocking truth, Sam deals with the fallout of his actions, and the Director takes Judith back into the fold. As the final piece of Ana's plan falls into place, Debbie and Judith hurtle towards a spectacular season finale."
+      }
+    ]
+  },
+  "3": {
+    "id": 3,
+    "title": "Furious",
+    "tmdb": 287238,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2026",
+        "eps": 8
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "The Gorgon",
+        "air": "2026-07-27",
+        "runtime": 52,
+        "overview": "Alice investigates a suspicious overdose as Catherine plots her next move."
+      },
+      {
+        "n": 2,
+        "title": "My life had stood - a Loaded Gun",
+        "air": "2026-07-27",
+        "runtime": 55,
+        "overview": "Alice fixates on the case, leading to old habits. Catherine lays her trap."
+      },
+      {
+        "n": 3,
+        "title": "Memory Distortion",
+        "air": "2026-07-27",
+        "runtime": 54,
+        "overview": "Alice’s work on the case forces her to face her past. Catherine heads home."
+      },
+      {
+        "n": 4,
+        "title": "Flash Flood",
+        "air": "2026-08-03",
+        "runtime": null,
+        "overview": "Alice and Danny pursue a lead out of town. Catherine assumes a new identity."
+      },
+      {
+        "n": 5,
+        "title": "Pick a Sticker",
+        "air": "2026-08-10",
+        "runtime": null,
+        "overview": "Alice and Catherine take extreme measures to get what they want."
+      },
+      {
+        "n": 6,
+        "title": "They Make a Noise Like Feathers",
+        "air": "2026-08-17",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 7,
+        "title": "Hart Island",
+        "air": "2026-08-24",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 8,
+        "title": "Some Days It Don't Come Easy",
+        "air": "2026-08-31",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      }
+    ]
+  },
+  "4": {
+    "id": 4,
+    "title": "King of the Hill (S15)",
+    "tmdb": 2122,
+    "seasonTracked": 15,
+    "seasonClaimed": 15,
+    "note": null,
+    "seasons": [
+      {
+        "n": 0,
+        "year": "2010",
+        "eps": 15
+      },
+      {
+        "n": 1,
+        "year": "1997",
+        "eps": 12
+      },
+      {
+        "n": 2,
+        "year": "1997",
+        "eps": 23
+      },
+      {
+        "n": 3,
+        "year": "1998",
+        "eps": 25
+      },
+      {
+        "n": 4,
+        "year": "1999",
+        "eps": 24
+      },
+      {
+        "n": 5,
+        "year": "2000",
+        "eps": 20
+      },
+      {
+        "n": 6,
+        "year": "2001",
+        "eps": 22
+      },
+      {
+        "n": 7,
+        "year": "2002",
+        "eps": 23
+      },
+      {
+        "n": 8,
+        "year": "2003",
+        "eps": 22
+      },
+      {
+        "n": 9,
+        "year": "2004",
+        "eps": 15
+      },
+      {
+        "n": 10,
+        "year": "2005",
+        "eps": 15
+      },
+      {
+        "n": 11,
+        "year": "2007",
+        "eps": 12
+      },
+      {
+        "n": 12,
+        "year": "2007",
+        "eps": 22
+      },
+      {
+        "n": 13,
+        "year": "2008",
+        "eps": 20
+      },
+      {
+        "n": 14,
+        "year": "2025",
+        "eps": 10
+      },
+      {
+        "n": 15,
+        "year": "2026",
+        "eps": 10
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Failure to Hard Launch",
+        "air": "2026-07-20",
+        "runtime": 24,
+        "overview": "The Alley Guys compete with Peggy to find the owner of an electric truck parked outside of the Hill’s home. Bobby deals with the fallout of Chane learning about his new relationship."
+      },
+      {
+        "n": 2,
+        "title": "Care of the Dog",
+        "air": "2026-07-20",
+        "runtime": 24,
+        "overview": "Peggy convinces Hank to foster a small, ailing dog. Bobby struggles to bring Kahn and Minh together for Connie’s birthday."
+      },
+      {
+        "n": 3,
+        "title": "Searching for Bobby Phisher",
+        "air": "2026-07-20",
+        "runtime": 24,
+        "overview": "After Hank and Peggy fall victim to a phone scam, Bobby hatches a plan to restore his dad’s confidence."
+      },
+      {
+        "n": 4,
+        "title": "Hank Encounters of the Nerd Kind",
+        "air": "2026-07-20",
+        "runtime": 25,
+        "overview": "Hank gets himself in trouble with the Sci-Fi community when he agrees to help Bobby run a food truck at a convention. Peggy and Minh are forced to write together when they both take a poetry class."
+      },
+      {
+        "n": 5,
+        "title": "The Best Little Marriage in Texas",
+        "air": "2026-07-20",
+        "runtime": 24,
+        "overview": "Wanting to get more involved at their church, Peggy and Hank find themselves volunteering at a marriage retreat. Bobby struggles in the audition process for a reality cooking show."
+      },
+      {
+        "n": 6,
+        "title": "Ch-Ch-Ch-Changes",
+        "air": "2026-07-20",
+        "runtime": 24,
+        "overview": "Hank helps Peggy come to terms with menopause. Kahn nudges Bill to make some life changes, causing Dale and Boomhauer to question Kahn’s intentions."
+      },
+      {
+        "n": 7,
+        "title": "Hank Ruffles Some Feathers",
+        "air": "2026-07-20",
+        "runtime": 24,
+        "overview": "Hank and Peggy push Boomhauer to bond with his girlfriend’s son, Luke Jr., through raising chickens. Bobby steps in when he witnesses Connie flounder at her new job."
+      },
+      {
+        "n": 8,
+        "title": "No-Cuddle Offense",
+        "air": "2026-07-20",
+        "runtime": 24,
+        "overview": "The Alley Guys intervene when Bill gets caught up in a new therapy. Peggy defies Bobby and talks to a restaurant critic on his behalf."
+      },
+      {
+        "n": 9,
+        "title": "Reality Bites",
+        "air": "2026-07-20",
+        "runtime": 25,
+        "overview": "The Alley Guys find a Civil War cannon and disagree about what to do with it. Bobby's participation on \"King of the Grill\" strains his relationship with Connie as they grapple with moving in together."
+      },
+      {
+        "n": 10,
+        "title": "Propane Recall",
+        "air": "2026-07-20",
+        "runtime": 24,
+        "overview": "When his former colleagues come to him for help, Hank reflects on his past career at Strickland Propane. Bobby discovers his passion for cooking."
+      }
+    ]
+  },
+  "5": {
+    "id": 5,
+    "title": "Margo's Got Money Troubles",
+    "tmdb": 245318,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2026",
+        "eps": 8
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "The Hungry Ghost",
+        "air": "2026-04-14",
+        "runtime": 36,
+        "overview": "Margo is left reeling when her first year of college is derailed, forcing her to make a tough decision that changes everything."
+      },
+      {
+        "n": 2,
+        "title": "Homecoming",
+        "air": "2026-04-14",
+        "runtime": 38,
+        "overview": "Margo brings baby Bodhi home. Shyanne bets on her future as Jinx re-enters the picture."
+      },
+      {
+        "n": 3,
+        "title": "Jinxed",
+        "air": "2026-04-14",
+        "runtime": 42,
+        "overview": "Margo explores a new line of work while Jinx settles in. Shyanne and Kenny find themselves at a creative crossroads."
+      },
+      {
+        "n": 4,
+        "title": "Buddies",
+        "air": "2026-04-21",
+        "runtime": 36,
+        "overview": "Worlds collide as Margo makes new friends. Jinx reunites with his wrestling roots."
+      },
+      {
+        "n": 5,
+        "title": "Flamingoes",
+        "air": "2026-04-28",
+        "runtime": 45,
+        "overview": "Vegas. Baby."
+      },
+      {
+        "n": 6,
+        "title": "Grudge Match",
+        "air": "2026-05-05",
+        "runtime": 40,
+        "overview": "Plans to expand HungryGhost's digital empire are halted when secrets divide Margo's family."
+      },
+      {
+        "n": 7,
+        "title": "Lariat Takedown",
+        "air": "2026-05-12",
+        "runtime": 37,
+        "overview": "Margo goes head-to-head with Mark. Jinx and Susie have a rough day."
+      },
+      {
+        "n": 8,
+        "title": "Lock and Load",
+        "air": "2026-05-19",
+        "runtime": 41,
+        "overview": "Margo has her day in court."
+      }
+    ]
+  },
+  "6": {
+    "id": 6,
+    "title": "Bait",
+    "tmdb": 257519,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2026",
+        "eps": 6
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "BLATANT, NOT SUBTLE",
+        "air": "2026-03-25",
+        "runtime": 25,
+        "overview": "Shah blows the audition of a lifetime. Desperate times call for desperate measures...but at what cost?"
+      },
+      {
+        "n": 2,
+        "title": "TO TROLL, TO PROVOKE",
+        "air": "2026-03-25",
+        "runtime": 27,
+        "overview": "Shah has another shot at greatness. Time to prove to the world he has what it takes."
+      },
+      {
+        "n": 3,
+        "title": "HOUSE OR HOME",
+        "air": "2026-03-25",
+        "runtime": 27,
+        "overview": "It's Eid. Shah needs to shut out all the noise and drama... and focus on family."
+      },
+      {
+        "n": 4,
+        "title": "LOYALTY, ALLEGIANCE",
+        "air": "2026-03-25",
+        "runtime": 23,
+        "overview": "Shah needs a friend. In absence of that, an ex who publicly stabbed him in the back will do."
+      },
+      {
+        "n": 5,
+        "title": "LURE, PART OF A TRAP",
+        "air": "2026-03-25",
+        "runtime": 27,
+        "overview": "Where is everyone? Who can you trust to help? Enemies turn to allies and nothing is as it seems."
+      },
+      {
+        "n": 6,
+        "title": "THE SUBTLE ONE",
+        "air": "2026-03-25",
+        "runtime": 24,
+        "overview": "What's in a name? The clock is ticking as the big audition draws near, and Shah scrambles to find his family, and himself."
+      }
+    ]
+  },
+  "7": {
+    "id": 7,
+    "title": "Off Campus",
+    "tmdb": 273240,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2026",
+        "eps": 8
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "The Deal",
+        "air": "2026-05-13",
+        "runtime": 53,
+        "overview": "A hockey-averse music major and Briar U's womanizing star center strike an unlikely deal to get her crush's attention and his grades up."
+      },
+      {
+        "n": 2,
+        "title": "The Practice",
+        "air": "2026-05-13",
+        "runtime": 50,
+        "overview": "Hannah and Garrett's faux relationship is put to the test as they are forced to share a room at an overnight house party."
+      },
+      {
+        "n": 3,
+        "title": "The Orgasm",
+        "air": "2026-05-13",
+        "runtime": 46,
+        "overview": "Just as Hannah and Garrett's deal begins working like a charm, Hannah ups the stakes by redefining the terms."
+      },
+      {
+        "n": 4,
+        "title": "The Breakup",
+        "air": "2026-05-13",
+        "runtime": 54,
+        "overview": "Hannah and Garrett get closer than either anticipated and things get messy when they're forced to confront their feelings at Drunk Shakespeare."
+      },
+      {
+        "n": 5,
+        "title": "The Cold Turkey",
+        "air": "2026-05-13",
+        "runtime": 47,
+        "overview": "Garrett brings Hannah home for Thanksgiving while Tucker hosts an epic Friendsgiving at the Off Campus house."
+      },
+      {
+        "n": 6,
+        "title": "The Breakaway",
+        "air": "2026-05-13",
+        "runtime": 55,
+        "overview": "At a hockey fundraiser, Garrett and Logan butt heads, Hannah and Justin's musical collaboration encounters its biggest hurdle, and romance simmers."
+      },
+      {
+        "n": 7,
+        "title": "The Faceoff",
+        "air": "2026-05-13",
+        "runtime": 54,
+        "overview": "Hannah confronts her past while Garrett faces the most challenging game of his season and Allie meets her hero."
+      },
+      {
+        "n": 8,
+        "title": "The Line Change",
+        "air": "2026-05-13",
+        "runtime": 56,
+        "overview": "As the semester ends, fallout from the St. Anthony's game rattles the Hawks, and Hannah strives to find her voice."
+      }
+    ]
+  },
+  "8": {
+    "id": 8,
+    "title": "Spider-Noir",
+    "tmdb": 220102,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2026",
+        "eps": 8
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Step into My Office",
+        "air": "2026-05-25",
+        "runtime": 45,
+        "overview": "It won't end the way you want it to."
+      },
+      {
+        "n": 2,
+        "title": "Tread Lightly",
+        "air": "2026-05-25",
+        "runtime": 41,
+        "overview": "You're an investigator. Investigate."
+      },
+      {
+        "n": 3,
+        "title": "Double Cross",
+        "air": "2026-05-25",
+        "runtime": 44,
+        "overview": "The quicker you prove it, the quicker they die."
+      },
+      {
+        "n": 4,
+        "title": "A Mistake I'll Never Make Again",
+        "air": "2026-05-25",
+        "runtime": 47,
+        "overview": "I don't know, I think he's still got it."
+      },
+      {
+        "n": 5,
+        "title": "Betrayal",
+        "air": "2026-05-25",
+        "runtime": 48,
+        "overview": "Careful is for stock tips and hot sauce."
+      },
+      {
+        "n": 6,
+        "title": "Nightmare on a Gurney",
+        "air": "2026-05-25",
+        "runtime": 41,
+        "overview": "If you haven't found the answer, it's because there isn't one."
+      },
+      {
+        "n": 7,
+        "title": "Nobody's Hero",
+        "air": "2026-05-25",
+        "runtime": 41,
+        "overview": "I can't protect you when I'm dead."
+      },
+      {
+        "n": 8,
+        "title": "The Man in the Mask",
+        "air": "2026-05-25",
+        "runtime": 46,
+        "overview": "Gee whiz, what's a down-on-his-luck private investigator to do?"
+      }
+    ]
+  },
+  "9": {
+    "id": 9,
+    "title": "The Vampire Lestat",
+    "tmdb": 323411,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2026",
+        "eps": 7
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Detroit",
+        "air": "2026-06-07",
+        "runtime": 50,
+        "overview": "Lestat reflects on the events leading to his tour as he goes head-to-head with a resentful coven."
+      },
+      {
+        "n": 2,
+        "title": "Toledo",
+        "air": "2026-06-14",
+        "runtime": 56,
+        "overview": "Lestat revisits his origins, explores Toledo, and handles the fallout from Detroit."
+      },
+      {
+        "n": 3,
+        "title": "Toronto",
+        "air": "2026-06-21",
+        "runtime": 54,
+        "overview": "Molloy finally lands an unsurprisingly difficult Lestat in the hot seat, probing him about his time as a Parisian actor, relationship with a childhood friend, and transformation, while Louis tends to some long-unfinished business in Detroit."
+      },
+      {
+        "n": 4,
+        "title": "The Devil's Road",
+        "air": "2026-06-28",
+        "runtime": 54,
+        "overview": "Lestat is triggered by his latest abandonment. Louis seeks comfort in a familiar face."
+      },
+      {
+        "n": 5,
+        "title": "New York",
+        "air": "2026-07-05",
+        "runtime": 55,
+        "overview": "The band records their album. Louis comes clean. Molloy gets a gift."
+      },
+      {
+        "n": 6,
+        "title": "Montreal",
+        "air": "2026-07-12",
+        "runtime": 55,
+        "overview": "Lestat & Louis meet someone who reveals some painful truths. Louis learns Lestat's biggest secret."
+      },
+      {
+        "n": 7,
+        "title": "The Failures",
+        "air": "2026-07-19",
+        "runtime": 56,
+        "overview": "Factions become clear when Lestat is the surprise guess of honor at at fancy dinner party."
+      }
+    ]
+  },
+  "10": {
+    "id": 10,
+    "title": "Shoresy (S5)",
+    "tmdb": 158756,
+    "seasonTracked": 5,
+    "seasonClaimed": 5,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2022",
+        "eps": 6
+      },
+      {
+        "n": 2,
+        "year": "2023",
+        "eps": 6
+      },
+      {
+        "n": 3,
+        "year": "2024",
+        "eps": 6
+      },
+      {
+        "n": 4,
+        "year": "2025",
+        "eps": 6
+      },
+      {
+        "n": 5,
+        "year": "2025",
+        "eps": 6
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Keep It Simple",
+        "air": "2025-12-25",
+        "runtime": 21,
+        "overview": "Shoresy mentors a Blueberry Buddy in need."
+      },
+      {
+        "n": 2,
+        "title": "The Great One",
+        "air": "2025-12-25",
+        "runtime": 23,
+        "overview": "Nat manages a league emergency and Shoresy receives an offer he can't refuse."
+      },
+      {
+        "n": 3,
+        "title": "A Winning Culture",
+        "air": "2026-01-01",
+        "runtime": 23,
+        "overview": "Shoresy assembles a team."
+      },
+      {
+        "n": 4,
+        "title": "Practice How You Play",
+        "air": "2026-01-08",
+        "runtime": 27,
+        "overview": "Shoresy and Nat arrange a practice game against the Appeldoorns."
+      },
+      {
+        "n": 5,
+        "title": "Total Buy-In",
+        "air": "2026-01-15",
+        "runtime": 27,
+        "overview": "The Team gets their house in order."
+      },
+      {
+        "n": 6,
+        "title": "Who Are We?",
+        "air": "2026-01-22",
+        "runtime": 26,
+        "overview": "The Team makes sure their opponents never forget who they are."
+      }
+    ]
+  },
+  "11": {
+    "id": 11,
+    "title": "Trying (S5)",
+    "tmdb": 206733,
+    "seasonTracked": 1,
+    "seasonClaimed": 5,
+    "note": "claimed Season 5 has no episodes on TMDB yet; tracking Season 1 instead",
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2023",
+        "eps": 1
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Beginning",
+        "air": "2023-09-06",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      }
+    ]
+  },
+  "12": {
+    "id": 12,
+    "title": "Batman: Caped Crusader (S2)",
+    "tmdb": 125909,
+    "seasonTracked": 2,
+    "seasonClaimed": 2,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2024",
+        "eps": 10
+      },
+      {
+        "n": 2,
+        "year": "2026",
+        "eps": 10
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Brute Force",
+        "air": "2026-07-31",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 2,
+        "title": "Rocket's Red Glare",
+        "air": "2026-07-31",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 3,
+        "title": "Deep Cover",
+        "air": "2026-07-31",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 4,
+        "title": "The Devil's Due",
+        "air": "2026-07-31",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 5,
+        "title": "The Spectral Hand",
+        "air": "2026-07-31",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 6,
+        "title": "Sudden Fear",
+        "air": "2026-07-31",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 7,
+        "title": "Her Dark Reflection",
+        "air": "2026-07-31",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 8,
+        "title": "Zero Hour",
+        "air": "2026-07-31",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 9,
+        "title": "Dead Before Dawn",
+        "air": "2026-07-31",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 10,
+        "title": "The Laughing Death",
+        "air": "2026-07-31",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      }
+    ]
+  },
+  "13": {
+    "id": 13,
+    "title": "Sunny Nights",
+    "tmdb": 258918,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2025",
+        "eps": 8
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Transform with Tansform",
+        "air": "2025-12-26",
+        "runtime": 52,
+        "overview": "Martin and Vicki Marvin, American spray tan entrepreneurs, are dragged into the Sydney underworld when an extortion attempt turns deadly."
+      },
+      {
+        "n": 2,
+        "title": "Blinders On, Baby",
+        "air": "2025-12-26",
+        "runtime": 47,
+        "overview": "On-edge and under-slept, Martin and Vicki attempt to secure a manufacturer for Tansform, only to discover the dramatic events of the previous night won’t stay buried."
+      },
+      {
+        "n": 3,
+        "title": "Not A Drug Drop, Roy",
+        "air": "2025-12-26",
+        "runtime": 45,
+        "overview": "Martin and Vicki celebrate as Tansform lands on shelves and make plans to ensure their retail trial at a pharmacy chain takes off, while Mony’s quest for vengeance and Joyce’s investigation gain momentum."
+      },
+      {
+        "n": 4,
+        "title": "Next on the Board",
+        "air": "2025-12-26",
+        "runtime": 52,
+        "overview": "Martin and Vicki are confronted by their corporate shortcomings, while Susi and Terry concoct a plan to keep Mony off their trail."
+      },
+      {
+        "n": 5,
+        "title": "Dumbest Girl Alive",
+        "air": "2025-12-26",
+        "runtime": 49,
+        "overview": "As Martin races against time to divert Mony’s investigation into who killed her brother, Vicki’s misguided attempt to boost Tansform’s profile threatens to put them right back in her crosshairs."
+      },
+      {
+        "n": 6,
+        "title": "On A Cellular Level",
+        "air": "2025-12-26",
+        "runtime": 46,
+        "overview": "Martin and Vicki go to war with a rival brand, while Joyce and Nova go undercover, and Susi tries to get out of the crime business for good."
+      },
+      {
+        "n": 7,
+        "title": "A Journey Down The Uncertain Road Of Yes",
+        "air": "2025-12-26",
+        "runtime": 45,
+        "overview": "Martin and Vicki try to finalise a long-term national distribution deal that will take Tansform to the next level, Susi attempts to change careers, Terry struggles to get clean, and Mony jumps into a new business."
+      },
+      {
+        "n": 8,
+        "title": "Whatever Is Necessary",
+        "air": "2025-12-26",
+        "runtime": 49,
+        "overview": "Martin and Vicki must pull off the con of a lifetime to save their skins and their company."
+      }
+    ]
+  },
+  "14": {
+    "id": 14,
+    "title": "Maximum Pleasure Guaranteed",
+    "tmdb": 285404,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2026",
+        "eps": 10
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Magnets",
+        "air": "2026-05-19",
+        "runtime": 40,
+        "overview": "Single mom Paula Sanders finds comfort and connection with a charming cam boy—until a shocking moment changes everything."
+      },
+      {
+        "n": 2,
+        "title": "YABA",
+        "air": "2026-05-19",
+        "runtime": 36,
+        "overview": "Grave danger and police interrogations overlap with the first day of youth soccer coaching."
+      },
+      {
+        "n": 3,
+        "title": "Chunnel",
+        "air": "2026-05-26",
+        "runtime": 35,
+        "overview": "Paula is tracked by a deadly man. Karl and Mallory make Paula an offer she's advised not to refuse."
+      },
+      {
+        "n": 4,
+        "title": "Raisins",
+        "air": "2026-06-02",
+        "runtime": 33,
+        "overview": "A secret is revealed in Portland. Danger—and the cops—close in on Paula in Queens."
+      },
+      {
+        "n": 5,
+        "title": "Scamboy",
+        "air": "2026-06-09",
+        "runtime": 37,
+        "overview": "Paula's investigation leads her, Rudy, and Geri into a terrifying standoff. Mallory crosses legal lines in the custody battle."
+      },
+      {
+        "n": 6,
+        "title": "Rosebuds",
+        "air": "2026-06-16",
+        "runtime": 29,
+        "overview": "Paula scrambles to host a children's pizza party as the case intensifies."
+      },
+      {
+        "n": 7,
+        "title": "Flighting",
+        "air": "2026-06-23",
+        "runtime": 35,
+        "overview": "Paranoia, packages, and a painful parting."
+      },
+      {
+        "n": 8,
+        "title": "Hallidays",
+        "air": "2026-06-30",
+        "runtime": 34,
+        "overview": "Paula hits rock bottom, but can't let the investigation go. Rudy suspects Geri is keeping secrets."
+      },
+      {
+        "n": 9,
+        "title": "Erroneous",
+        "air": "2026-07-07",
+        "runtime": 28,
+        "overview": "Custody hearings loom, conspiracy theories gel, and an attack brings back the fact checkers."
+      },
+      {
+        "n": 10,
+        "title": "Queens",
+        "air": "2026-07-14",
+        "runtime": 38,
+        "overview": "Everything everywhere all at once."
+      }
+    ]
+  },
+  "15": {
+    "id": 15,
+    "title": "Colin from Accounts (S2)",
+    "tmdb": 203614,
+    "seasonTracked": 2,
+    "seasonClaimed": 2,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2022",
+        "eps": 8
+      },
+      {
+        "n": 2,
+        "year": "2024",
+        "eps": 8
+      },
+      {
+        "n": 3,
+        "year": "2026",
+        "eps": 8
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Blessings",
+        "air": "2024-05-30",
+        "runtime": 25,
+        "overview": "Ash and Gordon have moved in together and are trying to get their beloved, special needs dog back from his new owners."
+      },
+      {
+        "n": 2,
+        "title": "Bacon in the Drawer",
+        "air": "2024-06-06",
+        "runtime": 26,
+        "overview": "Gordon and Ashley have to come to terms with Yvette’s latest play for Gordon’s affections."
+      },
+      {
+        "n": 3,
+        "title": "Heavy",
+        "air": "2024-06-06",
+        "runtime": 28,
+        "overview": "Gordon’s house is overrun by chaotic visitors, including Gordon’s brother Heavy, who makes things awkward with Ash when he indelicately sheds some light on Gordon’s past."
+      },
+      {
+        "n": 4,
+        "title": "Ethical Porn",
+        "air": "2024-06-13",
+        "runtime": 27,
+        "overview": "Ash feels rejected after catching Gordon ‘taking care of himself’, Gordon gets an offer to buy Echo Park, and Megan introduces her new girlfriend."
+      },
+      {
+        "n": 5,
+        "title": "Waterfall",
+        "air": "2024-06-13",
+        "runtime": 31,
+        "overview": "When Ash doesn’t turn up to dinner, Gordon goes on a quest around Sydney to find her."
+      },
+      {
+        "n": 6,
+        "title": "Yass King",
+        "air": "2024-06-20",
+        "runtime": 26,
+        "overview": "Ash and Gordon head to Yass for a weekend at home with the Crapp family."
+      },
+      {
+        "n": 7,
+        "title": "Wawam",
+        "air": "2024-06-20",
+        "runtime": 28,
+        "overview": "Gordon redirects his grief into making Colin a TV star, while Ash tries to make amends for her hurtful comment, and Lynelle hosts a fundraiser for WAWAM."
+      },
+      {
+        "n": 8,
+        "title": "Speedy Susans",
+        "air": "2024-06-27",
+        "runtime": 26,
+        "overview": "Gordon and Ash’s relationship is put to the test at Megan and Rumi’s pop-up wedding."
+      }
+    ]
+  },
+  "16": {
+    "id": 16,
+    "title": "The East Palace",
+    "tmdb": 279323,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2026",
+        "eps": 8
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Episode 1",
+        "air": "2026-07-17",
+        "runtime": 46,
+        "overview": "After a mysterious death, the king summons the spirit slayer Gu-cheon to banish the pond spirit. Saeng-gang, who hears the dead, also appears before him."
+      },
+      {
+        "n": 2,
+        "title": "Episode 2",
+        "air": "2026-07-17",
+        "runtime": 53,
+        "overview": "After a close call while pursuing the pond spirit, Gu-cheon makes a pact with Saeng-gang. Later, they uncover the truth behind the salt storehouse ghost."
+      },
+      {
+        "n": 3,
+        "title": "Episode 3",
+        "air": "2026-07-17",
+        "runtime": 49,
+        "overview": "The king orders Gu-cheon to save the prince — or die. Forced to enter the spirit realm, he comes face-to-face with the ghost of a former royal guard."
+      },
+      {
+        "n": 4,
+        "title": "Episode 4",
+        "air": "2026-07-17",
+        "runtime": 54,
+        "overview": "Gu-cheon and Saeng-gang attempt to seal the pond spirit for good. Still suspicious about the crown princes' deaths, Gu-cheon returns to Saeng-gang."
+      },
+      {
+        "n": 5,
+        "title": "Episode 5",
+        "air": "2026-07-17",
+        "runtime": 46,
+        "overview": "Gu-cheon escapes danger with Saeng-gang's help. As the king falls ill, Gu-cheon fights the evil spirit — only for a guardian spirit to stand in his way."
+      },
+      {
+        "n": 6,
+        "title": "Episode 6",
+        "air": "2026-07-17",
+        "runtime": 50,
+        "overview": "During Gu-cheon's fight, Saeng-gang comes under threat — bringing them closer to the truth. But Gu-cheon loses his sight, putting their mission at risk."
+      },
+      {
+        "n": 7,
+        "title": "Episode 7",
+        "air": "2026-07-17",
+        "runtime": 46,
+        "overview": "The king and queen dowager clash over the tragedies as resentful spirits close in. Gu-cheon and Saeng-gang steel themselves for a final confrontation."
+      },
+      {
+        "n": 8,
+        "title": "Episode 8",
+        "air": "2026-07-17",
+        "runtime": 59,
+        "overview": "Chaos engulfs the palace as the vengeful spirit moves to devour everything in its path. Can Gu-cheon and Saeng-gang stop him before it's too late?"
+      }
+    ]
+  },
+  "17": {
+    "id": 17,
+    "title": "Bridgerton (S4)",
+    "tmdb": 91239,
+    "seasonTracked": 4,
+    "seasonClaimed": 4,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2020",
+        "eps": 8
+      },
+      {
+        "n": 2,
+        "year": "2022",
+        "eps": 8
+      },
+      {
+        "n": 3,
+        "year": "2024",
+        "eps": 8
+      },
+      {
+        "n": 4,
+        "year": "2026",
+        "eps": 8
+      },
+      {
+        "n": 5,
+        "year": null,
+        "eps": 0
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "The Waltz",
+        "air": "2026-01-29",
+        "runtime": null,
+        "overview": "Despite pressure from the ton, Benedict Bridgerton isn't one to settle down — until a masked woman at a ball unexpectedly captures his heart."
+      },
+      {
+        "n": 2,
+        "title": "Time Transfixed",
+        "air": "2026-01-29",
+        "runtime": null,
+        "overview": "To find his mystery woman, Benedict enlists the help of none other than Lady Whistledown. Lady Danbury's patience with the Queen wears decidedly thin."
+      },
+      {
+        "n": 3,
+        "title": "The Field Next to the Other Road",
+        "air": "2026-01-29",
+        "runtime": null,
+        "overview": "An unexpected detour draws Benedict and Sophie closer together. Back in Mayfair, the help gains the upper hand in a heated \"maid war.\""
+      },
+      {
+        "n": 4,
+        "title": "An Offer from a Gentleman",
+        "air": "2026-01-29",
+        "runtime": null,
+        "overview": "Eager to focus on her new role, Sophie finds her longing for Benedict is hard to shake. Francesca broaches a sensitive topic. Violet hosts tea for two."
+      },
+      {
+        "n": 5,
+        "title": "Yes or No",
+        "air": "2026-02-26",
+        "runtime": null,
+        "overview": "A new neighbor shakes up Bridgerton House. Hyacinth and Gregory take their first steps into society. Penelope struggles with the loss of anonymity."
+      },
+      {
+        "n": 6,
+        "title": "The Passing Winter",
+        "air": "2026-02-26",
+        "runtime": null,
+        "overview": "Sophie fears the consequences of an impulsive decision. Benedict comes to terms with a new heir. A lavish ball is upended by a shocking announcement."
+      },
+      {
+        "n": 7,
+        "title": "The Beyond",
+        "air": "2026-02-26",
+        "runtime": null,
+        "overview": "The Bridgerton family unites in the wake of a tragedy. Sophie's plans hit a snag. Benedict faces a heartwrenching choice."
+      },
+      {
+        "n": 8,
+        "title": "Dance in the Country",
+        "air": "2026-02-26",
+        "runtime": null,
+        "overview": "With Sophie in peril and the entire family's reputation at stake, the Bridgertons must rely on the ton's most powerful currency: scandal."
+      }
+    ]
+  },
+  "18": {
+    "id": 18,
+    "title": "One Piece (S2)",
+    "tmdb": 111110,
+    "seasonTracked": 2,
+    "seasonClaimed": 2,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2023",
+        "eps": 8
+      },
+      {
+        "n": 2,
+        "year": "2026",
+        "eps": 8
+      },
+      {
+        "n": 3,
+        "year": null,
+        "eps": 1
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "THE BEGINNING AND THE END",
+        "air": "2026-03-10",
+        "runtime": null,
+        "overview": "To prepare for the Grand Line, the Straw Hats visit Loguetown, birthplace of the Great Pirate Era — where rivals both old and new await."
+      },
+      {
+        "n": 2,
+        "title": "GOOD WHALE HUNTING",
+        "air": "2026-03-10",
+        "runtime": null,
+        "overview": "When the Merry lands in the belly of a giant whale, Luffy must win over a gruff lighthouse keeper to save his friends and his ship."
+      },
+      {
+        "n": 3,
+        "title": "WHISKY BUSINESS",
+        "air": "2026-03-10",
+        "runtime": null,
+        "overview": "The crew receives a warm welcome to the pirate-loving town of Whisky Peak. But with a pair of assassins on the loose, trouble isn't far behind."
+      },
+      {
+        "n": 4,
+        "title": "BIG TROUBLE IN LITTLE GARDEN",
+        "air": "2026-03-10",
+        "runtime": 55,
+        "overview": "A new addition to the ship raises the stakes. On the lush isle of Little Garden, the crew encounters an adventure of giant proportions."
+      },
+      {
+        "n": 5,
+        "title": "WAX ON, WAX OFF",
+        "air": "2026-03-10",
+        "runtime": 58,
+        "overview": "The Straw Hats are held captive by two artists: one who colors emotions, and one intent on making them part of his latest — and deadliest — masterwork."
+      },
+      {
+        "n": 6,
+        "title": "NAMI DEEREST",
+        "air": "2026-03-10",
+        "runtime": 56,
+        "overview": "When Nami is stricken by a mysterious illness, Luffy and Sanji embark on a perilous mission to save her. Smoker and Tashigi investigate a Marine outpost."
+      },
+      {
+        "n": 7,
+        "title": "REINDEER SHAMES",
+        "air": "2026-03-10",
+        "runtime": null,
+        "overview": "Dr. Kureha tells the heartwrenching story of Chopper's origins, including how he met his mentor Dr. Hiriluk and their quest to cure all disease."
+      },
+      {
+        "n": 8,
+        "title": "DEER AND LOATHING IN DRUM KINGDOM",
+        "air": "2026-03-10",
+        "runtime": null,
+        "overview": "The Straw Hats lend themselves to Drum Island's cause when King Wapol and his army of monsters return to reclaim the throne."
+      }
+    ]
+  },
+  "19": {
+    "id": 19,
+    "title": "The Boroughs",
+    "tmdb": 224941,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2026",
+        "eps": 8
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Welcome to The Boroughs",
+        "air": "2026-05-21",
+        "runtime": 55,
+        "overview": "When grieving widower Sam Cooper reluctantly moves to a desert retirement community, he discovers something lurking beneath its perfect surface."
+      },
+      {
+        "n": 2,
+        "title": "The Mourning After",
+        "air": "2026-05-21",
+        "runtime": 50,
+        "overview": "Still reeling, Sam seeks answers close to home. Renee gets a break in the case of the missing minerals. Judy and Wally face up to painful realities."
+      },
+      {
+        "n": 3,
+        "title": "A Pyramid",
+        "air": "2026-05-21",
+        "runtime": 40,
+        "overview": "Sam and Wally decide to take a risk. Renee and Paz's investigation brings them closer together. Art seeks answers in the desert."
+      },
+      {
+        "n": 4,
+        "title": "Forbidden Fruit",
+        "air": "2026-05-21",
+        "runtime": 48,
+        "overview": "Art savors the fruits of his explorations. Blaine warns Sam that curiosity comes with consequences. Renee makes a shocking discovery."
+      },
+      {
+        "n": 5,
+        "title": "Another Beautiful Day",
+        "air": "2026-05-21",
+        "runtime": 43,
+        "overview": "Sam, Judy and Wally uncover a new side of The Boroughs. Renee and Paz go on a road trip. Blaine tries to convince Claire to take action."
+      },
+      {
+        "n": 6,
+        "title": "The Grey Rebellion",
+        "air": "2026-05-21",
+        "runtime": 47,
+        "overview": "With the entire gang under Blaine's thumb, Sam desperately seeks a way out. Art and Judy hit a breaking point. Wally gets a taste of a new life."
+      },
+      {
+        "n": 7,
+        "title": "Time to Go",
+        "air": "2026-05-21",
+        "runtime": 42,
+        "overview": "As the anniversary party approaches, Anneliese reveals a painful secret. The gang gets in gear for a high-stakes rescue mission at The Manor."
+      },
+      {
+        "n": 8,
+        "title": "Triple Audible",
+        "air": "2026-05-21",
+        "runtime": 44,
+        "overview": "With Blaine and Anneliese desperate to capture Mother, Sam and his friends put it all on the line to save their neighbors and set things right."
+      }
+    ]
+  },
+  "20": {
+    "id": 20,
+    "title": "His & Hers",
+    "tmdb": 259731,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2026",
+        "eps": 6
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Episode 1",
+        "air": "2026-01-08",
+        "runtime": 47,
+        "overview": "TV newswoman Anna returns to her small Georgia hometown to report on a murder case, in which her estranged husband Jack is the lead investigator."
+      },
+      {
+        "n": 2,
+        "title": "Episode 2",
+        "air": "2026-01-08",
+        "runtime": 44,
+        "overview": "Jack and Priya try to poke holes in a key suspect's alibi. Anna returns to her alma mater for a contentious interview with an old classmate."
+      },
+      {
+        "n": 3,
+        "title": "Episode 3",
+        "air": "2026-01-08",
+        "runtime": 41,
+        "overview": "Anna jumps at a chance to return to the anchor desk. Zoe confronts Jack about what he's been hiding. Alice's decline forces some tough conversations."
+      },
+      {
+        "n": 4,
+        "title": "Episode 4",
+        "air": "2026-01-08",
+        "runtime": 48,
+        "overview": "Jack struggles to placate the locals at a fiery town hall. Priya's suspicions reach a breaking point. Anna is haunted by painful memories."
+      },
+      {
+        "n": 5,
+        "title": "Episode 5",
+        "air": "2026-01-08",
+        "runtime": 45,
+        "overview": "Backed into a corner, Jack grows increasingly erratic. Anna finds herself on the opposite side of an interview. Richard's past comes to light."
+      },
+      {
+        "n": 6,
+        "title": "Episode 6",
+        "air": "2026-01-08",
+        "runtime": 40,
+        "overview": "As the case comes to a close, Jack and Anna must reckon with the sins of the past — and the brutal consequences in the present."
+      }
+    ]
+  },
+  "21": {
+    "id": 21,
+    "title": "The Witness",
+    "tmdb": 280511,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2026",
+        "eps": 3
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Episode 1",
+        "air": "2026-06-04",
+        "runtime": 57,
+        "overview": "A woman is murdered in front of her 2-year-old in '90s London. While his father tries to shield him from a media storm, the police identify a key suspect."
+      },
+      {
+        "n": 2,
+        "title": "Episode 2",
+        "air": "2026-06-04",
+        "runtime": 49,
+        "overview": "As DI Pedder's undercover operation develops, another murder hits the headlines. André and Alex move abroad, but their grief continues to follow them."
+      },
+      {
+        "n": 3,
+        "title": "Episode 3",
+        "air": "2026-06-04",
+        "runtime": 47,
+        "overview": "Over a decade later, old evidence is re-examined by new eyes on the case. Will André and Alex finally get justice — or is there more to the story?"
+      }
+    ]
+  },
+  "22": {
+    "id": 22,
+    "title": "Avatar: The Last Airbender (S2)",
+    "tmdb": 82452,
+    "seasonTracked": 2,
+    "seasonClaimed": 2,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2024",
+        "eps": 8
+      },
+      {
+        "n": 2,
+        "year": "2026",
+        "eps": 7
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Somewhere Safe",
+        "air": "2026-06-25",
+        "runtime": null,
+        "overview": "Determined to learn earthbending, Aang works to free Bumi from prison. Zuko chafes at Iroh's plan to stay hidden. Azula receives a new assignment."
+      },
+      {
+        "n": 2,
+        "title": "A Fight, Once Begun",
+        "air": "2026-06-25",
+        "runtime": null,
+        "overview": "At a high-stakes earthbending match, Aang discovers the teacher he's been seeking. Painful memories emerge after Zuko befriends a farming family."
+      },
+      {
+        "n": 3,
+        "title": "City of Walls and Secrets",
+        "air": "2026-06-25",
+        "runtime": null,
+        "overview": "Aang and his friends must trade powers for parties and politics as they navigate the two-faced court of the Earth King."
+      },
+      {
+        "n": 4,
+        "title": "The Water Falls, the Stones Emerge",
+        "air": "2026-06-25",
+        "runtime": null,
+        "overview": "Toph puts Aang's skills to the test. In the streets of Ba Sing Se, Sokka searches for a missing friend, while Katara lives a double life."
+      },
+      {
+        "n": 5,
+        "title": "Ten Thousand Things",
+        "air": "2026-06-25",
+        "runtime": null,
+        "overview": "To uncover a mythic library that could hold the key to defeating the Fire Nation, the team is forced to ally with an old enemy."
+      },
+      {
+        "n": 6,
+        "title": "The Parable of the Two Dragons",
+        "air": "2026-06-25",
+        "runtime": 56,
+        "overview": "When one of their own is captured, the team concocts a risky plan to reach the Earth King. An illness changes Zuko's perspective — and Iroh's."
+      },
+      {
+        "n": 7,
+        "title": "Something Broken",
+        "air": "2026-06-25",
+        "runtime": null,
+        "overview": "Torn across the city as the Fire Nation closes in, the team must reunite to save Ba Sing Se — and Zuko must decide where his real loyalties lie."
+      }
+    ]
+  },
+  "23": {
+    "id": 23,
+    "title": "I Will Find You",
+    "tmdb": 278178,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2026",
+        "eps": 8
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Episode 1",
+        "air": "2026-06-18",
+        "runtime": 48,
+        "overview": "Trapped in prison for a murder he didn't commit, David Burroughs resolves to escape after a shocking revelation: his son may still be alive."
+      },
+      {
+        "n": 2,
+        "title": "Episode 2",
+        "air": "2026-06-18",
+        "runtime": 45,
+        "overview": "The FBI enters the fray as David tries to stay out of sight. The Mackenzies come under fire as questions mount about their role in the case."
+      },
+      {
+        "n": 3,
+        "title": "Episode 3",
+        "air": "2026-06-18",
+        "runtime": 38,
+        "overview": "David and Rachel put their freedom on the line to find Hilde Winslow. Lenny and Philip drop a bombshell revelation about the night Matthew died."
+      },
+      {
+        "n": 4,
+        "title": "Episode 4",
+        "air": "2026-06-18",
+        "runtime": 45,
+        "overview": "Hayden must decide whether to help his unexpected houseguest. Rachel hits a dead end. Lenny presents Cheryl with crucial new evidence."
+      },
+      {
+        "n": 5,
+        "title": "Episode 5",
+        "air": "2026-06-18",
+        "runtime": 45,
+        "overview": "David resorts to desperate measures to draw out an enemy. Rachel does damage control after a major betrayal. Hayden is forced to pick a side."
+      },
+      {
+        "n": 6,
+        "title": "Episode 6",
+        "air": "2026-06-18",
+        "runtime": 38,
+        "overview": "David must make a heartwrenching choice. Rachel faces serious danger. Sarah and Max's search for the truth comes at a cost."
+      },
+      {
+        "n": 7,
+        "title": "Episode 7",
+        "air": "2026-06-18",
+        "runtime": 36,
+        "overview": "The hospital holds a key clue to finding Matthew — if David and Rachel can convince Ronald to help. Sarah gains a new ally in her investigation."
+      },
+      {
+        "n": 8,
+        "title": "Episode 8",
+        "air": "2026-06-18",
+        "runtime": 37,
+        "overview": "With an unlikely ally at their side, David and Rachel have one chance to rescue Matthew from his captors — before he slips away for good."
+      }
+    ]
+  },
+  "24": {
+    "id": 24,
+    "title": "Little House on the Prairie",
+    "tmdb": 283304,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2026",
+        "eps": 8
+      },
+      {
+        "n": 2,
+        "year": null,
+        "eps": 0
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Independence",
+        "air": "2026-07-09",
+        "runtime": 53,
+        "overview": "The Ingalls family trades Wisconsin's woods for the wide-open plains of Kansas, where their new life brings both breathtaking beauty and genuine danger."
+      },
+      {
+        "n": 2,
+        "title": "The House on the Prairie",
+        "air": "2026-07-09",
+        "runtime": 52,
+        "overview": "A neighbor steps up to help the Ingalls build their new home, but their growing bond is threatened by the shadows of his past — and Caroline's."
+      },
+      {
+        "n": 3,
+        "title": "News of the World",
+        "air": "2026-07-09",
+        "runtime": 46,
+        "overview": "As the house on the prairie approaches completion, a troubling encounter makes the family reconsider their decision to settle in Independence."
+      },
+      {
+        "n": 4,
+        "title": "Life Let Us Cherish",
+        "air": "2026-07-09",
+        "runtime": 49,
+        "overview": "With fever gripping the town and medicine in short supply, the Ingalls face their most perilous challenge yet."
+      },
+      {
+        "n": 5,
+        "title": "A Circle of Blue Sky",
+        "air": "2026-07-09",
+        "runtime": 46,
+        "overview": "Caroline and the girls struggle to fit in at a ladies' event. Charles sets out to find the family's missing horses — and clear an innocent man's name."
+      },
+      {
+        "n": 6,
+        "title": "Peace on Earth",
+        "air": "2026-07-09",
+        "runtime": 42,
+        "overview": "Snowed in and far from family, the Ingalls try to find a little cheer on a quiet Christmas Eve. But Santa has a surprise or two in store."
+      },
+      {
+        "n": 7,
+        "title": "A Softer Note in the Sound of the Wind",
+        "air": "2026-07-09",
+        "runtime": 52,
+        "overview": "The Osage gather for a pivotal tribal council, with the fate of the land — and Laura's friendship with Good Eagle — in the balance."
+      },
+      {
+        "n": 8,
+        "title": "This Is Now",
+        "air": "2026-07-09",
+        "runtime": 57,
+        "overview": "After catching wind of their parents' debts, Laura and Mary resolve to save the day by winning prize money at the town's first Founder's Day."
+      }
+    ]
+  },
+  "25": {
+    "id": 25,
+    "title": "Ransom Canyon (S2)",
+    "tmdb": 240993,
+    "seasonTracked": 2,
+    "seasonClaimed": 2,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2025",
+        "eps": 10
+      },
+      {
+        "n": 2,
+        "year": "2026",
+        "eps": 8
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Hey There, Cowboy",
+        "air": "2026-07-23",
+        "runtime": 46,
+        "overview": "Quinn returns home to find her mother is in town. Tensions mount between Staten and his father at the ranch. Yancy grows impatient with his housemate."
+      },
+      {
+        "n": 2,
+        "title": "Edge of My Seat Here, Quinn",
+        "air": "2026-07-23",
+        "runtime": 45,
+        "overview": "A sudden power shift at the Double K ranch ignites a bitter feud. Quinn shows her suitor around the town — and dreams up an ambitious plan to revive it."
+      },
+      {
+        "n": 3,
+        "title": "That Dog Won't Hunt",
+        "air": "2026-07-23",
+        "runtime": 43,
+        "overview": "A high-stakes scheme kicks off at the homecoming football game. Staten offers to help Quinn reach out to an old rival for her new musical venture."
+      },
+      {
+        "n": 4,
+        "title": "Forever and Always",
+        "air": "2026-07-23",
+        "runtime": 44,
+        "overview": "Past betrayals and buried feelings make for a revelatory dinner at the O'Grady household. Kit spoils the ending of Lucas and Lauren's cozy movie night."
+      },
+      {
+        "n": 5,
+        "title": "That Leaves Two",
+        "air": "2026-07-23",
+        "runtime": 44,
+        "overview": "Staten hits the trail with an ulterior motive. As Quinn prepares for the festival, Oliver helps her reconnect with the town through a forgotten landmark."
+      },
+      {
+        "n": 6,
+        "title": "Can't Never Could",
+        "air": "2026-07-23",
+        "runtime": 46,
+        "overview": "Complications during a road trip force Quinn and Staten into close quarters. Yancy, Sidney and Ellie's plan commences — and quickly goes off the rails."
+      },
+      {
+        "n": 7,
+        "title": "No Place Like Home",
+        "air": "2026-07-23",
+        "runtime": 44,
+        "overview": "As festival fever sweeps through Ransom Canyon, a series of setbacks threaten everything Quinn and her team have poured their hearts and souls into."
+      },
+      {
+        "n": 8,
+        "title": "Love Is a Canyon",
+        "air": "2026-07-23",
+        "runtime": 58,
+        "overview": "While the future of the Double K ranch hangs in the balance, Staten and Quinn ponder the meaning of home as love and loss sweep through the town."
+      }
+    ]
+  },
+  "26": {
+    "id": 26,
+    "title": "Teach You a Lesson",
+    "tmdb": 276161,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2026",
+        "eps": 10
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Episode 1",
+        "air": "2026-06-05",
+        "runtime": 52,
+        "overview": "Inspector Na Hwa-jin steps into the chaos and takes control of a school plagued by the spoiled son of a powerful politician — to teach him a lesson."
+      },
+      {
+        "n": 2,
+        "title": "Episode 2",
+        "air": "2026-06-05",
+        "runtime": 57,
+        "overview": "With unassuming Bong Geun-dae on his side, Hwa-jin uses his special ops skills to handle a school gang and defend a student who just wants to study."
+      },
+      {
+        "n": 3,
+        "title": "Episode 3",
+        "air": "2026-06-05",
+        "runtime": null,
+        "overview": "When a teen influencer spreads false claims about her teachers, the team's loose-cannon Inspector Im Han-rim steps in to set the record straight."
+      },
+      {
+        "n": 4,
+        "title": "Episode 4",
+        "air": "2026-06-05",
+        "runtime": null,
+        "overview": "Choi Gang-seok weathers a political attack on his bureau. Hwa-jin's team visits an elite school to uncover why a student attacked a respected teacher."
+      },
+      {
+        "n": 5,
+        "title": "Episode 5",
+        "air": "2026-06-05",
+        "runtime": null,
+        "overview": "When an elementary school teacher's spirit wears down under pressure, Hwa-jin steps in to be her substitute — turning the tables to solve the case."
+      },
+      {
+        "n": 6,
+        "title": "Episode 6",
+        "air": "2026-06-05",
+        "runtime": null,
+        "overview": "Four juvenile delinquents think they're above the law — until the team takes an interest in their extracurricular crimes and gives a harsh reality check."
+      },
+      {
+        "n": 7,
+        "title": "Episode 7",
+        "air": "2026-06-05",
+        "runtime": null,
+        "overview": "Geun-dae goes undercover to help a father find his gambling addict son. To undermine the bureau politically, Hwang Gi-tae visits a juvenile inmate."
+      },
+      {
+        "n": 8,
+        "title": "Episode 8",
+        "air": "2026-06-05",
+        "runtime": null,
+        "overview": "After a pre-med student collapses in class, Hwa-jin investigates his obsessive mother, whose access to illicit pills hints at a larger conspiracy."
+      },
+      {
+        "n": 9,
+        "title": "Episode 9",
+        "air": "2026-06-05",
+        "runtime": null,
+        "overview": "To help a student escape his exploitative friends, Han-rim adopts a new persona to join his circle. Cho Gyu-cheol's return puts the bureau in danger."
+      },
+      {
+        "n": 10,
+        "title": "Episode 10",
+        "air": "2026-06-05",
+        "runtime": null,
+        "overview": "After public backlash hits the bureau, Hwa-jin and his team go rogue to expose a deadly conspiracy led by a violent student-run gang."
+      }
+    ]
+  },
+  "27": {
+    "id": 27,
+    "title": "Nemesis",
+    "tmdb": 285807,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2026",
+        "eps": 8
+      },
+      {
+        "n": 2,
+        "year": null,
+        "eps": 0
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "A Long Time Coming",
+        "air": "2026-05-14",
+        "runtime": 56,
+        "overview": "When a costumed crew pulls off a brazen Halloween heist, LAPD detective Isaiah Stiles begins to suspect it's anything but a one-off crime."
+      },
+      {
+        "n": 2,
+        "title": "Breaking Protocol",
+        "air": "2026-05-14",
+        "runtime": 57,
+        "overview": "Stiles assembles a task force to investigate the recent robberies. With the LAPD on alert, Coltrane works to tie up loose ends."
+      },
+      {
+        "n": 3,
+        "title": "Tête-À-Tête",
+        "air": "2026-05-14",
+        "runtime": null,
+        "overview": "Convinced he's identified the crew's ringleader, Stiles races to produce hard evidence. Charlie urges Ebony to cover her bases."
+      },
+      {
+        "n": 4,
+        "title": "It Was a Good Day",
+        "air": "2026-05-14",
+        "runtime": null,
+        "overview": "Coltrane's team takes on a high-stakes job for a volatile client. Stiles puts pressure on a key suspect. Candace leans on Ebony's friendship."
+      },
+      {
+        "n": 5,
+        "title": "Business. Never Personal.",
+        "air": "2026-05-14",
+        "runtime": 56,
+        "overview": "Emboldened by a break in the case, Stiles strikes at the heart of the Wilder home. Coltrane plots a devious revenge strategy."
+      },
+      {
+        "n": 6,
+        "title": "The Die Is Cast",
+        "air": "2026-05-14",
+        "runtime": 56,
+        "overview": "Stiles and Coltrane face off in an explosive confrontation. A painful revelation prompts Stiles to pursue a new target."
+      },
+      {
+        "n": 7,
+        "title": "Repercussions",
+        "air": "2026-05-14",
+        "runtime": 56,
+        "overview": "The Stiles family is rocked by a violent act that implicates Isaiah — and Noah. Sick of sitting on the sidelines, Ebony takes control of the narrative."
+      },
+      {
+        "n": 8,
+        "title": "Zugzwang",
+        "air": "2026-05-14",
+        "runtime": 58,
+        "overview": "With his options running out, Coltrane stages a bold extraction plan. Stiles makes a last-ditch effort to corner his adversary once and for all."
+      }
+    ]
+  },
+  "28": {
+    "id": 28,
+    "title": "The Night Agent (S3)",
+    "tmdb": 129552,
+    "seasonTracked": 3,
+    "seasonClaimed": 3,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2023",
+        "eps": 10
+      },
+      {
+        "n": 2,
+        "year": "2025",
+        "eps": 10
+      },
+      {
+        "n": 3,
+        "year": "2026",
+        "eps": 10
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Call Waiting",
+        "air": "2026-02-19",
+        "runtime": 57,
+        "overview": "A deadly attack ignites a crisis within the White House. In Istanbul, Peter pursues a fugitive who's stolen classified files."
+      },
+      {
+        "n": 2,
+        "title": "Package Deal",
+        "air": "2026-02-19",
+        "runtime": 49,
+        "overview": "Peter considers a deal with the devil. Isabel follows a suspicious document trail down the rabbit hole. Night Action gets a harsh lesson in compliance."
+      },
+      {
+        "n": 3,
+        "title": "Dark Matters",
+        "air": "2026-02-19",
+        "runtime": 52,
+        "overview": "Peter brings POTUS up to speed after a sting operation. A lethal cat-and-mouse game unfolds at the home of a reluctant source."
+      },
+      {
+        "n": 4,
+        "title": "Orion",
+        "air": "2026-02-19",
+        "runtime": 55,
+        "overview": "Peter's visit to an exclusive hunting lodge turns into a fight for survival. Chelsea's concerns grow when a White House statement doesn't add up."
+      },
+      {
+        "n": 5,
+        "title": "The Isolation Play",
+        "air": "2026-02-19",
+        "runtime": 52,
+        "overview": "Every second counts as Peter and Adam infiltrate a casino on a high-stakes mission. Jay finds clues to the next strike hidden in a crypto wallet."
+      },
+      {
+        "n": 6,
+        "title": "Murky Waters",
+        "air": "2026-02-19",
+        "runtime": 48,
+        "overview": "Chelsea's off-the-books probe worries her closest ally. Peter and Isabel's rescue plan spirals out of control when the Father joins the fray."
+      },
+      {
+        "n": 7,
+        "title": "Once Upon a Time...",
+        "air": "2026-02-19",
+        "runtime": 55,
+        "overview": "An American legal consultant in Mexico finds himself caught in an impossible bind. Years later, he's trapped once again — and Peter is his only hope."
+      },
+      {
+        "n": 8,
+        "title": "Truth Be Told",
+        "air": "2026-02-19",
+        "runtime": 55,
+        "overview": "An enigmatic opponent pushes Peter to his limits in a ruthless mind game. Jacob uses his vast database of secrets as a bargaining chip."
+      },
+      {
+        "n": 9,
+        "title": "Lockstep",
+        "air": "2026-02-19",
+        "runtime": 53,
+        "overview": "With his Cabinet urging swift retaliation, POTUS weighs his options. Isabel and Jay scramble to crack Jacob's code. Peter's day takes an explosive turn."
+      },
+      {
+        "n": 10,
+        "title": "Razzmatazz",
+        "air": "2026-02-19",
+        "runtime": 48,
+        "overview": "On their own, on the run and out of time, Peter and Isabel put their lives on the line to expose the conspiracy — before it silences them for good."
+      }
+    ]
+  },
+  "29": {
+    "id": 29,
+    "title": "A Good Girl's Guide to Murder",
+    "tmdb": 218342,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2024",
+        "eps": 6
+      },
+      {
+        "n": 2,
+        "year": "2026",
+        "eps": 6
+      },
+      {
+        "n": 3,
+        "year": null,
+        "eps": 0
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Episode 1",
+        "air": "2024-07-10",
+        "runtime": 43,
+        "overview": "Teenager Pip Fitz-Amobi investigates the disappearance of Andie Bell, who was supposedly murdered by her boyfriend Sal Singh five years ago. Pip is determined to prove otherwise."
+      },
+      {
+        "n": 2,
+        "title": "Episode 2",
+        "air": "2024-07-10",
+        "runtime": 44,
+        "overview": "Now a team, Pip and Ravi turn their attention to Andie's best friends and find out Andie had a secret life that Sal was unhappy about. Meanwhile, Pip receives an anonymous warning."
+      },
+      {
+        "n": 3,
+        "title": "Episode 3",
+        "air": "2024-07-17",
+        "runtime": 43,
+        "overview": "When Pip follows new leads on the case, she takes bigger risks and enters the world of sex, drugs and rock 'n' roll."
+      },
+      {
+        "n": 4,
+        "title": "Episode 4",
+        "air": "2024-07-17",
+        "runtime": 44,
+        "overview": "Pip and Ravi find out more about Andie's secret life, and when Pip is presented with a new piece of evidence, she reaches a crisis point and questions whether Sal is guilty."
+      },
+      {
+        "n": 5,
+        "title": "Episode 5",
+        "air": "2024-07-24",
+        "runtime": 50,
+        "overview": "Pip discovers more than she bargained for and faces dark consequences when she tries to confront the killer. Just when it seems all is lost, the terrible truth is revealed."
+      },
+      {
+        "n": 6,
+        "title": "Episode 6",
+        "air": "2024-07-24",
+        "runtime": 51,
+        "overview": "Pip must come to terms with the repercussions of solving the case. But something isn't quite right, and Pip puts herself in danger once more to find out the whole truth."
+      }
+    ]
+  },
+  "30": {
+    "id": 30,
+    "title": "Solar Opposites (S6)",
+    "tmdb": 97645,
+    "seasonTracked": 6,
+    "seasonClaimed": 6,
+    "note": null,
+    "seasons": [
+      {
+        "n": 0,
+        "year": "2020",
+        "eps": 6
+      },
+      {
+        "n": 1,
+        "year": "2020",
+        "eps": 8
+      },
+      {
+        "n": 2,
+        "year": "2021",
+        "eps": 8
+      },
+      {
+        "n": 3,
+        "year": "2022",
+        "eps": 11
+      },
+      {
+        "n": 4,
+        "year": "2023",
+        "eps": 11
+      },
+      {
+        "n": 5,
+        "year": "2024",
+        "eps": 11
+      },
+      {
+        "n": 6,
+        "year": "2025",
+        "eps": 10
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "The Unfortunate Destruction of the Diamond Making Machine",
+        "air": "2025-10-13",
+        "runtime": 24,
+        "overview": "Korvo and Terry's nasty former mission commander moves in down the street and causes all sorts of trouble."
+      },
+      {
+        "n": 2,
+        "title": "The Eternal Sleep Sack",
+        "air": "2025-10-13",
+        "runtime": 26,
+        "overview": "The Solar Opposites are broke so they have a sci-fi estate sale where they accidentally sell Korvo."
+      },
+      {
+        "n": 3,
+        "title": "The Sci-Fi Slingshot",
+        "air": "2025-10-13",
+        "runtime": 24,
+        "overview": "Terry and Korvo are stricken with deadly horniness when they visit their condo in the Wooden City."
+      },
+      {
+        "n": 4,
+        "title": "The Paternal Oil",
+        "air": "2025-10-13",
+        "runtime": 23,
+        "overview": "Jesse and Korvo compete to be crowned the \"\"dad\"\" of their alien family."
+      },
+      {
+        "n": 5,
+        "title": "The Family Memories VHS Mix Tape",
+        "air": "2025-10-13",
+        "runtime": 23,
+        "overview": "While the family fights, the Pupa and his robot pal hide in an attic and watch home movies."
+      },
+      {
+        "n": 6,
+        "title": "The Maturity Point Redistribution Device",
+        "air": "2025-10-13",
+        "runtime": 25,
+        "overview": "Terry needs to up his maturity to save his family from an unlikely set of circumstances."
+      },
+      {
+        "n": 7,
+        "title": "The Realm of Satin and Swords",
+        "air": "2025-10-13",
+        "runtime": 26,
+        "overview": "Terry gets into Romantasy books while the replicants try to help Principal Cooke, who has been turned pupa-shaped."
+      },
+      {
+        "n": 8,
+        "title": "The Last Flight of Ariana 1",
+        "air": "2025-10-13",
+        "runtime": 27,
+        "overview": "The Pupa uses up the battery on Yumyulack's VR headset."
+      },
+      {
+        "n": 9,
+        "title": "The Goocleus and the Protoshlorpian",
+        "air": "2025-10-13",
+        "runtime": 24,
+        "overview": "Terry's new job hits a $%&! snag."
+      },
+      {
+        "n": 10,
+        "title": "What Is the Mission Anyway?",
+        "air": "2025-10-13",
+        "runtime": 27,
+        "overview": "A mysterious space signal is causing the Pupa to transform into murderous creatures."
+      }
+    ]
+  },
+  "31": {
+    "id": 31,
+    "title": "The Pitt (S2)",
+    "tmdb": 250307,
+    "seasonTracked": 2,
+    "seasonClaimed": 2,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2025",
+        "eps": 15
+      },
+      {
+        "n": 2,
+        "year": "2026",
+        "eps": 15
+      },
+      {
+        "n": 3,
+        "year": null,
+        "eps": 0
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "7:00 A.M.",
+        "air": "2026-01-08",
+        "runtime": 53,
+        "overview": "On July 4th, Robby meets his replacement for his upcoming sabbatical, and a familiar face returns to the Pitt."
+      },
+      {
+        "n": 2,
+        "title": "8:00 A.M.",
+        "air": "2026-01-15",
+        "runtime": 46,
+        "overview": "While nervously awaiting her deposition, King takes a tumble. Al-Hashimi tries to introduce new technology into the ER."
+      },
+      {
+        "n": 3,
+        "title": "9:00 A.M.",
+        "air": "2026-01-22",
+        "runtime": 45,
+        "overview": "After a motorcycle collision, a husband and wife find themselves in the ER. Later, Robby bonds with a Tree of Life survivor."
+      },
+      {
+        "n": 4,
+        "title": "10:00 A.M.",
+        "air": "2026-01-29",
+        "runtime": 49,
+        "overview": "With a nearby hospital shuttered on the busiest day of the year, Robby and team must field extra patients, including the victim of a parkour mishap."
+      },
+      {
+        "n": 5,
+        "title": "11:00 A.M.",
+        "air": "2026-02-05",
+        "runtime": 44,
+        "overview": "As patients continue to pour in, including a local prison inmate, Robby and Langdon must work together to save a beloved patient."
+      },
+      {
+        "n": 6,
+        "title": "12:00 P.M.",
+        "air": "2026-02-12",
+        "runtime": 50,
+        "overview": "As the team deals with a loss, Al-Hashimi and Robby continue to clash over the best course of treatment for a patient showing signs of malnutrition."
+      },
+      {
+        "n": 7,
+        "title": "1:00 P.M.",
+        "air": "2026-02-19",
+        "runtime": 53,
+        "overview": "While Dana tends to a sexual assault victim, Abbot helps an officer injured in the field, and Mohan attempts to keep her uninsured patient in the ER."
+      },
+      {
+        "n": 8,
+        "title": "2:00 P.M.",
+        "air": "2026-02-26",
+        "runtime": 45,
+        "overview": "In the wake of an IT shutdown, Princess must manage a completely analog ER. Al-Hashimi, Mohan, and King assess a woman with sudden blindness."
+      },
+      {
+        "n": 9,
+        "title": "3:00 P.M.",
+        "air": "2026-03-05",
+        "runtime": 49,
+        "overview": "After one of Javadi's patients slips through the cracks, Dana calls in an old friend with experience running a low-tech ER."
+      },
+      {
+        "n": 10,
+        "title": "4:00 P.M.",
+        "air": "2026-03-12",
+        "runtime": 43,
+        "overview": "After an incident at a nearby water park, several critical patients are rushed to the Pitt. Later, Al-Hashimi confronts Robby."
+      },
+      {
+        "n": 11,
+        "title": "5:00 P.M.",
+        "air": "2026-03-19",
+        "runtime": 49,
+        "overview": "While King struggles to cope with her sister's newfound independence, patients and staff are put on edge by an unexpected presence in the ER."
+      },
+      {
+        "n": 12,
+        "title": "6:00 P.M.",
+        "air": "2026-03-26",
+        "runtime": 52,
+        "overview": "After she steps up to defend her trainee, Dana clashes with Robby about her methods – and his upcoming sabbatical."
+      },
+      {
+        "n": 13,
+        "title": "7:00 P.M.",
+        "air": "2026-04-02",
+        "runtime": 49,
+        "overview": "As the night shift begins, Mohan's AMA patient is brought back to the ER, Langdon doubts his place in the Pitt, and Robby gets Duke's results."
+      },
+      {
+        "n": 14,
+        "title": "8:00 P.M.",
+        "air": "2026-04-09",
+        "runtime": 42,
+        "overview": "After his bike takes a hit in the ambulance bay, Robby levels with Duke. A spinal cord injury forces Langdon to attempt a risky procedure."
+      },
+      {
+        "n": 15,
+        "title": "9:00 P.M.",
+        "air": "2026-04-16",
+        "runtime": 50,
+        "overview": "Al-Hashimi reveals details from her medical history, forcing Robby to face an ethical dilemma as he prepares to leave for his sabbatical."
+      }
+    ]
+  },
+  "32": {
+    "id": 32,
+    "title": "House of Stassi",
+    "tmdb": 321954,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2026",
+        "eps": 3
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Ghosts of Past, Present & Future",
+        "air": "2026-07-29",
+        "runtime": 42,
+        "overview": "Stassi steps back into the spotlight with her new reality show, and seeks to reconcile with former BFF Katie. Beau is hesitant about Katie's return. Georgi wants a fresh start, but first must face Stassi after their conflict in London."
+      },
+      {
+        "n": 2,
+        "title": "Til Drag Do Us Part",
+        "air": "2026-07-29",
+        "runtime": 42,
+        "overview": "After reconciling at the Halloween party, Georgi moves into Stassi's home. Meanwhile, Stassi lands a life-changing deal that sends Beau spiraling and forces long-simmering tensions in their marriage to the surface."
+      },
+      {
+        "n": 3,
+        "title": "Episode 3",
+        "air": "2026-08-05",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      }
+    ]
+  },
+  "33": {
+    "id": 33,
+    "title": "The Shards",
+    "tmdb": 298168,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2026",
+        "eps": 10
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Pilot",
+        "air": "2026-08-05",
+        "runtime": null,
+        "overview": "It's the summer of 1981 in Los Angeles; a series of disturbing crimes coincides with the arrival of a strange new student in Bret's orbit."
+      },
+      {
+        "n": 2,
+        "title": "Don't You Want Me",
+        "air": "2026-08-05",
+        "runtime": null,
+        "overview": "Bret digs deeper into Robert's murky past and uncovers shocking evidence."
+      },
+      {
+        "n": 3,
+        "title": "Help Me! Rhonda",
+        "air": "2026-08-12",
+        "runtime": null,
+        "overview": "A beloved student's sudden disappearance causes chaos for the senior class."
+      },
+      {
+        "n": 4,
+        "title": "Robert's Party",
+        "air": "2026-08-12",
+        "runtime": null,
+        "overview": "Susan's welcome party for Robert is overshadowed by a terrifying and violent incident."
+      },
+      {
+        "n": 5,
+        "title": "Murder on the Dancefloor",
+        "air": "2026-08-19",
+        "runtime": null,
+        "overview": "A televised dance competition culminates with a horrifying showstopper."
+      },
+      {
+        "n": 6,
+        "title": "Homecoming (1)",
+        "air": "2026-08-26",
+        "runtime": null,
+        "overview": "Troubled Debbie is galvanized by a new extracurricular."
+      },
+      {
+        "n": 7,
+        "title": "Homecoming (2)",
+        "air": "2026-08-26",
+        "runtime": null,
+        "overview": "A surprising Homecoming King and Queen are crowned as the Trawler's killing spree continues."
+      },
+      {
+        "n": 8,
+        "title": "Episode 8",
+        "air": null,
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 9,
+        "title": "Episode 9",
+        "air": null,
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 10,
+        "title": "Episode 10",
+        "air": null,
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      }
+    ]
+  },
+  "34": {
+    "id": 34,
+    "title": "Adults (S2)",
+    "tmdb": 260458,
+    "seasonTracked": 2,
+    "seasonClaimed": 2,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2025",
+        "eps": 9
+      },
+      {
+        "n": 2,
+        "year": "2026",
+        "eps": 8
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "The Scrub",
+        "air": "2026-08-27",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 2,
+        "title": "Talia",
+        "air": "2026-08-27",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 3,
+        "title": "Fake ID",
+        "air": "2026-09-03",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 4,
+        "title": "Episode 4",
+        "air": "2026-09-03",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 5,
+        "title": "Episode 5",
+        "air": "2026-09-10",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 6,
+        "title": "Episode 6",
+        "air": "2026-09-10",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 7,
+        "title": "Episode 7",
+        "air": "2026-09-17",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 8,
+        "title": "Episode 8",
+        "air": "2026-09-17",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      }
+    ]
+  },
+  "35": {
+    "id": 35,
+    "title": "Futurama (S14)",
+    "tmdb": 615,
+    "seasonTracked": 11,
+    "seasonClaimed": 14,
+    "note": "claimed Season 14 has no episodes on TMDB yet; tracking Season 11 instead",
+    "seasons": [
+      {
+        "n": 0,
+        "year": "2007",
+        "eps": 6
+      },
+      {
+        "n": 1,
+        "year": "1999",
+        "eps": 9
+      },
+      {
+        "n": 2,
+        "year": "1999",
+        "eps": 20
+      },
+      {
+        "n": 3,
+        "year": "2000",
+        "eps": 15
+      },
+      {
+        "n": 4,
+        "year": "2001",
+        "eps": 12
+      },
+      {
+        "n": 5,
+        "year": "2002",
+        "eps": 16
+      },
+      {
+        "n": 6,
+        "year": "2010",
+        "eps": 26
+      },
+      {
+        "n": 7,
+        "year": "2012",
+        "eps": 26
+      },
+      {
+        "n": 8,
+        "year": "2023",
+        "eps": 10
+      },
+      {
+        "n": 9,
+        "year": "2024",
+        "eps": 10
+      },
+      {
+        "n": 10,
+        "year": "2025",
+        "eps": 10
+      },
+      {
+        "n": 11,
+        "year": "2026",
+        "eps": 10
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Beef",
+        "air": "2026-08-03",
+        "runtime": 24,
+        "overview": "The Professor attempts to create lab-grown meat so Fry can compete in the world hotdog-eating championship."
+      },
+      {
+        "n": 2,
+        "title": "Catfish Hunter",
+        "air": "2026-08-03",
+        "runtime": 24,
+        "overview": "Bender travels to Mississippi in search of a sexy scammer who ripped off his grandmother."
+      },
+      {
+        "n": 3,
+        "title": "Our Flag Means Medical Coverage",
+        "air": "2026-08-10",
+        "runtime": 24,
+        "overview": "Vicious Space Pirates steal a priceless cargo entrusted to Fry and Bender."
+      },
+      {
+        "n": 4,
+        "title": "Lords of the Ring",
+        "air": "2026-08-17",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 5,
+        "title": "The Charm Offensive",
+        "air": "2026-08-24",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 6,
+        "title": "Late Bloomers",
+        "air": "2026-08-31",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 7,
+        "title": "Episode 7",
+        "air": "2026-09-07",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 8,
+        "title": "Episode 8",
+        "air": "2026-09-14",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 9,
+        "title": "Episode 9",
+        "air": "2026-09-21",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 10,
+        "title": "Episode 10",
+        "air": "2026-09-28",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      }
+    ]
+  },
+  "36": {
+    "id": 36,
+    "title": "Tell Me Lies (S3)",
+    "tmdb": 130464,
+    "seasonTracked": 3,
+    "seasonClaimed": 3,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2022",
+        "eps": 10
+      },
+      {
+        "n": 2,
+        "year": "2024",
+        "eps": 8
+      },
+      {
+        "n": 3,
+        "year": "2026",
+        "eps": 8
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "You F*cked It, Friend",
+        "air": "2026-01-13",
+        "runtime": 59,
+        "overview": "Back at Baird College for spring semester, Lucy and Stephen promise things will be different this time."
+      },
+      {
+        "n": 2,
+        "title": "We Can't Help It If We Are a Problem",
+        "air": "2026-01-13",
+        "runtime": 48,
+        "overview": "Bree encounters an unexpected reunion. Stephen gives Lucy an ultimatum."
+      },
+      {
+        "n": 3,
+        "title": "Repent",
+        "air": "2026-01-13",
+        "runtime": 47,
+        "overview": "The Puswas attend an Apres-Ski frat party. Lucy tries to switch her focus away from Stephen."
+      },
+      {
+        "n": 4,
+        "title": "Fix Me Up, Girl",
+        "air": "2026-01-20",
+        "runtime": 53,
+        "overview": "A surprising setback sends Diana back into Stephen's orbit. Lucy seeks advice from an unlikely person."
+      },
+      {
+        "n": 5,
+        "title": "I'd Like to Hold Her Head Under Water",
+        "air": "2026-01-27",
+        "runtime": 55,
+        "overview": "Gossip spirals around Lucy at a pool party. Bree seeks answers from her childhood."
+      },
+      {
+        "n": 6,
+        "title": "I Don't Cry When I'm Sad Anymore",
+        "air": "2026-02-03",
+        "runtime": 54,
+        "overview": "Everyone goes goth for Valentine’s Day. Stephen introduces a new friend."
+      },
+      {
+        "n": 7,
+        "title": "I Will Promise Not to Sting",
+        "air": "2026-02-10",
+        "runtime": null,
+        "overview": "Relationships are tested at Bree's photography exhibition. Lucy devises a plan to finally put rumors to rest."
+      },
+      {
+        "n": 8,
+        "title": "Are You Happy Now, That I'm on My Knees?",
+        "air": "2026-02-17",
+        "runtime": null,
+        "overview": "A scandal erupts at Baird College. When shocking truths come to light, consequences follow for everyone."
+      }
+    ]
+  },
+  "37": {
+    "id": 37,
+    "title": "Only Murders in the Building (S6)",
+    "tmdb": 107113,
+    "seasonTracked": 5,
+    "seasonClaimed": 6,
+    "note": "claimed Season 6 has no episodes on TMDB yet; tracking Season 5 instead",
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2021",
+        "eps": 10
+      },
+      {
+        "n": 2,
+        "year": "2022",
+        "eps": 10
+      },
+      {
+        "n": 3,
+        "year": "2023",
+        "eps": 10
+      },
+      {
+        "n": 4,
+        "year": "2024",
+        "eps": 10
+      },
+      {
+        "n": 5,
+        "year": "2025",
+        "eps": 10
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Nail in the Coffin",
+        "air": "2025-09-09",
+        "runtime": 39,
+        "overview": "While investigating Lester’s mysterious \"accidental\" death, the clues lure Charles, Oliver, and Mabel out of Manhattan — and straight into some dangerous new \"old\" territory."
+      },
+      {
+        "n": 2,
+        "title": "After You",
+        "air": "2025-09-09",
+        "runtime": 33,
+        "overview": "A look back at Lester's early days at the Arconia reveals how a young dreamer became a steadfast doorman — sacrificing his future to protect the residents from the building’s secrets."
+      },
+      {
+        "n": 3,
+        "title": "Rigor",
+        "air": "2025-09-09",
+        "runtime": 37,
+        "overview": "The trio stumbles upon a crucial piece of evidence... and promptly compromises it. With time running out, they scramble to solve the mystery before the police close in on them."
+      },
+      {
+        "n": 4,
+        "title": "Dirty Birds",
+        "air": "2025-09-16",
+        "runtime": 37,
+        "overview": "Snooping goes sideways when three billionaire suspects catch the trio and invite themselves over for an evening at Oliver's."
+      },
+      {
+        "n": 5,
+        "title": "Tongue Tied",
+        "air": "2025-09-23",
+        "runtime": 37,
+        "overview": "Thwarted in their investigative podcast plans, Mabel and Oliver look for help from the Arconia support staff — as Charles dines with another suspect and gets caught up in \"catching\" more than he bargained for."
+      },
+      {
+        "n": 6,
+        "title": "Flatbush",
+        "air": "2025-09-30",
+        "runtime": 38,
+        "overview": "The investigation takes Oliver and Loretta back to the streets of his childhood, where buried memories surface and secrets about Lester and Nicky's widows emerge. Mabel and Charles follow leads after a break-in."
+      },
+      {
+        "n": 7,
+        "title": "Silver Alert",
+        "air": "2025-10-07",
+        "runtime": 38,
+        "overview": "The mayor warns the trio about the billionaires, sending them to investigate further at a villainous lair upstate — as Oliver boots it in an attempted escape."
+      },
+      {
+        "n": 8,
+        "title": "Cuckoo Chicks",
+        "air": "2025-10-14",
+        "runtime": 41,
+        "overview": "Mabel gathers a ragtag group to crash an exclusive ladies night. While trying to save the Arconia from being sold, Charles and Oliver accidentally end up in couples' therapy."
+      },
+      {
+        "n": 9,
+        "title": "LESTR",
+        "air": "2025-10-21",
+        "runtime": 35,
+        "overview": "Told through the lens of one annoying robot who may hold the keys to more secrets than anyone realized — the Arconia throws one last party as the residents discover that a killer may still be in their building."
+      },
+      {
+        "n": 10,
+        "title": "The House Always...",
+        "air": "2025-10-28",
+        "runtime": 41,
+        "overview": "With the clock ticking, the trio doubles down to bring \"new\" and \"old\" forces together to bring down a killer — ending in one explosive showdown and the reveals they've been chasing all season."
+      }
+    ]
+  },
+  "38": {
+    "id": 38,
+    "title": "The Bear (Final)",
+    "tmdb": 136315,
+    "seasonTracked": 5,
+    "seasonClaimed": 5,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2022",
+        "eps": 8
+      },
+      {
+        "n": 2,
+        "year": "2023",
+        "eps": 10
+      },
+      {
+        "n": 3,
+        "year": "2024",
+        "eps": 10
+      },
+      {
+        "n": 4,
+        "year": "2025",
+        "eps": 10
+      },
+      {
+        "n": 5,
+        "year": "2026",
+        "eps": 8
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Soda",
+        "air": "2026-06-25",
+        "runtime": 22,
+        "overview": "A storm hits."
+      },
+      {
+        "n": 2,
+        "title": "Lamb",
+        "air": "2026-06-25",
+        "runtime": 26,
+        "overview": "The staff prepares for the day."
+      },
+      {
+        "n": 3,
+        "title": "Mint",
+        "air": "2026-06-25",
+        "runtime": 24,
+        "overview": "A new direction."
+      },
+      {
+        "n": 4,
+        "title": "Ribs",
+        "air": "2026-06-25",
+        "runtime": 39,
+        "overview": "Family meal."
+      },
+      {
+        "n": 5,
+        "title": "Raspberries",
+        "air": "2026-06-25",
+        "runtime": 29,
+        "overview": "A traffic jam."
+      },
+      {
+        "n": 6,
+        "title": "Focaccia",
+        "air": "2026-06-25",
+        "runtime": 29,
+        "overview": "A seating chart."
+      },
+      {
+        "n": 7,
+        "title": "Caramel",
+        "air": "2026-06-25",
+        "runtime": 53,
+        "overview": "A hard service."
+      },
+      {
+        "n": 8,
+        "title": "The Original Beef of Chicagoland",
+        "air": "2026-06-25",
+        "runtime": null,
+        "overview": "After service."
+      }
+    ]
+  },
+  "39": {
+    "id": 39,
+    "title": "High Potential (S3)",
+    "tmdb": 226637,
+    "seasonTracked": 3,
+    "seasonClaimed": 3,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2024",
+        "eps": 13
+      },
+      {
+        "n": 2,
+        "year": "2025",
+        "eps": 18
+      },
+      {
+        "n": 3,
+        "year": "2027",
+        "eps": 1
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Episode 1",
+        "air": "2027-01-06",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      }
+    ]
+  },
+  "40": {
+    "id": 40,
+    "title": "Abbott Elementary (S5)",
+    "tmdb": 125935,
+    "seasonTracked": 5,
+    "seasonClaimed": 5,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2021",
+        "eps": 13
+      },
+      {
+        "n": 2,
+        "year": "2022",
+        "eps": 22
+      },
+      {
+        "n": 3,
+        "year": "2024",
+        "eps": 13
+      },
+      {
+        "n": 4,
+        "year": "2024",
+        "eps": 22
+      },
+      {
+        "n": 5,
+        "year": "2025",
+        "eps": 22
+      },
+      {
+        "n": 6,
+        "year": "2026",
+        "eps": 1
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Team Building",
+        "air": "2025-10-01",
+        "runtime": 22,
+        "overview": "The teachers prepare for the upcoming school year with new faces and big changes on the horizon."
+      },
+      {
+        "n": 2,
+        "title": "Cheating",
+        "air": "2025-10-08",
+        "runtime": 22,
+        "overview": "Melissa tries to outsmart her students; Tariq causes chaos in Janine's class; a new guidance counselor joins the school."
+      },
+      {
+        "n": 3,
+        "title": "Ballgame",
+        "air": "2025-10-15",
+        "runtime": 22,
+        "overview": "The Abbott crew heads to the ballpark for Teachers' Appreciation Night at the Philadelphia Phillies game."
+      },
+      {
+        "n": 4,
+        "title": "Game Night",
+        "air": "2025-10-22",
+        "runtime": 22,
+        "overview": "Gregory steps in to host game night at his apartment. Mr. Johnson, Ava, Barbara and Melissa head to the DMV to renew their licenses."
+      },
+      {
+        "n": 5,
+        "title": "Camping",
+        "air": "2025-10-29",
+        "runtime": 22,
+        "overview": "Barbara organizes a Halloween camping trip for older kids."
+      },
+      {
+        "n": 6,
+        "title": "No Phones",
+        "air": "2025-11-05",
+        "runtime": 22,
+        "overview": "Abbott Elementary participates in the district’s \"No Phones Day\" initiative."
+      },
+      {
+        "n": 7,
+        "title": "Goofgirl",
+        "air": "2025-12-03",
+        "runtime": 22,
+        "overview": "A new member joins Gregory's Garden Goofballs, and Janine pitches a new club idea to Ava."
+      },
+      {
+        "n": 8,
+        "title": "Birthday",
+        "air": "2025-12-10",
+        "runtime": 22,
+        "overview": "Jacob takes the lead on organizing Abbott's annual winter show, and Janine celebrates her 30th birthday."
+      },
+      {
+        "n": 9,
+        "title": "Mall (1)",
+        "air": "2026-01-07",
+        "runtime": 22,
+        "overview": "Abbott Elementary returns from winter break at their new temporary school: an abandoned mall. The teachers deal with unique challenges that come with teaching in the new location."
+      },
+      {
+        "n": 10,
+        "title": "Mall (2): Questions & Concerns",
+        "air": "2026-01-14",
+        "runtime": 22,
+        "overview": "Growing pains hit Abbott Elementary as the PTA pressures Janine and Gregory for answers. Meanwhile, Jacob and Barbara become suspicious of Mr. Morton."
+      },
+      {
+        "n": 11,
+        "title": "Mall (3): Heroes",
+        "air": "2026-01-21",
+        "runtime": 22,
+        "overview": "After the faculty finds surprising success operating the school in the mall, they quickly realize they are being taken advantage of. Meanwhile, a new custodian arrives to join Mr. Johnson."
+      },
+      {
+        "n": 12,
+        "title": "Picture Day",
+        "air": "2026-01-28",
+        "runtime": 22,
+        "overview": "When picture day catches the teachers at Abbott by surprise, chaos ensues."
+      },
+      {
+        "n": 13,
+        "title": "Candygrams",
+        "air": "2026-02-04",
+        "runtime": 22,
+        "overview": "It's Valentine's Day at Abbott, and the teachers find themselves meddling in students' love lives while navigating their own."
+      },
+      {
+        "n": 14,
+        "title": "Aide",
+        "air": "2026-03-04",
+        "runtime": 22,
+        "overview": "Janine asks Ava for a classroom aide, and the school seeks out a new gym teacher. Meanwhile, Dominic confides in Jacob."
+      },
+      {
+        "n": 15,
+        "title": "Safety Day",
+        "air": "2026-03-11",
+        "runtime": 22,
+        "overview": "An antidrug campaign visits the school, and Jacob is outraged by an unfair district election."
+      },
+      {
+        "n": 16,
+        "title": "Campaign",
+        "air": "2026-03-18",
+        "runtime": 22,
+        "overview": "Jacob and Ava team up for an initiative. Meanwhile, Melissa and Janine help Mr. Johnson get ready for the Janitor's Ball."
+      },
+      {
+        "n": 17,
+        "title": "No Homework",
+        "air": "2026-03-25",
+        "runtime": 22,
+        "overview": "Ava implements a no-homework policy at Abbott, sparking debate amongst the teachers."
+      },
+      {
+        "n": 18,
+        "title": "April Fools",
+        "air": "2026-04-01",
+        "runtime": 22,
+        "overview": "It’s April Fools' Day, and while the Abbott teachers suffer pranks, Gregory makes a plan to make it through the day."
+      },
+      {
+        "n": 19,
+        "title": "Trip",
+        "air": "2026-04-08",
+        "runtime": 22,
+        "overview": "Janine and Gregory plan a vacation. Meanwhile, one of Melissa's most successful former students comes back for a visit."
+      },
+      {
+        "n": 20,
+        "title": "Night Out",
+        "air": "2026-04-15",
+        "runtime": 22,
+        "overview": "Janine and Gregory have a night out. Meanwhile, Melissa, Barbara and Mr. Johnson have a movie night."
+      },
+      {
+        "n": 21,
+        "title": "Ava & Fest",
+        "air": "2026-04-22",
+        "runtime": 22,
+        "overview": "It's Ava Fest, and Ava's determined to make it her biggest yet."
+      },
+      {
+        "n": 22,
+        "title": "Miami",
+        "air": "2026-04-22",
+        "runtime": 22,
+        "overview": "Rumors begin to swirl when the Abbott crew is in Miami for PECSA weekend."
+      }
+    ]
+  },
+  "41": {
+    "id": 41,
+    "title": "Reacher (S4)",
+    "tmdb": 108978,
+    "seasonTracked": 4,
+    "seasonClaimed": 4,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2022",
+        "eps": 8
+      },
+      {
+        "n": 2,
+        "year": "2023",
+        "eps": 8
+      },
+      {
+        "n": 3,
+        "year": "2025",
+        "eps": 8
+      },
+      {
+        "n": 4,
+        "year": "2026",
+        "eps": 8
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Episode 1",
+        "air": "2026-08-12",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 2,
+        "title": "Episode 2",
+        "air": "2026-08-12",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 3,
+        "title": "Episode 3",
+        "air": "2026-08-12",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 4,
+        "title": "Episode 4",
+        "air": "2026-08-19",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 5,
+        "title": "Episode 5",
+        "air": "2026-08-26",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 6,
+        "title": "Episode 6",
+        "air": "2026-09-02",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 7,
+        "title": "Episode 7",
+        "air": "2026-09-09",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 8,
+        "title": "Episode 8",
+        "air": "2026-09-16",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      }
+    ]
+  },
+  "42": {
+    "id": 42,
+    "title": "The Boys (S5)",
+    "tmdb": 76479,
+    "seasonTracked": 5,
+    "seasonClaimed": 5,
+    "note": null,
+    "seasons": [
+      {
+        "n": 0,
+        "year": "2019",
+        "eps": 76
+      },
+      {
+        "n": 1,
+        "year": "2019",
+        "eps": 8
+      },
+      {
+        "n": 2,
+        "year": "2020",
+        "eps": 8
+      },
+      {
+        "n": 3,
+        "year": "2022",
+        "eps": 8
+      },
+      {
+        "n": 4,
+        "year": "2024",
+        "eps": 8
+      },
+      {
+        "n": 5,
+        "year": "2026",
+        "eps": 8
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Fifteen Inches of Sheer Dynamite",
+        "air": "2026-04-08",
+        "runtime": null,
+        "overview": "ATTENTION FREEDOM CAMPERS: ESCAPE ATTEMPTS WILL BE MET WITH DEADLY FORCE. Have a super day!"
+      },
+      {
+        "n": 2,
+        "title": "Teenage Kix",
+        "air": "2026-04-08",
+        "runtime": null,
+        "overview": "Tonight at 9/8C a @VoughtNews special report: Is your loved one a secret Starlighter terrorist?"
+      },
+      {
+        "n": 3,
+        "title": "Every One of You Sons of Bitches",
+        "air": "2026-04-15",
+        "runtime": null,
+        "overview": "Storm her senses with V-Bro Mango Thunder Body Spray by Vought! She'll never know what hit her!"
+      },
+      {
+        "n": 4,
+        "title": "King of Hell",
+        "air": "2026-04-22",
+        "runtime": null,
+        "overview": "IN THIS HOUSE, WE BELIEVE IN HOMELANDER!"
+      },
+      {
+        "n": 5,
+        "title": "One-Shots",
+        "air": "2026-04-29",
+        "runtime": null,
+        "overview": "Tonight at 9/8C a @VoughtNews special report: Treason in Tinseltown! Find out which of your favorite Hollywood stars are rumored to be Starlighters!"
+      },
+      {
+        "n": 6,
+        "title": "Though the Heavens Fall",
+        "air": "2026-05-06",
+        "runtime": null,
+        "overview": "Available now, EXCLUSIVELY at @VMCtheaters, get the new #DeepPopcornBucket for only $32.99!"
+      },
+      {
+        "n": 7,
+        "title": "The Frenchman, the Female, and the Man Called Mother's Milk",
+        "air": "2026-05-13",
+        "runtime": null,
+        "overview": "WARNING: EXERCISE CAUTION WHEN ENTERING SOUNDSTAGE. PERFORMERS MAY BE USING SUPERPOWERS."
+      },
+      {
+        "n": 8,
+        "title": "Blood and Bone",
+        "air": "2026-05-20",
+        "runtime": null,
+        "overview": "Easter Sunday. 2PM. Live on @VoughtNews. Bear witness as Homelander reboots the universe."
+      }
+    ]
+  },
+  "43": {
+    "id": 43,
+    "title": "Fallout (S2)",
+    "tmdb": 106379,
+    "seasonTracked": 2,
+    "seasonClaimed": 2,
+    "note": null,
+    "seasons": [
+      {
+        "n": 0,
+        "year": "2024",
+        "eps": 24
+      },
+      {
+        "n": 1,
+        "year": "2024",
+        "eps": 8
+      },
+      {
+        "n": 2,
+        "year": "2025",
+        "eps": 8
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "The Innovator",
+        "air": "2025-12-16",
+        "runtime": null,
+        "overview": "Every dollar spent is a vote cast."
+      },
+      {
+        "n": 2,
+        "title": "The Golden Rule",
+        "air": "2025-12-24",
+        "runtime": 59,
+        "overview": "You can't put a price on family…"
+      },
+      {
+        "n": 3,
+        "title": "The Profligate",
+        "air": "2025-12-31",
+        "runtime": 55,
+        "overview": "Most kids are dead by this age."
+      },
+      {
+        "n": 4,
+        "title": "The Demon in the Snow",
+        "air": "2026-01-07",
+        "runtime": 49,
+        "overview": "Rock to spear and so on..."
+      },
+      {
+        "n": 5,
+        "title": "The Wrangler",
+        "air": "2026-01-14",
+        "runtime": 57,
+        "overview": "Big Whoop."
+      },
+      {
+        "n": 6,
+        "title": "The Other Player",
+        "air": "2026-01-21",
+        "runtime": 52,
+        "overview": "I remember good people."
+      },
+      {
+        "n": 7,
+        "title": "The Handoff",
+        "air": "2026-01-27",
+        "runtime": 51,
+        "overview": "You always end up back where you started."
+      },
+      {
+        "n": 8,
+        "title": "The Strip",
+        "air": "2026-02-03",
+        "runtime": 57,
+        "overview": "Winning might be overrated..."
+      }
+    ]
+  },
+  "44": {
+    "id": 44,
+    "title": "Mr. & Mrs. Smith (S2)",
+    "tmdb": 118642,
+    "seasonTracked": 1,
+    "seasonClaimed": 2,
+    "note": "claimed Season 2 has no episodes on TMDB yet; tracking Season 1 instead",
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2024",
+        "eps": 8
+      },
+      {
+        "n": 2,
+        "year": null,
+        "eps": 0
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "First Date",
+        "air": "2024-02-01",
+        "runtime": 58,
+        "overview": "Meet the Smiths, John and Jane! Strangers who have given up their identities to be paired off by a secretive organization, both in espionage and in marriage! Two peas stuck in one pod. Come along as they run, jump, and adventure, making friends and making memories! But watch out, there's something amiss for this very first mission. It's John and Jane's: FIRST DATE! Good luck, John and Jane!"
+      },
+      {
+        "n": 2,
+        "title": "Second Date",
+        "air": "2024-02-01",
+        "runtime": 45,
+        "overview": "John and Jane are all dressed up with somewhere to go: a sinister black tie event! But first, the Smiths need ground rules at home: NO S-E-X! But when their wily target Eric Shane turns things topsy turvy, will they be able to set things right? It's John and Jane's: SECOND DATE! Bark bark!"
+      },
+      {
+        "n": 3,
+        "title": "First Vacation",
+        "air": "2024-02-01",
+        "runtime": 46,
+        "overview": "In their New York townhouse, in the bedroom, on the snowy slopes: John and Jane always have fun. And today, they're off to the Italian Dolomites! Will John discover a new hobby? Will Jane make a new friend? Are the two of them starting to really care about each other? John and Jane, it's time for your FIRST VACATION! Remember, another failure will make the boss very unhappy!"
+      },
+      {
+        "n": 4,
+        "title": "Double Date",
+        "air": "2024-02-01",
+        "runtime": 45,
+        "overview": "John and Jane aren't the only Smiths having fun. This time, meet Other John and Other Jane, another pair of Smiths, only they're SUPER high risk. But will the whole gang together be too much of a good thing? Double the laughs and double the hijinx! It's John and Jane's: DOUBLE DATE!"
+      },
+      {
+        "n": 5,
+        "title": "Do You Want Kids?",
+        "air": "2024-02-01",
+        "runtime": 48,
+        "overview": "It’s summertime, and John and Jane can’t wait to spend more time together! Join them in glamorous Lake Como as they drive cars, dodge bad guys, and chase after slippery Toby, whose naughty criminal ways have put them all in danger. But as they're taking care of this baby man, the two of them can't help but wonder, John and Jane, DO YOU WANT KIDS? Mamma mia, Toby!"
+      },
+      {
+        "n": 6,
+        "title": "Couples Therapy (Naked & Afraid)",
+        "air": "2024-02-01",
+        "runtime": 44,
+        "overview": "Oh, John. Oh, Jane. Our pair have been oh so bad at sharing and caring. Time to call in help -- John and Jane, get ready for: COUPLES THERAPY, what a gas!"
+      },
+      {
+        "n": 7,
+        "title": "Infidelity",
+        "air": "2024-02-01",
+        "runtime": 42,
+        "overview": "Hihi told John and Jane to take some space! John has been spending lots of time with his new friend, Bev. But what about Jane? Will John forget about all the fun they had together? Poor Jane! Bad, bad, John! How will John and Jane bounce back from INFIDELITY!"
+      },
+      {
+        "n": 8,
+        "title": "A Breakup",
+        "air": "2024-02-01",
+        "runtime": null,
+        "overview": "John and Jane are taking a time-out. Will they be able to say they’re sorry or will this be the end of their adventures? Grab some tissues John and Jane, it’s A BREAKUP! Only this time, it’s life and death. Don’t be so dramatic!"
+      }
+    ]
+  },
+  "45": {
+    "id": 45,
+    "title": "The Lord of the Rings: The Rings of Power (S3)",
+    "tmdb": 84773,
+    "seasonTracked": 3,
+    "seasonClaimed": 3,
+    "note": null,
+    "seasons": [
+      {
+        "n": 0,
+        "year": "2022",
+        "eps": 36
+      },
+      {
+        "n": 1,
+        "year": "2022",
+        "eps": 8
+      },
+      {
+        "n": 2,
+        "year": "2024",
+        "eps": 8
+      },
+      {
+        "n": 3,
+        "year": "2026",
+        "eps": 8
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Episode 1",
+        "air": "2026-11-11",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 2,
+        "title": "Episode 2",
+        "air": "2026-11-11",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 3,
+        "title": "Episode 3",
+        "air": "2026-11-11",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 4,
+        "title": "Episode 4",
+        "air": "2026-11-11",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 5,
+        "title": "Episode 5",
+        "air": "2026-11-18",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 6,
+        "title": "Episode 6",
+        "air": "2026-11-18",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 7,
+        "title": "Episode 7",
+        "air": "2026-11-25",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 8,
+        "title": "Episode 8",
+        "air": "2026-11-25",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      }
+    ]
+  },
+  "46": {
+    "id": 46,
+    "title": "Upload (S4)",
+    "tmdb": 86248,
+    "seasonTracked": 4,
+    "seasonClaimed": 4,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2020",
+        "eps": 10
+      },
+      {
+        "n": 2,
+        "year": "2022",
+        "eps": 7
+      },
+      {
+        "n": 3,
+        "year": "2023",
+        "eps": 8
+      },
+      {
+        "n": 4,
+        "year": "2025",
+        "eps": 4
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Wedding Weekend",
+        "air": "2025-08-25",
+        "runtime": 38,
+        "overview": "One Nathan celebrates a bitter-sweet wedding, but things are not what they seem and questions of sanity and religious faith are raised. A lonely AI Guy searches for romance. Aleesha prepares for her new responsibilities while Luke agonizes over their kiss back in Lakeview."
+      },
+      {
+        "n": 2,
+        "title": "Workload",
+        "air": "2025-08-25",
+        "runtime": 32,
+        "overview": "The bride and groom save up for their honeymoon. Horizen-Betta debuts a new, money-making technology. Luke tries to enjoy his job at Workload, and the AI Elevator Operator splits off an AI Girl and falls head over heels."
+      },
+      {
+        "n": 3,
+        "title": "Spa Day",
+        "air": "2025-08-25",
+        "runtime": 35,
+        "overview": "While on their honeymoon, the newlyweds uncover a dark secret. Luke and the AI Gardener head back into the Grey Zone on a rescue mission. Aleesha reveals surprising abilities and Nora and Ingrid share clues."
+      },
+      {
+        "n": 4,
+        "title": "Mile End",
+        "air": "2025-08-25",
+        "runtime": 46,
+        "overview": "The residents of Lakeview race to find justice, revenge and peace as the digital and real worlds collide."
+      }
+    ]
+  },
+  "47": {
+    "id": 47,
+    "title": "The Terminal List (S2)",
+    "tmdb": 120911,
+    "seasonTracked": 2,
+    "seasonClaimed": 2,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2022",
+        "eps": 8
+      },
+      {
+        "n": 2,
+        "year": "2026",
+        "eps": 8
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Episode 1",
+        "air": "2026-10-21",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 2,
+        "title": "Episode 2",
+        "air": "2026-10-21",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 3,
+        "title": "Episode 3",
+        "air": "2026-10-21",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 4,
+        "title": "Episode 4",
+        "air": "2026-10-21",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 5,
+        "title": "Episode 5",
+        "air": "2026-10-21",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 6,
+        "title": "Episode 6",
+        "air": "2026-10-21",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 7,
+        "title": "Episode 7",
+        "air": "2026-10-21",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 8,
+        "title": "Episode 8",
+        "air": "2026-10-21",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      }
+    ]
+  },
+  "48": {
+    "id": 48,
+    "title": "Expats",
+    "tmdb": 95556,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2024",
+        "eps": 6
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "The Peak",
+        "air": "2024-01-25",
+        "runtime": 53,
+        "overview": "Three expat women living in Hong Kong cross paths at a birthday party where it becomes evident they share a mysterious connection from their past."
+      },
+      {
+        "n": 2,
+        "title": "Mongkok",
+        "air": "2024-01-25",
+        "runtime": 53,
+        "overview": "One year earlier, Margaret and Mercy meet at an extravagant yacht party forging an unlikely connection, as Hilary wrestles with whether she wants to start a family. An incident occurs that will forever change the course of all our characters' lives."
+      },
+      {
+        "n": 3,
+        "title": "Mid-Levels",
+        "air": "2024-02-01",
+        "runtime": 59,
+        "overview": "Margaret becomes obsessed with discovering the truth behind her son's disappearance, leading her to a person of interest. Hilary tries to keep up appearances while her marriage is falling apart. Mercy is caught up in an intense affair with a man whose trauma mirrors hers."
+      },
+      {
+        "n": 4,
+        "title": "Mainland",
+        "air": "2024-02-08",
+        "runtime": null,
+        "overview": "Our characters find themselves trapped in confined spaces where both physical and emotional tensions escalate. A potential revelation in Gus's case sends Margaret and Clarke to the Mainland. Hilary's mother visits from Los Angeles. Mercy makes a shocking discovery."
+      },
+      {
+        "n": 5,
+        "title": "Central",
+        "air": "2024-02-15",
+        "runtime": null,
+        "overview": "Shifting the narrative away from the entangled lives of expats, spend one fateful Sunday with two Filipina domestic workers and a disparate ensemble of Hong Kong locals as a massive typhoon descends upon the city and the 2014 political movement reaches a point of no return."
+      },
+      {
+        "n": 6,
+        "title": "Home",
+        "air": "2024-02-22",
+        "runtime": null,
+        "overview": "Margaret and her family prepare to return to the United States. Hilary travels home to Los Angeles to visit her ailing father. Mercy’s mother visits her in Hong Kong for the first time."
+      }
+    ]
+  },
+  "49": {
+    "id": 49,
+    "title": "A Murder at the End of the World",
+    "tmdb": 134095,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2023",
+        "eps": 7
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Homme Fatale",
+        "air": "2023-11-14",
+        "runtime": null,
+        "overview": "An amateur sleuth receives a mysterious invitation to a reclusive tech billionaire's secret retreat."
+      },
+      {
+        "n": 2,
+        "title": "The Silver Doe",
+        "air": "2023-11-14",
+        "runtime": null,
+        "overview": "Darby believes the death she witnessed may, in fact, be murder, but no one believes her. The grief and shock of the events thrust her into remembering her own buried past."
+      },
+      {
+        "n": 3,
+        "title": "Survivors",
+        "air": "2023-11-21",
+        "runtime": null,
+        "overview": "Darby plays the role of the perfect guest in order to covertly investigate the crime. She finds she may be getting closer to the truth when another life is taken."
+      },
+      {
+        "n": 4,
+        "title": "Family Secrets",
+        "air": "2023-11-28",
+        "runtime": 57,
+        "overview": "There's a killer on the loose and nowhere to run with a storm closing in. Darby breaks out of lockdown and discovers the retreat may not be what she thought it was."
+      },
+      {
+        "n": 5,
+        "title": "Crypt",
+        "air": "2023-12-05",
+        "runtime": null,
+        "overview": "Darby confronts her prime suspect only to find the tables turned and an unexpected alliance formed...Until someone else dies and her own life is threatened."
+      },
+      {
+        "n": 6,
+        "title": "Crime Seen",
+        "air": "2023-12-12",
+        "runtime": 47,
+        "overview": "Darby uncovers the secret retreat within the retreat. In the past, she and Bill come face to face with the Silver Doe Killer."
+      },
+      {
+        "n": 7,
+        "title": "Retreat",
+        "air": "2023-12-19",
+        "runtime": 42,
+        "overview": "The remaining guests gather and discover the killer among them."
+      }
+    ]
+  },
+  "50": {
+    "id": 50,
+    "title": "The Legend of Vox Machina (S4)",
+    "tmdb": 135934,
+    "seasonTracked": 4,
+    "seasonClaimed": 4,
+    "note": null,
+    "seasons": [
+      {
+        "n": 0,
+        "year": "2019",
+        "eps": 30
+      },
+      {
+        "n": 1,
+        "year": "2022",
+        "eps": 12
+      },
+      {
+        "n": 2,
+        "year": "2023",
+        "eps": 12
+      },
+      {
+        "n": 3,
+        "year": "2024",
+        "eps": 12
+      },
+      {
+        "n": 4,
+        "year": "2026",
+        "eps": 12
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "One Year Later...",
+        "air": "2026-06-03",
+        "runtime": 31,
+        "overview": "Doty, take this down. I, Taryon Darrington, inventor and bestselling author, have met the most bewildering group of mercenaries in Exandria. A tall brooding one, a short angry one, and far too many pointy ears. They seem… promising?"
+      },
+      {
+        "n": 2,
+        "title": "Trial by Water",
+        "air": "2026-06-03",
+        "runtime": 27,
+        "overview": "Doty, take this down. Antlers has gone off to do something terribly dangerous involving water. Meanwhile, Short Stuff and Jumbo are poking around places they probably shouldn't be. I've arrived with important news. Doty, underline \"important.\""
+      },
+      {
+        "n": 3,
+        "title": "The Coronation",
+        "air": "2026-06-03",
+        "runtime": 26,
+        "overview": "Doty, take this down. We've gathered in a mountain village for a ceremony. The food is mediocre and my fellow adventurers haven't spoken in a year. Uninvited guests crash the party. Rude. Doty, note that I handled it with grace."
+      },
+      {
+        "n": 4,
+        "title": "Taryon, My Wayward Son",
+        "air": "2026-06-10",
+        "runtime": 26,
+        "overview": "Doty, take this down. We've traveled to my hometown, which I was hoping to avoid. My family's business is more complicated than I remembered. Short Stuff has strange visions and Four Eyes is playing card games. I had some strong words for my father."
+      },
+      {
+        "n": 5,
+        "title": "De Rolo's Eleven",
+        "air": "2026-06-10",
+        "runtime": 26,
+        "overview": "Doty, take this down. Four Eyes has devised a plan to break into a library. A LIBRARY. The Head Archivist is terrifying, but couldn't we just ask nicely? Jumbo accidentally did something clever, surprising everyone. Doty, document my contributions."
+      },
+      {
+        "n": 6,
+        "title": "We Are His Blood",
+        "air": "2026-06-10",
+        "runtime": 28,
+        "overview": "Doty, take this down. Jumbo is telling us a very old, very alarming story. Short Stuff visits family in a quaint town, but something feels… off. A friendly stranger seems a bit too friendly. I have a bad feeling about this one."
+      },
+      {
+        "n": 7,
+        "title": "The Ghosts of Whitestone",
+        "air": "2026-06-17",
+        "runtime": 27,
+        "overview": "Doty, take this down. I'm told there are secret tunnels beneath the castle. What's down there is ghastly. I elected to stay upstairs the strategic choice. My fellows encountered old horrors and secrets beneath someone of my notoriety."
+      },
+      {
+        "n": 8,
+        "title": "The Bard's Lament",
+        "air": "2026-06-17",
+        "runtime": 27,
+        "overview": "Doty, take this down. My fellows and I traveled to a distant city to find an old friend. There was music, shouting, and at least one spectacular fight. I, naturally, saved the day. You're welcome. Doty, make sure you got that last part."
+      },
+      {
+        "n": 9,
+        "title": "The Temple of Truth",
+        "air": "2026-06-17",
+        "runtime": 25,
+        "overview": "Doty, take this down. Things are getting serious. Our brave band is heading somewhere very dark and dangerous, and even I can tell the mood has shifted. Everyone is quieter than usual, which for this group is saying something. Doty, sharpen my sword."
+      },
+      {
+        "n": 10,
+        "title": "The Poisoned Ear",
+        "air": "2026-06-24",
+        "runtime": 28,
+        "overview": "Doty, take this down. I don't want to talk about this one. Something terrible has happened and my fellow adventurers are shaken. Even Jumbo is quiet. Short Stuff is facing something I don't fully understand. Doty, just… stay close."
+      },
+      {
+        "n": 11,
+        "title": "Let the End Begin",
+        "air": "2026-06-24",
+        "runtime": 25,
+        "overview": "Doty, take this down. I'd like the record to show that I, Taryon Darrington, did not run. Doty, hold my things."
+      },
+      {
+        "n": 12,
+        "title": "The Ascension",
+        "air": "2026-06-24",
+        "runtime": 29,
+        "overview": "Doty, take this down. I don't know how to write this one. Everything changed. These ridiculous, extraordinary people gave everything they had. I came looking for an adventure to put in a book. I found something else entirely. Doty… end of chapter."
+      }
+    ]
+  },
+  "51": {
+    "id": 51,
+    "title": "Severance (S3)",
+    "tmdb": 95396,
+    "seasonTracked": 2,
+    "seasonClaimed": 3,
+    "note": "claimed Season 3 has no episodes on TMDB yet; tracking Season 2 instead",
+    "seasons": [
+      {
+        "n": 0,
+        "year": "2021",
+        "eps": 1
+      },
+      {
+        "n": 1,
+        "year": "2022",
+        "eps": 9
+      },
+      {
+        "n": 2,
+        "year": "2025",
+        "eps": 10
+      },
+      {
+        "n": 3,
+        "year": null,
+        "eps": 0
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Hello, Ms. Cobel",
+        "air": "2025-01-16",
+        "runtime": 49,
+        "overview": "Mark returns to work under different circumstances. Secrets from the Outie world come to light."
+      },
+      {
+        "n": 2,
+        "title": "Goodbye, Mrs. Selvig",
+        "air": "2025-01-23",
+        "runtime": 46,
+        "overview": "Mark contemplates the meaning of a message."
+      },
+      {
+        "n": 3,
+        "title": "Who Is Alive?",
+        "air": "2025-01-30",
+        "runtime": 54,
+        "overview": "Mark, Helly, Irving, and Dylan search for answers."
+      },
+      {
+        "n": 4,
+        "title": "Woe's Hollow",
+        "air": "2025-02-06",
+        "runtime": 51,
+        "overview": "The team participates in a group activity."
+      },
+      {
+        "n": 5,
+        "title": "Trojan's Horse",
+        "air": "2025-02-13",
+        "runtime": 47,
+        "overview": "Tensions emerge after the team suffers a loss."
+      },
+      {
+        "n": 6,
+        "title": "Attila",
+        "air": "2025-02-20",
+        "runtime": 48,
+        "overview": "Bonds are tested. Mark continues on his path of discovery."
+      },
+      {
+        "n": 7,
+        "title": "Chikhai Bardo",
+        "air": "2025-02-27",
+        "runtime": 50,
+        "overview": "An old romance intersects with a deadly present threat."
+      },
+      {
+        "n": 8,
+        "title": "Sweet Vitriol",
+        "air": "2025-03-06",
+        "runtime": 37,
+        "overview": "Discoveries are made."
+      },
+      {
+        "n": 9,
+        "title": "The After Hours",
+        "air": "2025-03-13",
+        "runtime": 45,
+        "overview": "Mark and Devon team with an ally. Helly investigates further."
+      },
+      {
+        "n": 10,
+        "title": "Cold Harbor",
+        "air": "2025-03-20",
+        "runtime": null,
+        "overview": "Mark forms a shaky alliance in an all-or-nothing play, while the team makes a dangerous last stand."
+      }
+    ]
+  },
+  "52": {
+    "id": 52,
+    "title": "The Morning Show (S5)",
+    "tmdb": 90282,
+    "seasonTracked": 4,
+    "seasonClaimed": 5,
+    "note": "claimed Season 5 has no episodes on TMDB yet; tracking Season 4 instead",
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2019",
+        "eps": 10
+      },
+      {
+        "n": 2,
+        "year": "2021",
+        "eps": 10
+      },
+      {
+        "n": 3,
+        "year": "2023",
+        "eps": 10
+      },
+      {
+        "n": 4,
+        "year": "2025",
+        "eps": 10
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "My Roman Empire",
+        "air": "2025-09-16",
+        "runtime": 56,
+        "overview": "As UBN prepares for the 2024 Games in Paris, an unexpected crisis throws the network into chaos."
+      },
+      {
+        "n": 2,
+        "title": "The Revolution Will Be Televised",
+        "air": "2025-09-23",
+        "runtime": 52,
+        "overview": "Alex fights to prove her innocence. A ghost from the network's past surfaces with a disturbing story."
+      },
+      {
+        "n": 3,
+        "title": "Tipping Point",
+        "air": "2025-09-30",
+        "runtime": 48,
+        "overview": "Alex is blindsided by a surprise reunion when she attends a conference on climate change. Bradley meets her source. Mia interviews for a promotion."
+      },
+      {
+        "n": 4,
+        "title": "Love the Questions",
+        "air": "2025-10-07",
+        "runtime": 47,
+        "overview": "A breaking news story pushes the understaffed TMS crew to the brink."
+      },
+      {
+        "n": 5,
+        "title": "Amari",
+        "air": "2025-10-14",
+        "runtime": 58,
+        "overview": "Chris confronts her past as online rumors swirl. Mia devises a new strategy."
+      },
+      {
+        "n": 6,
+        "title": "If Then",
+        "air": "2025-10-21",
+        "runtime": 56,
+        "overview": "Stella prepares for a make-or-break 2024 Games presentation during tense talent negotiations."
+      },
+      {
+        "n": 7,
+        "title": "Person of Interest",
+        "air": "2025-10-28",
+        "runtime": 54,
+        "overview": "Yanko and Bradley's loyalties are tested when Claire resurfaces."
+      },
+      {
+        "n": 8,
+        "title": "The Parent Trap",
+        "air": "2025-11-04",
+        "runtime": 47,
+        "overview": "Alex and Cory confront the meaning of legacy. Bradley's investigation takes a dangerous new turn."
+      },
+      {
+        "n": 9,
+        "title": "Un Bel Di",
+        "air": "2025-11-11",
+        "runtime": 45,
+        "overview": "A night at the opera provides cover for a secret rendezvous."
+      },
+      {
+        "n": 10,
+        "title": "Knowing Violation",
+        "air": "2025-11-18",
+        "runtime": 56,
+        "overview": "Alex lays everything on the line to bring Bradley home."
+      }
+    ]
+  },
+  "53": {
+    "id": 53,
+    "title": "Ted Lasso (S4)",
+    "tmdb": 97546,
+    "seasonTracked": 4,
+    "seasonClaimed": 4,
+    "note": null,
+    "seasons": [
+      {
+        "n": 0,
+        "year": "2021",
+        "eps": 1
+      },
+      {
+        "n": 1,
+        "year": "2020",
+        "eps": 10
+      },
+      {
+        "n": 2,
+        "year": "2021",
+        "eps": 12
+      },
+      {
+        "n": 3,
+        "year": "2023",
+        "eps": 12
+      },
+      {
+        "n": 4,
+        "year": "2026",
+        "eps": 10
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Home",
+        "air": "2026-08-04",
+        "runtime": 42,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 2,
+        "title": "Episode 2",
+        "air": "2026-08-11",
+        "runtime": 47,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 3,
+        "title": "Episode 3",
+        "air": "2026-08-18",
+        "runtime": 47,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 4,
+        "title": "Episode 4",
+        "air": "2026-08-25",
+        "runtime": 44,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 5,
+        "title": "Episode 5",
+        "air": "2026-09-01",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 6,
+        "title": "Episode 6",
+        "air": "2026-09-08",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 7,
+        "title": "Episode 7",
+        "air": "2026-09-15",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 8,
+        "title": "Episode 8",
+        "air": "2026-09-22",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 9,
+        "title": "Episode 9",
+        "air": "2026-09-29",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      },
+      {
+        "n": 10,
+        "title": "Episode 10",
+        "air": "2026-10-06",
+        "runtime": null,
+        "overview": "We don't have an overview translated in English. Help us expand our database by adding one."
+      }
+    ]
+  },
+  "54": {
+    "id": 54,
+    "title": "For All Mankind (S5)",
+    "tmdb": 87917,
+    "seasonTracked": 5,
+    "seasonClaimed": 5,
+    "note": null,
+    "seasons": [
+      {
+        "n": 0,
+        "year": "2021",
+        "eps": 37
+      },
+      {
+        "n": 1,
+        "year": "2019",
+        "eps": 10
+      },
+      {
+        "n": 2,
+        "year": "2021",
+        "eps": 10
+      },
+      {
+        "n": 3,
+        "year": "2022",
+        "eps": 10
+      },
+      {
+        "n": 4,
+        "year": "2023",
+        "eps": 10
+      },
+      {
+        "n": 5,
+        "year": "2026",
+        "eps": 10
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "First Light",
+        "air": "2026-03-26",
+        "runtime": 59,
+        "overview": "Nine years after the Goldilocks asteroid heist, Happy Valley has grown into a thriving colony. But an unsettling discovery threatens their peace."
+      },
+      {
+        "n": 2,
+        "title": "The Hard Six",
+        "air": "2026-04-02",
+        "runtime": 46,
+        "overview": "Ed rallies Happy Valley's residents in support of one of their own. Kelly refuses to back down from an opportunity."
+      },
+      {
+        "n": 3,
+        "title": "Home",
+        "air": "2026-04-09",
+        "runtime": null,
+        "overview": "The consequences of Ed's actions begin to play out. Aleida finds an unexpected solution to her problem."
+      },
+      {
+        "n": 4,
+        "title": "Open Source",
+        "air": "2026-04-16",
+        "runtime": 57,
+        "overview": "Alex takes Ed's advice and finds a new project to focus on: a job at Helios."
+      },
+      {
+        "n": 5,
+        "title": "Svoboda",
+        "air": "2026-04-23",
+        "runtime": 53,
+        "overview": "Chaos erupts on Mars following a shocking revelation."
+      },
+      {
+        "n": 6,
+        "title": "No Sudden Moves",
+        "air": "2026-04-30",
+        "runtime": 49,
+        "overview": "A desperate group of Marsies tries to rectify a dangerous situation."
+      },
+      {
+        "n": 7,
+        "title": "The Sirens of Titan",
+        "air": "2026-05-07",
+        "runtime": 52,
+        "overview": "A fatal miscalculation puts the Titan mission in jeopardy. Dev makes a drastic decision."
+      },
+      {
+        "n": 8,
+        "title": "Brave New World",
+        "air": "2026-05-14",
+        "runtime": 53,
+        "overview": "The Titan crew weighs a risky move, while Mars struggles to keep up morale."
+      },
+      {
+        "n": 9,
+        "title": "Sons and Daughters",
+        "air": "2026-05-21",
+        "runtime": 44,
+        "overview": "The Marsies formulate a plan. Kelly faces a major setback."
+      },
+      {
+        "n": 10,
+        "title": "This Land Is Our Land",
+        "air": "2026-05-28",
+        "runtime": null,
+        "overview": "The resilience of Mars is put to the test."
+      }
+    ]
+  },
+  "55": {
+    "id": 55,
+    "title": "Slow Horses (S5)",
+    "tmdb": 95480,
+    "seasonTracked": 5,
+    "seasonClaimed": 5,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2022",
+        "eps": 6
+      },
+      {
+        "n": 2,
+        "year": "2022",
+        "eps": 6
+      },
+      {
+        "n": 3,
+        "year": "2023",
+        "eps": 6
+      },
+      {
+        "n": 4,
+        "year": "2024",
+        "eps": 6
+      },
+      {
+        "n": 5,
+        "year": "2025",
+        "eps": 6
+      },
+      {
+        "n": 6,
+        "year": "2026",
+        "eps": 6
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Bad Dates",
+        "air": "2025-09-24",
+        "runtime": 46,
+        "overview": "A mass shooting rocks London, intensifying a testy mayoral race. Shirley believes one of the Slow Horses was the target of an attempted hit."
+      },
+      {
+        "n": 2,
+        "title": "Incommunicado",
+        "air": "2025-10-01",
+        "runtime": 48,
+        "overview": "Lamb intercepts an assassin. Taverner receives a key piece of intel about the Abbotsfield shooting."
+      },
+      {
+        "n": 3,
+        "title": "Tall Tales",
+        "air": "2025-10-08",
+        "runtime": 40,
+        "overview": "An act of sabotage grinds London to a halt. Taverner interrogates Roddy. Coe is convinced a destabilization strategy is at play."
+      },
+      {
+        "n": 4,
+        "title": "Missiles",
+        "air": "2025-10-15",
+        "runtime": 40,
+        "overview": "Flyte sets out to find Roddy's girlfriend. The gang is dispatched to two different campaign events to prevent another attack."
+      },
+      {
+        "n": 5,
+        "title": "Circus",
+        "air": "2025-10-22",
+        "runtime": 45,
+        "overview": "Lamb debriefs River and Coe. Roddy is pulled in to help decipher a piece of code as the destabilization strategy nears its final stage."
+      },
+      {
+        "n": 6,
+        "title": "Scars",
+        "air": "2025-10-29",
+        "runtime": 52,
+        "overview": "It's up to the Slow Horses to stop Farouk's team from completing its mission in a final act of mass carnage."
+      }
+    ]
+  },
+  "56": {
+    "id": 56,
+    "title": "Shrinking (S3)",
+    "tmdb": 136311,
+    "seasonTracked": 3,
+    "seasonClaimed": 3,
+    "note": null,
+    "seasons": [
+      {
+        "n": 0,
+        "year": "2023",
+        "eps": 1
+      },
+      {
+        "n": 1,
+        "year": "2023",
+        "eps": 10
+      },
+      {
+        "n": 2,
+        "year": "2024",
+        "eps": 12
+      },
+      {
+        "n": 3,
+        "year": "2026",
+        "eps": 11
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "My Bad",
+        "air": "2026-01-27",
+        "runtime": null,
+        "overview": "Jimmy grapples with being an empty nester and feeling torn about Alice's major life choice. Paul faces fresh challenges with his Parkinson's."
+      },
+      {
+        "n": 2,
+        "title": "Happiness Mission",
+        "air": "2026-02-03",
+        "runtime": 35,
+        "overview": "The gang unites to support Paul during a health setback. Jimmy and Alice help Louis take a big step. Liz and Derek make a tough choice."
+      },
+      {
+        "n": 3,
+        "title": "D-Day",
+        "air": "2026-02-10",
+        "runtime": 36,
+        "overview": "Jimmy and Liz show up for Brian and Charlie when Ava goes into labor. Sean reconnects with his ex Marisol."
+      },
+      {
+        "n": 4,
+        "title": "The Field",
+        "air": "2026-02-17",
+        "runtime": 36,
+        "overview": "Gaby invites Jimmy to speak to her class. When Derek ends up in the hospital, Liz has issues with their son. Paul has an important realization."
+      },
+      {
+        "n": 5,
+        "title": "Hold Your Horsies",
+        "air": "2026-02-24",
+        "runtime": 33,
+        "overview": "Jimmy and Meg unite over their love for Paul. Gaby considers her future with Derrick #2. Marisol pushes Sean and Alice out of their comfort zones."
+      },
+      {
+        "n": 6,
+        "title": "Dereks Don't Die",
+        "air": "2026-03-03",
+        "runtime": 34,
+        "overview": "When Derek's health takes a turn for the worse, Jimmy helps Liz cope. Meg comes clean with Paul. Gaby makes progress with Maya."
+      },
+      {
+        "n": 7,
+        "title": "I Will Be Grape",
+        "air": "2026-03-10",
+        "runtime": 34,
+        "overview": "Alice and Jimmy celebrate Tia's birthday. Liz's mother-in-law visits. Paul ponders his legacy."
+      },
+      {
+        "n": 8,
+        "title": "Depression Diet",
+        "air": "2026-03-17",
+        "runtime": 34,
+        "overview": "Jimmy finally goes on a first date with Sofi. Gaby has a crisis of confidence. Liz learns more about Brian's living situation."
+      },
+      {
+        "n": 9,
+        "title": "Daddy Issues",
+        "air": "2026-03-24",
+        "runtime": 35,
+        "overview": "Jimmy is stressed out by his father's presence. Sean grapples with the fallout of his decision. Paul helps Gaby start something new."
+      },
+      {
+        "n": 10,
+        "title": "The Bodyguard of Sadness",
+        "air": "2026-03-31",
+        "runtime": 37,
+        "overview": "The gang celebrates Alice's graduation, as Jimmy struggles with unresolved feelings. Liz and Derek differ on what their future should look like."
+      },
+      {
+        "n": 11,
+        "title": "And That's Our Time",
+        "air": "2026-04-07",
+        "runtime": 36,
+        "overview": "As Alice heads to college, Jimmy tries to repair things before it's too late. Gaby makes a happy discovery."
+      }
+    ]
+  },
+  "57": {
+    "id": 57,
+    "title": "Foundation (S3)",
+    "tmdb": 93740,
+    "seasonTracked": 3,
+    "seasonClaimed": 3,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2021",
+        "eps": 10
+      },
+      {
+        "n": 2,
+        "year": "2023",
+        "eps": 10
+      },
+      {
+        "n": 3,
+        "year": "2025",
+        "eps": 10
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "A Song for the End of Everything",
+        "air": "2025-07-10",
+        "runtime": 52,
+        "overview": "A mysterious new pirate with terrifying abilities—known as the Mule—catches the attention of the Foundation and Empire."
+      },
+      {
+        "n": 2,
+        "title": "Shadows in the Math",
+        "air": "2025-07-17",
+        "runtime": 49,
+        "overview": "Gaal and Hari advance their plans on Ignis. Empire grapples with an unforeseen prediction. Pritcher enlists help to investigate the Mule."
+      },
+      {
+        "n": 3,
+        "title": "When a Book Finds You",
+        "air": "2025-07-24",
+        "runtime": 51,
+        "overview": "An unexpected alliance is formed. Pritcher, Bayta, and Toran come face-to-face with the Mule. Demerzel seeks spiritual guidance."
+      },
+      {
+        "n": 4,
+        "title": "The Stress of Her Regard",
+        "air": "2025-07-31",
+        "runtime": 49,
+        "overview": "Demerzel struggles with the paradox of her programming. Pritcher's true loyalties are revealed. Day sets off on a quest for answers."
+      },
+      {
+        "n": 5,
+        "title": "Where Tyrants Spend Eternity",
+        "air": "2025-08-07",
+        "runtime": 47,
+        "overview": "Day enters uncharted territory. Dawn and Gaal put their plan in motion. Magnifico's worth becomes clear. Demerzel attempts to restore power."
+      },
+      {
+        "n": 6,
+        "title": "The Shape of Time",
+        "air": "2025-08-14",
+        "runtime": 45,
+        "overview": "A long-awaited reunion turns violent. Day looks for Song. On New Terminus, the Vault opens—and the Mule takes aim."
+      },
+      {
+        "n": 7,
+        "title": "Foundation's End",
+        "air": "2025-08-21",
+        "runtime": null,
+        "overview": "Chaos and destruction rain down on New Terminus. Back on Trantor, Dusk and Quent unite to assess the state of the galaxy."
+      },
+      {
+        "n": 8,
+        "title": "Skin in the Game",
+        "air": "2025-08-28",
+        "runtime": 47,
+        "overview": "Gaal and the Second Foundation reckon with the fall of New Terminus. Day faces judgment on Mycogen. Dusk's ascension looms."
+      },
+      {
+        "n": 9,
+        "title": "The Paths That Choose Us",
+        "air": "2025-09-04",
+        "runtime": 47,
+        "overview": "Gaal confronts the power of the Mule's conversions. Dusk resorts to drastic measures. Demerzel searches for clarity about the future."
+      },
+      {
+        "n": 10,
+        "title": "The Darkness",
+        "air": "2025-09-11",
+        "runtime": 52,
+        "overview": "Gaal and the Second Foundation take the fight to the Mule as Empire's legacy suffers a catastrophic blow."
+      }
+    ]
+  },
+  "58": {
+    "id": 58,
+    "title": "The New Look",
+    "tmdb": 157368,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2024",
+        "eps": 10
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Just You Wait and See",
+        "air": "2024-02-13",
+        "runtime": null,
+        "overview": "In Nazi-occupied Paris, Christian Dior fears for his resistance-fighter sister, Catherine. Coco Chanel makes a deal that will forever haunt her."
+      },
+      {
+        "n": 2,
+        "title": "The Hour",
+        "air": "2024-02-13",
+        "runtime": 53,
+        "overview": "Christian embarks on a quest to free Catherine from German captivity. Coco is sent on an undercover mission and recruits her friend Elsa."
+      },
+      {
+        "n": 3,
+        "title": "Nothing but Blue Skies",
+        "air": "2024-02-13",
+        "runtime": 50,
+        "overview": "Coco suffers the consequences of her relationship with Spatz. Christian's pursuit of Catherine takes a fatal turn."
+      },
+      {
+        "n": 4,
+        "title": "What a Difference",
+        "air": "2024-02-20",
+        "runtime": 54,
+        "overview": "After Paris is liberated by Allied troops, Nazi collaborators face punishment—including Coco. Christian is conflicted about ever designing again."
+      },
+      {
+        "n": 5,
+        "title": "Give Your Heart and Soul to Me",
+        "air": "2024-02-27",
+        "runtime": 51,
+        "overview": "Christian is offered a job that will forever change the course of his life. Coco struggles with her outsider status as she's self-exiled in Switzerland."
+      },
+      {
+        "n": 6,
+        "title": "If You Believed in Me",
+        "air": "2024-03-05",
+        "runtime": 37,
+        "overview": "Desperate to stand up to her business partners, Coco begins a war over her most famous perfume. Christian must redefine his relationships."
+      },
+      {
+        "n": 7,
+        "title": "It All Came True",
+        "air": "2024-03-12",
+        "runtime": 46,
+        "overview": "Christian takes unexpectedly bold and daring next steps to launch his fashion house. Coco figures out how to use Elsa's “talents” to her advantage."
+      },
+      {
+        "n": 8,
+        "title": "I Love You Most of All",
+        "air": "2024-03-19",
+        "runtime": 49,
+        "overview": "Coco hosts a world-famous fashion editor in the hopes of helping orchestrate her comeback. Christian faces family pressure from his father."
+      },
+      {
+        "n": 9,
+        "title": "Will You Return",
+        "air": "2024-03-26",
+        "runtime": 52,
+        "overview": "Christian tends to family matters that will forever influence his aesthetic. Coco must make a deal with Spatz as Elsa's addiction intensifies."
+      },
+      {
+        "n": 10,
+        "title": "What a Day This Has Been",
+        "air": "2024-04-02",
+        "runtime": 53,
+        "overview": "Christian's major decision puts his first fashion show in danger. As Coco confronts her partners, Spatz threatens her freedom."
+      }
+    ]
+  },
+  "59": {
+    "id": 59,
+    "title": "Masters of the Air",
+    "tmdb": 46518,
+    "seasonTracked": 1,
+    "seasonClaimed": 1,
+    "note": null,
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2024",
+        "eps": 9
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Part One",
+        "air": "2024-01-25",
+        "runtime": null,
+        "overview": "Led by Majors Cleven and Egan, the 100th Bomb Group arrives in England and joins the 8th Air Force's campaign against Nazi Germany."
+      },
+      {
+        "n": 2,
+        "title": "Part Two",
+        "air": "2024-01-25",
+        "runtime": null,
+        "overview": "The 100th bombs German U-boat pens in Norway. With the help of Lt. Crosby's navigating, a damaged B-17 struggles to get back to Britain."
+      },
+      {
+        "n": 3,
+        "title": "Part Three",
+        "air": "2024-02-01",
+        "runtime": 53,
+        "overview": "The group participates in its largest mission to date—the bombing of vital aircraft manufacturing plants deep within Germany."
+      },
+      {
+        "n": 4,
+        "title": "Part Four",
+        "air": "2024-02-08",
+        "runtime": 56,
+        "overview": "Lt. Rosenthal joins the 100th just as one of its crews reaches a milestone. The U-boat pens at Bremen become a target for the second time."
+      },
+      {
+        "n": 5,
+        "title": "Part Five",
+        "air": "2024-02-15",
+        "runtime": 57,
+        "overview": "Rosie's next mission signals a significant shift in the 100th's bombing strategy. Crosby receives a promotion, but it comes with a high price."
+      },
+      {
+        "n": 6,
+        "title": "Part Six",
+        "air": "2024-02-22",
+        "runtime": null,
+        "overview": "Rosie and his crew are sent to rest at a country estate. Crosby meets an intriguing British officer at Oxford. Egan faces the essence of Nazi evil."
+      },
+      {
+        "n": 7,
+        "title": "Part Seven",
+        "air": "2024-02-29",
+        "runtime": 53,
+        "overview": "The prisoners of Stalag Luft III attempt to connect with the outside world. Berlin becomes the 100th's primary target. Rosie makes a crucial decision."
+      },
+      {
+        "n": 8,
+        "title": "Part Eight",
+        "air": "2024-03-07",
+        "runtime": 55,
+        "overview": "Crosby prepares for D-Day. The POWs wonder how the Allied landing will affect their fate. Tuskegee pilots attack targets in Southern France."
+      },
+      {
+        "n": 9,
+        "title": "Part Nine",
+        "air": "2024-03-14",
+        "runtime": null,
+        "overview": "The POWs are marched across Germany—and Rosie makes a gruesome discovery—as the war comes to its conclusion."
+      }
+    ]
+  },
+  "60": {
+    "id": 60,
+    "title": "Pachinko (S3)",
+    "tmdb": 110382,
+    "seasonTracked": 2,
+    "seasonClaimed": 3,
+    "note": "claimed Season 3 has no episodes on TMDB yet; tracking Season 2 instead",
+    "seasons": [
+      {
+        "n": 1,
+        "year": "2022",
+        "eps": 8
+      },
+      {
+        "n": 2,
+        "year": "2024",
+        "eps": 8
+      }
+    ],
+    "episodes": [
+      {
+        "n": 1,
+        "title": "Chapter Nine",
+        "air": "2024-08-22",
+        "runtime": 52,
+        "overview": "World War II forces Sunja to make dangerous decisions for her family's survival. Pushed to the edge, Solomon takes a stand."
+      },
+      {
+        "n": 2,
+        "title": "Chapter Ten",
+        "air": "2024-08-29",
+        "runtime": 48,
+        "overview": "The family reunites with a loved one and confronts a harsh reality. Solomon makes a discovery that could prove beneficial."
+      },
+      {
+        "n": 3,
+        "title": "Chapter Eleven",
+        "air": "2024-09-05",
+        "runtime": 50,
+        "overview": "Sunja and the children flee Osaka only to find their new location has its own challenges. Solomon's past leads him to new beginnings."
+      },
+      {
+        "n": 4,
+        "title": "Chapter Twelve",
+        "air": "2024-09-12",
+        "runtime": 50,
+        "overview": "As new relationships blossom, a tragedy threatens to destroy everything. Sunja meets a close friend of Solomon's."
+      },
+      {
+        "n": 5,
+        "title": "Chapter Thirteen",
+        "air": "2024-09-19",
+        "runtime": 54,
+        "overview": "The family's fight for survival begins anew as WWII reaches the home front. A surprise figure thwarts Solomon's perfect plan."
+      },
+      {
+        "n": 6,
+        "title": "Chapter Fourteen",
+        "air": "2024-09-26",
+        "runtime": 47,
+        "overview": "Five years after the war has ended, Hansu is at the top of the criminal underworld—but his riches come at a great price."
+      },
+      {
+        "n": 7,
+        "title": "Chapter Fifteen",
+        "air": "2024-10-03",
+        "runtime": 57,
+        "overview": "Mr. Kim faces a difficult choice: the woman he loves or his homeland. Both Solomon and Mozasu execute ruthless plans."
+      },
+      {
+        "n": 8,
+        "title": "Chapter Sixteen",
+        "air": "2024-10-10",
+        "runtime": 59,
+        "overview": "Noa uncovers a devastating truth. Solomon learns of an old enemy's fate. Sunja must decide between her past and her future."
+      }
+    ]
+  }
+}
