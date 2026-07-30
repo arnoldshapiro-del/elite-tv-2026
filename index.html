@@ -549,6 +549,37 @@ footer {
 }
 .year-tag, .platform-tag { text-shadow: none; }
 
+/* ---- New Finds ---------------------------------------------------------- */
+.find-msg {
+  width: 100%; font-size: 13px; line-height: 1.6; color: var(--text);
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px 14px;
+}
+.find-msg.err { border-color: rgba(239,68,68,0.5); }
+.find-msg.warn { border-color: rgba(245,158,11,0.5); }
+.find-msg code {
+  background: var(--surface3); border: 1px solid var(--border);
+  padding: 1px 6px; border-radius: 4px; font-size: 12px;
+}
+.find-msg ol { margin: 8px 0 0 20px; }
+.find-msg li { margin-bottom: 5px; }
+.find-msg a { color: var(--accent); }
+.new-badge {
+  position: absolute; top: 10px; left: 10px; z-index: 3;
+  font-size: 10px; font-weight: 800; letter-spacing: 0.06em;
+  padding: 4px 8px; border-radius: 6px;
+  background: var(--accent); color: #fff;
+}
+.find-remove {
+  width: 30px; height: 30px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--surface2);
+  color: var(--muted); cursor: pointer; font-size: 13px;
+}
+.find-remove:hover { border-color: var(--danger); color: var(--danger); }
+.score.na .value { color: var(--muted); }
+.spin { display: inline-block; animation: spin 0.9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
 /* When a poster is present the letter placeholder is not rendered at all. */
 .similar-thumb { overflow: hidden; position: relative; }
 .similar-thumb img {
@@ -568,6 +599,7 @@ footer {
     <div class="logo">2026 Elite TV</div>
     <div class="nav-tabs">
       <button class="nav-tab active" data-section="discover">Discover</button>
+      <button class="nav-tab" data-section="finds">New Finds</button>
       <button class="nav-tab" data-section="watchlist">My List</button>
       <button class="nav-tab" data-section="stats">Stats</button>
       <button class="nav-tab" data-section="calendar">Calendar</button>
@@ -655,6 +687,26 @@ footer {
     <span style="font-size:12px;color:var(--muted)" id="viewLabel">Grid view</span>
   </div>
   <div class="grid" id="grid"></div>
+</section>
+
+<section class="section" id="finds">
+  <div class="hero" style="padding-bottom:16px">
+    <h1>New Finds</h1>
+    <p>Search Hulu, Prime Video, Apple TV & Netflix for series and new seasons that appeared since a date you pick — added alongside your 60, never replacing them</p>
+  </div>
+  <div class="controls">
+    <div class="controls-row">
+      <label style="font-size:13px;color:var(--muted)" for="findSince">New since</label>
+      <input type="date" id="findSince" style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 12px;color:var(--text);font-size:13px;outline:none">
+      <button class="btn" id="findBtn" style="background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700">🔍 Find New Shows</button>
+      <div class="stat-pills">
+        <span class="stat-pill"><strong id="findCount">0</strong> found</span>
+        <span class="stat-pill">Bar: IMDb ≥ 7.5</span>
+      </div>
+    </div>
+    <div class="controls-row" id="findStatus" style="display:none"></div>
+  </div>
+  <div class="grid" id="findGrid"></div>
 </section>
 
 <section class="section" id="watchlist">
@@ -795,6 +847,44 @@ const SHOWS=[
 ];
 let state=JSON.parse(localStorage.getItem('eliteTV2026')||'{}');
 if(!state.ratings)state.ratings={};if(!state.status)state.status={};if(!state.notes)state.notes={};if(!state.theme)state.theme='dark';
+if(!state.finds)state.finds={};   // shows discovered by the New Finds button, keyed by TMDB id
+
+/* ---------------------------------------------------------------------------
+   NEW FINDS
+   Discovered shows live in state.finds and are turned into the same shape the
+   rest of the app already understands, so cards, modals, watchlist, ratings and
+   trailers all work on them with no special cases. Their ids are offset by
+   FIND_ID_BASE so they can never collide with the curated 60 (ids 1-60).
+--------------------------------------------------------------------------- */
+const FIND_ID_BASE = 100000;
+const findAppId = tmdb => FIND_ID_BASE + Number(tmdb);
+const isFindId = id => Number(id) >= FIND_ID_BASE;
+
+function findsAsShows(){
+  return Object.values(state.finds).map(f => ({
+    id: findAppId(f.tmdb),
+    title: f.title,
+    platform: f.platform,
+    genre: f.genre || 'Drama',
+    year: (f.firstAir || '').slice(0,4) || '2026',
+    type: f.type === 'new' ? 'new' : 'season',
+    rt: (typeof f.rt === 'number') ? f.rt : null,   // null -> shown as "—", never invented
+    imdb: f.imdb,
+    seasons: '', eps: null, runtime: null,
+    premiere: f.firstAir || '',
+    moods: [],
+    review: f.overview || 'No description available from TMDB.',
+    colors: ['#1a1a2e','#2d0d3a'],
+    cast: '',
+    isFind: true,
+    tmdbScore: f.tmdbScore,
+    metaText: 'IMDb ' + f.imdb + (f.tmdbScore ? ' · TMDB ' + f.tmdbScore : ''),
+  }));
+}
+// Resolves an id to a show whether it is one of the 60 or a new find.
+function getShow(id){
+  return SHOWS.find(x => x.id === id) || findsAsShows().find(x => x.id === id) || null;
+}
 let currentType='all',currentStatus='all',currentView='grid',currentMood='any',wlFilter='all';
 function save(){localStorage.setItem('eliteTV2026',JSON.stringify(state));}
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
@@ -806,6 +896,7 @@ document.querySelectorAll('.nav-tab').forEach(tab=>{
     document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');
     document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
     document.getElementById(tab.dataset.section).classList.add('active');
+    if(tab.dataset.section==='finds')renderFinds();
     if(tab.dataset.section==='watchlist')renderWatchlist();
     if(tab.dataset.section==='stats')renderStats();
     if(tab.dataset.section==='calendar')renderCalendar();
@@ -854,14 +945,17 @@ function cardHTML(s,i){
   return `<article class="card" style="animation-delay:${i*0.03}s;--c1:${s.colors[0]};--c2:${s.colors[1]}" onclick="openModal(${s.id})">
     <div class="card-header">
       ${artHTML(s)}
-      <span class="year-tag">${s.type==='new'?'New Series':'New Season'}</span>
+      ${s.isFind?`<span class="new-badge">NEW FIND</span>`:`<span class="year-tag">${s.type==='new'?'New Series':'New Season'}</span>`}
       <span class="platform-tag ${s.platform==='Hulu'?'hulu':s.platform==='Prime Video'?'prime':s.platform==='Netflix'?'netflix':'apple'}">${s.platform}</span>
       <div class="card-title-area"><div class="card-title">${s.title}</div><div class="card-genre">${s.genre}</div></div>
     </div>
     <div class="card-body">
       <div class="scores">
-        <div class="score rt"><span class="label">RT</span><span class="value">${s.rt}%</span></div>
+        ${typeof s.rt==='number'
+          ?`<div class="score rt"><span class="label">RT</span><span class="value">${s.rt}%</span></div>`
+          :`<div class="score rt na" title="Rotten Tomatoes has no public API — not available for newly found shows"><span class="label">RT</span><span class="value">—</span></div>`}
         <div class="score imdb"><span class="label">IMDb</span><span class="value">${s.imdb}</span></div>
+        ${s.isFind&&s.tmdbScore?`<div class="score user"><span class="label">TMDB</span><span class="value">${s.tmdbScore}</span></div>`:''}
         ${ur?`<div class="score user"><span class="label">You</span><span class="value">${ur}★</span></div>`:''}
       </div>
       <p class="review">${s.review}</p>
@@ -871,7 +965,9 @@ function cardHTML(s,i){
           <button class="act-btn watching ${st==='watching'?'on':''}" title="Watching" onclick="setStatus(${s.id},'watching')">▶</button>
           <button class="act-btn done ${st==='done'?'on':''}" title="Finished" onclick="setStatus(${s.id},'done')">✓</button>
         </div>
-        ${stLabel?`<span class="status-badge ${st}">${stLabel}</span>`:`<span style="font-size:11px;color:var(--muted)">${s.eps} eps · ~${s.runtime}m</span>`}
+        ${stLabel?`<span class="status-badge ${st}">${stLabel}</span>`
+          :`<span style="font-size:11px;color:var(--muted)">${s.metaText||`${s.eps} eps · ~${s.runtime}m`}</span>`}
+        ${s.isFind?`<button class="find-remove" title="Remove this find" onclick="event.stopPropagation();removeFind(${s.id})">✕</button>`:''}
       </div>
     </div>
   </article>`;
@@ -884,10 +980,136 @@ function setStatus(id,status){
 }
 function renderWatchlist(){
   const grid=document.getElementById('wlGrid');
-  let items=SHOWS.filter(s=>{const st=getStatus(s.id);if(!st)return false;return wlFilter==='all'||st===wlFilter;});
+  // includes discovered shows, so anything starred from New Finds shows up here too
+  let items=SHOWS.concat(findsAsShows()).filter(s=>{const st=getStatus(s.id);if(!st)return false;return wlFilter==='all'||st===wlFilter;});
   if(!items.length){grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><h3>Your list is empty</h3><p>Go to Discover and tap ★ ▶ or ✓ on any show</p></div>`;return;}
   grid.innerHTML=items.map((s,i)=>cardHTML(s,i)).join('');
 }
+/* ---------------------------------------------------------------------------
+   NEW FINDS — the button that goes out and looks for more
+
+   The browser never holds an API key. It calls this app's own /api/discover
+   endpoint, which runs on the host (Vercel now, Netlify after Aug 1) and keeps
+   the TMDB and OMDb keys in server-side environment variables.
+
+   The server enforces IMDb >= 7.5 using real IMDb ratings. Rotten Tomatoes has
+   no public API, so RT shows "—" on new finds rather than a number nobody
+   verified.
+--------------------------------------------------------------------------- */
+function findMsg(html, kind){
+  const row = document.getElementById('findStatus');
+  if (!html) { row.style.display = 'none'; row.innerHTML = ''; return; }
+  row.style.display = 'flex';
+  row.innerHTML = '<div class="find-msg ' + (kind || '') + '">' + html + '</div>';
+}
+
+function renderFinds(){
+  const grid = document.getElementById('findGrid');
+  const items = findsAsShows().sort((a,b) => b.imdb - a.imdb);
+  document.getElementById('findCount').textContent = items.length;
+  if (!items.length){
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1">' +
+      '<h3>Nothing found yet</h3><p>Pick a date and press Find New Shows. ' +
+      'Anything it turns up is added here, alongside your original 60.</p></div>';
+    return;
+  }
+  grid.className = 'grid';
+  grid.innerHTML = items.map((s,i) => cardHTML(s,i)).join('');
+}
+
+function removeFind(appId){
+  const key = Number(appId) - FIND_ID_BASE;
+  const f = state.finds[key];
+  delete state.finds[key];
+  delete state.ratings[appId]; delete state.status[appId]; delete state.notes[appId];
+  save(); renderFinds();
+  toast('Removed ' + (f ? f.title : 'find'));
+}
+
+async function runFind(){
+  const btn = document.getElementById('findBtn');
+  const since = document.getElementById('findSince').value;
+  if (!since){ findMsg('Pick a date first — it searches for anything new since then.', 'warn'); return; }
+
+  // A local file has no /api endpoint. Say so plainly instead of failing oddly.
+  if (location.protocol === 'file:'){
+    findMsg('<strong>This button needs the live website.</strong><br>' +
+      'It calls a small server-side function to keep the API keys private, and a file ' +
+      'opened from your Desktop has no server behind it. Open the deployed site and ' +
+      'press it there — everything else in this app works offline as usual.', 'warn');
+    return;
+  }
+
+  const known = SHOWS.map(s => (MEDIA[s.id] && MEDIA[s.id].tmdb) || '').filter(Boolean)
+    .concat(Object.keys(state.finds)).join(',');
+  const titles = SHOWS.map(s => s.title).join('|');
+
+  btn.disabled = true;
+  const label = btn.textContent;
+  btn.innerHTML = '<span class="spin">◠</span> Searching…';
+  findMsg('Checking Hulu, Prime Video, Apple TV and Netflix for anything new since ' +
+          since + ', then looking up real IMDb ratings. This takes a few seconds.');
+
+  try {
+    const url = '/api/discover?since=' + encodeURIComponent(since) +
+                '&known=' + encodeURIComponent(known) +
+                '&titles=' + encodeURIComponent(titles);
+    const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+    const ct = res.headers.get('content-type') || '';
+    if (!ct.includes('json')){
+      findMsg('<strong>The search endpoint isn\'t running yet.</strong><br>' +
+        'The site answered with a page instead of data, which usually means the ' +
+        'serverless function hasn\'t been deployed. Redeploy the project and try again.', 'err');
+      return;
+    }
+    const data = await res.json();
+
+    if (data.code === 'MISSING_KEYS'){
+      findMsg('<strong>One setup step left — the search keys aren\'t installed yet.</strong>' +
+        '<ol>' +
+        '<li>Get a free key at <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">themoviedb.org</a> (this is what finds the shows and posters).</li>' +
+        '<li>Get a free key at <a href="https://www.omdbapi.com/apikey.aspx" target="_blank" rel="noopener">omdbapi.com</a> (this is what supplies the real IMDb ratings).</li>' +
+        '<li>In your hosting dashboard, open this project → Settings → Environment Variables.</li>' +
+        '<li>Add <code>TMDB_API_KEY</code> and <code>OMDB_API_KEY</code>, then redeploy.</li>' +
+        '</ol>Missing right now: <code>' + (data.missing||[]).join('</code>, <code>') + '</code>', 'warn');
+      return;
+    }
+    if (!data.ok){
+      findMsg('<strong>The search couldn\'t finish.</strong><br>' +
+        (data.message || 'Unknown error') + '<br>Nothing was added or changed.', 'err');
+      return;
+    }
+
+    let added = 0;
+    (data.shows || []).forEach(f => {
+      if (state.finds[f.tmdb]) return;
+      state.finds[f.tmdb] = f;
+      added++;
+    });
+    save();
+    renderFinds();
+
+    const bits = [];
+    bits.push('<strong>' + (added ? 'Added ' + added + ' new ' + (added===1?'show':'shows') : 'Nothing new to add') + '.</strong>');
+    bits.push('Checked ' + (data.scanned||0) + ' candidates released since ' + since +
+              '; kept only those with a real IMDb rating of 7.5 or better.');
+    if (data.found > added) bits.push((data.found - added) + ' were already in your list.');
+    bits.push('<span style="color:var(--muted)">Rotten Tomatoes has no public data feed, so RT shows “—” on these — every other number here is real.</span>');
+    if ((data.upstreamErrors||[]).length) {
+      bits.push('<span style="color:var(--warning)">Some services didn\'t answer: ' +
+                data.upstreamErrors.slice(0,2).join('; ') + '</span>');
+    }
+    findMsg(bits.join('<br>'), added ? '' : 'warn');
+    if (added) toast('Added ' + added + ' new ' + (added===1?'show':'shows'));
+  } catch (e){
+    findMsg('<strong>Couldn\'t reach the search service.</strong><br>' +
+      String(e && e.message || e) + '<br>Nothing was added or changed.', 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = label;
+  }
+}
+
 function renderStats(){
   const rated=Object.keys(state.ratings).length;
   const listed=Object.keys(state.status).length;
@@ -908,7 +1130,7 @@ function renderStats(){
   const maxG=Math.max(...Object.values(genres));
   document.getElementById('genreBars').innerHTML=Object.entries(genres).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([k,v])=>`
     <div class="bar-row"><div class="bar-label">${k}</div><div class="bar-track"><div class="bar-fill" style="width:${(v/maxG)*100}%"></div></div><div class="bar-val">${v}</div></div>`).join('');
-  const top=SHOWS.filter(s=>getUserRating(s.id)).sort((a,b)=>getUserRating(b.id)-getUserRating(a.id)).slice(0,5);
+  const top=SHOWS.concat(findsAsShows()).filter(s=>getUserRating(s.id)).sort((a,b)=>getUserRating(b.id)-getUserRating(a.id)).slice(0,5);
   document.getElementById('topRated').innerHTML=top.length?top.map(s=>`
     <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px">
       <span>${s.title}</span><span style="color:var(--gold);font-weight:700">${getUserRating(s.id)} ★</span>
@@ -992,128 +1214,132 @@ function doCompare(){
 const TMDB_IMG = 'https://image.tmdb.org/t/p/w500';
 const MEDIA = {
   // 1 Widow's Bay — TMDB "Widow's Bay" April 28, 2026 | YT "Widow's Bay — Official Teaser Trailer | Apple TV" [Apple TV]
-  1: { poster: "vKq8XEJKxQTHd2Bm5zZMFPUrke7.jpg", trailer: "Nmc2RYm6PUE" },
+  1: { poster: "vKq8XEJKxQTHd2Bm5zZMFPUrke7.jpg", trailer: "Nmc2RYm6PUE", tmdb: 270476 },
   // 2 Ride or Die — TMDB "Ride or Die" July 15, 2026 | YT "Ride or Die - Official Trailer | Prime Video" [Prime Video]
-  2: { poster: "uWqEnvpwa2U28QheMdUdEcr4U0M.jpg", trailer: "QFGAxkTRAG8" },
+  2: { poster: "uWqEnvpwa2U28QheMdUdEcr4U0M.jpg", trailer: "QFGAxkTRAG8", tmdb: 241882 },
   // 3 Furious — TMDB "Furious" July 27, 2026 | YT "Furious | Official Trailer | Hulu" [Hulu]
-  3: { poster: "xnxxrEKtBaIcI1ewq50pLkOMU6u.jpg", trailer: "UBSqPDxmNZs" },
+  3: { poster: "xnxxrEKtBaIcI1ewq50pLkOMU6u.jpg", trailer: "UBSqPDxmNZs", tmdb: 287238 },
   // 4 King of the Hill (S15) — TMDB "King of the Hill" January 12, 1997 | YT "King of the Hill Season 15 | Official Trailer | Hulu" [Hulu]
-  4: { poster: "e2xyMapmYgv4AuSoSDv9Y4pQlD6.jpg", trailer: "g2JXuQ3nKPU" },
+  4: { poster: "e2xyMapmYgv4AuSoSDv9Y4pQlD6.jpg", trailer: "g2JXuQ3nKPU", tmdb: 2122 },
   // 5 Margo's Got Money Troubles — TMDB "Margo's Got Money Troubles" April 14, 2026 | YT "Margo's Got Money Troubles — Official Trailer | Apple TV" [Apple TV]
-  5: { poster: "fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg", trailer: "AjI52haEerU" },
+  5: { poster: "fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg", trailer: "AjI52haEerU", tmdb: 245318 },
   // 6 Bait — TMDB "Bait" March 25, 2026 | YT "Bait - Official Trailer | Prime Video" [Prime Video]
-  6: { poster: "gX9zWmUnrjCZEPpultvvFtSUb93.jpg", trailer: "FpAhwL91HyA" },
+  6: { poster: "gX9zWmUnrjCZEPpultvvFtSUb93.jpg", trailer: "FpAhwL91HyA", tmdb: 257519 },
   // 7 Off Campus — TMDB "Off Campus" May 13, 2026 | YT "Off Campus - Official Teaser Trailer | Prime Video" [Prime Video]
-  7: { poster: "tcPc5ZMBO4y2BtCJMe3o2nwZb2B.jpg", trailer: "qhhfIk99HdQ" },
+  7: { poster: "tcPc5ZMBO4y2BtCJMe3o2nwZb2B.jpg", trailer: "qhhfIk99HdQ", tmdb: 273240 },
   // 8 Spider-Noir — TMDB "Spider-Noir" May 25, 2026 | YT "“Spider-Noir” – Authentic Black & White Teaser Trailer | Prime Video" [Prime Video]
-  8: { poster: "oD8WSVqz84ZRfelkr7JPeJwR9Iv.jpg", trailer: "HgMbkitzhEM" },
+  8: { poster: "oD8WSVqz84ZRfelkr7JPeJwR9Iv.jpg", trailer: "HgMbkitzhEM", tmdb: 220102 },
   // 9 The Vampire Lestat — TMDB "The Vampire Lestat" June  7, 2026 | YT "The Vampire Lestat Season 1 Trailer" [Rotten Tomatoes TV]
-  9: { poster: "gZcmNUcDDR1nR7lmroOJTCrhrhK.jpg", trailer: "JuC2IoyLoIQ" },
+  9: { poster: "gZcmNUcDDR1nR7lmroOJTCrhrhK.jpg", trailer: "JuC2IoyLoIQ", tmdb: 323411 },
   // 10 Shoresy (S5) — TMDB "Shoresy" May 13, 2022 | YT "Shoresy Season 5 | Trailer" [Shoresy]
-  10: { poster: "ai5Bf8eRcroeEAAyVrKmrE8wW74.jpg", trailer: "tblYK5t73ys" },
+  10: { poster: "ai5Bf8eRcroeEAAyVrKmrE8wW74.jpg", trailer: "tblYK5t73ys", tmdb: 158756 },
   // 11 Trying (S5) — TMDB "Trying" September  6, 2023 | YT "Trying — Season 5 Official Trailer | Apple TV" [Apple TV]
-  11: { poster: "8z5GtbsfkY0JEJHIA8VvPqEFB8C.jpg", trailer: "8-_Oxuozsw4" },
+  11: { poster: "8z5GtbsfkY0JEJHIA8VvPqEFB8C.jpg", trailer: "8-_Oxuozsw4", tmdb: 206733 },
   // 12 Batman: Caped Crusader (S2) — TMDB "Batman: Caped Crusader" August  1, 2024 | YT "Batman: Caped Crusader Season 2 - Official Trailer | Prime Video" [Prime Video]
-  12: { poster: "zCHmmoqtLsIsou866osiWtIWmoA.jpg", trailer: "pNhijtUqyeg" },
+  12: { poster: "zCHmmoqtLsIsou866osiWtIWmoA.jpg", trailer: "pNhijtUqyeg", tmdb: 125909 },
   // 13 Sunny Nights — TMDB "Sunny Nights" December 26, 2025 | YT "Sunny Nights | Trailer | Hulu" [Hulu]
-  13: { poster: "7n91F2320KptcPUXXY3lMtx3k1I.jpg", trailer: "gQnKTSFHVjQ" },
+  13: { poster: "7n91F2320KptcPUXXY3lMtx3k1I.jpg", trailer: "gQnKTSFHVjQ", tmdb: 258918 },
   // 14 Maximum Pleasure Guaranteed — TMDB "Maximum Pleasure Guaranteed" May 19, 2026 | YT "Maximum Pleasure Guaranteed — Official Teaser "The Scam" | Apple TV" [Apple TV]
-  14: { poster: "oeD9rnfk7AohNiJTRoCx4SOKhXj.jpg", trailer: "I28gOWOUpp8" },
+  14: { poster: "oeD9rnfk7AohNiJTRoCx4SOKhXj.jpg", trailer: "I28gOWOUpp8", tmdb: 285404 },
   // 15 Colin from Accounts (S2) — TMDB "Colin from Accounts" December  1, 2022 | YT "Colin From Accounts S2 | Official Trailer | BINGE" [BINGE]
-  15: { poster: "zYPRXAImgarNSKrwd4kXobjXQNQ.jpg", trailer: "g72hEoXXuq8" },
+  15: { poster: "zYPRXAImgarNSKrwd4kXobjXQNQ.jpg", trailer: "g72hEoXXuq8", tmdb: 203614 },
   // 16 The East Palace — TMDB "The East Palace" | YT "The East Palace | Official Trailer | Netflix" [Netflix]
-  16: { poster: "yfYohBszGqoAW8oM0qydOtJ4kPh.jpg", trailer: "wBUkNE1l9DU" },
+  16: { poster: "yfYohBszGqoAW8oM0qydOtJ4kPh.jpg", trailer: "wBUkNE1l9DU", tmdb: 279323 },
   // 17 Bridgerton (S4) — TMDB "Bridgerton" December 25, 2020 | YT "Bridgerton Season 4 | Official Trailer | Netflix" [Netflix]
-  17: { poster: "uXTg565ahu9RwonCX1V2Hex1NU6.jpg", trailer: "IqaXNwAzSmQ" },
+  17: { poster: "uXTg565ahu9RwonCX1V2Hex1NU6.jpg", trailer: "IqaXNwAzSmQ", tmdb: 91239 },
   // 18 One Piece (S2) — TMDB "ONE PIECE" August 31, 2023 | YT "ONE PIECE: Season 2 | Official Trailer | Netflix" [Netflix]
-  18: { poster: "blWCPEqDGLBuLB9u89CxP9ORQP4.jpg", trailer: "S-XxKVxZ2fU" },
+  18: { poster: "blWCPEqDGLBuLB9u89CxP9ORQP4.jpg", trailer: "S-XxKVxZ2fU", tmdb: 111110 },
   // 19 The Boroughs — TMDB "The Boroughs" May 21, 2026 | YT "The Boroughs | Official Trailer | Netflix" [Netflix]
-  19: { poster: "oKxBWbXmnWFO2Wh1QRTtshdfIRa.jpg", trailer: "PsvUvqXoTpE" },
+  19: { poster: "oKxBWbXmnWFO2Wh1QRTtshdfIRa.jpg", trailer: "PsvUvqXoTpE", tmdb: 224941 },
   // 20 His & Hers — TMDB "HIS & HERS" January  8, 2026 | YT "HIS & HERS | Official Trailer | Netflix" [Netflix]
-  20: { poster: "cDSXLVQLkCSBIpBx3UW04TsfZ5c.jpg", trailer: "8_szlvBLll0" },
+  20: { poster: "cDSXLVQLkCSBIpBx3UW04TsfZ5c.jpg", trailer: "8_szlvBLll0", tmdb: 259731 },
   // 21 The Witness — TMDB "The Witness" June  4, 2026 | YT "The Witness | Official Trailer | Netflix" [Netflix]
-  21: { poster: "6vW1V7qejXv4QI2TvWvYuowfTrU.jpg", trailer: "3iKFLt9gjAU" },
+  21: { poster: "6vW1V7qejXv4QI2TvWvYuowfTrU.jpg", trailer: "3iKFLt9gjAU", tmdb: 280511 },
   // 22 Avatar: The Last Airbender (S2) — TMDB "Avatar: The Last Airbender" February 22, 2024 | YT "Avatar: The Last Airbender: Season 2 | Official Trailer | Netflix" [Netflix]
-  22: { poster: "lzZpWEaqzP0qVA5nkCc5ASbNcSy.jpg", trailer: "M_Las484swM" },
+  22: { poster: "lzZpWEaqzP0qVA5nkCc5ASbNcSy.jpg", trailer: "M_Las484swM", tmdb: 82452 },
   // 23 I Will Find You — TMDB "I Will Find You" June 18, 2026 | YT "I Will Find You | Official Trailer | Netflix" [Netflix]
-  23: { poster: "pb9oYHHNzauiCQZT03MpDAg46GI.jpg", trailer: "mObRUsA7dPY" },
+  23: { poster: "pb9oYHHNzauiCQZT03MpDAg46GI.jpg", trailer: "mObRUsA7dPY", tmdb: 278178 },
   // 24 Little House on the Prairie — TMDB "Little House on the Prairie" July  9, 2026 | YT "Little House on the Prairie | Official Trailer | Netflix" [Netflix]
-  24: { poster: "oWUGSadxC9vQPOCeHDDVfDezmQC.jpg", trailer: "jSds4Oi83Eg" },
+  24: { poster: "oWUGSadxC9vQPOCeHDDVfDezmQC.jpg", trailer: "jSds4Oi83Eg", tmdb: 283304 },
   // 25 Ransom Canyon (S2) — TMDB "Ransom Canyon" April 17, 2025 | YT "Ransom Canyon: Season 2 | Official Trailer | Netflix" [Netflix]
-  25: { poster: "1efzyMfIe3WauOCWk7Gn56gj7sL.jpg", trailer: "2XKyPE92owY" },
+  25: { poster: "1efzyMfIe3WauOCWk7Gn56gj7sL.jpg", trailer: "2XKyPE92owY", tmdb: 240993 },
   // 26 Teach You a Lesson — TMDB "Teach You a Lesson" | YT "Teach You a Lesson | Official Trailer | Netflix [ENG SUB]" [Netflix K-Content]
-  26: { poster: "fMECSPrTmRClSViMsXFYmiYIcWP.jpg", trailer: "LdezlX84py0" },
+  26: { poster: "fMECSPrTmRClSViMsXFYmiYIcWP.jpg", trailer: "LdezlX84py0", tmdb: 276161 },
   // 27 Nemesis — TMDB "Nemesis" May 14, 2026 | YT "Nemesis | Official Trailer | Netflix" [Netflix]
-  27: { poster: "NY7ZwSMw5PjoJdK2CObqiTj7Bm.jpg", trailer: "M9nc3simqAE" },
+  27: { poster: "NY7ZwSMw5PjoJdK2CObqiTj7Bm.jpg", trailer: "M9nc3simqAE", tmdb: 285807 },
   // 28 The Night Agent (S3) — TMDB "The Night Agent" March 23, 2023 | YT "The Night Agent: Season 3 | Official Trailer | Netflix" [Netflix]
-  28: { poster: "4c5yUNcaff4W4aPrkXE6zr7papX.jpg", trailer: "1F6BCHAfGDc" },
+  28: { poster: "4c5yUNcaff4W4aPrkXE6zr7papX.jpg", trailer: "1F6BCHAfGDc", tmdb: 129552 },
   // 29 A Good Girl's Guide to Murder — TMDB "A Good Girl's Guide to Murder" July 10, 2024 | YT "A Good Girl's Guide to Murder | Official Trailer | Netflix" [Netflix]
-  29: { poster: "pVV62HbgLP7JsZv096XmjPZtjdP.jpg", trailer: "wA39lIDm75Y" },
+  29: { poster: "pVV62HbgLP7JsZv096XmjPZtjdP.jpg", trailer: "wA39lIDm75Y", tmdb: 218342 },
   // 30 Solar Opposites (S6) — TMDB "Solar Opposites" May  8, 2020 | YT "Solar Opposites Official Trailer | Season 6 | Hulu" [Hulu]
-  30: { poster: "nuBD4dlO7gfg4RhW0sS0pTeiYRc.jpg", trailer: "39tinqfGV_I" },
+  30: { poster: "nuBD4dlO7gfg4RhW0sS0pTeiYRc.jpg", trailer: "39tinqfGV_I", tmdb: 97645 },
   // 31 The Pitt (S2) — TMDB "The Pitt" January  9, 2025 | YT "The Pitt Season 2 | Official Trailer | HBO Max" [HBO Max]
-  31: { poster: "kvFSpESyBZMjaeOJDx7RS3P1jey.jpg", trailer: "Xq8x47ky2Tw" },
+  31: { poster: "kvFSpESyBZMjaeOJDx7RS3P1jey.jpg", trailer: "Xq8x47ky2Tw", tmdb: 250307 },
   // 32 House of Stassi — TMDB "House of Stassi" July 29, 2026 | YT "House of Stassi | Official Trailer" [Hulu]
-  32: { poster: "Y9eB8hNiRYkR2XFShHre4nDrfW.jpg", trailer: "0t_xKRRgmOI" },
+  32: { poster: "Y9eB8hNiRYkR2XFShHre4nDrfW.jpg", trailer: "0t_xKRRgmOI", tmdb: 321954 },
   // 33 The Shards — TMDB "The Shards" August  5, 2026 | YT "The Shards | Official Trailer | Igby Rigney, Kaia Gerber, Hayes Warner | FX" [FX Networks]
-  33: { poster: "876V23IJpddyLcO1wvJUdSft585.jpg", trailer: "Zpm9HUOrZIc" },
+  33: { poster: "876V23IJpddyLcO1wvJUdSft585.jpg", trailer: "Zpm9HUOrZIc", tmdb: 298168 },
   // 34 Adults (S2) — TMDB "Adults" May 28, 2025 | YT "FX's Adults | Official Trailer | Disney+" [Disney Australia & New Zealand]
-  34: { poster: "5wImdllhGNvu8HDCvwL8PvuOLFq.jpg", trailer: "YZgDTseb5fQ" },
+  34: { poster: "5wImdllhGNvu8HDCvwL8PvuOLFq.jpg", trailer: "YZgDTseb5fQ", tmdb: 260458 },
   // 35 Futurama (S14) — TMDB "Futurama" March 28, 1999 | YT "Futurama | Season 14 Trailer | Hulu" [Hulu]
-  35: { poster: "6ZS8SOno6kTmWz4eQ8lX8EBXOMv.jpg", trailer: "Jb2LBG5qa88" },
+  35: { poster: "6ZS8SOno6kTmWz4eQ8lX8EBXOMv.jpg", trailer: "Jb2LBG5qa88", tmdb: 615 },
   // 36 Tell Me Lies (S3) — TMDB "Tell Me Lies" September  7, 2022 | YT "Tell Me Lies Season 3 | Official Trailer | Disney+ UK" [Disney Plus UK]
-  36: { poster: "blOAzeqf2EUrRvjK2VWDRs4nK7l.jpg", trailer: "gkV9-kLasvM" },
+  36: { poster: "blOAzeqf2EUrRvjK2VWDRs4nK7l.jpg", trailer: "gkV9-kLasvM", tmdb: 130464 },
   // 37 Only Murders in the Building (S6) — TMDB "Only Murders in the Building" August 31, 2021 | YT "Only Murders in the Building (Official) Teaser | Hulu" [Hulu]
-  37: { poster: "1yjFVQZuW8aofZ5Cgol8iImsVFp.jpg", trailer: "JRgyBaTulbs" },
+  37: { poster: "1yjFVQZuW8aofZ5Cgol8iImsVFp.jpg", trailer: "JRgyBaTulbs", tmdb: 107113 },
   // 38 The Bear (Final) — TMDB "The Bear" June 23, 2022 | YT "The Bear Season 1 Trailer | Rotten Tomatoes TV" [Rotten Tomatoes TV]
-  38: { poster: "eKfVzzEazSIjJMrw9ADa2x8ksLz.jpg", trailer: "gBmkI4jlaIo" },
+  38: { poster: "eKfVzzEazSIjJMrw9ADa2x8ksLz.jpg", trailer: "gBmkI4jlaIo", tmdb: 136315 },
   // 39 High Potential (S3) — TMDB "High Potential" September 17, 2024 | YT "High Potential Season 3 Trailer (2027) | Release Date And Everything We Know" [October Sky Studios]
-  39: { poster: "xCtaUDBUP1iKqtoqpHfeH1T2pWF.jpg", trailer: "xj5F87q9JQ4" },
+  39: { poster: "xCtaUDBUP1iKqtoqpHfeH1T2pWF.jpg", trailer: "xj5F87q9JQ4", tmdb: 226637 },
   // 40 Abbott Elementary (S5) — TMDB "Abbott Elementary" December  7, 2021 | YT "Abbott Elementary Season 5 Trailer (HD) comedy series" [TV Promos]
-  40: { poster: "nBe1e3JJEZ6veGrVXNF0fRoLu56.jpg", trailer: "mskeTy-9u08" },
+  40: { poster: "nBe1e3JJEZ6veGrVXNF0fRoLu56.jpg", trailer: "mskeTy-9u08", tmdb: 125935 },
   // 41 Reacher (S4) — TMDB "Reacher" February  3, 2022 | YT "REACHER Season 4 - Official Trailer | Prime Video" [Prime Video]
-  41: { poster: "f1VCQIG2iCyOookdgOzwtUpwWC0.jpg", trailer: "PCbp1FfipPg" },
+  41: { poster: "f1VCQIG2iCyOookdgOzwtUpwWC0.jpg", trailer: "PCbp1FfipPg", tmdb: 108978 },
   // 42 The Boys (S5) — TMDB "The Boys" July 25, 2019 | YT "THE BOYS Season 5 Official Trailer (2026)" [KinoCheck.com]
-  42: { poster: "in1R2dDc421JxsoRWaIIAqVI2KE.jpg", trailer: "ZUZ887GGR8c" },
+  42: { poster: "in1R2dDc421JxsoRWaIIAqVI2KE.jpg", trailer: "ZUZ887GGR8c", tmdb: 76479 },
   // 43 Fallout (S2) — TMDB "Fallout" April 10, 2024 | YT "Fallout Season Two Official Trailer | Prime Video" [Prime Video]
-  43: { poster: "c15BtJxCXMrISLVmysdsnZUPQft.jpg", trailer: "ECI3eCAxRGw" },
+  43: { poster: "c15BtJxCXMrISLVmysdsnZUPQft.jpg", trailer: "ECI3eCAxRGw", tmdb: 106379 },
   // 44 Mr. & Mrs. Smith (S2) — TMDB "Mr. & Mrs. Smith" February  1, 2024 | YT "Season 2... are you in? | Mr. & Mrs. Smith" [Prime Video]
-  44: { poster: "kvJvGxsDLi3MmHzc9nregyJtOWY.jpg", trailer: "IDn88R7D2-k" },
+  44: { poster: "kvJvGxsDLi3MmHzc9nregyJtOWY.jpg", trailer: "IDn88R7D2-k", tmdb: 118642 },
   // 45 The Lord of the Rings: The Rings of Power (S3) — TMDB "The Lord of the Rings: The Rings of Power" September  1, 2022 | YT "The Lord of The Rings: The Rings of Power Season 3 - Official Teaser Trailer | Comic Con 2026" [IGN]
-  45: { poster: "kf5Hz70tjNAHg4swGDzOr9BfoZ1.jpg", trailer: "yhmE8C_HOso" },
+  45: { poster: "kf5Hz70tjNAHg4swGDzOr9BfoZ1.jpg", trailer: "yhmE8C_HOso", tmdb: 84773 },
   // 46 Upload (S4) — TMDB "Upload" April 30, 2020 | YT "Upload Season 4 - Official Trailer | Prime Video" [Prime Video]
-  46: { poster: "6TPGDrU9MyWbn2TpggJphVAVXiq.jpg", trailer: "AWTnGzgL720" },
+  46: { poster: "6TPGDrU9MyWbn2TpggJphVAVXiq.jpg", trailer: "AWTnGzgL720", tmdb: 86248 },
   // 47 The Terminal List (S2) — TMDB "The Terminal List" June 30, 2022 | YT "Terminal List S2: Chris Pratt | Prime Video" [Prime Video Malaysia]
-  47: { poster: "jbyaKYNexl1poKZnEmB6Qobn60s.jpg", trailer: "o0eQ7zIax-Q" },
+  47: { poster: "jbyaKYNexl1poKZnEmB6Qobn60s.jpg", trailer: "o0eQ7zIax-Q", tmdb: 120911 },
   // 48 Expats — TMDB "Expats" January 25, 2024 | YT "Expats - Official Trailer | Prime Video" [Prime Video]
-  48: { poster: "vKAkT96TIf3Mh8q2FXV6GqcuJab.jpg", trailer: "whHb3ClSdrQ" },
+  48: { poster: "vKAkT96TIf3Mh8q2FXV6GqcuJab.jpg", trailer: "whHb3ClSdrQ", tmdb: 95556 },
   // 49 A Murder at the End of the World — TMDB "A Murder at the End of the World" November 14, 2023 | YT "A Murder at the End of the World Limited Series Trailer" [Rotten Tomatoes TV]
-  49: { poster: "1mWCXJefbNU1E2XPJVM2vejMSZO.jpg", trailer: "iPAfWAkCHuU" },
+  49: { poster: "1mWCXJefbNU1E2XPJVM2vejMSZO.jpg", trailer: "iPAfWAkCHuU", tmdb: 134095 },
   // 50 The Legend of Vox Machina (S4) — TMDB "The Legend of Vox Machina" January 27, 2022 | YT "The Legend of Vox Machina S4 - Official Trailer | Prime Video" [Prime Video]
-  50: { poster: "zjQTSYZEmy0GVnK1aFLvNiAwluo.jpg", trailer: "FkqIXFztj6Q" },
+  50: { poster: "zjQTSYZEmy0GVnK1aFLvNiAwluo.jpg", trailer: "FkqIXFztj6Q", tmdb: 135934 },
   // 51 Severance (S3) — TMDB "Severance" February 17, 2022 | YT "Severance — Official Trailer | Apple TV" [Apple TV]
-  51: { poster: "pPHpeI2X1qEd1CS1SeyrdhZ4qnT.jpg", trailer: "xEQP4VVuyrY" },
+  51: { poster: "pPHpeI2X1qEd1CS1SeyrdhZ4qnT.jpg", trailer: "xEQP4VVuyrY", tmdb: 95396 },
   // 52 The Morning Show (S5) — TMDB "The Morning Show" November  1, 2019 | YT "The Morning Show — Official Teaser Trailer | Apple TV" [Apple TV]
-  52: { poster: "y9x2R87yt2U616736NJrP0d56dt.jpg", trailer: "BeXtt2X6nDk" },
+  52: { poster: "y9x2R87yt2U616736NJrP0d56dt.jpg", trailer: "BeXtt2X6nDk", tmdb: 90282 },
   // 53 Ted Lasso (S4) — TMDB "Ted Lasso" August 14, 2020 | YT "Ted Lasso — Season 4 Official Trailer (Together) | Apple TV" [Apple TV]
-  53: { poster: "5fhZdwP1DVJ0FyVH6vrFdHwpXIn.jpg", trailer: "GACU1N9hg5o" },
+  53: { poster: "5fhZdwP1DVJ0FyVH6vrFdHwpXIn.jpg", trailer: "GACU1N9hg5o", tmdb: 97546 },
   // 54 For All Mankind (S5) — TMDB "For All Mankind" November  1, 2019 | YT "For All Mankind — Season 5 Official Trailer | Apple TV" [Apple TV]
-  54: { poster: "JP3DItWMbrrLiKR5AYUfpsNf2b.jpg", trailer: "zojwKLlY_H8" },
+  54: { poster: "JP3DItWMbrrLiKR5AYUfpsNf2b.jpg", trailer: "zojwKLlY_H8", tmdb: 87917 },
   // 55 Slow Horses (S5) — TMDB "Slow Horses" April  1, 2022 | YT "Slow Horses — Season 5 Official Trailer | Apple TV" [Apple TV]
-  55: { poster: "5RuZZIouptatjV96BdPmKmRsnGg.jpg", trailer: "A9BCtrziWtg" },
+  55: { poster: "5RuZZIouptatjV96BdPmKmRsnGg.jpg", trailer: "A9BCtrziWtg", tmdb: 95480 },
   // 56 Shrinking (S3) — TMDB "Shrinking" January 26, 2023 | YT "Shrinking — Season 3 Official Trailer | Apple TV" [Apple TV]
-  56: { poster: "zEFKMNPBKq6JG7uuDkzTQ9WwErn.jpg", trailer: "vGWSq5mra-w" },
+  56: { poster: "zEFKMNPBKq6JG7uuDkzTQ9WwErn.jpg", trailer: "vGWSq5mra-w", tmdb: 136311 },
   // 57 Foundation (S3) — TMDB "Foundation" September 23, 2021 | YT "Foundation — Season 3 Official Trailer | Apple TV" [Apple TV]
-  57: { poster: "tg9I5pOY4M9CKj8U0cxVBTsm5eh.jpg", trailer: "C53xEOdxz70" },
+  57: { poster: "tg9I5pOY4M9CKj8U0cxVBTsm5eh.jpg", trailer: "C53xEOdxz70", tmdb: 93740 },
   // 58 The New Look — TMDB "The New Look" February 13, 2024 | YT "The New Look — Official Trailer | Apple TV" [Apple TV]
-  58: { poster: "aQBpF8VmEIgow41OL9h4nU4WN6v.jpg", trailer: "lXN5Ws7LxkA" },
+  58: { poster: "aQBpF8VmEIgow41OL9h4nU4WN6v.jpg", trailer: "lXN5Ws7LxkA", tmdb: 157368 },
   // 59 Masters of the Air — TMDB "Masters of the Air" January 25, 2024 | YT "Masters of the Air — Official Trailer | Apple TV" [Apple TV]
-  59: { poster: "rSAmgcoA74371rplbqM27yVsd3y.jpg", trailer: "lA-1JCRguZ0" },
+  59: { poster: "rSAmgcoA74371rplbqM27yVsd3y.jpg", trailer: "lA-1JCRguZ0", tmdb: 46518 },
   // 60 Pachinko (S3) — TMDB "Pachinko" March 24, 2022 | YT "Pachinko — Official Trailer | Apple TV" [Apple TV]
-  60: { poster: "wUTXdmL6oNjhiStGveOaPeuFOYQ.jpg", trailer: "O1r5XXJOYNA" },
+  60: { poster: "wUTXdmL6oNjhiStGveOaPeuFOYQ.jpg", trailer: "O1r5XXJOYNA", tmdb: 110382 },
 };
 
 function posterOf(id) {
+  if (isFindId(id)) {                       // discovered show, poster came from TMDB too
+    const f = state.finds[Number(id) - FIND_ID_BASE];
+    return f && f.poster ? TMDB_IMG + '/' + f.poster : null;
+  }
   const m = MEDIA[id];
   return m && m.poster ? TMDB_IMG + '/' + m.poster : null;
 }
@@ -1152,10 +1378,16 @@ function artHTML(s) {
      - served over http(s)     -> play inline, right here in the app
    Either way it is a single click and the video starts by itself.
 --------------------------------------------------------------------------- */
-function trailerIdOf(id) { return (MEDIA[id] && MEDIA[id].trailer) || null; }
+function trailerIdOf(id) {
+  if (isFindId(id)) {
+    const f = state.finds[Number(id) - FIND_ID_BASE];
+    return (f && f.trailer) || null;
+  }
+  return (MEDIA[id] && MEDIA[id].trailer) || null;
+}
 
 function playTrailer(id) {
-  const s = SHOWS.find(x => x.id === id);
+  const s = getShow(id);
   if (!s) return;
   const vid = trailerIdOf(id);
 
@@ -1220,7 +1452,7 @@ function closeTrailerPlayer() {
 }
 
 function openModal(id){
-  const s=SHOWS.find(x=>x.id===id);if(!s)return;
+  const s=getShow(id);if(!s)return;
   const ur=getUserRating(id);const st=getStatus(id);const note=state.notes[id]||'';
   const trailerQ=encodeURIComponent(s.title+' official trailer 2026');
   const similar=getSimilar(s,10);
@@ -1239,8 +1471,11 @@ function openModal(id){
     </div>
     <div class="modal-body">
       <div class="modal-scores">
-        <div class="score rt"><span class="label">RT Audience</span><span class="value">${s.rt}%</span></div>
+        ${typeof s.rt==='number'
+          ?`<div class="score rt"><span class="label">RT Audience</span><span class="value">${s.rt}%</span></div>`
+          :`<div class="score rt na" title="Rotten Tomatoes has no public API, so this isn't available for newly found shows"><span class="label">RT Audience</span><span class="value">—</span></div>`}
         <div class="score imdb"><span class="label">IMDb</span><span class="value">${s.imdb}</span></div>
+        ${s.isFind&&s.tmdbScore?`<div class="score user"><span class="label">TMDB</span><span class="value">${s.tmdbScore}</span></div>`:''}
         ${ur?`<div class="score user"><span class="label">You</span><span class="value">${ur}★</span></div>`:''}
       </div>
       <p class="modal-review">${s.review}</p>
@@ -1333,6 +1568,25 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){closeTrailerPlayer();closeModal();}
   if(e.key==='/'&&document.activeElement.tagName!=='INPUT'&&document.activeElement.tagName!=='TEXTAREA'){e.preventDefault();document.getElementById('search').focus();}
 });
+/* New Finds wiring. Default date = the day after the newest premiere already in
+   the app, so the first search naturally looks for what came after the 60. */
+(function initFinds(){
+  const input = document.getElementById('findSince');
+  // Local date, NOT toISOString() — that converts to UTC and in a US evening
+  // rolls the date forward a day, which would search "since tomorrow".
+  const ymd = d => d.getFullYear() + '-' +
+    String(d.getMonth() + 1).padStart(2, '0') + '-' +
+    String(d.getDate()).padStart(2, '0');
+
+  const today = new Date();
+  // Default to 90 days back: recent enough to be relevant, wide enough to
+  // actually return something on the first press.
+  const back = new Date(today.getTime() - 90 * 24 * 60 * 60 * 1000);
+  input.value = ymd(back);
+  input.max = ymd(today);
+  document.getElementById('findBtn').onclick = runFind;
+})();
+
 render();
 </script>
 </body>

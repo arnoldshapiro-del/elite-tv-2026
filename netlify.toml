@@ -4,6 +4,15 @@
 [build]
   publish = "."
   command = ""
+  functions = "netlify/functions"
+
+# "Find New Shows" calls /api/discover on both hosts. Vercel routes that to
+# api/discover.js natively; Netlify needs this redirect to its own function.
+[[redirects]]
+  from = "/api/discover"
+  to = "/.netlify/functions/discover"
+  status = 200
+  force = true
 
 [[headers]]
   for = "/*"

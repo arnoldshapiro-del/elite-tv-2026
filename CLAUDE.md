@@ -85,10 +85,46 @@ truth for the deployed app.
 - JSON export of your ratings/watchlist/notes
 - One-click official trailer per show; "10 more series rated as high" per show
 
+## "Find New Shows" button (New Finds tab)
+Goes out and looks for series / new seasons that appeared on the four services
+since a date Arnie picks, and adds them alongside the 60 (never replacing them).
+
+**Requires two free API keys as environment variables on the host:**
+- `TMDB_API_KEY` — https://www.themoviedb.org/settings/api (finds shows + posters + trailers)
+- `OMDB_API_KEY` — https://www.omdbapi.com/apikey.aspx (supplies REAL IMDb ratings)
+
+Without them the button shows a setup panel with these steps — it never fails silently.
+Diagnostic: hit `/api/discover?selftest=1` — it reports each key as "key works" or
+the exact upstream error.
+
+Architecture:
+- `lib/discover-core.js` — all the logic, ONE copy shared by both hosts
+- `api/discover.js` — Vercel serverless function (`GET /api/discover`)
+- `netlify/functions/discover.js` — same core, reached via the netlify.toml redirect
+- Keys live only in host env vars. The browser never sees them; nothing is committed.
+
+Rules it enforces:
+- IMDb >= 7.5 using the real IMDb rating. No rating available -> the show is dropped.
+- **RT Audience is returned as null and displayed as "—".** Rotten Tomatoes has no
+  public API. Do NOT "fill this in" with TMDB's score relabelled as RT.
+- Trailers come from TMDB's own videos endpoint, preferring `official: true`, then
+  verified through YouTube oEmbed exactly like the original 60.
+- News and talk genres excluded; reality kept (his 60 include one).
+- Capped at 40 candidates per run to stay inside OMDb's free 1,000/day.
+
+Discovered shows live in `state.finds` (localStorage), keyed by TMDB id, and are
+given app ids of `100000 + tmdbId` so they can never collide with the curated
+1-60. `getShow(id)` resolves either kind; watchlist, ratings, notes, modal and
+trailers all work on them with no special cases.
+
 ## File Structure
 - index.html — the entire app (CSS + HTML + JS + all 60 shows + MEDIA map)
+- lib/discover-core.js — shared server logic for the Find New Shows button
+- api/discover.js — Vercel function
+- netlify/functions/discover.js — Netlify function (Aug 1 onward)
 - manifest.json, icon.svg, icon-maskable.svg — PWA
-- netlify.toml — ready for the Aug 1, 2026 Netlify connect
+- netlify.toml — publish config, /api redirect, ready for the Aug 1 connect
+- package.json — pins Node >= 18 for the functions
 
 ## Known Issues / Notes
 - Scores are a static snapshot (July 2026)
