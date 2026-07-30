@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 Elite TV — Ultimate Discovery</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icon.svg">
+<meta name="theme-color" content="#8b5cf6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Elite TV 2026">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="description" content="60 elite 2026 series on Hulu, Prime Video, Apple TV and Netflix — real posters, one-click official trailers, watchlist, ratings and stats.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07070c; --surface: #101018; --surface2: #181822; --surface3: #22222e;
+  --border: #2c2c3a; --text: #f2f2f7; --muted: #8e8e9e; --accent: #8b5cf6;
+  --accent-glow: rgba(139,92,246,0.35); --hulu: #1ce783; --prime: #00a8e1;
+  --apple: #c0c0c8; --gold: #f5c518; --rt: #fa320a; --success: #22c55e;
+  --danger: #ef4444; --warning: #f59e0b; --radius: 14px;
+  --shadow: 0 12px 40px rgba(0,0,0,0.45);
+}
+[data-theme="light"] {
+  --bg: #f4f4f8; --surface: #ffffff; --surface2: #f0f0f5; --surface3: #e8e8f0;
+  --border: #d8d8e4; --text: #12121a; --muted: #6a6a7a;
+  --shadow: 0 12px 40px rgba(0,0,0,0.08);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text);
+  min-height: 100vh; line-height: 1.5; transition: background 0.3s, color 0.3s;
+}
+body::before {
+  content: ''; position: fixed; top: -30%; left: -15%; width: 70%; height: 70%;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+.app { position: relative; z-index: 1; max-width: 1440px; margin: 0 auto; padding: 0 16px 100px; }
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: blur(16px); border-bottom: 1px solid var(--border);
+  padding: 12px 16px; margin: 0 -16px;
+}
+.nav-inner {
+  max-width: 1440px; margin: 0 auto; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+}
+.logo {
+  font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 700;
+  background: linear-gradient(135deg, #fff, #c4b5fd, #f9a8d4);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; white-space: nowrap;
+}
+[data-theme="light"] .logo {
+  background: linear-gradient(135deg, #4c1d95, #7c3aed, #db2777);
+  -webkit-background-clip: text;
+}
+.nav-tabs { display: flex; gap: 4px; flex: 1; }
+.nav-tab {
+  background: transparent; border: none; color: var(--muted); padding: 8px 14px;
+  border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+}
+.nav-tab:hover { color: var(--text); background: var(--surface2); }
+.nav-tab.active { color: #fff; background: var(--accent); }
+.nav-actions { display: flex; gap: 8px; align-items: center; }
+.icon-btn {
+  width: 38px; height: 38px; border-radius: 10px; background: var(--surface2);
+  border: 1px solid var(--border); color: var(--text); display: flex; align-items: center;
+  justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 16px;
+}
+.icon-btn:hover { border-color: var(--accent); background: var(--surface3); }
+.hero { text-align: center; padding: 36px 0 24px; }
+.hero h1 {
+  font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+  font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px;
+}
+.hero p { color: var(--muted); max-width: 560px; margin: 0 auto 20px; font-size: 15px; }
+.platform-pills { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.ppill {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border);
+}
+.ppill.hulu { color: var(--hulu); border-color: rgba(28,231,131,0.35); }
+.ppill.prime { color: var(--prime); border-color: rgba(0,168,225,0.35); }
+.ppill.apple { color: var(--apple); border-color: rgba(192,192,200,0.35); }
+.ppill.netflix { color: #e50914; border-color: rgba(229,9,20,0.4); }
+.platform-tag.netflix { background: rgba(229,9,20,0.22); color: #e50914; }
+
+.controls {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 16px; margin-bottom: 20px; box-shadow: var(--shadow);
+}
+.controls-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 10px; }
+.controls-row:last-child { margin-bottom: 0; }
+.search-wrap { flex: 1; min-width: 200px; position: relative; }
+.search-wrap input {
+  width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 14px 10px 40px; color: var(--text); font-size: 14px; outline: none; transition: border-color 0.2s;
+}
+.search-wrap input:focus { border-color: var(--accent); }
+.search-wrap svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+select, .btn {
+  background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+  border-radius: 10px; padding: 9px 14px; font-size: 13px; font-weight: 500;
+  cursor: pointer; outline: none; transition: all 0.2s;
+}
+select:hover, .btn:hover { border-color: var(--accent); }
+.btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-group { display: flex; gap: 4px; flex-wrap: wrap; }
+.stat-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+.stat-pill {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 999px;
+  padding: 5px 12px; font-size: 12px; color: var(--muted);
+}
+.stat-pill strong { color: var(--text); }
+.view-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
+.view-modes { display: flex; gap: 4px; }
+.view-btn {
+  width: 34px; height: 34px; border-radius: 8px; background: var(--surface2);
+  border: 1px solid var(--border); color: var(--muted); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.view-btn.active { color: #fff; background: var(--accent); border-color: var(--accent); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+.grid.list-view { grid-template-columns: 1fr; }
+.grid.compact-view { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+  display: flex; flex-direction: column; cursor: pointer; animation: fadeUp 0.4s ease both; position: relative;
+}
+.card:hover {
+  transform: translateY(-5px); box-shadow: 0 16px 48px var(--accent-glow);
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+}
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.card-header {
+  height: 120px; background: linear-gradient(135deg, var(--c1), var(--c2));
+  position: relative; display: flex; align-items: flex-end; padding: 14px;
+}
+.card-header::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(7,7,12,0.88) 0%, transparent 55%);
+}
+[data-theme="light"] .card-header::after {
+  background: linear-gradient(to top, rgba(255,255,255,0.75) 0%, transparent 55%);
+}
+.platform-tag {
+  position: absolute; top: 10px; right: 10px; z-index: 2; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.04em; text-transform: uppercase; padding: 4px 8px; border-radius: 6px; backdrop-filter: blur(8px);
+}
+.platform-tag.hulu { background: rgba(28,231,131,0.22); color: var(--hulu); }
+.platform-tag.prime { background: rgba(0,168,225,0.22); color: var(--prime); }
+.platform-tag.apple { background: rgba(192,192,200,0.25); color: #e8e8f0; }
+.year-tag {
+  position: absolute; top: 10px; left: 10px; z-index: 2; font-size: 10px; font-weight: 600;
+  padding: 4px 8px; border-radius: 6px; background: rgba(0,0,0,0.5); color: #fff; backdrop-filter: blur(4px);
+}
+.card-title-area { position: relative; z-index: 2; }
+.card-title { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; }
+.card-genre { font-size: 11px; color: rgba(255,255,255,0.65); margin-top: 1px; }
+[data-theme="light"] .card-genre { color: rgba(0,0,0,0.55); }
+.card-body { padding: 14px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.scores { display: flex; gap: 8px; flex-wrap: wrap; }
+.score {
+  display: flex; align-items: center; gap: 5px; background: var(--surface2);
+  border-radius: 8px; padding: 5px 9px; font-size: 12px; font-weight: 600;
+}
+.score .label { color: var(--muted); font-weight: 500; font-size: 10px; text-transform: uppercase; }
+.score.rt .value { color: var(--rt); }
+.score.imdb .value { color: var(--gold); }
+.score.user .value { color: var(--accent); }
+.review {
+  font-size: 12.5px; color: var(--muted); line-height: 1.5; flex: 1;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.card-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 6px; border-top: 1px solid var(--border); margin-top: auto; gap: 6px;
+}
+.action-btns { display: flex; gap: 4px; }
+.act-btn {
+  width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--surface2); color: var(--muted); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; font-size: 13px; transition: all 0.15s;
+}
+.act-btn:hover { border-color: var(--accent); color: var(--accent); }
+.act-btn.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.act-btn.want.on { background: var(--warning); border-color: var(--warning); }
+.act-btn.watching.on { background: var(--prime); border-color: var(--prime); }
+.act-btn.done.on { background: var(--success); border-color: var(--success); }
+.status-badge { font-size: 10px; font-weight: 600; padding: 3px 7px; border-radius: 5px; }
+.status-badge.want { background: rgba(245,158,11,0.15); color: var(--warning); }
+.status-badge.watching { background: rgba(0,168,225,0.15); color: var(--prime); }
+.status-badge.done { background: rgba(34,197,94,0.15); color: var(--success); }
+.list-view .card { flex-direction: row; height: auto; }
+.list-view .card-header { width: 180px; min-width: 180px; height: auto; min-height: 120px; }
+.list-view .card-body { flex-direction: row; align-items: center; gap: 16px; flex-wrap: wrap; }
+.list-view .review { -webkit-line-clamp: 2; max-width: 360px; }
+.compact-view .card-header { height: 80px; }
+.compact-view .card-title { font-size: 0.95rem; }
+.compact-view .review { display: none; }
+.compact-view .card-body { padding: 10px; gap: 6px; }
+.section { display: none; }
+.section.active { display: block; animation: fadeUp 0.35s ease; }
+.empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
+.empty-state h3 { color: var(--text); margin-bottom: 8px; font-size: 1.2rem; }
+.empty-state p { margin-bottom: 16px; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 24px; }
+.stat-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 18px; text-align: center;
+}
+.stat-card .num {
+  font-size: 2rem; font-weight: 800; letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--accent), #f9a8d4);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.stat-card .lbl { font-size: 12px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+.chart-box {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px; margin-bottom: 18px;
+}
+.chart-box h3 { font-size: 15px; margin-bottom: 14px; }
+.bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.bar-label { width: 90px; font-size: 12px; color: var(--muted); text-align: right; flex-shrink: 0; }
+.bar-track { flex: 1; height: 10px; background: var(--surface2); border-radius: 5px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 5px; background: linear-gradient(90deg, var(--accent), #c4b5fd); transition: width 0.6s ease; }
+.bar-val { width: 36px; font-size: 12px; font-weight: 600; }
+.cal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+.cal-item {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 14px; display: flex; gap: 12px; align-items: flex-start; cursor: pointer;
+}
+.cal-date { background: var(--surface2); border-radius: 10px; padding: 8px 10px; text-align: center; min-width: 56px; }
+.cal-date .day { font-size: 1.3rem; font-weight: 700; }
+.cal-date .mon { font-size: 10px; color: var(--muted); text-transform: uppercase; }
+.cal-info h4 { font-size: 14px; margin-bottom: 2px; }
+.cal-info p { font-size: 12px; color: var(--muted); }
+.surprise-box {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+  padding: 40px 24px; text-align: center; max-width: 480px; margin: 40px auto; box-shadow: var(--shadow);
+}
+.surprise-box h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 8px; }
+.surprise-box p { color: var(--muted); margin-bottom: 24px; }
+.mood-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 24px; }
+.mood-btn {
+  padding: 10px 16px; border-radius: 12px; border: 1px solid var(--border);
+  background: var(--surface2); color: var(--text); font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+}
+.mood-btn:hover, .mood-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.big-btn {
+  background: linear-gradient(135deg, var(--accent), #a78bfa); border: none; color: #fff;
+  font-size: 16px; font-weight: 700; padding: 14px 32px; border-radius: 14px; cursor: pointer;
+  box-shadow: 0 8px 24px var(--accent-glow); transition: transform 0.2s;
+}
+.big-btn:hover { transform: scale(1.04); }
+.surprise-result { margin-top: 28px; display: none; }
+.surprise-result.show { display: block; animation: fadeUp 0.4s ease; }
+.compare-selects { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 24px; }
+.compare-selects select { min-width: 200px; }
+.compare-table {
+  width: 100%; border-collapse: collapse; background: var(--surface);
+  border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border);
+}
+.compare-table th, .compare-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); font-size: 13px; }
+.compare-table th { background: var(--surface2); font-weight: 600; color: var(--muted); text-transform: uppercase; font-size: 11px; letter-spacing: 0.04em; }
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table .winner { color: var(--success); font-weight: 700; }
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.72); backdrop-filter: blur(8px);
+  z-index: 200; display: none; align-items: center; justify-content: center; padding: 16px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 18px;
+  max-width: 560px; width: 100%; max-height: 92vh; overflow-y: auto;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.55); animation: fadeUp 0.3s ease;
+}
+.modal-header {
+  height: 150px; background: linear-gradient(135deg, var(--c1), var(--c2));
+  position: relative; display: flex; align-items: flex-end; padding: 18px;
+}
+.modal-header::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(7,7,12,0.92) 0%, transparent 50%);
+}
+.modal-close {
+  position: absolute; top: 12px; right: 12px; z-index: 3; background: rgba(0,0,0,0.45);
+  border: none; color: #fff; width: 34px; height: 34px; border-radius: 50%; font-size: 18px; cursor: pointer;
+}
+.modal-body { padding: 20px; }
+.modal-body h2 { font-size: 1.4rem; margin-bottom: 4px; }
+.modal-meta { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+.modal-scores { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.modal-review { font-size: 14px; color: #b8b8c8; line-height: 1.6; margin-bottom: 18px; }
+[data-theme="light"] .modal-review { color: #4a4a5a; }
+.modal-details { display: grid; gap: 6px; font-size: 13px; margin-bottom: 18px; }
+.modal-details div { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--border); }
+.modal-details span:first-child { color: var(--muted); }
+.user-rate { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+.star-btn {
+  background: none; border: none; font-size: 22px; cursor: pointer; color: var(--border);
+  transition: color 0.15s, transform 0.15s;
+}
+.star-btn:hover, .star-btn.lit { color: var(--gold); transform: scale(1.15); }
+.note-input {
+  width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px; color: var(--text); font-size: 13px; resize: vertical; min-height: 60px;
+  outline: none; margin-bottom: 12px;
+}
+.note-input:focus { border-color: var(--accent); }
+.modal-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+  background: var(--surface3); border: 1px solid var(--border); color: var(--text);
+  padding: 12px 22px; border-radius: 12px; font-size: 13px; font-weight: 600;
+  z-index: 300; transition: transform 0.3s; box-shadow: var(--shadow); pointer-events: none;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+footer {
+  text-align: center; margin-top: 40px; padding-top: 20px;
+  border-top: 1px solid var(--border); color: var(--muted); font-size: 12px;
+}
+@media (max-width: 640px) {
+  .nav-tabs { order: 3; width: 100%; overflow-x: auto; }
+  .controls-row { flex-direction: column; align-items: stretch; }
+  .stat-pills { margin-left: 0; }
+  .list-view .card { flex-direction: column; }
+  .list-view .card-header { width: 100%; min-width: 0; height: 100px; }
+}
+
+.modal-poster { min-height: 180px; }
+.poster-art {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.poster-glow {
+  position: absolute; width: 180%; height: 180%;
+  background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.18) 0%, transparent 50%),
+              radial-gradient(circle at 70% 60%, rgba(255,255,255,0.1) 0%, transparent 45%);
+  animation: posterPulse 6s ease-in-out infinite alternate;
+}
+@keyframes posterPulse {
+  from { transform: scale(1) rotate(0deg); opacity: 0.7; }
+  to { transform: scale(1.08) rotate(3deg); opacity: 1; }
+}
+.poster-letter {
+  position: relative; z-index: 1;
+  font-family: 'Playfair Display', serif;
+  font-size: 5.5rem; font-weight: 700;
+  color: rgba(255,255,255,0.22);
+  text-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  line-height: 1; user-select: none;
+}
+.trailer-btn {
+  background: linear-gradient(135deg, #e50914, #b20710) !important;
+  border-color: #e50914 !important; color: #fff !important; font-weight: 700;
+}
+.trailer-btn:hover { filter: brightness(1.1); }
+.similar-section {
+  border-top: 1px solid var(--border); padding-top: 16px; margin-top: 8px;
+}
+.similar-list { display: flex; flex-direction: column; gap: 8px; max-height: 320px; overflow-y: auto; }
+.similar-item {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 12px; cursor: pointer; transition: border-color 0.2s, transform 0.15s;
+}
+.similar-item:hover { border-color: var(--accent); transform: translateX(4px); }
+.similar-thumb {
+  width: 42px; height: 42px; border-radius: 8px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--c1), var(--c2));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700;
+  color: rgba(255,255,255,0.5);
+}
+.similar-info { flex: 1; min-width: 0; }
+.similar-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.similar-meta { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.similar-score {
+  font-size: 11px; font-weight: 700; color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  padding: 4px 8px; border-radius: 6px;
+}
+
+
+.trailer-player-overlay {
+  position: fixed; inset: 0; z-index: 400;
+  background: rgba(0,0,0,0.88); backdrop-filter: blur(10px);
+  display: none; align-items: center; justify-content: center; padding: 16px;
+}
+.trailer-player-overlay.open { display: flex; }
+.trailer-player-box {
+  width: min(960px, 100%); background: #0a0a0f; border-radius: 16px;
+  border: 1px solid #2c2c3a; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+  position: relative;
+}
+.trailer-player-close {
+  position: absolute; top: 10px; right: 12px; z-index: 5;
+  width: 36px; height: 36px; border-radius: 50%; border: none;
+  background: rgba(0,0,0,0.6); color: #fff; font-size: 20px; cursor: pointer;
+}
+.trailer-player-title {
+  padding: 14px 48px 10px 16px; font-size: 14px; font-weight: 600; color: #eee;
+}
+.trailer-iframe-wrap {
+  position: relative; width: 100%; padding-bottom: 56.25%; background: #000;
+}
+.trailer-iframe-wrap iframe {
+  position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
+}
+.trailer-hint {
+  padding: 10px 16px 14px; font-size: 12px; color: #888; text-align: center;
+}
+.trailer-hint a { color: #8b5cf6; }
+
+
+.trailer-no-id {
+  padding-bottom: 0 !important;
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #111;
+}
+.trailer-fallback-msg {
+  text-align: center;
+  padding: 32px 24px;
+  color: #ccc;
+}
+.trailer-fallback-msg p { margin: 0 0 14px; font-size: 14px; }
+.trailer-fallback-msg .trailer-hint { margin-top: 12px; font-size: 12px; color: #888; }
+.trailer-iframe-wrap iframe {
+  position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
+}
+
+
+.trailer-file-help {
+  padding: 28px 24px 32px;
+  color: #ddd;
+  font-size: 14px;
+  line-height: 1.5;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+.trailer-file-help p { margin: 0 0 12px; }
+.trailer-file-help ol { margin: 8px 0 16px 20px; padding: 0; }
+.trailer-file-help li { margin-bottom: 8px; }
+.trailer-file-help code {
+  background: #1a1a24;
+  border: 1px solid #333;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #c4b5fd;
+}
+.trailer-file-help .trailer-hint { color: #999; font-size: 12px; margin-top: 8px; }
+
+
+.trailer-thumb-wrap {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  background: #000;
+  overflow: hidden;
+}
+.trailer-thumb, .trailer-thumb-placeholder {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+}
+.trailer-big-play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(229, 9, 20, 0.95);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  transition: transform 0.15s, filter 0.15s;
+  z-index: 2;
+}
+.trailer-big-play:hover { transform: translate(-50%, -50%) scale(1.08); filter: brightness(1.1); }
+.trailer-big-play-icon { font-size: 28px; margin-left: 4px; line-height: 1; }
+
+/* ---- Real poster artwork (TMDB) ---------------------------------------- */
+/* Posters are portrait (2:3) but the card header is landscape, so a plain
+   object-fit:cover would slice off heads. Instead: a blurred, zoomed copy
+   fills the box and the true poster sits fully visible on top of it. */
+.card-header { height: 172px; overflow: hidden; }
+.compact-view .card-header { height: 130px; }
+.art-wrap { position: absolute; inset: 0; overflow: hidden; }
+.art-blur {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; filter: blur(22px) saturate(1.45);
+  transform: scale(1.35); opacity: 0.65;
+}
+.art-poster {
+  position: absolute; top: 0; bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  height: 100%; width: auto; max-width: none;
+  object-fit: contain; display: block;
+}
+/* list view keeps its fixed 180px-wide rail, but needs a real height so the
+   absolutely-positioned poster has something to measure against */
+.list-view .card-header { height: 190px; min-height: 190px; }
+.modal-poster { height: 260px; }
+.modal-poster .art-poster { box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+/* Titles now sit on top of real poster art, which is far busier than the flat
+   gradient they were designed against. They get their own contrast in BOTH
+   themes instead of following the page text colour — otherwise light mode
+   puts dark text over dark artwork. */
+.card-header::after {
+  background: linear-gradient(to top,
+    rgba(7,7,12,0.94) 0%, rgba(7,7,12,0.55) 38%, transparent 72%) !important;
+}
+.card-header .card-title,
+.card-header .card-genre,
+.modal-header .card-title {
+  color: #fff !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.9), 0 2px 14px rgba(0,0,0,0.65);
+}
+.card-header .card-genre { color: rgba(255,255,255,0.78) !important; }
+.modal-header::after {
+  background: linear-gradient(to top,
+    rgba(7,7,12,0.94) 0%, rgba(7,7,12,0.5) 42%, transparent 78%) !important;
+}
+.modal-header > div[style*="z-index:2"] {
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.9), 0 2px 14px rgba(0,0,0,0.65);
+}
+.year-tag, .platform-tag { text-shadow: none; }
+
+/* When a poster is present the letter placeholder is not rendered at all. */
+.similar-thumb { overflow: hidden; position: relative; }
+.similar-thumb img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+@media (max-width: 640px) {
+  .list-view .card-header { height: 150px; }
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo">2026 Elite TV</div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-section="discover">Discover</button>
+      <button class="nav-tab" data-section="watchlist">My List</button>
+      <button class="nav-tab" data-section="stats">Stats</button>
+      <button class="nav-tab" data-section="calendar">Calendar</button>
+      <button class="nav-tab" data-section="surprise">Surprise Me</button>
+      <button class="nav-tab" data-section="compare">Compare</button>
+    </div>
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeBtn" title="Toggle theme">◐</button>
+      <button class="icon-btn" id="exportBtn" title="Export data">⤓</button>
+    </div>
+  </div>
+</nav>
+
+<section class="section active" id="discover">
+  <div class="hero">
+    <h1>The Best of 2026 Streaming</h1>
+    <p>60 elite series on Hulu, Prime Video, Apple TV & Netflix — RT Audience ≥ 80 · IMDb ≥ 7.5 · New or new season this year</p>
+    <div class="platform-pills">
+      <span class="ppill hulu">Hulu</span>
+      <span class="ppill prime">Prime Video</span>
+      <span class="ppill apple">Apple TV</span>
+      <span class="ppill netflix">Netflix</span>
+    </div>
+  </div>
+  <div class="controls">
+    <div class="controls-row">
+      <div class="search-wrap">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="search" placeholder="Search titles, genres, platforms…">
+      </div>
+      <select id="platform">
+        <option value="all">All Platforms</option>
+        <option value="Hulu">Hulu</option>
+        <option value="Prime Video">Prime Video</option>
+        <option value="Apple TV">Apple TV</option>
+        <option value="Netflix">Netflix</option>
+      </select>
+      <select id="genre">
+        <option value="all">All Genres</option>
+        <option value="Drama">Drama</option>
+        <option value="Comedy">Comedy</option>
+        <option value="Crime">Crime</option>
+        <option value="Sci-Fi">Sci-Fi</option>
+        <option value="Horror">Horror</option>
+        <option value="Action">Action</option>
+        <option value="Animation">Animation</option>
+        <option value="Thriller">Thriller</option>
+        <option value="Romance">Romance</option>
+      </select>
+      <select id="sort">
+        <option value="rt-desc">RT Audience ↓</option>
+        <option value="rt-asc">RT Audience ↑</option>
+        <option value="imdb-desc">IMDb ↓</option>
+        <option value="imdb-asc">IMDb ↑</option>
+        <option value="title-asc">Title A–Z</option>
+        <option value="user-desc">My Rating ↓</option>
+      </select>
+    </div>
+    <div class="controls-row">
+      <div class="btn-group" id="typeFilter">
+        <button class="btn active" data-type="all">All</button>
+        <button class="btn" data-type="new">New Series</button>
+        <button class="btn" data-type="season">New Season</button>
+      </div>
+      <div class="btn-group" id="statusFilter">
+        <button class="btn active" data-status="all">Any Status</button>
+        <button class="btn" data-status="none">Not Listed</button>
+        <button class="btn" data-status="want">Want</button>
+        <button class="btn" data-status="watching">Watching</button>
+        <button class="btn" data-status="done">Done</button>
+      </div>
+      <div class="stat-pills">
+        <span class="stat-pill"><strong id="count">15</strong> shows</span>
+        <span class="stat-pill">Avg RT <strong id="avgRT">—</strong></span>
+        <span class="stat-pill">Avg IMDb <strong id="avgIMDb">—</strong></span>
+      </div>
+    </div>
+  </div>
+  <div class="view-bar">
+    <div class="view-modes">
+      <button class="view-btn active" data-view="grid" title="Grid">▦</button>
+      <button class="view-btn" data-view="list" title="List">☰</button>
+      <button class="view-btn" data-view="compact" title="Compact">⊞</button>
+    </div>
+    <span style="font-size:12px;color:var(--muted)" id="viewLabel">Grid view</span>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section class="section" id="watchlist">
+  <div class="hero" style="padding-bottom:16px">
+    <h1>My List</h1>
+    <p>Your personal watchlist — Want to Watch · Watching · Finished</p>
+  </div>
+  <div class="controls">
+    <div class="controls-row">
+      <div class="btn-group" id="wlFilter">
+        <button class="btn active" data-wl="all">All</button>
+        <button class="btn" data-wl="want">Want to Watch</button>
+        <button class="btn" data-wl="watching">Watching</button>
+        <button class="btn" data-wl="done">Finished</button>
+      </div>
+    </div>
+  </div>
+  <div class="grid" id="wlGrid"></div>
+</section>
+
+<section class="section" id="stats">
+  <div class="hero" style="padding-bottom:16px">
+    <h1>Your Stats</h1>
+    <p>Insights based on your ratings and watchlist activity</p>
+  </div>
+  <div class="stats-grid" id="statsCards"></div>
+  <div class="chart-box"><h3>Platform Breakdown</h3><div id="platformBars"></div></div>
+  <div class="chart-box"><h3>Genre Taste</h3><div id="genreBars"></div></div>
+  <div class="chart-box"><h3>Top Rated by You</h3><div id="topRated"></div></div>
+</section>
+
+<section class="section" id="calendar">
+  <div class="hero" style="padding-bottom:16px">
+    <h1>2026 Release Calendar</h1>
+    <p>Key premiere & season drop dates for these elite series</p>
+  </div>
+  <div class="cal-grid" id="calGrid"></div>
+</section>
+
+<section class="section" id="surprise">
+  <div class="surprise-box">
+    <h2>Surprise Me</h2>
+    <p>Pick a mood and let the algorithm choose your next binge</p>
+    <div class="mood-grid" id="moodGrid">
+      <button class="mood-btn active" data-mood="any">Any Mood</button>
+      <button class="mood-btn" data-mood="funny">😂 Funny</button>
+      <button class="mood-btn" data-mood="dark">🌑 Dark</button>
+      <button class="mood-btn" data-mood="thrill">⚡ Thrilling</button>
+      <button class="mood-btn" data-mood="feel">❤️ Feel-Good</button>
+      <button class="mood-btn" data-mood="smart">🧠 Smart</button>
+      <button class="mood-btn" data-mood="scary">👻 Scary</button>
+    </div>
+    <button class="big-btn" id="surpriseBtn">🎲 Pick for Me</button>
+    <div class="surprise-result" id="surpriseResult"></div>
+  </div>
+</section>
+
+<section class="section" id="compare">
+  <div class="hero" style="padding-bottom:16px">
+    <h1>Head-to-Head</h1>
+    <p>Compare any two shows side by side</p>
+  </div>
+  <div class="compare-selects">
+    <select id="cmpA"><option value="">Select show A…</option></select>
+    <select id="cmpB"><option value="">Select show B…</option></select>
+  </div>
+  <div id="cmpResult"></div>
+</section>
+
+<footer>
+  Created July 2026 · Revised July 29, 2026 · Ratings from Rotten Tomatoes Audience & IMDb · Poster art from TMDB · Data persists in your browser · Press / to search · Esc to close
+</footer>
+</div>
+<div class="modal-overlay" id="modal"></div>
+<div class="toast" id="toast"></div>
+<script>
+const SHOWS=[
+{id:1,title:"Widow's Bay",platform:"Apple TV",genre:"Horror, Comedy",year:"2026",type:"new",rt:93,imdb:8.1,seasons:"1 season",eps:10,runtime:40,premiere:"2026-04-29",moods:["scary","funny","smart"],review:"Matthew Rhys leads this delicious horror-comedy about a New England mayor battling a centuries-old curse while trying to boost tourism. Equal parts scary and hilarious.",colors:["#1a3a4a","#0d5c63"],cast:"Matthew Rhys, Kate O'Flynn, Stephen Root"},
+{id:2,title:"Ride or Die",platform:"Prime Video",genre:"Action, Comedy",year:"2026",type:"new",rt:85,imdb:7.6,seasons:"1 season",eps:8,runtime:50,premiere:"2026-07-15",moods:["funny","thrill"],review:"Octavia Spencer and Hannah Waddingham light up the screen as best friends — one secretly an international assassin. Chemistry-fueled road-trip spy caper.",colors:["#1e3a5f","#0d4a6e"],cast:"Octavia Spencer, Hannah Waddingham"},
+{id:3,title:"Furious",platform:"Hulu",genre:"Crime, Thriller",year:"2026",type:"new",rt:92,imdb:7.5,seasons:"1 season",eps:8,runtime:50,premiere:"2026-07-27",moods:["dark","thrill","smart"],review:"Emmy Rossum is magnetic as an FBI agent hunting a female serial killer who preys on lonely millionaires. Elevated far above standard procedurals.",colors:["#3d1a2a","#5c0d2a"],cast:"Emmy Rossum, Lola Petticrew"},
+{id:4,title:"King of the Hill (S15)",platform:"Hulu",genre:"Animation, Comedy",year:"2026",type:"season",rt:88,imdb:8.2,seasons:"Season 15",eps:10,runtime:22,premiere:"2026-07-20",moods:["funny","feel"],review:"The revival continues its winning streak with the same warm, grounded humor that made the original a classic — updated for a changed America.",colors:["#2a3a1a","#3d5c0d"],cast:"Mike Judge, Kathy Najimy"},
+{id:5,title:"Margo's Got Money Troubles",platform:"Apple TV",genre:"Drama, Comedy",year:"2026",type:"new",rt:84,imdb:7.5,seasons:"1 season",eps:8,runtime:40,premiere:"2026-04-15",moods:["funny","feel","smart"],review:"Elle Fanning shines as a young mother who turns to OnlyFans. Funny, messy, and unexpectedly moving — with Michelle Pfeiffer and Nick Offerman.",colors:["#3a1a4a","#5c0d5c"],cast:"Elle Fanning, Michelle Pfeiffer, Nick Offerman"},
+{id:6,title:"Bait",platform:"Prime Video",genre:"Comedy, Drama",year:"2026",type:"new",rt:88,imdb:7.5,seasons:"Limited",eps:6,runtime:25,premiere:"2026-03-25",moods:["funny","smart"],review:"Riz Ahmed creates and stars in this meta, darkly funny odyssey about a struggling actor who auditions for James Bond.",colors:["#1a2a3a","#0d3a5c"],cast:"Riz Ahmed, Guz Khan"},
+{id:7,title:"Off Campus",platform:"Prime Video",genre:"Drama, Romance",year:"2026",type:"new",rt:88,imdb:7.7,seasons:"1 season",eps:8,runtime:45,premiere:"2026-02-14",moods:["feel","thrill"],review:"Stylish BookTok hockey-romance adaptation with teenage angst, jealousy, and first love rendered with energy and honesty.",colors:["#1a3a2a","#0d5c3a"],cast:"Ensemble"},
+{id:8,title:"Spider-Noir",platform:"Prime Video",genre:"Action, Drama",year:"2026",type:"new",rt:86,imdb:7.9,seasons:"1 season",eps:8,runtime:50,premiere:"2026-01-20",moods:["dark","thrill","smart"],review:"Nicolas Cage as a 1930s private eye with spider powers in this sumptuous, noir-soaked limited series.",colors:["#2a1a1a","#5c0d0d"],cast:"Nicolas Cage"},
+{id:9,title:"The Vampire Lestat",platform:"Hulu",genre:"Drama, Horror",year:"2026",type:"new",rt:85,imdb:7.8,seasons:"1 season",eps:8,runtime:55,premiere:"2026-06-15",moods:["dark","scary","smart"],review:"Interview with the Vampire universe expands with Lestat's rock-star origin. Stylish, sensual, literary.",colors:["#2a1a3a","#4a0d5c"],cast:"Sam Reid"},
+{id:10,title:"Shoresy (S5)",platform:"Hulu",genre:"Comedy",year:"2026",type:"season",rt:91,imdb:8.4,seasons:"Season 5",eps:6,runtime:30,premiere:"2026-03-10",moods:["funny","feel"],review:"Jared Keeso's hockey comedy has matured into something surprisingly sweet and civic-minded while staying filthy and hilarious.",colors:["#1a2a3a","#0d4a6e"],cast:"Jared Keeso"},
+{id:11,title:"Trying (S5)",platform:"Apple TV",genre:"Comedy, Drama",year:"2026",type:"season",rt:90,imdb:7.9,seasons:"Season 5",eps:8,runtime:30,premiere:"2026-07-08",moods:["funny","feel"],review:"The adoption-focused British comedy continues with warm, understated laughs. Rafe Spall and Esther Smith remain television's most likable couple.",colors:["#2a3a2a","#1a5c3a"],cast:"Rafe Spall, Esther Smith"},
+{id:12,title:"Batman: Caped Crusader (S2)",platform:"Prime Video",genre:"Animation, Action",year:"2026",type:"season",rt:89,imdb:8.0,seasons:"Season 2",eps:10,runtime:25,premiere:"2026-07-31",moods:["thrill","dark","smart"],review:"Bruce Timm's stylish 1940s-inspired Batman returns with richer noir storytelling. Essential for animation fans.",colors:["#1a1a2a","#0d0d3a"],cast:"Hamish Linklater"},
+{id:13,title:"Sunny Nights",platform:"Hulu",genre:"Comedy, Crime",year:"2026",type:"new",rt:82,imdb:7.6,seasons:"1 season",eps:8,runtime:35,premiere:"2026-03-05",moods:["funny","thrill"],review:"Will Forte and D'Arcy Carden as siblings who open a spray-tan business and stumble into the criminal underworld.",colors:["#3a2a1a","#5c3a0d"],cast:"Will Forte, D'Arcy Carden"},
+{id:14,title:"Maximum Pleasure Guaranteed",platform:"Apple TV",genre:"Drama, Sci-Fi",year:"2026",type:"new",rt:83,imdb:7.7,seasons:"1 season",eps:8,runtime:45,premiere:"2026-05-20",moods:["smart","dark"],review:"Sleek near-future drama about desire, technology, and engineered happiness. Thoughtful and quietly unsettling.",colors:["#1a2a3a","#0d3a5c"],cast:"Ensemble"},
+{id:15,title:"Colin from Accounts (S2)",platform:"Hulu",genre:"Comedy",year:"2026",type:"season",rt:94,imdb:8.3,seasons:"Season 2",eps:8,runtime:30,premiere:"2026-02-01",moods:["funny","feel"],review:"Australian rom-com about two strangers bonded by a car accident returns even stronger. Pure comfort viewing.",colors:["#2a3a1a","#3d5c1a"],cast:"Patrick Brammall, Harriet Dyer"},
+{id:16,title:"The East Palace",platform:"Netflix",genre:"Fantasy, Action",year:"2026",type:"new",rt:90,imdb:8.2,seasons:"Limited (8 eps)",eps:8,runtime:55,premiere:"2026-07-17",moods:["thrill","smart","scary"],review:"Joseon-era fantasy about a spirit-slayer and a woman who hears the dead investigating a palace curse. Gorgeous production with perfect critic scores.",colors:["#2a1a1a","#5c2d0d"],cast:"Nam Joo-hyuk"},
+{id:17,title:"Bridgerton (S4)",platform:"Netflix",genre:"Drama, Romance",year:"2026",type:"season",rt:86,imdb:7.8,seasons:"Season 4",eps:8,runtime:60,premiere:"2026-01-29",moods:["feel","funny"],review:"The Ton returns for another season of lavish romance, scandal, and Regency intrigue. Still the defining period drama of the streaming era.",colors:["#3a1a2a","#5c0d3a"],cast:"Ensemble"},
+{id:18,title:"One Piece (S2)",platform:"Netflix",genre:"Action, Adventure",year:"2026",type:"season",rt:92,imdb:8.1,seasons:"Season 2",eps:8,runtime:55,premiere:"2026-03-01",moods:["thrill","funny","feel"],review:"Live-action Straw Hats continue their Grand Line journey. Faithful, energetic, and a massive leap for anime adaptations.",colors:["#1a3a4a","#0d5c6e"],cast:"Iñaki Godoy, Emily Rudd"},
+{id:19,title:"The Boroughs",platform:"Netflix",genre:"Drama, Mystery",year:"2026",type:"new",rt:96,imdb:7.9,seasons:"1 season",eps:8,runtime:50,premiere:"2026-05-01",moods:["dark","smart","thrill"],review:"Atmospheric supernatural drama that became one of Netflix's most-watched of the year before its abrupt end.",colors:["#1a1a2a","#2d0d3a"],cast:"Ensemble"},
+{id:20,title:"His & Hers",platform:"Netflix",genre:"Thriller, Drama",year:"2026",type:"new",rt:82,imdb:7.5,seasons:"Limited",eps:6,runtime:50,premiere:"2026-01-15",moods:["dark","thrill","smart"],review:"Jon Bernthal and Tessa Thompson in a twisting Alice Feeney adaptation that became one of Netflix's biggest 2026 hits.",colors:["#2a1a1a","#4a0d0d"],cast:"Jon Bernthal, Tessa Thompson"},
+{id:21,title:"The Witness",platform:"Netflix",genre:"Crime, Drama",year:"2026",type:"new",rt:85,imdb:7.6,seasons:"Limited",eps:6,runtime:45,premiere:"2026-06-04",moods:["dark","smart"],review:"True-crime inspired limited series about a partner fighting to protect their child amid a flawed murder investigation.",colors:["#1a2a3a","#0d3a4a"],cast:"Jordan Bolger, Max Fincham"},
+{id:22,title:"Avatar: The Last Airbender (S2)",platform:"Netflix",genre:"Action, Adventure",year:"2026",type:"season",rt:80,imdb:7.5,seasons:"Season 2",eps:8,runtime:50,premiere:"2026-06-25",moods:["thrill","feel","smart"],review:"Live-action Gaang continues into the Earth Kingdom. A solid step up that respects the spirit of the animated classic.",colors:["#1a3a2a","#0d5c3a"],cast:"Gordon Cormier, Kiawentiio"},
+{id:23,title:"I Will Find You",platform:"Netflix",genre:"Crime, Thriller",year:"2026",type:"new",rt:80,imdb:7.5,seasons:"Limited (8 eps)",eps:8,runtime:45,premiere:"2026-06-18",moods:["thrill","dark"],review:"Harlan Coben adaptation about a man wrongfully imprisoned for his son's murder who breaks out when he learns the boy may be alive.",colors:["#2a1a1a","#3d0d0d"],cast:"Sam Worthington, Britt Lower"},
+{id:24,title:"Little House on the Prairie",platform:"Netflix",genre:"Drama, Western",year:"2026",type:"new",rt:80,imdb:7.5,seasons:"1 season",eps:8,runtime:50,premiere:"2026-07-09",moods:["feel","smart"],review:"Frontier family drama that became a surprise Netflix smash, balancing period authenticity with modern emotional resonance.",colors:["#3a2a1a","#5c3a0d"],cast:"Luke Bracey, Crosby Fitzgerald"},
+{id:25,title:"Ransom Canyon (S2)",platform:"Netflix",genre:"Drama, Romance",year:"2026",type:"season",rt:82,imdb:7.5,seasons:"Season 2",eps:10,runtime:45,premiere:"2026-07-23",moods:["feel","thrill"],review:"Texas ranch drama returns with more romance, rivalries, and land disputes under the big sky.",colors:["#3a2a1a","#5c2a0d"],cast:"Ensemble"},
+{id:26,title:"Teach You a Lesson",platform:"Netflix",genre:"Drama, Thriller",year:"2026",type:"new",rt:83,imdb:7.6,seasons:"1 season",eps:8,runtime:50,premiere:"2026-06-05",moods:["dark","thrill","smart"],review:"Twisty Korean thriller that racked up massive global hours. Sharp writing and relentless pacing.",colors:["#1a1a2a","#2d0d3a"],cast:"Ensemble"},
+{id:27,title:"Nemesis",platform:"Netflix",genre:"Crime, Thriller",year:"2026",type:"new",rt:81,imdb:7.5,seasons:"1 season",eps:8,runtime:50,premiere:"2026-05-14",moods:["dark","thrill"],review:"Courtney A. Kemp crime series that shot to No. 1 with over a billion minutes viewed in a single week.",colors:["#1a1a2a","#0d0d2a"],cast:"Ensemble"},
+{id:28,title:"The Night Agent (S3)",platform:"Netflix",genre:"Action, Thriller",year:"2026",type:"season",rt:84,imdb:7.6,seasons:"Season 3",eps:10,runtime:45,premiere:"2026-03-20",moods:["thrill","dark"],review:"Peter Sutherland returns for more White House conspiracy and high-stakes action. Reliable binge fuel.",colors:["#1a2a3a","#0d2a4a"],cast:"Gabriel Basso"},
+{id:29,title:"A Good Girl's Guide to Murder",platform:"Netflix",genre:"Mystery, Drama",year:"2026",type:"new",rt:84,imdb:7.7,seasons:"1 season",eps:6,runtime:45,premiere:"2026-05-27",moods:["thrill","smart"],review:"Teen true-crime podcast becomes real investigation. Sharp, suspenseful YA mystery that earned strong audience scores.",colors:["#2a1a3a","#3d0d4a"],cast:"Emma Myers"},
+{id:30,title:"Solar Opposites (S6)",platform:"Netflix",genre:"Animation, Comedy",year:"2026",type:"season",rt:95,imdb:8.0,seasons:"Season 6",eps:12,runtime:22,premiere:"2026-06-10",moods:["funny","smart"],review:"Justin Roiland's alien family continues its chaotic Earth adventures. Still one of adult animation's sharpest comedies.",colors:["#1a3a1a","#0d5c2a"],cast:"Voice cast"},
+{id:31,title:"The Pitt (S2)",platform:"Hulu",genre:"Drama",year:"2026",type:"season",rt:85,imdb:8.0,seasons:"Season 2",eps:15,runtime:50,premiere:"2026-01-10",moods:["smart","dark","feel"],review:"Noah Wyle's medical procedural returns with near-perfect critical reception and heart-wrenching hospital realism.",colors:["#1a2a3a","#0d3a5c"],cast:"Noah Wyle"},
+{id:32,title:"House of Stassi",platform:"Hulu",genre:"Reality",year:"2026",type:"new",rt:80,imdb:7.5,seasons:"1 season",eps:10,runtime:40,premiere:"2026-07-30",moods:["funny"],review:"Stassi Schroeder headlines her own unscripted series after years as a Vanderpump fixture. Drama and glamour.",colors:["#3a1a2a","#5c0d3a"],cast:"Stassi Schroeder"},
+{id:33,title:"The Shards",platform:"Hulu",genre:"Drama, Thriller",year:"2026",type:"new",rt:82,imdb:7.5,seasons:"1 season",eps:8,runtime:50,premiere:"2026-08-05",moods:["dark","thrill","smart"],review:"Ryan Murphy and Bret Easton Ellis adapt the 1980s LA prep-school serial-killer novel. Stylish and disturbing.",colors:["#2a1a1a","#4a0d0d"],cast:"Ensemble"},
+{id:34,title:"Adults (S2)",platform:"Hulu",genre:"Comedy",year:"2026",type:"season",rt:86,imdb:7.6,seasons:"Season 2",eps:8,runtime:30,premiere:"2026-08-01",moods:["funny","feel"],review:"FX comedy about figuring out adulthood returns with sharper writing and the same Gen-Z chaos.",colors:["#2a3a1a","#3d5c0d"],cast:"Ensemble"},
+{id:35,title:"Futurama (S14)",platform:"Hulu",genre:"Animation, Comedy",year:"2026",type:"season",rt:88,imdb:8.1,seasons:"Season 14",eps:10,runtime:22,premiere:"2026-08-03",moods:["funny","smart"],review:"The Planet Express crew keeps delivering after all these years. Still one of the smartest animated comedies ever made.",colors:["#1a2a3a","#0d3a5c"],cast:"Billy West, Katey Sagal"},
+{id:36,title:"Tell Me Lies (S3)",platform:"Hulu",genre:"Drama, Romance",year:"2026",type:"season",rt:81,imdb:7.5,seasons:"Season 3",eps:10,runtime:45,premiere:"2026-04-01",moods:["dark","thrill"],review:"Toxic college romance continues its messy, addictive exploration of love, lies, and young adulthood.",colors:["#3a1a2a","#5c0d2a"],cast:"Grace Van Patten, Jackson White"},
+{id:37,title:"Only Murders in the Building (S6)",platform:"Hulu",genre:"Comedy, Mystery",year:"2026",type:"season",rt:90,imdb:8.0,seasons:"Season 6",eps:10,runtime:35,premiere:"2026-08-20",moods:["funny","smart","thrill"],review:"Steve Martin, Martin Short, and Selena Gomez return to the Arconia for another charming true-crime podcast mystery.",colors:["#2a1a3a","#3d0d4a"],cast:"Steve Martin, Martin Short, Selena Gomez"},
+{id:38,title:"The Bear (Final)",platform:"Hulu",genre:"Drama, Comedy",year:"2026",type:"season",rt:93,imdb:8.5,seasons:"Final Season",eps:10,runtime:35,premiere:"2026-06-25",moods:["dark","smart","feel"],review:"Carmy's restaurant reaches its conclusion. Intense, emotional, and one of the defining shows of the decade.",colors:["#1a1a1a","#3d0d0d"],cast:"Jeremy Allen White, Ayo Edebiri"},
+{id:39,title:"High Potential (S3)",platform:"Hulu",genre:"Crime, Drama",year:"2026",type:"season",rt:90,imdb:7.6,seasons:"Season 3",eps:13,runtime:45,premiere:"2026-09-01",moods:["smart","thrill","funny"],review:"Kaitlin Olson's brilliant cleaner-turned-consultant continues solving LAPD cases with near-perfect RT scores.",colors:["#1a2a3a","#0d3a5c"],cast:"Kaitlin Olson"},
+{id:40,title:"Abbott Elementary (S5)",platform:"Hulu",genre:"Comedy",year:"2026",type:"season",rt:95,imdb:8.3,seasons:"Season 5",eps:22,runtime:22,premiere:"2026-09-15",moods:["funny","feel"],review:"Quinta Brunson's workplace comedy remains one of the best and warmest shows on television.",colors:["#2a3a1a","#3d5c0d"],cast:"Quinta Brunson"},
+{id:41,title:"Reacher (S4)",platform:"Prime Video",genre:"Action, Thriller",year:"2026",type:"season",rt:85,imdb:8.0,seasons:"Season 4",eps:8,runtime:50,premiere:"2026-08-12",moods:["thrill","dark"],review:"Alan Ritchson returns as the wandering giant. Bigger set pieces, same satisfying justice-delivery system.",colors:["#1a1a2a","#0d0d3a"],cast:"Alan Ritchson"},
+{id:42,title:"The Boys (S5)",platform:"Prime Video",genre:"Action, Comedy",year:"2026",type:"season",rt:88,imdb:8.2,seasons:"Season 5",eps:8,runtime:60,premiere:"2026-06-01",moods:["dark","funny","thrill"],review:"Final season of the most outrageous superhero satire on television. Expect blood, satire, and chaos.",colors:["#2a1a1a","#5c0d0d"],cast:"Karl Urban, Jack Quaid"},
+{id:43,title:"Fallout (S2)",platform:"Prime Video",genre:"Sci-Fi, Action",year:"2026",type:"season",rt:90,imdb:8.3,seasons:"Season 2",eps:8,runtime:55,premiere:"2026-04-10",moods:["thrill","funny","smart"],review:"The wasteland expands. Still the gold standard for video-game adaptations — funny, brutal, and gorgeous.",colors:["#2a3a1a","#3d5c0d"],cast:"Ella Purnell, Walton Goggins"},
+{id:44,title:"Mr. & Mrs. Smith (S2)",platform:"Prime Video",genre:"Action, Romance",year:"2026",type:"season",rt:87,imdb:7.8,seasons:"Season 2",eps:8,runtime:50,premiere:"2026-02-20",moods:["thrill","funny","feel"],review:"Donald Glover and Maya Erskine return as the world's most dysfunctional spy couple. Chemistry still electric.",colors:["#1a2a3a","#0d3a5c"],cast:"Donald Glover, Maya Erskine"},
+{id:45,title:"The Lord of the Rings: The Rings of Power (S3)",platform:"Prime Video",genre:"Fantasy, Drama",year:"2026",type:"season",rt:82,imdb:7.5,seasons:"Season 3",eps:8,runtime:65,premiere:"2026-08-20",moods:["smart","thrill"],review:"Second Age Middle-earth continues with richer lore, better character work, and the scale only Amazon can deliver.",colors:["#1a2a1a","#0d3a2a"],cast:"Morfydd Clark, Charlie Vickers"},
+{id:46,title:"Upload (S4)",platform:"Prime Video",genre:"Comedy, Sci-Fi",year:"2026",type:"season",rt:88,imdb:7.9,seasons:"Season 4",eps:8,runtime:30,premiere:"2026-05-15",moods:["funny","smart"],review:"Greg Daniels' afterlife satire remains clever, warm, and quietly profound about digital existence.",colors:["#1a2a3a","#0d4a5c"],cast:"Robbie Amell, Andy Allo"},
+{id:47,title:"The Terminal List (S2)",platform:"Prime Video",genre:"Action, Thriller",year:"2026",type:"season",rt:81,imdb:7.6,seasons:"Season 2",eps:8,runtime:50,premiere:"2026-03-05",moods:["thrill","dark"],review:"Chris Pratt's Navy SEAL conspiracy thriller returns with more vengeance and high production values.",colors:["#1a1a2a","#0d0d2a"],cast:"Chris Pratt"},
+{id:48,title:"Expats",platform:"Prime Video",genre:"Drama",year:"2026",type:"new",rt:84,imdb:7.5,seasons:"Limited",eps:6,runtime:55,premiere:"2026-01-25",moods:["smart","dark","feel"],review:"Lulu Wang's Hong Kong-set drama about three American women whose lives collide. Beautifully observed.",colors:["#2a1a3a","#3d0d4a"],cast:"Nicole Kidman, Sarayu Blue"},
+{id:49,title:"A Murder at the End of the World",platform:"Prime Video",genre:"Mystery, Thriller",year:"2026",type:"new",rt:89,imdb:7.7,seasons:"Limited",eps:7,runtime:50,premiere:"2026-02-10",moods:["smart","thrill","dark"],review:"Brit Marling and Zal Batmanglij deliver another cerebral mystery set at a remote retreat. Atmospheric and twisty.",colors:["#1a2a3a","#0d2a4a"],cast:"Emma Corrin, Clive Owen"},
+{id:50,title:"The Legend of Vox Machina (S4)",platform:"Prime Video",genre:"Animation, Fantasy",year:"2026",type:"season",rt:95,imdb:8.4,seasons:"Season 4",eps:12,runtime:25,premiere:"2026-01-15",moods:["funny","thrill","feel"],review:"Critical Role's animated D&D adventure remains hilarious, heartfelt, and spectacularly violent.",colors:["#2a1a1a","#5c0d0d"],cast:"Voice cast"},
+{id:51,title:"Severance (S3)",platform:"Apple TV",genre:"Sci-Fi, Thriller",year:"2026",type:"season",rt:95,imdb:8.7,seasons:"Season 3",eps:10,runtime:50,premiere:"2026-03-20",moods:["smart","dark","thrill"],review:"The workplace dystopia continues to be one of the most original and unsettling shows on television.",colors:["#1a1a2a","#2d0d3a"],cast:"Adam Scott, Britt Lower"},
+{id:52,title:"The Morning Show (S5)",platform:"Apple TV",genre:"Drama",year:"2026",type:"season",rt:84,imdb:7.6,seasons:"Season 5",eps:10,runtime:55,premiere:"2026-09-10",moods:["smart","dark"],review:"Jennifer Aniston and Reese Witherspoon return to the chaotic world of morning television. Still appointment TV.",colors:["#1a2a3a","#0d3a5c"],cast:"Jennifer Aniston, Reese Witherspoon"},
+{id:53,title:"Ted Lasso (S4)",platform:"Apple TV",genre:"Comedy, Drama",year:"2026",type:"season",rt:85,imdb:8.0,seasons:"Season 4",eps:12,runtime:40,premiere:"2026-08-05",moods:["funny","feel"],review:"After a long hiatus, Ted returns to AFC Richmond. Hope, biscuits, and belive still reign.",colors:["#2a3a1a","#3d5c0d"],cast:"Jason Sudeikis"},
+{id:54,title:"For All Mankind (S5)",platform:"Apple TV",genre:"Sci-Fi, Drama",year:"2026",type:"season",rt:90,imdb:8.1,seasons:"Season 5",eps:10,runtime:55,premiere:"2026-04-15",moods:["smart","thrill"],review:"Alternate-history space race reaches new heights. Still the best hard-sci-fi drama on streaming.",colors:["#1a1a2a","#0d0d3a"],cast:"Joel Kinnaman, Wrenn Schmidt"},
+{id:55,title:"Slow Horses (S5)",platform:"Apple TV",genre:"Thriller, Comedy",year:"2026",type:"season",rt:96,imdb:8.5,seasons:"Season 5",eps:6,runtime:45,premiere:"2026-09-01",moods:["funny","smart","thrill"],review:"Gary Oldman's Jackson Lamb and the Slough House misfits return. Still the best spy series on TV.",colors:["#1a2a1a","#0d3a2a"],cast:"Gary Oldman, Jack Lowden"},
+{id:56,title:"Shrinking (S3)",platform:"Apple TV",genre:"Comedy, Drama",year:"2026",type:"season",rt:92,imdb:8.2,seasons:"Season 3",eps:10,runtime:30,premiere:"2026-02-28",moods:["funny","feel","smart"],review:"Harrison Ford, Jason Segel, and Jessica Williams continue the warmest, funniest therapy comedy on television.",colors:["#2a3a1a","#3d5c0d"],cast:"Jason Segel, Harrison Ford, Jessica Williams"},
+{id:57,title:"Foundation (S3)",platform:"Apple TV",genre:"Sci-Fi, Drama",year:"2026",type:"season",rt:86,imdb:7.8,seasons:"Season 3",eps:10,runtime:55,premiere:"2026-07-15",moods:["smart","thrill"],review:"Asimov's epic continues with stunning visuals and deeper political intrigue across the galaxy.",colors:["#1a1a2a","#0d0d3a"],cast:"Jared Harris, Lee Pace"},
+{id:58,title:"The New Look",platform:"Apple TV",genre:"Drama",year:"2026",type:"new",rt:82,imdb:7.5,seasons:"1 season",eps:10,runtime:50,premiere:"2026-02-14",moods:["smart","dark"],review:"Ben Mendelsohn as Christian Dior in Nazi-occupied Paris. Lush costume drama with moral complexity.",colors:["#2a1a2a","#3d0d2a"],cast:"Ben Mendelsohn, Juliette Binoche"},
+{id:59,title:"Masters of the Air",platform:"Apple TV",genre:"Drama, War",year:"2026",type:"new",rt:88,imdb:7.9,seasons:"Limited",eps:9,runtime:55,premiere:"2026-01-26",moods:["dark","smart","thrill"],review:"Spielberg/Hanks WWII bomber-crew drama. Spectacular aerial sequences and raw emotional power.",colors:["#1a1a1a","#2d0d0d"],cast:"Austin Butler, Callum Turner"},
+{id:60,title:"Pachinko (S3)",platform:"Apple TV",genre:"Drama",year:"2026",type:"season",rt:94,imdb:8.3,seasons:"Season 3",eps:8,runtime:55,premiere:"2026-08-15",moods:["smart","feel","dark"],review:"Multi-generational Korean family epic continues its exquisite, heartbreaking storytelling across decades.",colors:["#1a2a3a","#0d3a4a"],cast:"Youn Yuh-jung, Lee Min-ho"}
+];
+let state=JSON.parse(localStorage.getItem('eliteTV2026')||'{}');
+if(!state.ratings)state.ratings={};if(!state.status)state.status={};if(!state.notes)state.notes={};if(!state.theme)state.theme='dark';
+let currentType='all',currentStatus='all',currentView='grid',currentMood='any',wlFilter='all';
+function save(){localStorage.setItem('eliteTV2026',JSON.stringify(state));}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+function applyTheme(){document.documentElement.setAttribute('data-theme',state.theme==='light'?'light':'dark');}
+applyTheme();
+document.getElementById('themeBtn').onclick=()=>{state.theme=state.theme==='light'?'dark':'light';save();applyTheme();};
+document.querySelectorAll('.nav-tab').forEach(tab=>{
+  tab.onclick=()=>{
+    document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(tab.dataset.section).classList.add('active');
+    if(tab.dataset.section==='watchlist')renderWatchlist();
+    if(tab.dataset.section==='stats')renderStats();
+    if(tab.dataset.section==='calendar')renderCalendar();
+    if(tab.dataset.section==='compare')populateCompare();
+  };
+});
+function getUserRating(id){return state.ratings[id]||0;}
+function getStatus(id){return state.status[id]||null;}
+function render(){
+  const search=document.getElementById('search').value.toLowerCase();
+  const platform=document.getElementById('platform').value;
+  const genre=document.getElementById('genre').value;
+  const sort=document.getElementById('sort').value;
+  let filtered=SHOWS.filter(s=>{
+    const matchSearch=!search||s.title.toLowerCase().includes(search)||s.genre.toLowerCase().includes(search)||s.platform.toLowerCase().includes(search)||s.review.toLowerCase().includes(search);
+    const matchPlatform=platform==='all'||s.platform===platform;
+    const matchGenre=genre==='all'||s.genre.includes(genre);
+    const matchType=currentType==='all'||s.type===currentType;
+    const st=getStatus(s.id);
+    const matchStatus=currentStatus==='all'||(currentStatus==='none'&&!st)||st===currentStatus;
+    return matchSearch&&matchPlatform&&matchGenre&&matchType&&matchStatus;
+  });
+  filtered.sort((a,b)=>{
+    switch(sort){
+      case 'rt-desc':return b.rt-a.rt;case 'rt-asc':return a.rt-b.rt;
+      case 'imdb-desc':return b.imdb-a.imdb;case 'imdb-asc':return a.imdb-b.imdb;
+      case 'title-asc':return a.title.localeCompare(b.title);
+      case 'user-desc':return getUserRating(b.id)-getUserRating(a.id);
+      default:return 0;
+    }
+  });
+  const grid=document.getElementById('grid');
+  grid.className='grid'+(currentView==='list'?' list-view':currentView==='compact'?' compact-view':'');
+  document.getElementById('count').textContent=filtered.length;
+  if(!filtered.length){
+    grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><h3>No shows match</h3><p>Try adjusting filters</p></div>`;
+    document.getElementById('avgRT').textContent='—';document.getElementById('avgIMDb').textContent='—';return;
+  }
+  document.getElementById('avgRT').textContent=(filtered.reduce((s,x)=>s+x.rt,0)/filtered.length).toFixed(0)+'%';
+  document.getElementById('avgIMDb').textContent=(filtered.reduce((s,x)=>s+x.imdb,0)/filtered.length).toFixed(1);
+  grid.innerHTML=filtered.map((s,i)=>cardHTML(s,i)).join('');
+}
+function cardHTML(s,i){
+  const st=getStatus(s.id);const ur=getUserRating(s.id);
+  const stLabel=st==='want'?'Want':st==='watching'?'Watching':st==='done'?'Done':'';
+  return `<article class="card" style="animation-delay:${i*0.03}s;--c1:${s.colors[0]};--c2:${s.colors[1]}" onclick="openModal(${s.id})">
+    <div class="card-header">
+      ${artHTML(s)}
+      <span class="year-tag">${s.type==='new'?'New Series':'New Season'}</span>
+      <span class="platform-tag ${s.platform==='Hulu'?'hulu':s.platform==='Prime Video'?'prime':s.platform==='Netflix'?'netflix':'apple'}">${s.platform}</span>
+      <div class="card-title-area"><div class="card-title">${s.title}</div><div class="card-genre">${s.genre}</div></div>
+    </div>
+    <div class="card-body">
+      <div class="scores">
+        <div class="score rt"><span class="label">RT</span><span class="value">${s.rt}%</span></div>
+        <div class="score imdb"><span class="label">IMDb</span><span class="value">${s.imdb}</span></div>
+        ${ur?`<div class="score user"><span class="label">You</span><span class="value">${ur}★</span></div>`:''}
+      </div>
+      <p class="review">${s.review}</p>
+      <div class="card-footer">
+        <div class="action-btns" onclick="event.stopPropagation()">
+          <button class="act-btn want ${st==='want'?'on':''}" title="Want to Watch" onclick="setStatus(${s.id},'want')">★</button>
+          <button class="act-btn watching ${st==='watching'?'on':''}" title="Watching" onclick="setStatus(${s.id},'watching')">▶</button>
+          <button class="act-btn done ${st==='done'?'on':''}" title="Finished" onclick="setStatus(${s.id},'done')">✓</button>
+        </div>
+        ${stLabel?`<span class="status-badge ${st}">${stLabel}</span>`:`<span style="font-size:11px;color:var(--muted)">${s.eps} eps · ~${s.runtime}m</span>`}
+      </div>
+    </div>
+  </article>`;
+}
+function setStatus(id,status){
+  if(state.status[id]===status)delete state.status[id];else state.status[id]=status;
+  save();render();
+  if(document.getElementById('watchlist').classList.contains('active'))renderWatchlist();
+  toast(state.status[id]?`Marked as ${status==='want'?'Want to Watch':status==='watching'?'Watching':'Finished'}`:'Removed from list');
+}
+function renderWatchlist(){
+  const grid=document.getElementById('wlGrid');
+  let items=SHOWS.filter(s=>{const st=getStatus(s.id);if(!st)return false;return wlFilter==='all'||st===wlFilter;});
+  if(!items.length){grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><h3>Your list is empty</h3><p>Go to Discover and tap ★ ▶ or ✓ on any show</p></div>`;return;}
+  grid.innerHTML=items.map((s,i)=>cardHTML(s,i)).join('');
+}
+function renderStats(){
+  const rated=Object.keys(state.ratings).length;
+  const listed=Object.keys(state.status).length;
+  const done=Object.values(state.status).filter(v=>v==='done').length;
+  const watching=Object.values(state.status).filter(v=>v==='watching').length;
+  const avgUser=rated?(Object.values(state.ratings).reduce((a,b)=>a+b,0)/rated).toFixed(1):'—';
+  document.getElementById('statsCards').innerHTML=`
+    <div class="stat-card"><div class="num">${listed}</div><div class="lbl">On Your List</div></div>
+    <div class="stat-card"><div class="num">${watching}</div><div class="lbl">Currently Watching</div></div>
+    <div class="stat-card"><div class="num">${done}</div><div class="lbl">Finished</div></div>
+    <div class="stat-card"><div class="num">${rated}</div><div class="lbl">Rated by You</div></div>
+    <div class="stat-card"><div class="num">${avgUser}</div><div class="lbl">Your Avg Rating</div></div>`;
+  const platforms={};SHOWS.forEach(s=>{platforms[s.platform]=(platforms[s.platform]||0)+1;});
+  const maxP=Math.max(...Object.values(platforms));
+  document.getElementById('platformBars').innerHTML=Object.entries(platforms).map(([k,v])=>`
+    <div class="bar-row"><div class="bar-label">${k}</div><div class="bar-track"><div class="bar-fill" style="width:${(v/maxP)*100}%"></div></div><div class="bar-val">${v}</div></div>`).join('');
+  const genres={};SHOWS.forEach(s=>s.genre.split(', ').forEach(g=>{genres[g]=(genres[g]||0)+1;}));
+  const maxG=Math.max(...Object.values(genres));
+  document.getElementById('genreBars').innerHTML=Object.entries(genres).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([k,v])=>`
+    <div class="bar-row"><div class="bar-label">${k}</div><div class="bar-track"><div class="bar-fill" style="width:${(v/maxG)*100}%"></div></div><div class="bar-val">${v}</div></div>`).join('');
+  const top=SHOWS.filter(s=>getUserRating(s.id)).sort((a,b)=>getUserRating(b.id)-getUserRating(a.id)).slice(0,5);
+  document.getElementById('topRated').innerHTML=top.length?top.map(s=>`
+    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px">
+      <span>${s.title}</span><span style="color:var(--gold);font-weight:700">${getUserRating(s.id)} ★</span>
+    </div>`).join(''):'<p style="color:var(--muted);font-size:13px">Rate some shows to see your top picks here</p>';
+}
+function renderCalendar(){
+  const sorted=[...SHOWS].sort((a,b)=>a.premiere.localeCompare(b.premiere));
+  document.getElementById('calGrid').innerHTML=sorted.map(s=>{
+    const d=new Date(s.premiere+'T12:00:00');
+    const mon=d.toLocaleString('en',{month:'short'});const day=d.getDate();
+    return `<div class="cal-item" onclick="openModal(${s.id})">
+      <div class="cal-date"><div class="day">${day}</div><div class="mon">${mon}</div></div>
+      <div class="cal-info"><h4>${s.title}</h4><p>${s.platform} · ${s.type==='new'?'Series premiere':'Season premiere'} · ${s.eps} eps</p></div>
+    </div>`;
+  }).join('');
+}
+document.querySelectorAll('.mood-btn').forEach(btn=>{
+  btn.onclick=()=>{document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentMood=btn.dataset.mood;};
+});
+document.getElementById('surpriseBtn').onclick=()=>{
+  let pool=SHOWS.filter(s=>!getStatus(s.id)||getStatus(s.id)==='want');
+  if(currentMood!=='any')pool=pool.filter(s=>s.moods.includes(currentMood));
+  if(!pool.length)pool=SHOWS;
+  const pick=pool[Math.floor(Math.random()*pool.length)];
+  const box=document.getElementById('surpriseResult');
+  box.className='surprise-result show';
+  box.innerHTML=`<div class="card" style="max-width:340px;margin:0 auto;--c1:${pick.colors[0]};--c2:${pick.colors[1]}" onclick="openModal(${pick.id})">
+    <div class="card-header">
+      ${artHTML(pick)}
+      <span class="platform-tag ${pick.platform==='Hulu'?'hulu':pick.platform==='Prime Video'?'prime':pick.platform==='Netflix'?'netflix':'apple'}">${pick.platform}</span>
+      <div class="card-title-area"><div class="card-title">${pick.title}</div><div class="card-genre">${pick.genre}</div></div>
+    </div>
+    <div class="card-body">
+      <div class="scores">
+        <div class="score rt"><span class="label">RT</span><span class="value">${pick.rt}%</span></div>
+        <div class="score imdb"><span class="label">IMDb</span><span class="value">${pick.imdb}</span></div>
+      </div>
+      <p class="review" style="-webkit-line-clamp:4">${pick.review}</p>
+    </div>
+  </div>
+  <p style="margin-top:16px;font-size:13px;color:var(--muted)">Not feeling it? Hit the button again.</p>`;
+};
+function populateCompare(){
+  const opts=SHOWS.map(s=>`<option value="${s.id}">${s.title}</option>`).join('');
+  document.getElementById('cmpA').innerHTML='<option value="">Select show A…</option>'+opts;
+  document.getElementById('cmpB').innerHTML='<option value="">Select show B…</option>'+opts;
+}
+document.getElementById('cmpA').onchange=document.getElementById('cmpB').onchange=doCompare;
+function doCompare(){
+  const a=SHOWS.find(s=>s.id==document.getElementById('cmpA').value);
+  const b=SHOWS.find(s=>s.id==document.getElementById('cmpB').value);
+  if(!a||!b){document.getElementById('cmpResult').innerHTML='';return;}
+  const rows=[
+    ['Title',a.title,b.title],['Platform',a.platform,b.platform],['Genre',a.genre,b.genre],
+    ['RT Audience',a.rt+'%',b.rt+'%',a.rt>b.rt?'A':a.rt<b.rt?'B':'T'],
+    ['IMDb',a.imdb,b.imdb,a.imdb>b.imdb?'A':a.imdb<b.imdb?'B':'T'],
+    ['Your Rating',getUserRating(a.id)||'—',getUserRating(b.id)||'—'],
+    ['Episodes',a.eps,b.eps],['Avg Runtime',a.runtime+'m',b.runtime+'m'],
+    ['Type',a.type==='new'?'New Series':'New Season',b.type==='new'?'New Series':'New Season'],
+    ['Premiere',a.premiere,b.premiere]
+  ];
+  document.getElementById('cmpResult').innerHTML=`<table class="compare-table">
+    <thead><tr><th>Metric</th><th>${a.title}</th><th>${b.title}</th></tr></thead>
+    <tbody>${rows.map(r=>`<tr><td>${r[0]}</td><td class="${r[3]==='A'?'winner':''}">${r[1]}</td><td class="${r[3]==='B'?'winner':''}">${r[2]}</td></tr>`).join('')}</tbody>
+  </table>`;
+}
+
+/* ---------------------------------------------------------------------------
+   MEDIA — poster artwork + trailer video IDs, one entry per show id.
+
+   Every value here was fetched and then verified, not guessed:
+     poster  : a real TMDB poster file. The TMDB entry it came from was matched
+               on exact title, so no show wears another show's artwork.
+     trailer : a real YouTube video id, confirmed via YouTube's oEmbed endpoint
+               (which only answers for videos that exist AND allow embedding),
+               and cross-checked so the video title actually names the show.
+
+   A missing poster falls back to the original gradient + letter tile.
+   A missing trailer falls back to a YouTube search for that title.
+--------------------------------------------------------------------------- */
+const TMDB_IMG = 'https://image.tmdb.org/t/p/w500';
+const MEDIA = {
+  // 1 Widow's Bay — TMDB "Widow's Bay" April 28, 2026 | YT "Widow's Bay — Official Teaser Trailer | Apple TV" [Apple TV]
+  1: { poster: "vKq8XEJKxQTHd2Bm5zZMFPUrke7.jpg", trailer: "Nmc2RYm6PUE" },
+  // 2 Ride or Die — TMDB "Ride or Die" July 15, 2026 | YT "Ride or Die - Official Trailer | Prime Video" [Prime Video]
+  2: { poster: "uWqEnvpwa2U28QheMdUdEcr4U0M.jpg", trailer: "QFGAxkTRAG8" },
+  // 3 Furious — TMDB "Furious" July 27, 2026 | YT "Furious | Official Trailer | Hulu" [Hulu]
+  3: { poster: "xnxxrEKtBaIcI1ewq50pLkOMU6u.jpg", trailer: "UBSqPDxmNZs" },
+  // 4 King of the Hill (S15) — TMDB "King of the Hill" January 12, 1997 | YT "King of the Hill Season 15 | Official Trailer | Hulu" [Hulu]
+  4: { poster: "e2xyMapmYgv4AuSoSDv9Y4pQlD6.jpg", trailer: "g2JXuQ3nKPU" },
+  // 5 Margo's Got Money Troubles — TMDB "Margo's Got Money Troubles" April 14, 2026 | YT "Margo's Got Money Troubles — Official Trailer | Apple TV" [Apple TV]
+  5: { poster: "fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg", trailer: "AjI52haEerU" },
+  // 6 Bait — TMDB "Bait" March 25, 2026 | YT "Bait - Official Trailer | Prime Video" [Prime Video]
+  6: { poster: "gX9zWmUnrjCZEPpultvvFtSUb93.jpg", trailer: "FpAhwL91HyA" },
+  // 7 Off Campus — TMDB "Off Campus" May 13, 2026 | YT "Off Campus - Official Teaser Trailer | Prime Video" [Prime Video]
+  7: { poster: "tcPc5ZMBO4y2BtCJMe3o2nwZb2B.jpg", trailer: "qhhfIk99HdQ" },
+  // 8 Spider-Noir — TMDB "Spider-Noir" May 25, 2026 | YT "“Spider-Noir” – Authentic Black & White Teaser Trailer | Prime Video" [Prime Video]
+  8: { poster: "oD8WSVqz84ZRfelkr7JPeJwR9Iv.jpg", trailer: "HgMbkitzhEM" },
+  // 9 The Vampire Lestat — TMDB "The Vampire Lestat" June  7, 2026 | YT "The Vampire Lestat Season 1 Trailer" [Rotten Tomatoes TV]
+  9: { poster: "gZcmNUcDDR1nR7lmroOJTCrhrhK.jpg", trailer: "JuC2IoyLoIQ" },
+  // 10 Shoresy (S5) — TMDB "Shoresy" May 13, 2022 | YT "Shoresy Season 5 | Trailer" [Shoresy]
+  10: { poster: "ai5Bf8eRcroeEAAyVrKmrE8wW74.jpg", trailer: "tblYK5t73ys" },
+  // 11 Trying (S5) — TMDB "Trying" September  6, 2023 | YT "Trying — Season 5 Official Trailer | Apple TV" [Apple TV]
+  11: { poster: "8z5GtbsfkY0JEJHIA8VvPqEFB8C.jpg", trailer: "8-_Oxuozsw4" },
+  // 12 Batman: Caped Crusader (S2) — TMDB "Batman: Caped Crusader" August  1, 2024 | YT "Batman: Caped Crusader Season 2 - Official Trailer | Prime Video" [Prime Video]
+  12: { poster: "zCHmmoqtLsIsou866osiWtIWmoA.jpg", trailer: "pNhijtUqyeg" },
+  // 13 Sunny Nights — TMDB "Sunny Nights" December 26, 2025 | YT "Sunny Nights | Trailer | Hulu" [Hulu]
+  13: { poster: "7n91F2320KptcPUXXY3lMtx3k1I.jpg", trailer: "gQnKTSFHVjQ" },
+  // 14 Maximum Pleasure Guaranteed — TMDB "Maximum Pleasure Guaranteed" May 19, 2026 | YT "Maximum Pleasure Guaranteed — Official Teaser "The Scam" | Apple TV" [Apple TV]
+  14: { poster: "oeD9rnfk7AohNiJTRoCx4SOKhXj.jpg", trailer: "I28gOWOUpp8" },
+  // 15 Colin from Accounts (S2) — TMDB "Colin from Accounts" December  1, 2022 | YT "Colin From Accounts S2 | Official Trailer | BINGE" [BINGE]
+  15: { poster: "zYPRXAImgarNSKrwd4kXobjXQNQ.jpg", trailer: "g72hEoXXuq8" },
+  // 16 The East Palace — TMDB "The East Palace" | YT "The East Palace | Official Trailer | Netflix" [Netflix]
+  16: { poster: "yfYohBszGqoAW8oM0qydOtJ4kPh.jpg", trailer: "wBUkNE1l9DU" },
+  // 17 Bridgerton (S4) — TMDB "Bridgerton" December 25, 2020 | YT "Bridgerton Season 4 | Official Trailer | Netflix" [Netflix]
+  17: { poster: "uXTg565ahu9RwonCX1V2Hex1NU6.jpg", trailer: "IqaXNwAzSmQ" },
+  // 18 One Piece (S2) — TMDB "ONE PIECE" August 31, 2023 | YT "ONE PIECE: Season 2 | Official Trailer | Netflix" [Netflix]
+  18: { poster: "blWCPEqDGLBuLB9u89CxP9ORQP4.jpg", trailer: "S-XxKVxZ2fU" },
+  // 19 The Boroughs — TMDB "The Boroughs" May 21, 2026 | YT "The Boroughs | Official Trailer | Netflix" [Netflix]
+  19: { poster: "oKxBWbXmnWFO2Wh1QRTtshdfIRa.jpg", trailer: "PsvUvqXoTpE" },
+  // 20 His & Hers — TMDB "HIS & HERS" January  8, 2026 | YT "HIS & HERS | Official Trailer | Netflix" [Netflix]
+  20: { poster: "cDSXLVQLkCSBIpBx3UW04TsfZ5c.jpg", trailer: "8_szlvBLll0" },
+  // 21 The Witness — TMDB "The Witness" June  4, 2026 | YT "The Witness | Official Trailer | Netflix" [Netflix]
+  21: { poster: "6vW1V7qejXv4QI2TvWvYuowfTrU.jpg", trailer: "3iKFLt9gjAU" },
+  // 22 Avatar: The Last Airbender (S2) — TMDB "Avatar: The Last Airbender" February 22, 2024 | YT "Avatar: The Last Airbender: Season 2 | Official Trailer | Netflix" [Netflix]
+  22: { poster: "lzZpWEaqzP0qVA5nkCc5ASbNcSy.jpg", trailer: "M_Las484swM" },
+  // 23 I Will Find You — TMDB "I Will Find You" June 18, 2026 | YT "I Will Find You | Official Trailer | Netflix" [Netflix]
+  23: { poster: "pb9oYHHNzauiCQZT03MpDAg46GI.jpg", trailer: "mObRUsA7dPY" },
+  // 24 Little House on the Prairie — TMDB "Little House on the Prairie" July  9, 2026 | YT "Little House on the Prairie | Official Trailer | Netflix" [Netflix]
+  24: { poster: "oWUGSadxC9vQPOCeHDDVfDezmQC.jpg", trailer: "jSds4Oi83Eg" },
+  // 25 Ransom Canyon (S2) — TMDB "Ransom Canyon" April 17, 2025 | YT "Ransom Canyon: Season 2 | Official Trailer | Netflix" [Netflix]
+  25: { poster: "1efzyMfIe3WauOCWk7Gn56gj7sL.jpg", trailer: "2XKyPE92owY" },
+  // 26 Teach You a Lesson — TMDB "Teach You a Lesson" | YT "Teach You a Lesson | Official Trailer | Netflix [ENG SUB]" [Netflix K-Content]
+  26: { poster: "fMECSPrTmRClSViMsXFYmiYIcWP.jpg", trailer: "LdezlX84py0" },
+  // 27 Nemesis — TMDB "Nemesis" May 14, 2026 | YT "Nemesis | Official Trailer | Netflix" [Netflix]
+  27: { poster: "NY7ZwSMw5PjoJdK2CObqiTj7Bm.jpg", trailer: "M9nc3simqAE" },
+  // 28 The Night Agent (S3) — TMDB "The Night Agent" March 23, 2023 | YT "The Night Agent: Season 3 | Official Trailer | Netflix" [Netflix]
+  28: { poster: "4c5yUNcaff4W4aPrkXE6zr7papX.jpg", trailer: "1F6BCHAfGDc" },
+  // 29 A Good Girl's Guide to Murder — TMDB "A Good Girl's Guide to Murder" July 10, 2024 | YT "A Good Girl's Guide to Murder | Official Trailer | Netflix" [Netflix]
+  29: { poster: "pVV62HbgLP7JsZv096XmjPZtjdP.jpg", trailer: "wA39lIDm75Y" },
+  // 30 Solar Opposites (S6) — TMDB "Solar Opposites" May  8, 2020 | YT "Solar Opposites Official Trailer | Season 6 | Hulu" [Hulu]
+  30: { poster: "nuBD4dlO7gfg4RhW0sS0pTeiYRc.jpg", trailer: "39tinqfGV_I" },
+  // 31 The Pitt (S2) — TMDB "The Pitt" January  9, 2025 | YT "The Pitt Season 2 | Official Trailer | HBO Max" [HBO Max]
+  31: { poster: "kvFSpESyBZMjaeOJDx7RS3P1jey.jpg", trailer: "Xq8x47ky2Tw" },
+  // 32 House of Stassi — TMDB "House of Stassi" July 29, 2026 | YT "House of Stassi | Official Trailer" [Hulu]
+  32: { poster: "Y9eB8hNiRYkR2XFShHre4nDrfW.jpg", trailer: "0t_xKRRgmOI" },
+  // 33 The Shards — TMDB "The Shards" August  5, 2026 | YT "The Shards | Official Trailer | Igby Rigney, Kaia Gerber, Hayes Warner | FX" [FX Networks]
+  33: { poster: "876V23IJpddyLcO1wvJUdSft585.jpg", trailer: "Zpm9HUOrZIc" },
+  // 34 Adults (S2) — TMDB "Adults" May 28, 2025 | YT "FX's Adults | Official Trailer | Disney+" [Disney Australia & New Zealand]
+  34: { poster: "5wImdllhGNvu8HDCvwL8PvuOLFq.jpg", trailer: "YZgDTseb5fQ" },
+  // 35 Futurama (S14) — TMDB "Futurama" March 28, 1999 | YT "Futurama | Season 14 Trailer | Hulu" [Hulu]
+  35: { poster: "6ZS8SOno6kTmWz4eQ8lX8EBXOMv.jpg", trailer: "Jb2LBG5qa88" },
+  // 36 Tell Me Lies (S3) — TMDB "Tell Me Lies" September  7, 2022 | YT "Tell Me Lies Season 3 | Official Trailer | Disney+ UK" [Disney Plus UK]
+  36: { poster: "blOAzeqf2EUrRvjK2VWDRs4nK7l.jpg", trailer: "gkV9-kLasvM" },
+  // 37 Only Murders in the Building (S6) — TMDB "Only Murders in the Building" August 31, 2021 | YT "Only Murders in the Building (Official) Teaser | Hulu" [Hulu]
+  37: { poster: "1yjFVQZuW8aofZ5Cgol8iImsVFp.jpg", trailer: "JRgyBaTulbs" },
+  // 38 The Bear (Final) — TMDB "The Bear" June 23, 2022 | YT "The Bear Season 1 Trailer | Rotten Tomatoes TV" [Rotten Tomatoes TV]
+  38: { poster: "eKfVzzEazSIjJMrw9ADa2x8ksLz.jpg", trailer: "gBmkI4jlaIo" },
+  // 39 High Potential (S3) — TMDB "High Potential" September 17, 2024 | YT "High Potential Season 3 Trailer (2027) | Release Date And Everything We Know" [October Sky Studios]
+  39: { poster: "xCtaUDBUP1iKqtoqpHfeH1T2pWF.jpg", trailer: "xj5F87q9JQ4" },
+  // 40 Abbott Elementary (S5) — TMDB "Abbott Elementary" December  7, 2021 | YT "Abbott Elementary Season 5 Trailer (HD) comedy series" [TV Promos]
+  40: { poster: "nBe1e3JJEZ6veGrVXNF0fRoLu56.jpg", trailer: "mskeTy-9u08" },
+  // 41 Reacher (S4) — TMDB "Reacher" February  3, 2022 | YT "REACHER Season 4 - Official Trailer | Prime Video" [Prime Video]
+  41: { poster: "f1VCQIG2iCyOookdgOzwtUpwWC0.jpg", trailer: "PCbp1FfipPg" },
+  // 42 The Boys (S5) — TMDB "The Boys" July 25, 2019 | YT "THE BOYS Season 5 Official Trailer (2026)" [KinoCheck.com]
+  42: { poster: "in1R2dDc421JxsoRWaIIAqVI2KE.jpg", trailer: "ZUZ887GGR8c" },
+  // 43 Fallout (S2) — TMDB "Fallout" April 10, 2024 | YT "Fallout Season Two Official Trailer | Prime Video" [Prime Video]
+  43: { poster: "c15BtJxCXMrISLVmysdsnZUPQft.jpg", trailer: "ECI3eCAxRGw" },
+  // 44 Mr. & Mrs. Smith (S2) — TMDB "Mr. & Mrs. Smith" February  1, 2024 | YT "Season 2... are you in? | Mr. & Mrs. Smith" [Prime Video]
+  44: { poster: "kvJvGxsDLi3MmHzc9nregyJtOWY.jpg", trailer: "IDn88R7D2-k" },
+  // 45 The Lord of the Rings: The Rings of Power (S3) — TMDB "The Lord of the Rings: The Rings of Power" September  1, 2022 | YT "The Lord of The Rings: The Rings of Power Season 3 - Official Teaser Trailer | Comic Con 2026" [IGN]
+  45: { poster: "kf5Hz70tjNAHg4swGDzOr9BfoZ1.jpg", trailer: "yhmE8C_HOso" },
+  // 46 Upload (S4) — TMDB "Upload" April 30, 2020 | YT "Upload Season 4 - Official Trailer | Prime Video" [Prime Video]
+  46: { poster: "6TPGDrU9MyWbn2TpggJphVAVXiq.jpg", trailer: "AWTnGzgL720" },
+  // 47 The Terminal List (S2) — TMDB "The Terminal List" June 30, 2022 | YT "Terminal List S2: Chris Pratt | Prime Video" [Prime Video Malaysia]
+  47: { poster: "jbyaKYNexl1poKZnEmB6Qobn60s.jpg", trailer: "o0eQ7zIax-Q" },
+  // 48 Expats — TMDB "Expats" January 25, 2024 | YT "Expats - Official Trailer | Prime Video" [Prime Video]
+  48: { poster: "vKAkT96TIf3Mh8q2FXV6GqcuJab.jpg", trailer: "whHb3ClSdrQ" },
+  // 49 A Murder at the End of the World — TMDB "A Murder at the End of the World" November 14, 2023 | YT "A Murder at the End of the World Limited Series Trailer" [Rotten Tomatoes TV]
+  49: { poster: "1mWCXJefbNU1E2XPJVM2vejMSZO.jpg", trailer: "iPAfWAkCHuU" },
+  // 50 The Legend of Vox Machina (S4) — TMDB "The Legend of Vox Machina" January 27, 2022 | YT "The Legend of Vox Machina S4 - Official Trailer | Prime Video" [Prime Video]
+  50: { poster: "zjQTSYZEmy0GVnK1aFLvNiAwluo.jpg", trailer: "FkqIXFztj6Q" },
+  // 51 Severance (S3) — TMDB "Severance" February 17, 2022 | YT "Severance — Official Trailer | Apple TV" [Apple TV]
+  51: { poster: "pPHpeI2X1qEd1CS1SeyrdhZ4qnT.jpg", trailer: "xEQP4VVuyrY" },
+  // 52 The Morning Show (S5) — TMDB "The Morning Show" November  1, 2019 | YT "The Morning Show — Official Teaser Trailer | Apple TV" [Apple TV]
+  52: { poster: "y9x2R87yt2U616736NJrP0d56dt.jpg", trailer: "BeXtt2X6nDk" },
+  // 53 Ted Lasso (S4) — TMDB "Ted Lasso" August 14, 2020 | YT "Ted Lasso — Season 4 Official Trailer (Together) | Apple TV" [Apple TV]
+  53: { poster: "5fhZdwP1DVJ0FyVH6vrFdHwpXIn.jpg", trailer: "GACU1N9hg5o" },
+  // 54 For All Mankind (S5) — TMDB "For All Mankind" November  1, 2019 | YT "For All Mankind — Season 5 Official Trailer | Apple TV" [Apple TV]
+  54: { poster: "JP3DItWMbrrLiKR5AYUfpsNf2b.jpg", trailer: "zojwKLlY_H8" },
+  // 55 Slow Horses (S5) — TMDB "Slow Horses" April  1, 2022 | YT "Slow Horses — Season 5 Official Trailer | Apple TV" [Apple TV]
+  55: { poster: "5RuZZIouptatjV96BdPmKmRsnGg.jpg", trailer: "A9BCtrziWtg" },
+  // 56 Shrinking (S3) — TMDB "Shrinking" January 26, 2023 | YT "Shrinking — Season 3 Official Trailer | Apple TV" [Apple TV]
+  56: { poster: "zEFKMNPBKq6JG7uuDkzTQ9WwErn.jpg", trailer: "vGWSq5mra-w" },
+  // 57 Foundation (S3) — TMDB "Foundation" September 23, 2021 | YT "Foundation — Season 3 Official Trailer | Apple TV" [Apple TV]
+  57: { poster: "tg9I5pOY4M9CKj8U0cxVBTsm5eh.jpg", trailer: "C53xEOdxz70" },
+  // 58 The New Look — TMDB "The New Look" February 13, 2024 | YT "The New Look — Official Trailer | Apple TV" [Apple TV]
+  58: { poster: "aQBpF8VmEIgow41OL9h4nU4WN6v.jpg", trailer: "lXN5Ws7LxkA" },
+  // 59 Masters of the Air — TMDB "Masters of the Air" January 25, 2024 | YT "Masters of the Air — Official Trailer | Apple TV" [Apple TV]
+  59: { poster: "rSAmgcoA74371rplbqM27yVsd3y.jpg", trailer: "lA-1JCRguZ0" },
+  // 60 Pachinko (S3) — TMDB "Pachinko" March 24, 2022 | YT "Pachinko — Official Trailer | Apple TV" [Apple TV]
+  60: { poster: "wUTXdmL6oNjhiStGveOaPeuFOYQ.jpg", trailer: "O1r5XXJOYNA" },
+};
+
+function posterOf(id) {
+  const m = MEDIA[id];
+  return m && m.poster ? TMDB_IMG + '/' + m.poster : null;
+}
+
+/* Poster art layer for a card / modal header.
+   Posters are portrait but these headers are landscape, so a blurred zoomed
+   copy fills the box behind the true poster instead of cropping into faces. */
+function artHTML(s) {
+  const p = posterOf(s.id);
+  if (!p) return '';
+  const alt = ('Poster for ' + s.title).replace(/"/g, '');
+  return '<div class="art-wrap">' +
+    '<img class="art-blur" src="' + p + '" alt="" aria-hidden="true" ' +
+      'onerror="this.remove()">' +
+    '<img class="art-poster" src="' + p + '" alt="' + alt + '" loading="lazy" ' +
+      'onerror="this.closest(\'.art-wrap\').remove()">' +
+    '</div>';
+}
+/* ---------------------------------------------------------------------------
+   ONE-CLICK TRAILER PLAYBACK
+
+   Two things used to break this:
+
+   1. Most of the old cached video IDs were not real YouTube videos. Every ID
+      in MEDIA below was verified against YouTube's oEmbed endpoint, so each
+      one resolves to a real, embeddable video for the right show.
+
+   2. YouTube refuses to start an embedded player when the containing page's
+      origin is "file://" — it returns Error 153 (player configuration error)
+      no matter how valid the video ID is. That is a YouTube-side rule and
+      there is no way around it from inside a local file.
+
+   So playback is protocol-aware:
+     - opened as a local file  -> open the real YouTube page in a new tab,
+                                  where it starts playing on its own
+     - served over http(s)     -> play inline, right here in the app
+   Either way it is a single click and the video starts by itself.
+--------------------------------------------------------------------------- */
+function trailerIdOf(id) { return (MEDIA[id] && MEDIA[id].trailer) || null; }
+
+function playTrailer(id) {
+  const s = SHOWS.find(x => x.id === id);
+  if (!s) return;
+  const vid = trailerIdOf(id);
+
+  // No verified trailer on file -> send them straight to a YouTube search.
+  // Still one click, and never a dead end.
+  if (!vid) {
+    window.open('https://www.youtube.com/results?search_query=' +
+      encodeURIComponent(s.title + ' official trailer'), '_blank', 'noopener');
+    toast('Opening YouTube search for ' + s.title);
+    return;
+  }
+
+  // Local file: an inline embed cannot play (Error 153). Open YouTube itself.
+  if (location.protocol === 'file:') {
+    window.open('https://www.youtube.com/watch?v=' + encodeURIComponent(vid) +
+      '&autoplay=1', '_blank', 'noopener');
+    toast('Playing trailer on YouTube…');
+    return;
+  }
+
+  let player = document.getElementById('trailerPlayer');
+  if (!player) {
+    player = document.createElement('div');
+    player.id = 'trailerPlayer';
+    player.className = 'trailer-player-overlay';
+    player.addEventListener('click', function(e) {
+      if (e.target === player) closeTrailerPlayer();
+    });
+    document.body.appendChild(player);
+  }
+
+  // Served over http(s): the in-page embed works and autoplays.
+  const src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(vid) +
+    '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+  player.innerHTML =
+    '<div class="trailer-player-box">' +
+      '<button class="trailer-player-close" onclick="closeTrailerPlayer()" aria-label="Close">×</button>' +
+      '<div class="trailer-player-title">' + s.title.replace(/</g,'&lt;') + ' — Official Trailer</div>' +
+      '<div class="trailer-iframe-wrap">' +
+        '<iframe ' +
+          'src="' + src + '" ' +
+          'title="' + s.title.replace(/"/g,'') + ' trailer" ' +
+          'frameborder="0" ' +
+          'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ' +
+          'referrerpolicy="strict-origin-when-cross-origin" ' +
+          'allowfullscreen ' +
+          'playsinline ' +
+        '></iframe>' +
+      '</div>' +
+    '</div>';
+
+  player.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeTrailerPlayer() {
+  const player = document.getElementById('trailerPlayer');
+  if (player) {
+    player.classList.remove('open');
+    player.innerHTML = '';
+  }
+  document.body.style.overflow = '';
+}
+
+function openModal(id){
+  const s=SHOWS.find(x=>x.id===id);if(!s)return;
+  const ur=getUserRating(id);const st=getStatus(id);const note=state.notes[id]||'';
+  const trailerQ=encodeURIComponent(s.title+' official trailer 2026');
+  const similar=getSimilar(s,10);
+  const overlay=document.getElementById('modal');overlay.classList.add('open');
+  overlay.innerHTML=`<div class="modal" style="--c1:${s.colors[0]};--c2:${s.colors[1]}">
+    <div class="modal-header modal-poster">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      ${posterOf(s.id)?artHTML(s):`<div class="poster-art" aria-hidden="true">
+        <div class="poster-glow"></div>
+        <div class="poster-letter">${s.title.charAt(0)}</div>
+      </div>`}
+      <div style="position:relative;z-index:2;width:100%">
+        <div style="font-size:1.35rem;font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:3px" onclick="playTrailer(${id})" title="Play trailer">${s.title} ▶</div>
+        <div style="font-size:12px;opacity:0.85;margin-top:4px">${s.genre} · ${s.platform}</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-scores">
+        <div class="score rt"><span class="label">RT Audience</span><span class="value">${s.rt}%</span></div>
+        <div class="score imdb"><span class="label">IMDb</span><span class="value">${s.imdb}</span></div>
+        ${ur?`<div class="score user"><span class="label">You</span><span class="value">${ur}★</span></div>`:''}
+      </div>
+      <p class="modal-review">${s.review}</p>
+      <div class="modal-details">
+        <div><span>Platform</span><span>${s.platform}</span></div>
+        <div><span>Type</span><span>${s.type==='new'?'New Series (2026)':'New Season (2026)'}</span></div>
+        <div><span>Episodes</span><span>${s.eps} · ~${s.runtime} min each</span></div>
+        <div><span>Premiere</span><span>${s.premiere}</span></div>
+        <div><span>Cast</span><span>${s.cast}</span></div>
+        <div><span>Status</span><span>${st?(st==='want'?'Want to Watch':st==='watching'?'Watching':'Finished'):'Not listed'}</span></div>
+      </div>
+      <div style="font-size:13px;font-weight:600;margin-bottom:6px">Your Rating</div>
+      <div class="user-rate" id="starRow">
+        ${[1,2,3,4,5].map(n=>`<button class="star-btn ${ur>=n?'lit':''}" data-n="${n}">★</button>`).join('')}
+        ${ur?`<button class="btn" style="margin-left:8px;padding:4px 10px;font-size:12px" onclick="clearRating(${id})">Clear</button>`:''}
+      </div>
+      <textarea class="note-input" id="noteInput" placeholder="Personal notes…">${note}</textarea>
+      <div class="modal-actions" style="margin-bottom:16px">
+        <button class="btn trailer-btn" onclick="playTrailer(${id})">▶ Play Trailer</button>
+        <button class="btn ${st==='want'?'active':''}" onclick="setStatus(${id},'want');openModal(${id})">★ Want</button>
+        <button class="btn ${st==='watching'?'active':''}" onclick="setStatus(${id},'watching');openModal(${id})">▶ Watching</button>
+        <button class="btn ${st==='done'?'active':''}" onclick="setStatus(${id},'done');openModal(${id})">✓ Done</button>
+        <button class="btn" onclick="saveNote(${id})">Save Note</button>
+      </div>
+      <div class="similar-section">
+        <h3 style="font-size:14px;font-weight:700;margin-bottom:10px">See 10 more series rated as high (or nearly as high)</h3>
+        <div class="similar-list">
+          ${similar.map(sim=>`
+            <div class="similar-item" onclick="openModal(${sim.id})" style="--c1:${sim.colors[0]};--c2:${sim.colors[1]}">
+              <div class="similar-thumb">${posterOf(sim.id)
+                ?`<img src="${posterOf(sim.id)}" alt="" loading="lazy" onerror="this.remove()">`
+                :sim.title.charAt(0)}</div>
+              <div class="similar-info">
+                <div class="similar-title">${sim.title}</div>
+                <div class="similar-meta">${sim.platform} · RT ${sim.rt}% · IMDb ${sim.imdb}</div>
+              </div>
+              <div class="similar-score">Match ${sim._score}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  </div>`;
+  overlay.querySelectorAll('.star-btn').forEach(btn=>{
+    btn.onclick=(e)=>{e.stopPropagation();state.ratings[id]=+btn.dataset.n;save();openModal(id);render();toast(`Rated ${btn.dataset.n} stars`);};
+  });
+}
+function getSimilar(base,n){
+  const baseGenres=new Set(base.genre.split(', ').map(g=>g.trim()));
+  const scored=SHOWS.filter(s=>s.id!==base.id).map(s=>{
+    const g=s.genre.split(', ').map(x=>x.trim());
+    const overlap=g.filter(x=>baseGenres.has(x)).length;
+    const moodOverlap=(s.moods||[]).filter(m=>(base.moods||[]).includes(m)).length;
+    const rtDiff=Math.abs(s.rt-base.rt);
+    const imdbDiff=Math.abs(s.imdb-base.imdb);
+    let score=100-rtDiff*0.6-imdbDiff*8+overlap*12+moodOverlap*6;
+    if(s.platform===base.platform) score+=4;
+    if(s.rt>=base.rt-8) score+=5;
+    return Object.assign({},s,{_score:Math.round(score)});
+  });
+  return scored.sort((a,b)=>b._score-a._score).slice(0,n);
+}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+function clearRating(id){delete state.ratings[id];save();openModal(id);render();}
+function saveNote(id){const val=document.getElementById('noteInput').value.trim();if(val)state.notes[id]=val;else delete state.notes[id];save();toast('Note saved');}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal();});
+document.getElementById('exportBtn').onclick=()=>{
+  const data={ratings:state.ratings,status:state.status,notes:state.notes,exported:new Date().toISOString()};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='elite-tv-2026-export.json';a.click();toast('Data exported');
+};
+document.getElementById('search').oninput=render;
+document.getElementById('platform').onchange=render;
+document.getElementById('genre').onchange=render;
+document.getElementById('sort').onchange=render;
+document.querySelectorAll('#typeFilter .btn').forEach(btn=>{
+  btn.onclick=()=>{document.querySelectorAll('#typeFilter .btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentType=btn.dataset.type;render();};
+});
+document.querySelectorAll('#statusFilter .btn').forEach(btn=>{
+  btn.onclick=()=>{document.querySelectorAll('#statusFilter .btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentStatus=btn.dataset.status;render();};
+});
+document.querySelectorAll('#wlFilter .btn').forEach(btn=>{
+  btn.onclick=()=>{document.querySelectorAll('#wlFilter .btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');wlFilter=btn.dataset.wl;renderWatchlist();};
+});
+document.querySelectorAll('.view-btn').forEach(btn=>{
+  btn.onclick=()=>{document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentView=btn.dataset.view;
+    document.getElementById('viewLabel').textContent=currentView.charAt(0).toUpperCase()+currentView.slice(1)+' view';render();};
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeTrailerPlayer();closeModal();}
+  if(e.key==='/'&&document.activeElement.tagName!=='INPUT'&&document.activeElement.tagName!=='TEXTAREA'){e.preventDefault();document.getElementById('search').focus();}
+});
+render();
+</script>
+</body>
+</html>

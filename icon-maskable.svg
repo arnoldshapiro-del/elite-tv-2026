@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="gm" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#f9a8d4"/>
+    </linearGradient>
+  </defs>
+  <!-- maskable: art kept inside the safe zone (centre 80%) so platform masks never clip it -->
+  <rect width="512" height="512" fill="#07070c"/>
+  <rect x="124" y="170" width="264" height="168" rx="20" fill="none" stroke="url(#gm)" stroke-width="20"/>
+  <path d="M232 224l64 33-64 33z" fill="url(#gm)"/>
+</svg>
