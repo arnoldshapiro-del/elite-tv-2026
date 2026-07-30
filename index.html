@@ -882,13 +882,18 @@ footer {
   </div>
   <div class="controls">
     <div class="controls-row">
-      <label style="font-size:13px;color:var(--muted)" for="findSince">New since</label>
-      <input type="date" id="findSince" style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 12px;color:var(--text);font-size:13px;outline:none">
-      <button class="btn" id="findBtn" style="background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700">🔍 Find New Shows</button>
+      <button class="btn" id="findSinceLastBtn" style="background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700">🔍 What's new since last time</button>
+      <span style="font-size:12px;color:var(--muted)" id="lastSearchLabel"></span>
       <div class="stat-pills">
         <span class="stat-pill"><strong id="findCount">0</strong> found</span>
         <span class="stat-pill">Bar: IMDb ≥ 7.5</span>
       </div>
+    </div>
+    <div class="controls-row" style="gap:8px">
+      <label style="font-size:12px;color:var(--muted)" for="findSince">Or search from a specific date</label>
+      <input type="date" id="findSince" style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:8px 11px;color:var(--text);font-size:13px;outline:none">
+      <button class="btn" id="findBtn">Search from this date</button>
+      <button class="ep-mini" id="resetSearchBtn" title="Forget the last-search date and start fresh">Reset</button>
     </div>
     <div class="controls-row" id="findStatus" style="display:none"></div>
   </div>
@@ -1034,6 +1039,18 @@ const SHOWS=[
 let state=JSON.parse(localStorage.getItem('eliteTV2026')||'{}');
 if(!state.ratings)state.ratings={};if(!state.status)state.status={};if(!state.notes)state.notes={};if(!state.theme)state.theme='dark';
 if(!state.finds)state.finds={};   // shows discovered by the New Finds button, keyed by TMDB id
+if(!state.lastSearch)state.lastSearch=null;   // ISO date of the last successful search
+
+/* Discovered shows arrive with their own episode list, so fold it into EPISODES
+   at load time — that gives every new find the same episode tracking, Up Next
+   queue and progress bars as the built-in 60. */
+function mergeFindEpisodes(){
+  Object.values(state.finds).forEach(f => {
+    if (f && f.tmdb && Array.isArray(f.episodes) && f.episodes.length) {
+      EPISODES[FIND_ID_BASE + Number(f.tmdb)] = { s: f.season || 1, e: f.episodes };
+    }
+  });
+}
 
 /* ---------------------------------------------------------------------------
    NEW FINDS
@@ -1289,16 +1306,20 @@ function findsAsShows(){
     year: (f.firstAir || '').slice(0,4) || '2026',
     type: f.type === 'new' ? 'new' : 'season',
     rt: (typeof f.rt === 'number') ? f.rt : null,   // null -> shown as "—", never invented
-    imdb: f.imdb,
-    seasons: '', eps: null, runtime: null,
+    imdb: (typeof f.imdb === 'number') ? f.imdb : null,
+    ratingSource: f.ratingSource || null,
+    seasons: f.season > 1 ? 'Season ' + f.season : '1 season',
+    eps: f.epCount || (f.episodes ? f.episodes.length : null),
+    runtime: f.runtime || null,
     premiere: f.firstAir || '',
     moods: [],
-    review: f.overview || 'No description available from TMDB.',
+    review: f.overview || 'No description available.',
     colors: ['#1a1a2e','#2d0d3a'],
-    cast: '',
+    cast: f.cast || '',
     isFind: true,
     tmdbScore: f.tmdbScore,
-    metaText: 'IMDb ' + f.imdb + (f.tmdbScore ? ' · TMDB ' + f.tmdbScore : ''),
+    metaText: (typeof f.imdb === 'number' ? (f.ratingSource||'IMDb') + ' ' + f.imdb : 'TMDB-rated')
+      + (f.epCount ? ' · ' + f.epCount + ' eps' : ''),
   }));
 }
 // Resolves an id to a show whether it is one of the 60 or a new find.
@@ -1366,8 +1387,14 @@ function render(){
     grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><h3>No shows match</h3><p>Try adjusting filters</p></div>`;
     document.getElementById('avgRT').textContent='—';document.getElementById('avgIMDb').textContent='—';return;
   }
-  document.getElementById('avgRT').textContent=(filtered.reduce((s,x)=>s+x.rt,0)/filtered.length).toFixed(0)+'%';
-  document.getElementById('avgIMDb').textContent=(filtered.reduce((s,x)=>s+x.imdb,0)/filtered.length).toFixed(1);
+  // average only over shows that actually HAVE a verified RT score — counting the
+  // dashes as zero would quietly understate it
+  const withRT=filtered.filter(x=>typeof x.rt==='number');
+  document.getElementById('avgRT').textContent=withRT.length
+    ?(withRT.reduce((s,x)=>s+x.rt,0)/withRT.length).toFixed(0)+'%':'—';
+  const withIMDb=filtered.filter(x=>typeof x.imdb==='number');
+  document.getElementById('avgIMDb').textContent=withIMDb.length
+    ?(withIMDb.reduce((s,x)=>s+x.imdb,0)/withIMDb.length).toFixed(1):'—';
   grid.innerHTML=filtered.map((s,i)=>cardHTML(s,i)).join('');
   renderWall();
 }
@@ -1388,7 +1415,9 @@ function cardHTML(s,i){
         ${typeof s.rt==='number'
           ?`<div class="score rt"><span class="label">RT</span><span class="value">${s.rt}%</span></div>`
           :`<div class="score rt na" title="Rotten Tomatoes has no public API — not available for newly found shows"><span class="label">RT</span><span class="value">—</span></div>`}
-        <div class="score imdb"><span class="label">IMDb</span><span class="value">${s.imdb}</span></div>
+        ${typeof s.imdb==="number"
+          ?`<div class="score imdb"><span class="label">${s.ratingSource==="TMDB"?"TMDB":"IMDb"}</span><span class="value">${s.imdb}</span></div>`
+          :`<div class="score imdb na" title="No IMDb rating yet — too new to have accumulated votes"><span class="label">IMDb</span><span class="value">—</span></div>`}
         ${s.isFind&&s.tmdbScore?`<div class="score user"><span class="label">TMDB</span><span class="value">${s.tmdbScore}</span></div>`:''}
         ${ur?`<div class="score user"><span class="label">You</span><span class="value">${ur}★</span></div>`:''}
       </div>
@@ -1460,9 +1489,41 @@ function removeFind(appId){
   toast('Removed ' + (f ? f.title : 'find'));
 }
 
-async function runFind(){
+const ymdLocal = d => d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+
+function updateLastSearchLabel(){
+  const el = document.getElementById('lastSearchLabel');
+  const btn = document.getElementById('findSinceLastBtn');
+  if (!el) return;
+  if (state.lastSearch){
+    const d = new Date(state.lastSearch+'T12:00:00');
+    const days = Math.round((new Date().setHours(12,0,0,0) - d) / 86400000);
+    el.textContent = `Last searched ${fmtDate(state.lastSearch)}${days>0?` · ${days} day${days===1?'':'s'} ago`:' · today'}`;
+    btn.textContent = `🔍 What's new since ${fmtDate(state.lastSearch)}`;
+  } else {
+    el.textContent = 'Never searched yet — the first run looks back 90 days';
+    btn.textContent = "🔍 Find new shows";
+  }
+}
+function resetSearchMemory(){
+  state.lastSearch = null; save();
+  const back = new Date(Date.now() - 90*86400000);
+  document.getElementById('findSince').value = ymdLocal(back);
+  updateLastSearchLabel();
+  findMsg('Forgotten. The next search will look back 90 days again.', 'warn');
+}
+
+// "What's new since last time" — the whole point: it remembers.
+function runFindSinceLast(){
+  const since = state.lastSearch || ymdLocal(new Date(Date.now() - 90*86400000));
+  document.getElementById('findSince').value = since;
+  runFind(since);
+}
+
+async function runFind(sinceArg){
   const btn = document.getElementById('findBtn');
-  const since = document.getElementById('findSince').value;
+  const btn2 = document.getElementById('findSinceLastBtn');
+  const since = sinceArg || document.getElementById('findSince').value;
   if (!since){ findMsg('Pick a date first — it searches for anything new since then.', 'warn'); return; }
 
   // A local file has no /api endpoint. Say so plainly instead of failing oddly.
@@ -1479,6 +1540,7 @@ async function runFind(){
   const titles = SHOWS.map(s => s.title).join('|');
 
   btn.disabled = true;
+  if (btn2) btn2.disabled = true;
   const label = btn.textContent;
   btn.innerHTML = '<span class="spin">◠</span> Searching…';
   findMsg('Checking Hulu, Prime Video, Apple TV and Netflix for anything new since ' +
@@ -1520,19 +1582,30 @@ async function runFind(){
       state.finds[f.tmdb] = f;
       added++;
     });
+
+    // Remember when we last looked, so next time can pick up exactly here.
+    state.lastSearch = data.searchedUpTo || ymdLocal(new Date());
     save();
+    mergeFindEpisodes();          // new finds get episode tracking straight away
     renderFinds();
+    updateLastSearchLabel();
+    render();
 
     const bits = [];
-    bits.push('<strong>' + (added ? 'Added ' + added + ' new ' + (added===1?'show':'shows') : 'Nothing new to add') + '.</strong>');
-    bits.push('Checked ' + (data.scanned||0) + ' candidates released since ' + since +
-              '; kept only those with a real IMDb rating of 7.5 or better.');
-    if (data.found > added) bits.push((data.found - added) + ' were already in your list.');
-    bits.push('<span style="color:var(--muted)">Rotten Tomatoes has no public data feed, so RT shows “—” on these — every other number here is real.</span>');
+    bits.push('<strong>' + (added
+      ? `Added ${added} new ${added===1?'show':'shows'}.`
+      : 'Nothing new has come out since then.') + '</strong>');
+    bits.push(`Searched ${fmtDate(since)} → ${fmtDate(state.lastSearch)} across Hulu, Prime Video, Apple TV and Netflix; ` +
+              `checked ${data.scanned||0} candidates and kept only shows whose episodes had actually aired in that window.`);
+    if (data.found > added) bits.push(`${data.found - added} were already on your list.`);
+    if (data.truncated) bits.push('<span style="color:var(--muted)">More matched than fit in one run — press again to keep going.</span>');
+    if (data.ratingSource) bits.push(`<span style="color:var(--muted)">Ratings shown: ${escapeHTML(data.ratingSource)}. Rotten Tomatoes has no public feed, so RT stays a dash.</span>`);
+    if ((data.notes||[]).length) bits.push('<span style="color:var(--warning)">' + data.notes.map(escapeHTML).join(' ') + '</span>');
     if ((data.upstreamErrors||[]).length) {
-      bits.push('<span style="color:var(--warning)">Some services didn\'t answer: ' +
-                data.upstreamErrors.slice(0,2).join('; ') + '</span>');
+      bits.push('<span style="color:var(--muted)">Quiet from: ' +
+                data.upstreamErrors.slice(0,3).map(escapeHTML).join('; ') + '</span>');
     }
+    bits.push(`<span style="color:var(--muted)">Next time, “What's new since ${fmtDate(state.lastSearch)}” picks up from here.</span>`);
     findMsg(bits.join('<br>'), added ? '' : 'warn');
     if (added) toast('Added ' + added + ' new ' + (added===1?'show':'shows'));
   } catch (e){
@@ -1541,6 +1614,8 @@ async function runFind(){
   } finally {
     btn.disabled = false;
     btn.textContent = label;
+    if (btn2) btn2.disabled = false;
+    updateLastSearchLabel();
   }
 }
 
@@ -2017,7 +2092,9 @@ function openModal(id){
         ${typeof s.rt==='number'
           ?`<div class="score rt"><span class="label">RT Audience</span><span class="value">${s.rt}%</span></div>`
           :`<div class="score rt na" title="Rotten Tomatoes has no public API, so this isn't available for newly found shows"><span class="label">RT Audience</span><span class="value">—</span></div>`}
-        <div class="score imdb"><span class="label">IMDb</span><span class="value">${s.imdb}</span></div>
+        ${typeof s.imdb==="number"
+          ?`<div class="score imdb"><span class="label">${s.ratingSource==="TMDB"?"TMDB":"IMDb"}</span><span class="value">${s.imdb}</span></div>`
+          :`<div class="score imdb na" title="No IMDb rating yet — too new to have accumulated votes"><span class="label">IMDb</span><span class="value">—</span></div>`}
         ${s.isFind&&s.tmdbScore?`<div class="score user"><span class="label">TMDB</span><span class="value">${s.tmdbScore}</span></div>`:''}
         ${ur?`<div class="score user"><span class="label">You</span><span class="value">${ur}★</span></div>`:''}
       </div>
@@ -2330,9 +2407,13 @@ document.addEventListener('keydown',e=>{
   // Default to 90 days back: recent enough to be relevant, wide enough to
   // actually return something on the first press.
   const back = new Date(today.getTime() - 90 * 24 * 60 * 60 * 1000);
-  input.value = ymd(back);
+  input.value = state.lastSearch || ymd(back);
   input.max = ymd(today);
-  document.getElementById('findBtn').onclick = runFind;
+  document.getElementById('findBtn').onclick = () => runFind();
+  document.getElementById('findSinceLastBtn').onclick = runFindSinceLast;
+  document.getElementById('resetSearchBtn').onclick = resetSearchMemory;
+  mergeFindEpisodes();      // discovered shows get episode tracking on load
+  updateLastSearchLabel();
 })();
 
 render();
