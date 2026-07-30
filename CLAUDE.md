@@ -1,8 +1,11 @@
 # 2026 Elite TV — Ultimate Discovery
 
 ## What This App Is
-A discovery + watchlist app for the 60 best 2026 series across Hulu, Prime Video,
-Apple TV and Netflix (RT Audience ≥ 80, IMDb ≥ 7.5, new series or new season).
+A discovery + watchlist app for 60 series across Hulu, Prime Video, Apple TV and
+Netflix. Every one clears IMDb 7.5 and has episodes that actually aired (or are
+dated) in 2026. RT is shown ONLY where a verified score exists — the old
+"RT Audience ≥ 80" claim was dropped on 2026-07-30 because 13 entries have no
+verifiable RT score and RT has no public API.
 Dark navy/violet design with a light-mode toggle. Every show carries its real
 poster and a one-click official trailer.
 
@@ -21,7 +24,8 @@ connect-only. Site name to use: `elite-tv-2026`.
 - Single-file static HTML (index.html) — no framework, no build step
 - Fonts: Inter + Playfair Display (Google Fonts)
 - PWA: manifest.json + icon.svg + icon-maskable.svg
-- State (ratings, watchlist status, notes, theme) in localStorage key `eliteTV2026`
+- State in localStorage key `eliteTV2026`: ratings, status, notes, theme, watched
+  (episode progress), finds, lists, epRatings, epNotes, lastSearch
 
 ## Origin
 Built by Grok 4.5 as a single `tv-shows-2026.html` on Arnie's Desktop.
@@ -62,16 +66,23 @@ truth for the deployed app.
   renewal clip for `The Morning Show (S5)`. Both were rejected by hand. Fan
   "concept trailer" channels are avoided on purpose — they are frequently
   AI-faked footage.
-- **5 shows get the series trailer, not that season's** (a season-specific
-  official trailer isn't on YouTube yet / season hasn't premiered):
-  Adults (S2), Only Murders in the Building (S6), Mr. & Mrs. Smith (S2),
-  The Morning Show (S5), Pachinko (S3).
-- RT / IMDb scores are a static July 2026 snapshot, not live-fetched.
+- A few shows carry the series trailer rather than that season's, where no
+  season-specific official trailer exists yet. Adults (S2) is the main one; the
+  others originally on this list (Only Murders S6, Mr. & Mrs. Smith S2, The
+  Morning Show S5, Pachinko S3) were RETIRED on 2026-07-30 because TMDB showed
+  those seasons as unreleased.
+- IMDb scores were spot-checked against OMDb and are broadly real (10 of 12
+  within 0.3). It was the episode counts and premiere dates Grok invented, not
+  the scores. RT numbers on the original entries are unverified.
 
 ## Design notes
-- Poster art is portrait (2:3) but card headers are landscape. Rather than
-  cropping into faces, a blurred zoomed copy of the poster fills the box and the
-  true poster sits fully visible on top (`.art-wrap` / `.art-blur` / `.art-poster`).
+- Poster art FILLS the card (`.art-wrap` / `.art-poster`, object-fit: cover,
+  object-position centre 20% so faces survive the crop). An earlier version
+  centred the whole portrait poster with blurred bars either side; measured at a
+  1600px viewport that left the real image 115px wide in a 339px card and Arnie
+  rightly called it squashed. `.art-blur` no longer exists — do not bring it back.
+- Grid minimum column is 430px. Raising the page width alone made cards SMALLER
+  (more columns fit); the minimum column is the lever that controls card size.
 - Card titles are forced white on a dark scrim in BOTH themes. Do not revert this
   to `var(--text)` — in light mode that puts dark text over dark artwork and the
   titles disappear.
@@ -89,13 +100,10 @@ truth for the deployed app.
 Goes out and looks for series / new seasons that appeared on the four services
 since a date Arnie picks, and adds them alongside the 60 (never replacing them).
 
-**Requires two free API keys as environment variables on the host:**
-- `TMDB_API_KEY` — https://www.themoviedb.org/settings/api (finds shows + posters + trailers)
-- `OMDB_API_KEY` — https://www.omdbapi.com/apikey.aspx (supplies REAL IMDb ratings)
-
-Without them the button shows a setup panel with these steps — it never fails silently.
-Diagnostic: hit `/api/discover?selftest=1` — it reports each key as "key works" or
-the exact upstream error.
+**Needs NO API key** (changed 2026-07-30 — see the live-search section below).
+Discovery reads TMDB's public pages. `OMDB_API_KEY` is OPTIONAL and only upgrades
+the rating from TMDB's score to the real IMDb score; `TMDB_API_KEY` is no longer
+used by anything. Diagnostic: `/api/discover?selftest=1`.
 
 Architecture:
 - `lib/discover-core.js` — all the logic, ONE copy shared by both hosts
@@ -107,10 +115,12 @@ Rules it enforces:
 - IMDb >= 7.5 using the real IMDb rating. No rating available -> the show is dropped.
 - **RT Audience is returned as null and displayed as "—".** Rotten Tomatoes has no
   public API. Do NOT "fill this in" with TMDB's score relabelled as RT.
-- Trailers come from TMDB's own videos endpoint, preferring `official: true`, then
-  verified through YouTube oEmbed exactly like the original 60.
+- Trailers for finds come from a YouTube search, preferring official channels and
+  verified through oEmbed exactly like the original 60. (The TMDB videos endpoint
+  was dropped along with the API key dependency.)
 - News and talk genres excluded; reality kept (his 60 include one).
-- Capped at 40 candidates per run to stay inside OMDb's free 1,000/day.
+- Capped at 28 candidates / 12 results per run, for speed inside the function's
+  time limit and to stay well inside OMDb's free 1,000/day.
 
 Discovered shows live in `state.finds` (localStorage), keyed by TMDB id, and are
 given app ids of `100000 + tmdbId` so they can never collide with the curated
