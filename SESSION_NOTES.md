@@ -147,3 +147,45 @@ undefined, no NaN, **zero console errors**. Served page byte-identical to local
 - `OMDB_API_KEY` in Vercel must be exactly `180774c9` (currently holds a garbled
   voice-dictation value with his username appended).
 Everything else works with no keys at all.
+
+## Session — 2026-07-30 (part 2: the live "since last search" feature)
+
+Arnie: "Add the feature that we can definitely go live anytime and search for
+more TV series that have come out since the last search."
+
+The word that mattered was **definitely**. The existing button called TMDB's
+private API, so it did nothing while his key sat unverified. Discovery was
+rewritten onto TMDB's public pages — zero keys required. OMDb is now optional
+enrichment only (real IMDb score instead of TMDB's), and the UI says which it is
+showing.
+
+**Remembers where it left off:** `state.lastSearch` is written after every
+successful run and the button relabels itself to "What's new since <date>". First
+run looks back 90 days. Secondary date box + Reset.
+
+**Three correctness bugs fixed while building it**
+1. It accepted future-dated episodes, so it reported shows that had not come out.
+   Now requires air >= since AND air <= today.
+2. The first service filled the entire result set — one run returned 12 Netflix
+   shows and nothing else. Candidates now interleave round-robin across services.
+3. Found in passing: the Discover header averaged RT and IMDb over ALL shows,
+   counting the 13 with no verified RT as zero and understating it. It now
+   averages only over shows that actually have each score.
+
+**Performance:** the first draft took 134s — fatal inside a serverless function.
+Rewritten as capped-concurrency passes with a 38s internal budget: ~12s on
+Vercel, 27s locally. Added `vercel.json` with maxDuration 60.
+
+**Verified on the LIVE Vercel endpoint:** HTTP 200, JSON, 12s, 28 scanned, 9
+found, spread across all four services (Apple TV 3, Netflix 2, Hulu 2, Prime
+Video 2), real IMDb ratings, zero future-dated leaks, every result carrying its
+episode list. Ticking an episode on a brand-new find (Dr. STONE S4, 37 episodes)
+registers progress and puts it in Up Next. Zero console errors.
+
+**Nice proof:** the run surfaced Trying (S5) — retired the previous day because
+TMDB showed Season 5 with no episodes. TMDB now lists S5 with 8 episodes from
+2026-07-08, so the live search repaired the list on its own. That is the whole
+point of the feature.
+
+**Note:** OMDB_API_KEY in Vercel is now correct — the live selftest reports IMDb
+ratings "working". The TMDB API key is no longer needed by anything in the app.

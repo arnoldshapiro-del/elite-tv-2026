@@ -151,6 +151,40 @@ Portability
   per-episode ratings/notes and discovered shows. Import MERGES rather than
   overwrites, so restoring never costs current data.
 
+## "What’s new since last time" — the live search (2026-07-30)
+One button on the New Finds tab. It remembers the date of the last successful
+search and picks up from exactly there; the first run looks back 90 days. A
+secondary date box searches from any date, and Reset forgets.
+
+**It needs NO API KEY.** Discovery reads TMDB's PUBLIC pages (the same source as
+the posters, episodes and cast). This was a deliberate rewrite: the first version
+called TMDB's private API and therefore did nothing whenever the key was
+unverified. An OMDb key only upgrades the rating from TMDB's score to the real
+IMDb score, and the UI states which one it is showing.
+NEVER reintroduce a hard key dependency here.
+
+Rules it enforces:
+- Episodes must have ACTUALLY AIRED in the window (>= since AND <= today). An
+  earlier version accepted future dates and so reported shows that had not aired.
+- Candidates interleave round-robin across the four services. Without that the
+  first service filled the whole result set (one run returned 12 Netflix shows
+  and nothing else).
+- Discovered shows arrive with their full episode list, folded into EPISODES, so
+  a new find immediately supports ticking, progress bars and Up Next.
+- RT stays null. No public API, never invented.
+
+Performance: capped-concurrency passes with a 38s internal budget. The first
+sequential draft took 134s; it now runs ~12s on Vercel, 27s locally.
+`vercel.json` raises the function ceiling to 60s. If it ever starts timing out,
+lower MAX_CANDIDATES or WANT first.
+
+Self-check any time: `/api/discover?selftest=1` reports discovery and IMDb
+ratings separately.
+
+Proof it works: the 2026-07-30 live run surfaced Trying (S5) — a show retired the
+day before because TMDB showed Season 5 with no episodes. TMDB now lists S5 with
+8 episodes from 2026-07-08. The search repairs the list on its own.
+
 ## Baked-in data (no API key needed at runtime)
 - `EPISODES` — 536 episodes for all 60 shows (number, title, air date, runtime)
 - `CAST` — 465 top-billed credits (person id, name, photo, character)
