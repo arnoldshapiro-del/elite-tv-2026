@@ -356,3 +356,16 @@ page. Zero console errors at every gate. Skipped on purpose: Reelgood-style
 "leaving soon" (no honest key-free data source — this app never invents data),
 social/accounts (local-first is the philosophy), push notifications (the .ics
 route needs no server and actually rings his phone).
+
+**Same day, round 2 — Arnie's ease-of-use feedback (all deployed, 828a5e6):**
+hero platform pills are tap-to-filter (synced with the dropdown) · theatre
+picker cards show street addresses (the three-AMCs-in-one-city fix) · nav tabs
+wrap on phones so all 11 are always visible · "Grow the collection" in New
+Finds (count per service 5-25 + rating bar 6.0-7.5; server's bars became
+caller-adjustable via ?bar=&want=, defaults byte-identical; TMDB browse floors
+follow the caller's bar or low requests would return empty) · ❓ Guide tab
+(plain-English how-to, narrator-readable) · scripts/devserver.js now lives in
+the repo and launch.json points at it (scratchpad copies kept getting deleted).
+Verified live: pills toggle, 375px nav clean, guide renders, production
+/api/discover?bar=6.5 returns 6.5-7.4 shows. Grow deliberately does NOT move
+state.lastSearch (it's an extra sweep, not the "what's new" bookkeeping).
