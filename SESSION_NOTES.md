@@ -1,5 +1,70 @@
 # Session Notes — 2026 Elite TV — Ultimate Discovery
 
+## Session — 2026-07-31 (movies, time-window search, real RT scores)
+
+Arnie asked for three things: a time-window search for newly released TV, a
+search for what is playing at his AMC, and one for what opens in the next three
+weeks — all with the same rating bar, beautiful cards, trailers and summaries.
+
+**The showtimes problem, settled up front.** Probed every plausible source
+before writing any code: AMC's own theatre page (200 but a 2.6KB bot-challenge
+shell), `api.amctheatres.com/v2` (400, wants a vendor key), Fandango's
+`napi/theaterMovieShowtimes` (403 "Session expired or invalid token", still 403
+with a warmed cookie jar), Fandango's server-rendered theatre page (the movie
+list in it is the site-wide "New & Coming soon" footer, not the theatre's
+lineup), Atom Tickets (404), showtimes.com (served a Hawaii theatre), Google and
+Bing (zero clock times in the HTML). Nothing free publishes theatre-level
+showtimes to a server. So the app does not print showtimes. It lists what is in
+US theatres and links straight to the real listings. Fandango's own search DID
+give the correct theatre id — `AAWWU`, 9415 Civic Center Blvd — which the
+guessable `aaowu` slug does not (404).
+
+**The score-matching problem, and the bug it would have caused.** Rotten
+Tomatoes publishes its scores inside its own page markup, so reading them is not
+guessing. Landing on the right page is the hard part. Slugs look predictable —
+"Spider-Man: Brand New Day" → `spider_man_brand_new_day` is exact — so the first
+draft guessed. It returned **the 2016 Moana's 57% for the 2026 release**, and
+the 1984 Supergirl's scores for the 2026 one. That is precisely the invented-
+score failure this repo's rules exist to prevent, and it would have shipped
+looking completely plausible. Fixed by resolving the slug through Wikidata
+(P1258 against P4947 for films, P4983 for series) — one SPARQL query per batch,
+and it returns `m/moana_2026` and `m/the_odyssey_2026` correctly. The same query
+yields IMDb ids, so OMDb is now asked by id rather than by title.
+
+**That bridge works for TV too**, which closed the app's oldest gap: New Finds
+cards had shown "RT —" since the day the feature was built. They now carry real
+Popcornmeter and Tomatometer scores wherever Wikidata has the id (7/12 on a
+month of discoveries; the rest are too new or too international and correctly
+stay dashed).
+
+**Also fixed along the way**
+- RT's `<h1>` wraps the title in a nested `<sr-text>`, so a "no angle brackets
+  inside" regex never matched and every score came back null. Uses `og:title`.
+- A one-year TV search took 55s against a 60s function ceiling and ran out of
+  time before fetching trailers. Verification now stops as soon as enough shows
+  have passed, and `want` is per-run rather than per-window: **55s → 24s**, with
+  trailers intact. Week 7.7s, 3 months 22s.
+- `today` is now sent from the browser. The functions run in UTC, so after 8pm
+  Eastern the server thought tomorrow had started.
+- TMDB's now-playing list carries restored classics on limited re-run (a 1997
+  anime dated 2024 turned up); "now" is bounded to the last 110 days.
+- Non-US certificates (India's A/U/UA, the UK's 12A/15/18) are dropped.
+- Movie posters are 2:3, so the column minimum sets card height — 300px gave
+  530px-tall cards that pushed every score below the fold. 260px.
+- RT rate-limits (403 after repeated hits), so `/api/movies` is CDN-cached for
+  six hours. That is load-bearing, not an optimisation.
+
+**Verified on the live site: 38 assertions, 38 passed.** 14 films playing with
+14/14 real RT audience and critic scores, 11/14 real IMDb, 14/14 verified
+trailers, plots, cast and posters; 14 films opening inside the 3-week window,
+sorted soonest first, with no invented scores; the TV dropdown returning 12
+shows all clearing IMDb 7.5; every pre-existing tab still rendering; zero
+console errors; no horizontal scroll at 390px.
+
+**Not done:** actual showtimes (no source exists), and the "soon" list can still
+include the occasional international release that will not play at this AMC —
+unreleased films have no certificate to filter on yet.
+
 ## Session — 2026-07-29 (repair + first deploy)
 
 **Starting point:** a single `tv-shows-2026.html` on Arnie's Desktop, built by
