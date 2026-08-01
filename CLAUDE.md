@@ -105,20 +105,15 @@ non-fatal → null → "—".
   showing left. Retired AMC-only scraper: scripts/_retired/ (kept, not wired).
 
 ## Feature list (client)
-Discover: search/filters (platform, genre, type, status, length), 8 sorts (incl.
-Newest first, Airing next), grid/list/compact, poster wall, Surprise Me,
-Compare (incl. finds, null-safe), Match % chips, 🚫 not-interested + Show
-hidden, finds unified into grid/search. Tracking: per-episode ticks +
-mark-up-to, Up Next (+ per-row ▶ service link, "Airing this week" strip),
-binge planner, per-episode 5★ + notes, dated watchLog → streaks / last-30-days
-/ "Your 2026 So Far" / lifetime hours, ↻ Watch again. Calendar: episode-level
-with countdowns, live nav badge, 📅 .ics export (followed shows + wanted films,
--P1D alarms). Movies: Playing Now / Coming in 3 Weeks / ⭐ My list, real
-RT+IMDb, verified trailers, cinema picker + 7-day tabs + live showtimes with
-format + ticket links. Narrator on every page. PWA: sw.js offline shell +
-capped poster cache (/api/ never cached), 📲 install button. Export/import
-v4 carries EVERYTHING and merges, never overwrites. Backup nudge at 25+ items
-monthly. Created/Revised dates in the footer — keep Revised current.
+Discover: filters, 8 sorts, 3 views, wall, Surprise, Compare, Match % chips,
+🚫 hide/restore, finds unified into grid/search. Tracking: ticks + mark-up-to,
+Up Next (▶ service links, Airing-this-week strip), binge planner, per-episode
+5★+notes, watchLog → streaks / 30-day activity / "2026 So Far" / lifetime,
+↻ Watch again. Calendar: countdowns, nav badge, 📅 .ics export (-P1D alarms).
+Movies: now / 3-weeks / ⭐ My list, cinema picker, 7-day tabs, live showtimes.
+Narrator everywhere. PWA: offline shell, capped poster cache, 📲 install.
+Export/import v4 merges, never overwrites. Monthly backup nudge at 25+ items.
+Footer carries Created/Revised dates — keep Revised current.
 
 ## Files
 index.html (app + SHOWS/MEDIA/EPISODES/CAST data) · narrator.js (donor:
