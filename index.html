@@ -952,6 +952,30 @@ footer {
 }
 @media print{ .narrator{display:none!important} }
 
+/* ---- Next-episode awareness, Match %, calendar count -------------------- */
+.next-ep { font-size: 11px; color: var(--muted); }
+.score.match .label { color: var(--accent); opacity: 0.75; }
+.score.match .value { color: var(--accent); }
+
+.week-strip { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 18px; }
+.week-strip .wk-head {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--muted); margin-right: 2px;
+}
+.wk-chip { font-size: 11.5px; padding: 5px 10px; font-family: inherit; }
+.wk-chip .wk-title { font-weight: 700; }
+
+/* The tab is the anchor, so the bubble rides its top-right corner. */
+.nav-tab { position: relative; }
+.cal-badge {
+  position: absolute; top: -2px; right: -2px; min-width: 16px; height: 16px; padding: 0 4px;
+  border-radius: 999px; background: var(--accent); color: #fff;
+  font-size: 10px; font-weight: 800; line-height: 16px; text-align: center;
+  box-shadow: 0 0 0 2px var(--surface);
+}
+.cal-badge:empty { display: none; }
+.nav-tab.active .cal-badge { background: #fff; color: var(--accent); box-shadow: none; }
+
 </style>
 </head>
 <body>
@@ -1087,6 +1111,7 @@ footer {
     <p>The exact episode you're up to in everything you're part-way through — one tap to tick it off</p>
   </div>
   <div class="stats-grid" id="upnextStats"></div>
+  <div id="weekStripBox"></div>
   <div class="upnext-list" id="upnextList"></div>
 </section>
 
@@ -1222,6 +1247,8 @@ footer {
   <div class="hero" style="padding-bottom:16px">
     <h1>2026 Release Calendar</h1>
     <p>Key premiere & season drop dates for these elite series</p>
+    <button class="btn" id="icsBtn" style="background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700"
+            onclick="downloadICS()" title="Everything you're following, as a file your phone's calendar can open">📅 Download calendar file (.ics)</button>
   </div>
   <div class="cal-grid" id="calGrid"></div>
 </section>
@@ -1470,6 +1497,45 @@ function nextUnwatched(id){
   for (const e of list) if (!isWatched(id, e[0])) return e;
   return null;
 }
+
+/* ---------------------------------------------------------------------------
+   NEXT-EPISODE AWARENESS
+   The single question a tracker exists to answer: when does the next one land?
+   Everything that asks it — the card line, the modal row, the "airing this
+   week" strip, the Calendar tab count — goes through these, so they can never
+   disagree about what "next" means or which day it falls on.
+--------------------------------------------------------------------------- */
+// "Engaged" = he has told the app something about this show: a status, or ticks.
+const isEngaged = id => !!getStatus(id) || progressOf(id).seen > 0;
+
+function nextAiring(id){
+  const today = ymdLocal(new Date());
+  for (const e of epsOf(id)) if (e[2] && e[2] > today) return { ep: e, days: daysUntil(e[2]) };
+  return null;
+}
+const airLabel = d => d === 0 ? 'today' : d === 1 ? 'tomorrow' : 'in ' + d + ' days';
+// fmtDate carries the year. Inside a card that is noise for THIS year — but a
+// date in the next one must keep it, or "Jan 6" reads as five months ago.
+const airDay = iso => String(iso).slice(0,4) === String(new Date().getFullYear())
+  ? fmtDate(iso).replace(/,\s*\d{4}$/, '') : fmtDate(iso);
+const weekdayOf = iso => new Date(iso + 'T12:00:00').toLocaleDateString('en', { weekday: 'short' });
+
+// Every episode of an engaged show landing inside the next N days. Something
+// dropping TODAY still counts — a 3am Netflix drop is very much this week.
+function epsAiringWithin(n){
+  const today = ymdLocal(new Date());
+  const out = [];
+  SHOWS.concat(findsAsShows()).forEach(s => {
+    if (!isEngaged(s.id)) return;
+    epsOf(s.id).forEach(e => {
+      if (!e[2] || e[2] < today) return;
+      const d = daysUntil(e[2]);
+      if (d !== null && d >= 0 && d <= n) out.push({ s, ep: e, days: d });
+    });
+  });
+  return out.sort((a, b) => a.days - b.days || a.s.title.localeCompare(b.s.title));
+}
+
 function upNextQueue(){
   const out = [];
   SHOWS.concat(findsAsShows()).forEach(s => {
@@ -1590,6 +1656,16 @@ function tasteProfile(){
   });
   return { g, m, p, signals };
 }
+/* One place that scores a show against the taste profile, so the For You list
+   and the Match % chip can never tell him two different stories. */
+function scoreAgainstTaste(s, t){
+  let sc = 0; const why = [];
+  String(s.genre).split(',').map(x=>x.trim()).forEach(x => { if (t.g[x]) { sc += t.g[x] * 2; why.push(x); } });
+  (s.moods||[]).forEach(x => { if (t.m[x]) sc += t.m[x]; });
+  if (t.p[s.platform]) sc += t.p[s.platform] * 0.5;
+  sc += (s.imdb - 7.5) * 3;                     // quality nudge, never the whole story
+  return { sc, why: [...new Set(why)].slice(0,2) };
+}
 function recommendations(n){
   const t = tasteProfile();
   if (t.signals < 1) return { ready:false, items:[] };
@@ -1599,14 +1675,42 @@ function recommendations(n){
     if (progressOf(s.id).seen) return false;
     return true;
   }).map(s => {
-    let sc = 0; const why = [];
-    String(s.genre).split(',').map(x=>x.trim()).forEach(x => { if (t.g[x]) { sc += t.g[x] * 2; why.push(x); } });
-    (s.moods||[]).forEach(x => { if (t.m[x]) sc += t.m[x]; });
-    if (t.p[s.platform]) sc += t.p[s.platform] * 0.5;
-    sc += (s.imdb - 7.5) * 3;                     // quality nudge, never the whole story
-    return { s, sc, why: [...new Set(why)].slice(0,2) };
+    const r = scoreAgainstTaste(s, t);
+    return { s, sc: r.sc, why: r.why };
   }).filter(x => x.sc > 0).sort((a,b) => b.sc - a.sc).slice(0, n);
   return { ready:true, items:scored, profile:t };
+}
+
+/* ---------------------------------------------------------------------------
+   MATCH %
+   Plex's one genuinely nice idea, done entirely on this machine: the same score
+   the recommendations already use, rescaled so the strongest candidate in the
+   batch reads 99% and anything with a pulse reads at least 50%. Only for shows
+   he has NOT engaged with (a percentage on something he already rated is
+   noise), and never with zero taste signal — a match number out of nothing
+   would be an invented statistic.
+--------------------------------------------------------------------------- */
+let matchMap = {};
+function computeMatchMap(){
+  matchMap = {};
+  const t = tasteProfile();
+  if (t.signals < 1) return;
+  const rows = [];
+  SHOWS.concat(findsAsShows()).forEach(s => {
+    if (getStatus(s.id) || getUserRating(s.id) || progressOf(s.id).seen) return;
+    if (state.hidden && state.hidden[s.id]) return;
+    const r = scoreAgainstTaste(s, t);
+    if (r.sc > 0) rows.push({ id: s.id, sc: r.sc, why: r.why });
+  });
+  if (!rows.length) return;
+  const maxSc = rows.reduce((m, r) => Math.max(m, r.sc), 0);
+  rows.forEach(r => { matchMap[r.id] = { pct: 50 + Math.round(49 * r.sc / maxSc), why: r.why }; });
+}
+function matchChipHTML(id){
+  const m = matchMap[id];
+  if (!m) return '';
+  const why = m.why.length ? m.why.join(' and ') : 'the ones you rated highest';
+  return `<div class="score match" title="Because you like ${escapeHTML(why)}"><span class="label">Match</span><span class="value">${m.pct}%</span></div>`;
 }
 
 /* Binge planner: how long, and when you'd finish at N episodes a night. */
@@ -1683,6 +1787,7 @@ document.querySelectorAll('.nav-tab').forEach(tab=>{
 function getUserRating(id){return state.ratings[id]||0;}
 function getStatus(id){return state.status[id]||null;}
 function render(){
+  computeMatchMap();   // one pass per render — every card reads the same numbers
   const search=document.getElementById('search').value.toLowerCase();
   const platform=document.getElementById('platform').value;
   const genre=document.getElementById('genre').value;
@@ -1719,7 +1824,8 @@ function render(){
   document.getElementById('count').textContent=filtered.length;
   if(!filtered.length){
     grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><h3>No shows match</h3><p>Try adjusting filters</p></div>`;
-    document.getElementById('avgRT').textContent='—';document.getElementById('avgIMDb').textContent='—';return;
+    document.getElementById('avgRT').textContent='—';document.getElementById('avgIMDb').textContent='—';
+    updateCalBadge();return;
   }
   // average only over shows that actually HAVE a verified RT score — counting the
   // dashes as zero would quietly understate it
@@ -1731,6 +1837,7 @@ function render(){
     ?(withIMDb.reduce((s,x)=>s+x.imdb,0)/withIMDb.length).toFixed(1):'—';
   grid.innerHTML=filtered.map((s,i)=>cardHTML(s,i)).join('');
   renderWall();
+  updateCalBadge();   // render() runs after every status/tick change, so this stays honest
 }
 function cardHTML(s,i){
   const st=getStatus(s.id);const ur=getUserRating(s.id);
@@ -1756,8 +1863,11 @@ function cardHTML(s,i){
           :`<div class="score imdb na" title="No IMDb rating yet — too new to have accumulated votes"><span class="label">IMDb</span><span class="value">—</span></div>`}
         ${s.isFind&&s.tmdbScore?`<div class="score user"><span class="label">TMDB</span><span class="value">${s.tmdbScore}</span></div>`:''}
         ${ur?`<div class="score user"><span class="label">You</span><span class="value">${ur}★</span></div>`:''}
+        ${matchChipHTML(s.id)}
       </div>
       <p class="review">${s.review}</p>
+      ${(()=>{const na=nextAiring(s.id);return na
+        ?`<div class="next-ep">Next: E${String(na.ep[0]).padStart(2,'0')} · ${airDay(na.ep[2])} · ${airLabel(na.days)}</div>`:'';})()}
       <div class="card-footer">
         <div class="action-btns" onclick="event.stopPropagation()">
           <button class="act-btn want ${st==='want'?'on':''}" title="Want to Watch" onclick="setStatus(${s.id},'want')">★</button>
@@ -2687,7 +2797,20 @@ function renderWall(){
       loading="eager" onclick="openModal(${s.id})" onerror="this.remove()">`).join('');
 }
 
+/* Airing this week — engaged shows only. The point is what HE is following;
+   the whole catalogue's release dates are what the Calendar tab is for. */
+function renderWeekStrip(){
+  const box = document.getElementById('weekStripBox');
+  if (!box) return;
+  const rows = epsAiringWithin(7);
+  box.innerHTML = !rows.length ? '' : `<div class="week-strip">
+    <span class="wk-head">Airing this week</span>
+    ${rows.map(r => `<button class="chip wk-chip" title="${escapeHTML(r.s.title)} · ${escapeHTML(fmtDate(r.ep[2]))} · ${airLabel(r.days)}" onclick="openModal(${r.s.id})"><span class="wk-title">${escapeHTML(r.s.title)}</span> E${String(r.ep[0]).padStart(2,'0')} · ${weekdayOf(r.ep[2])}</button>`).join('')}
+  </div>`;
+}
+
 function renderUpNext(){
+  renderWeekStrip();
   const q = upNextQueue();
   const mins = totalMinutesWatched();
   const epsSeen = Object.values(state.watched).reduce((n,a)=>n+a.length,0);
@@ -2928,6 +3051,97 @@ function renderCalendar(){
     (upcoming.length ? head(`Coming up (${upcoming.length})`) + upcoming.slice(0,40).map(r=>item(r,false)).join('') : '') +
     (past.length ? head(`Already aired (${past.length})`) + past.slice(0,60).map(r=>item(r,true)).join('') : '') +
     (!rows.length ? `<div class="empty-state" style="grid-column:1/-1"><h3>No dated episodes</h3></div>` : '');
+}
+
+/* A count bubble on the Calendar tab, so a week with three drops in it is
+   visible without opening the tab. Added by script rather than baked into the
+   nav markup, which stays one clean list of tabs. */
+function updateCalBadge(){
+  const tab = document.querySelector('.nav-tab[data-section="calendar"]');
+  if (!tab) return;
+  let b = document.getElementById('calBadge');
+  if (!b){ b = document.createElement('span'); b.className = 'cal-badge'; b.id = 'calBadge'; tab.appendChild(b); }
+  const n = epsAiringWithin(7).length;
+  b.textContent = n ? String(n) : '';
+  b.style.display = n ? '' : 'none';
+}
+
+/* ---------------------------------------------------------------------------
+   CALENDAR EXPORT (.ics)
+   Every calendar app on earth reads .ics, so this is the one export that needs
+   no account, no sync service and no permission: the file lands in Downloads,
+   he opens it, and his phone's calendar takes it from there. Built here in the
+   browser — nothing about what he watches leaves the machine.
+--------------------------------------------------------------------------- */
+function icsEscape(s){
+  return String(s == null ? '' : s)
+    .replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,')
+    .replace(/\r?\n/g, '\\n');
+}
+// RFC 5545 caps a content line; anything longer continues on a space-led line.
+function icsFold(line){
+  const enc = new TextEncoder();
+  if (enc.encode(line).length <= 74) return line;
+  const out = []; let cur = '', n = 0;
+  for (const ch of Array.from(line)){
+    const w = enc.encode(ch).length;
+    if (n + w > 74){ out.push(cur); cur = ' '; n = 1; }
+    cur += ch; n += w;
+  }
+  if (cur) out.push(cur);
+  return out.join('\r\n');
+}
+function downloadICS(){
+  const today = ymdLocal(new Date());
+  const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+  const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//2026 Elite TV//EN', 'CALSCALE:GREGORIAN'];
+  let n = 0;
+
+  const event = (uid, dateISO, summary, description) => {
+    n++;
+    L.push('BEGIN:VEVENT',
+      'UID:' + uid,
+      'DTSTAMP:' + stamp,
+      'DTSTART;VALUE=DATE:' + dateISO.replace(/-/g, ''),
+      'SUMMARY:' + icsEscape(summary),
+      'DESCRIPTION:' + icsEscape(description),
+      'BEGIN:VALARM', 'ACTION:DISPLAY',
+      'DESCRIPTION:' + icsEscape(summary),
+      'TRIGGER:-P1D', 'END:VALARM',
+      'END:VEVENT');
+  };
+
+  // Episodes he is actually following — a calendar full of shows he never
+  // opened would be worse than no calendar at all.
+  SHOWS.concat(findsAsShows()).forEach(s => {
+    if (!isEngaged(s.id)) return;
+    const season = String(seasonOf(s.id) || 1).padStart(2, '0');
+    epsOf(s.id).forEach(e => {
+      if (!e[2] || e[2] < today) return;
+      const code = 'S' + season + 'E' + String(e[0]).padStart(2, '0');
+      const t = /^episode\s+\d+$/i.test(String(e[1] || '')) ? '' : (e[1] || '');
+      event('show' + s.id + '-e' + e[0] + '@elite-tv-2026', e[2],
+        '📺 ' + s.title + ' ' + code + (t ? ' — ' + t : '') + ' (' + s.platform + ')',
+        s.title + ' ' + code + ' on ' + s.platform + ' — tracked in 2026 Elite TV');
+    });
+  });
+
+  // Wanted films, from whichever movie payload is still cached.
+  Object.keys(state.movieWant).forEach(tmdb => {
+    const m = findMovie(tmdb);
+    if (!m || !m.release || m.release < today) return;
+    event('movie' + m.tmdb + '@elite-tv-2026', m.release,
+      '🎬 ' + m.title + ' — in theatres',
+      m.title + ' opens in theatres — tracked in 2026 Elite TV');
+  });
+
+  if (!n){ toast('Nothing upcoming to export yet — star a show or tick an episode first.'); return; }
+  L.push('END:VCALENDAR');
+
+  const blob = new Blob([L.map(icsFold).join('\r\n')], { type: 'text/calendar' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'elite-tv-2026.ics'; a.click();
+  toast(n + ' upcoming dates exported — open the file and your phone\'s calendar takes it from there.');
 }
 document.querySelectorAll('.mood-btn').forEach(btn=>{
   btn.onclick=()=>{document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentMood=btn.dataset.mood;};
@@ -3230,6 +3444,7 @@ function openModal(id){
           :`<div class="score imdb na" title="No IMDb rating yet — too new to have accumulated votes"><span class="label">IMDb</span><span class="value">—</span></div>`}
         ${s.isFind&&s.tmdbScore?`<div class="score user"><span class="label">TMDB</span><span class="value">${s.tmdbScore}</span></div>`:''}
         ${ur?`<div class="score user"><span class="label">You</span><span class="value">${ur}★</span></div>`:''}
+        ${matchChipHTML(s.id)}
       </div>
       <p class="modal-review">${s.review}</p>
       <div class="modal-details">
@@ -3237,6 +3452,10 @@ function openModal(id){
         <div><span>Type</span><span>${s.type==='new'?'New Series (2026)':'New Season (2026)'}</span></div>
         <div><span>Episodes</span><span>${s.eps} · ~${s.runtime} min each</span></div>
         <div><span>Premiere</span><span>${s.premiere}</span></div>
+        ${(()=>{const na=nextAiring(id);if(!na)return'';
+          // Real episode titles only — "Episode 7" next to "E07" says nothing twice.
+          const t=/^episode\s+\d+$/i.test(String(na.ep[1]||''))?'':escapeHTML(na.ep[1]);
+          return `<div><span>Next episode</span><span>S${String(seasonOf(id)||1).padStart(2,'0')}E${String(na.ep[0]).padStart(2,'0')}${t?' · '+t:''} · ${airDay(na.ep[2])} (${airLabel(na.days)})</span></div>`;})()}
         <div><span>Cast</span><span>${s.cast}</span></div>
         <div><span>Status</span><span>${st?(st==='want'?'Want to Watch':st==='watching'?'Watching':'Finished'):'Not listed'}</span></div>
       </div>
