@@ -16,10 +16,11 @@ from its own source; anything unverified is null and renders as "—".
 arnoldshapiro-del/elite-tv-2026 (branch `main`)
 
 ## Live URL
-Vercel: https://elite-tv-2026.vercel.app
-Netlify: NOT connected yet (free build minutes exhausted until Aug 1, 2026).
-`netlify.toml` + a matching function already in the repo — the Aug 1 hookup is
-connect-only. Site name to use: `elite-tv-2026`.
+**Netlify (primary since 2026-08-01): https://elite-tv-2026.netlify.app** —
+connected to this repo, auto-builds `main`. Full function parity verified via
+the three `?selftest=1` endpoints, including visitor IP location.
+Vercel: https://elite-tv-2026.vercel.app — stays up as a hot spare (still
+auto-builds), no longer the address Arnie uses.
 
 ## Tech Stack
 - Single-file static HTML (index.html), no framework, no build step
@@ -47,7 +48,20 @@ personal mirror kept byte-identical.
   Widening the page alone just fits more, smaller columns.
 - **"Find New Shows" needs NO API key.** Discovery reads TMDB's public pages, the
   same source as the posters/episodes/cast. `OMDB_API_KEY` is optional — it only
-  upgrades the rating from TMDB's score to real IMDb; never make it required again.
+  adds plot/cast extras; never make it required again.
+- **IMDb ratings are key-free too (2026-08-01).** The imdb.com title PAGE is
+  bot-gated (HTTP 202 even with full browser headers) — do NOT try to scrape it.
+  `imdbFromWidget()` in movies-core reads IMDb's own widget ratings feed
+  (p.media-imdb.com …/title/tt…/ratings…data.json) by exact tt-id: tiny JSONP,
+  real rating + votes, works for movies and TV. OMDb (if a key exists) runs
+  first; the feed is the fallback and the whole source on Netlify.
+- **The discover time budget is host-aware:** 45s only when `process.env.VERCEL`
+  (60s ceiling there), 25s everywhere else (Netlify tops out near 30s). The
+  client's auto-continue loop absorbs truncation — never raise the budget past
+  a host's ceiling.
+- **/api/theaters on Netlify must stay a Functions 2.0 module (.mjs).** v1
+  handlers never see visitor location; v2's `context.geo` is translated into
+  the x-nf-client-* headers the shared core reads. Don't "simplify" it to v1.
 - **Discovery episodes must satisfy `air >= since && air <= today`** — an earlier
   version accepted future dates and reported shows that hadn't aired yet.
 - **Interleave discovery candidates round-robin across services** — without it,
@@ -172,8 +186,20 @@ nothing runs it. It is kept because its AMC-markup parser is still correct and
 its two hard-won browser gotchas are written down there.
 
 ## Full feature list
-Discover: search/filter (platform, genre, type, status, length), 6 sort orders,
-grid/list/compact views, poster wall, Surprise Me, Compare.
+Discover: search/filter (platform, genre, type, status, length), 8 sort orders
+(incl. Newest first + Airing next), grid/list/compact views, poster wall,
+Surprise Me, Compare (incl. finds), Match % taste chips on unstarted shows,
+🚫 Not-interested hiding with a Show-hidden restore, discovered shows unified
+into the main grid/search.
+History (2026-08-01, all local): append-only dated watch log, current/longest
+streaks, last-30-days activity, "Your 2026 So Far" year-in-review, lifetime
+hours, ↻ Watch-again rewatch cycles that keep every logged hour.
+Next-episode awareness: Next lines on cards/modal, "Airing this week" strip on
+Up Next, live count badge on the Calendar tab, 📅 one-tap .ics download (all
+upcoming episodes of followed shows + wanted films, day-before reminders).
+Platform: read-aloud Narrator on every page (click-anywhere-to-read, donor:
+trend-check-pro), full PWA — service worker (offline shell + capped poster
+cache, /api/ never cached), 📲 install button.
 New Finds: a time-window dropdown — past week / month / 3 months / 6 months /
 year — searching all four services for new series and new seasons in that
 stretch, plus "since last time" and an exact-date option.
@@ -196,6 +222,8 @@ per-episode data, finds) — import merges, never overwrites.
 
 ## File Structure
 - index.html — the whole app (CSS + HTML + JS + SHOWS/MEDIA/EPISODES/CAST data)
+- narrator.js — the read-aloud bar (port of trend-check-pro's canonical file)
+- sw.js — service worker (offline shell; never touches /api/)
 - lib/discover-core.js, api/discover.js, netlify/functions/discover.js
 - lib/movies-core.js, api/movies.js, netlify/functions/movies.js
 - lib/theaters-core.js, api/theaters.js, netlify/functions/theaters.js

@@ -310,3 +310,49 @@ point of the feature.
 
 **Note:** OMDB_API_KEY in Vercel is now correct — the live selftest reports IMDb
 ratings "working". The TMDB API key is no longer needed by anything in the app.
+
+---
+
+## 2026-08-01 — Netlify parity + the "best on Earth" upgrade (Claude Code, Fable 5 brain + Opus/Sonnet workers)
+
+**Netlify parity (elite-tv-2026.netlify.app is now the primary URL).** The Aug 1
+hookup had already connected the repo; the audit found three real gaps vs Vercel
+and fixed all of them:
+1. IMDb ratings said "not configured" (no OMDB_API_KEY on Netlify; setting env
+   vars was blocked by the permission layer). Solved better: `imdbFromWidget()`
+   reads IMDb's own widget ratings feed by exact tt-id — key-free, both cores,
+   both hosts. The imdb.com title page itself is bot-gated (HTTP 202) — the feed
+   is the surface that answers. OMDb still runs first when a key exists.
+2. Visitor IP location never reached the theaters core (v1 functions get no geo).
+   netlify/functions/theaters.mjs is now Functions 2.0: context.geo → the
+   x-nf-client-* headers the shared core already reads. Selftest now geolocates.
+3. discover's 45s budget could overshoot Netlify's ~30s cap (measured: a 26.4s
+   call survived, so the cap is ~30s not 10s). Budget is now VERCEL?45s:25s.
+
+**Feature build, phased (research first: two worker sweeps over TV Time, Trakt
+VIP, SeriesGuide, Hobi, Sofa, Showly, Serializd, Simkl, JustWatch, Reelgood,
+Letterboxd, IMDb, Fandango, AMC, Plex, Google TV, Apple TV):**
+- Phase A: Narrator on every page (trend-check-pro donor; reads modals — they
+  live OUTSIDE .app, so the walk root is document.body; backdrop clicks only
+  close). sw.js offline shell + capped poster cache + 📲 install button.
+  Copy-truth pass (footer date, key-free IMDb wording, nationwide showtimes).
+- Phase B1: append-only dated watchLog + rewatch cycles ("↻ Watch again" —
+  Trakt VIP feature, free here). Stats: lifetime, streaks, last-30-days
+  activity, "Your 2026 So Far" year-in-review. Backups v4, v3 imports fine.
+- Phase B2: next-episode lines on cards/modal, "Airing this week" strip, live
+  Calendar tab badge, 📅 .ics download (followed shows + wanted films, -P1D
+  alarms), Match % taste chips (Plex's differentiator, computed locally).
+- Phase C: Find New Shows auto-continues to 5 passes (banks each pass, honest
+  mid-fail messages), finds unified into the main grid/search, null-safe sorts
+  + "Newest first"/"Airing next", 🚫 Not-interested hiding (+ restore), ⭐ My
+  list in Movies with countdowns.
+- Phase D: Up Next per-row "▶ platform ↗" links, gentle monthly backup nudge at
+  25+ items, Compare includes finds + null-safe scores.
+
+Every phase: worker build → brain review (real fixes each round: body-root
+narrator, backdrop guard, truncation-loop honesty) → commit → push → Netlify
+build verified READY on production + feature strings confirmed in the served
+page. Zero console errors at every gate. Skipped on purpose: Reelgood-style
+"leaving soon" (no honest key-free data source — this app never invents data),
+social/accounts (local-first is the philosophy), push notifications (the .ics
+route needs no server and actually rings his phone).

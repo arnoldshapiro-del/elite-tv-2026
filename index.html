@@ -687,6 +687,12 @@ footer {
   background: var(--accent); border: none; color: #fff; font-weight: 700; font-size: 13px;
 }
 .upnext-btn:hover { filter: brightness(1.1); }
+.upnext-watch {
+  flex-shrink: 0; padding: 10px 16px; border-radius: 10px; text-align: center; white-space: nowrap;
+  background: transparent; border: 1px solid var(--accent); color: var(--accent);
+  font-weight: 700; font-size: 13px; text-decoration: none;
+}
+.upnext-watch:hover { background: var(--accent-glow); }
 
 /* ---- Calendar countdown ------------------------------------------------- */
 .cal-item.aired { opacity: 0.6; }
@@ -992,6 +998,18 @@ footer {
   background: rgba(0,0,0,0.6); color: #fff; backdrop-filter: blur(4px);
 }
 
+/* ---- Backup nudge --------------------------------------------------------- */
+.backup-nudge {
+  font-size: 12.5px; line-height: 1.6; color: var(--muted);
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 10px 14px; margin-bottom: 14px;
+}
+.backup-nudge button {
+  background: none; border: none; padding: 0; margin-left: 4px;
+  color: var(--accent); font-weight: 600; font-size: inherit; font-family: inherit;
+  cursor: pointer; text-decoration: underline;
+}
+
 </style>
 </head>
 <body>
@@ -1033,6 +1051,7 @@ footer {
     </div>
   </div>
   <div class="wall" id="wall" title="Your highest-rated posters — click any of them"></div>
+  <div id="backupNudge"></div>
   <div class="controls">
     <div class="controls-row">
       <div class="search-wrap">
@@ -1377,6 +1396,8 @@ if(!state.ratings)state.ratings={};if(!state.status)state.status={};if(!state.no
 if(!state.finds)state.finds={};   // shows discovered by the New Finds button, keyed by TMDB id
 if(!state.hidden)state.hidden={}; // { showId: true } — "not interested", kept out of Discover
 if(!state.lastSearch)state.lastSearch=null;   // ISO date of the last successful search
+if(!state.lastExport)state.lastExport=null;   // ISO date of the last backup export — drives the gentle nudge below
+if(!state.nudgeDismissed)state.nudgeDismissed=null; // 'YYYY-MM' the backup nudge was last dismissed
 
 /* Discovered shows arrive with their own episode list, so fold it into EPISODES
    at load time — that gives every new find the same episode tracking, Up Next
@@ -1812,6 +1833,7 @@ function getUserRating(id){return state.ratings[id]||0;}
 function getStatus(id){return state.status[id]||null;}
 function render(){
   computeMatchMap();   // one pass per render — every card reads the same numbers
+  document.getElementById('backupNudge').innerHTML = backupNudgeHTML();   // cheap — recomputed on every render anyway
   const search=document.getElementById('search').value.toLowerCase();
   const platform=document.getElementById('platform').value;
   const genre=document.getElementById('genre').value;
@@ -3009,6 +3031,7 @@ function renderUpNext(){
     const bits = [`${prog.seen}/${prog.total} watched`];
     if (ep[3]) bits.push(ep[3] + 'm');
     if (ep[2]) bits.push(future ? 'airs ' + fmtDate(ep[2]) : fmtDate(ep[2]));
+    const wl = watchLinksFor(show);   // same source the modal uses — first match only, one-click jump to where it's playing
     return `<div class="upnext-row" style="--c1:${show.colors[0]};--c2:${show.colors[1]}" onclick="openModal(${show.id})">
       <div class="upnext-art">${p?`<img src="${p}" alt="" loading="lazy" onerror="this.remove()">`:''}</div>
       <div class="upnext-info">
@@ -3019,6 +3042,7 @@ function renderUpNext(){
           <div class="prog-track"><div class="prog-fill" style="width:${prog.pct}%"></div></div>
         </div>
       </div>
+      ${wl.length?`<a class="upnext-watch" href="${wl[0].url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">▶ ${escapeHTML(wl[0].label)} ↗</a>`:''}
       <button class="upnext-btn" onclick="event.stopPropagation();toggleEpisode(${show.id},${ep[0]});renderUpNext()">✓ Watched</button>
     </div>`;
   }).join('');
@@ -3343,23 +3367,28 @@ document.getElementById('surpriseBtn').onclick=()=>{
   <p style="margin-top:16px;font-size:13px;color:var(--muted)">Not feeling it? Hit the button again.</p>`;
 };
 function populateCompare(){
-  const opts=SHOWS.map(s=>`<option value="${s.id}">${s.title}</option>`).join('');
+  // Finds included so a fresh discovery can be sized up against the curated 60 — after them, never mixed in.
+  const opts=SHOWS.concat(findsAsShows()).map(s=>`<option value="${s.id}">${s.title}</option>`).join('');
   document.getElementById('cmpA').innerHTML='<option value="">Select show A…</option>'+opts;
   document.getElementById('cmpB').innerHTML='<option value="">Select show B…</option>'+opts;
 }
 document.getElementById('cmpA').onchange=document.getElementById('cmpB').onchange=doCompare;
 function doCompare(){
-  const a=SHOWS.find(s=>s.id==document.getElementById('cmpA').value);
-  const b=SHOWS.find(s=>s.id==document.getElementById('cmpB').value);
+  const a=getShow(Number(document.getElementById('cmpA').value));
+  const b=getShow(Number(document.getElementById('cmpB').value));
   if(!a||!b){document.getElementById('cmpResult').innerHTML='';return;}
+  // Finds can lack a verified score on either side — never print "null%", and only
+  // crown a winner when both sides actually have a number to compare.
+  const rtOK=typeof a.rt==='number'&&typeof b.rt==='number';
+  const imdbOK=typeof a.imdb==='number'&&typeof b.imdb==='number';
   const rows=[
     ['Title',a.title,b.title],['Platform',a.platform,b.platform],['Genre',a.genre,b.genre],
-    ['RT Audience',a.rt+'%',b.rt+'%',a.rt>b.rt?'A':a.rt<b.rt?'B':'T'],
-    ['IMDb',a.imdb,b.imdb,a.imdb>b.imdb?'A':a.imdb<b.imdb?'B':'T'],
+    ['RT Audience',typeof a.rt==='number'?a.rt+'%':'—',typeof b.rt==='number'?b.rt+'%':'—',rtOK?(a.rt>b.rt?'A':a.rt<b.rt?'B':'T'):null],
+    ['IMDb',typeof a.imdb==='number'?a.imdb:'—',typeof b.imdb==='number'?b.imdb:'—',imdbOK?(a.imdb>b.imdb?'A':a.imdb<b.imdb?'B':'T'):null],
     ['Your Rating',getUserRating(a.id)||'—',getUserRating(b.id)||'—'],
     ['Episodes',a.eps,b.eps],['Avg Runtime',a.runtime+'m',b.runtime+'m'],
     ['Type',a.type==='new'?'New Series':'New Season',b.type==='new'?'New Series':'New Season'],
-    ['Premiere',a.premiere,b.premiere]
+    ['Premiere',a.premiere||'—',b.premiere||'—']
   ];
   document.getElementById('cmpResult').innerHTML=`<table class="compare-table">
     <thead><tr><th>Metric</th><th>${a.title}</th><th>${b.title}</th></tr></thead>
@@ -3854,11 +3883,28 @@ function closeModal(){document.getElementById('modal').classList.remove('open');
 function clearRating(id){delete state.ratings[id];save();openModal(id);render();}
 function saveNote(id){const val=document.getElementById('noteInput').value.trim();if(val)state.notes[id]=val;else delete state.notes[id];save();toast('Note saved');}
 document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal();});
+/* Gentle backup nudge. TV Time deleted everyone's history with no warning — so once
+   there's real data at stake (25+ tracked items) and no export in the last 30 days,
+   say so once, quietly, above Discover. Never a popup. Dismissing it holds for the
+   rest of the calendar month. */
+function backupNudgeHTML(){
+  const n = Object.keys(state.ratings).length + Object.keys(state.status).length + Object.keys(state.watched).length;
+  const stale = !state.lastExport || (Date.now() - Date.parse(state.lastExport)) > 30*24*60*60*1000;
+  const month = new Date().toISOString().slice(0,7);   // 'YYYY-MM' — a dismissal lasts the calendar month
+  if (n < 25 || !stale || state.nudgeDismissed === month) return '';
+  return `<div class="backup-nudge">💾 <strong>${n}</strong> tracked items live only in this browser — the ⤓ button up top backs them all up. <button onclick="dismissBackupNudge()">Dismiss</button></div>`;
+}
+function dismissBackupNudge(){
+  state.nudgeDismissed = new Date().toISOString().slice(0,7);
+  save();
+  document.getElementById('backupNudge').innerHTML = '';
+}
 /* Portable data. TV Time shut down in July 2026 and deleted everyone's history,
    and "never be trapped again" is the thing reviewers now praise most — so this
    exports EVERYTHING, including episode progress and discovered shows, and can
    read it straight back in. */
 document.getElementById('exportBtn').onclick=()=>{
+  state.lastExport=new Date().toISOString();save();   // clears the backup nudge for 30 days
   const data={
     app:'elite-tv-2026', version:4, exported:new Date().toISOString(),
     ratings:state.ratings, status:state.status, notes:state.notes,
