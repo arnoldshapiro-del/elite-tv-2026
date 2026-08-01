@@ -20,6 +20,12 @@
   status = 200
   force = true
 
+[[redirects]]
+  from = "/api/theaters"
+  to = "/.netlify/functions/theaters"
+  status = 200
+  force = true
+
 [[headers]]
   for = "/*"
   [headers.values]

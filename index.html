@@ -865,6 +865,26 @@ footer {
 .st-daytab.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 .st-stale { font-size: 11px; color: var(--warning); }
 
+/* theatre picker — every cinema near you, any chain */
+.theatre-picker { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(270px, 100%), 1fr)); gap: 12px; margin-bottom: 18px; }
+.tcard {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 12px 14px; cursor: pointer; transition: all 0.18s; text-align: left;
+  display: flex; flex-direction: column; gap: 5px;
+}
+.tcard:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); transform: translateY(-2px); }
+.tcard.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--surface)); }
+.tcard .tname { font-size: 13.5px; font-weight: 700; line-height: 1.25; }
+.tcard .tmeta { font-size: 11.5px; color: var(--muted); }
+.tcard .tfmts { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 2px; }
+.tchip {
+  font-size: 9px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 2px 6px; border-radius: 4px; background: var(--surface3); color: var(--muted); border: 1px solid var(--border);
+}
+.tchip.imax { background: rgba(0,168,225,0.16); color: #35b6ea; border-color: rgba(0,168,225,0.45); }
+.tchip.dolby { background: rgba(139,92,246,0.18); color: #a78bfa; border-color: rgba(139,92,246,0.5); }
+.tdist { font-size: 11px; font-weight: 700; color: var(--accent); }
+
 /* theatre banner */
 .theatre-bar {
   display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
@@ -1079,14 +1099,30 @@ footer {
     <p>What's on the big screen right now — and what lands in the next three weeks — held to the same bar as the TV list, with real Rotten Tomatoes and IMDb user scores</p>
   </div>
   <div class="theatre-bar">
-    <div class="marquee">🎬</div>
+    <div class="marquee">📍</div>
     <div class="who">
-      <strong id="theatreName">AMC West Chester 18</strong>
-      <span id="theatreAddr">9415 Civic Center Blvd., West Chester, OH 45069</span>
+      <strong id="theatreName">Finding cinemas near you…</strong>
+      <span id="theatreAddr">Every chain, anywhere in the United States</span>
     </div>
-    <a class="tix-btn" id="amcLink" href="https://www.amctheatres.com/movie-theatres/cincinnati/amc-west-chester-18" target="_blank" rel="noopener">Showtimes &amp; tickets at AMC ↗</a>
-    <a class="tix-btn ghost" id="fandangoLink" href="https://www.fandango.com/amc-west-chester-18-AAWWU/theater-page" target="_blank" rel="noopener">Fandango ↗</a>
+    <button class="tix-btn ghost" id="useLocBtn" title="Use your device's location for a precise result">📍 Use my location</button>
+    <button class="tix-btn ghost" id="changeLocBtn">Change location</button>
+    <a class="tix-btn" id="theatreLink" href="#" target="_blank" rel="noopener" style="display:none">Theatre page ↗</a>
   </div>
+  <div class="controls" id="locEditor" style="display:none">
+    <div class="controls-row" style="gap:8px">
+      <label style="font-size:13px;font-weight:700" for="zipInput">ZIP code</label>
+      <input type="text" id="zipInput" inputmode="numeric" maxlength="5" placeholder="45069"
+             style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 12px;color:var(--text);font-size:14px;font-weight:700;width:110px;outline:none">
+      <span style="font-size:12px;color:var(--muted)">or city</span>
+      <input type="text" id="cityInput" placeholder="Cincinnati"
+             style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 12px;color:var(--text);font-size:13px;width:150px;outline:none">
+      <input type="text" id="stateInput" maxlength="2" placeholder="OH"
+             style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 12px;color:var(--text);font-size:13px;width:60px;text-transform:uppercase;outline:none">
+      <button class="btn" id="findTheatresBtn" style="background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700">Find cinemas</button>
+      <span style="font-size:11.5px;color:var(--muted)">Works for any address in the United States.</span>
+    </div>
+  </div>
+  <div class="theatre-picker" id="theatrePicker"></div>
   <div class="controls">
     <div class="controls-row">
       <div class="btn-group" id="movieMode">
@@ -1565,7 +1601,7 @@ document.querySelectorAll('.nav-tab').forEach(tab=>{
     if(tab.dataset.section==='upnext')renderUpNext();
     if(tab.dataset.section==='foryou')renderForYou();
     if(tab.dataset.section==='finds')renderFinds();
-    if(tab.dataset.section==='movies'){renderMovies();loadShowtimes().then(j=>{if(j)renderMovies();});}
+    if(tab.dataset.section==='movies'){renderMovies();loadTheaters().then(j=>{if(j)renderMovies();});}
     if(tab.dataset.section==='watchlist')renderWatchlist();
     if(tab.dataset.section==='stats')renderStats();
     if(tab.dataset.section==='calendar')renderCalendar();
@@ -1873,7 +1909,7 @@ async function runFind(sinceArg, srcBtn, windowLabel){
 }
 
 /* ===========================================================================
-   MOVIES — "Playing Now" at AMC West Chester 18, and "Coming in 3 Weeks"
+   MOVIES — "Playing Now" at whichever cinema you pick, and "Coming in 3 Weeks"
 
    Same shape as New Finds: the browser holds no API key, it calls this app's
    own /api/movies endpoint and the host does the work.
@@ -1884,11 +1920,12 @@ async function runFind(sinceArg, srcBtn, windowLabel){
    shows as "—". Nothing here is estimated, and nothing is carried over from the
    TV side's scores.
 
-   ABOUT SHOWTIMES. AMC's site, Fandango's showtimes feed and every other free
-   source refuse server-side reads, so this app does not print showtimes it
-   cannot stand behind. The list is US wide releases currently in theatres —
-   what an 18-screen AMC runs — and every card links straight to AMC West
-   Chester 18's own page, where the times are always right.
+   THE FILM LIST vs THE SHOWTIMES. /api/movies supplies what is in US theatres
+   with its scores, posters, trailers and plots. /api/theaters supplies the
+   cinemas near this particular visitor and their actual schedules. The two are
+   matched by title, so the cards are national but the times are local. Films on
+   at the chosen cinema that did not clear the quality bar are still named, in
+   the note under the grid, rather than silently dropped.
 =========================================================================== */
 if (!state.movies) state.movies = {};        // { now: {...}, soon: {...} } cached payloads
 if (!state.movieWant) state.movieWant = {};  // { tmdbId: true } — films he wants to see
@@ -1940,195 +1977,330 @@ function movieScoreChips(m){
 }
 
 /* ===========================================================================
-   SHOWTIMES at AMC West Chester 18 — real times, real formats.
+   CINEMAS + SHOWTIMES — anywhere in the United States.
 
-   data/showtimes.json is produced by scripts/scrape-showtimes.js, which drives
-   a real browser because amctheatres.com sits behind a Queue-it gate that no
-   plain server request can pass. A GitHub Action re-runs it through the day, so
-   the file is always current for the day you are looking at.
+   The app asks its own /api/theaters, which reads Fandango's public listings.
+   That covers every chain — AMC, Regal, Cinemark, Alamo, Landmark, B&B,
+   Showcase and the independents — for any ZIP or city in the country, with
+   each theatre's distance, its premium formats, and the day's showtimes.
 
-   Nothing here is inferred: every time, format and "Almost Full" note is what
-   AMC published, and each time links to that exact showing's ticket page.
+   This replaced an AMC-only scraper. The old version drove a real browser on a
+   schedule because amctheatres.com sits behind a bot gate, and it could only
+   ever know about one cinema. Fandango answers plain JSON for the whole US, so
+   the times are now live rather than a few-times-a-day snapshot.
+
+   Nothing here is inferred. Every time, format and amenity is what the theatre
+   published, and each time links to that showing's own ticket page.
 =========================================================================== */
-let SHOWTIMES = null;          // the whole published file
-let showtimesDay = null;       // which day the UI is showing
-let showtimesTried = false;
+let THEATERS = null;        // { query, theaters: [...] } for the current place
+let theatreDay = null;      // which date is being shown
+let selectedTheatre = null; // theatre id the person is looking at
+let theatresLoading = false;
+let theatresPending = null; // in-flight lookup, so a second one queues behind it
+let rolledForward = false;  // true when today was spent and we moved to tomorrow
 
-async function loadShowtimes(){
-  if (SHOWTIMES || showtimesTried) return SHOWTIMES;
-  showtimesTried = true;
-  try {
-    const r = await fetch('/data/showtimes.json', { headers: { 'Accept': 'application/json' } });
-    if (!r.ok) return null;
-    const j = await r.json();
-    if (!j || !j.days) return null;
-    SHOWTIMES = j;
-    const days = Object.keys(j.days).sort();
-    const today = todayLocal();
-
-    /* Default to today — but roll forward once the evening is effectively over.
-       Counting films, not showings: at 11pm a couple of late screenings are
-       still technically "upcoming", and defaulting to today for those left
-       eleven of thirteen cards saying "last show has started". If fewer than
-       three films still have anything left, tomorrow is the useful answer. */
-    const filmsLeftOn = d => (j.days[d] || []).filter(f =>
-      f.formats.some(g => g.times.some(t =>
-        d !== today || new Date(t.utc).getTime() > Date.now()))).length;
-
-    showtimesDay = days.includes(today) && filmsLeftOn(today) >= 3
-      ? today
-      : (days.find(d => d > today && filmsLeftOn(d) > 0)
-         || (days.includes(today) ? today : days[0]));
-    return j;
-  } catch { return null; }
-}
+if (!state.place) state.place = null;        // { zip, city, state } they chose
+if (!state.theatreId) state.theatreId = null; // their usual cinema
 
 const todayLocal = () => ymdLocal(new Date());
 
-// Title matching across two catalogues: AMC's marquee spelling vs TMDB's.
+function locMsg(html, kind){
+  const row = document.getElementById('movieStatus');
+  if (!html){ row.style.display = 'none'; row.innerHTML = ''; return; }
+  row.style.display = 'flex';
+  row.innerHTML = '<div class="find-msg ' + (kind || '') + '">' + html + '</div>';
+}
+
+/* ---- finding cinemas ---- */
+async function loadTheaters(opts){
+  opts = opts || {};
+  /* Queue rather than drop. Opening the Movies tab kicks off an automatic
+     lookup; typing a ZIP a moment later used to hit "already loading" and be
+     thrown away silently, leaving the person staring at the wrong city. */
+  if (theatresLoading && theatresPending){
+    try { await theatresPending; } catch {}
+  }
+  const run = loadTheatersInner(opts);
+  theatresPending = run;
+  return run;
+}
+
+async function loadTheatersInner(opts){
+  if (location.protocol === 'file:'){
+    document.getElementById('theatreName').textContent = 'Showtimes need the live website';
+    document.getElementById('theatreAddr').textContent = 'Open the deployed site to see cinemas near you';
+    return null;
+  }
+  theatresLoading = true;
+  const name = document.getElementById('theatreName');
+  const addr = document.getElementById('theatreAddr');
+  name.innerHTML = '<span class="spin">◠</span> Finding cinemas near you…';
+
+  try {
+    const p = new URLSearchParams({ date: theatreDay || todayLocal(), limit: '12' });
+    // What we know about where they are, best source first.
+    if (opts.lat && opts.lon){ p.set('lat', opts.lat); p.set('lon', opts.lon); }
+    else if (opts.zip) p.set('zip', opts.zip);
+    else if (opts.city && opts.state){ p.set('city', opts.city); p.set('state', opts.state); }
+    else if (state.place && state.place.zip) p.set('zip', state.place.zip);
+    else if (state.place && state.place.city){ p.set('city', state.place.city); p.set('state', state.place.state || ''); }
+    // nothing set at all -> the server falls back to IP location, no permission needed
+
+    const res = await fetch('/api/theaters?' + p, { headers: { 'Accept': 'application/json' } });
+    const ct = res.headers.get('content-type') || '';
+    if (!ct.includes('json')){
+      name.textContent = 'The cinema service isn\'t running yet';
+      addr.textContent = 'Redeploy the project and try again';
+      return null;
+    }
+    const data = await res.json();
+    if (!data.ok){
+      name.textContent = 'Couldn\'t find cinemas';
+      addr.textContent = data.message || 'Try typing a ZIP code';
+      if (data.code === 'NO_LOCATION') showLocEditor(true);
+      return null;
+    }
+
+    THEATERS = data;
+    theatreDay = data.query.date;
+    if (data.query.zip || data.query.city){
+      state.place = { zip: data.query.zip || null, city: data.query.city || null, state: data.query.state || null };
+      save();
+    }
+    // keep their usual cinema selected if it is still on the list
+    const ids = data.theaters.map(t => t.id);
+    selectedTheatre = (state.theatreId && ids.includes(state.theatreId))
+      ? state.theatreId
+      : (data.theaters.find(t => t.movieCount) || data.theaters[0] || {}).id || null;
+
+    renderTheatreBar();
+    renderTheatrePicker();
+    renderDayTabs();
+
+    /* If the evening is spent, roll to tomorrow on its own. Checking at 11pm,
+       nearly every screening has already started, and a grid of "last show has
+       started" is no use to anybody. Counting films rather than showings — a
+       couple of late screenings does not make it a usable evening. */
+    if (!opts.noRoll && theatreDay === todayLocal()){
+      const t = currentTheatre();
+      const filmsLeft = t ? t.movies.filter(m => m.formats.some(f => f.times.some(x => !x.expired))).length : 0;
+      if (filmsLeft < 3){
+        theatreDay = ymdLocal(new Date(Date.now() + 86400000));
+        return loadTheaters({ ...opts, noRoll: true, rolled: true });
+      }
+    }
+    if (opts.rolled) rolledForward = true;
+    return data;
+  } catch (e){
+    name.textContent = 'Couldn\'t reach the cinema service';
+    addr.textContent = String(e && e.message || e);
+    return null;
+  } finally {
+    theatresLoading = false;
+  }
+}
+
+function currentTheatre(){
+  if (!THEATERS) return null;
+  return THEATERS.theaters.find(t => t.id === selectedTheatre) || THEATERS.theaters[0] || null;
+}
+
+function renderTheatreBar(){
+  const t = currentTheatre();
+  const name = document.getElementById('theatreName');
+  const addr = document.getElementById('theatreAddr');
+  const link = document.getElementById('theatreLink');
+  if (!t){
+    name.textContent = 'No cinemas found there';
+    addr.textContent = 'Try a different ZIP code';
+    link.style.display = 'none';
+    return;
+  }
+  const where = THEATERS.query.zip || [THEATERS.query.city, THEATERS.query.state].filter(Boolean).join(', ');
+  name.textContent = t.name;
+  addr.textContent = t.fullAddress + (t.distance != null ? '  ·  ' + t.distance + ' mi from ' + where : '');
+  if (t.url){ link.href = t.url; link.style.display = ''; link.textContent = 'Theatre page ↗'; }
+  else link.style.display = 'none';
+}
+
+function renderTheatrePicker(){
+  const box = document.getElementById('theatrePicker');
+  if (movieMode !== 'now' || !THEATERS){ box.innerHTML = ''; return; }
+  const list = THEATERS.theaters;
+  if (!list.length){ box.innerHTML = ''; return; }
+  box.innerHTML = list.map(t => {
+    const fmts = (t.premiumFormats || []).slice(0, 4);
+    return '<button class="tcard ' + (t.id === selectedTheatre ? 'on' : '') + '" onclick="pickTheatre(\'' + t.id + '\')">' +
+      '<span class="tname">' + escapeHTML(t.name) + '</span>' +
+      '<span class="tmeta">' + escapeHTML(t.chain || '') +
+        (t.distance != null ? ' · <span class="tdist">' + t.distance + ' mi</span>' : '') +
+        ' · ' + (t.movieCount ? t.movieCount + ' film' + (t.movieCount === 1 ? '' : 's') : 'no showtimes') + '</span>' +
+      (fmts.length ? '<span class="tfmts">' + fmts.map(f =>
+        '<span class="tchip ' + fmtClass(f) + '">' + escapeHTML(f) + '</span>').join('') + '</span>' : '') +
+    '</button>';
+  }).join('');
+}
+
+/* A week of dates to choose from — cinemas publish about that far ahead. */
+function renderDayTabs(){
+  const row = document.getElementById('movieDayRow');
+  if (!row) return;
+  if (movieMode !== 'now' || !THEATERS){ row.style.display = 'none'; return; }
+  row.style.display = 'flex';
+  const days = Array.from({ length: 7 }, (_, i) => ymdLocal(new Date(Date.now() + i * 86400000)));
+  document.getElementById('movieDayTabs').innerHTML = days.map(d => {
+    const label = d === days[0] ? 'Today' : d === days[1] ? 'Tomorrow'
+      : new Date(d + 'T12:00:00').toLocaleDateString('en', { weekday: 'short', month: 'short', day: 'numeric' });
+    return `<button class="st-daytab ${d === theatreDay ? 'on' : ''}" onclick="pickDay('${d}')">${escapeHTML(label)}</button>`;
+  }).join('');
+  document.getElementById('movieDayNote').innerHTML = rolledForward && theatreDay !== todayLocal()
+    ? `Today's last shows have started, so this is <strong>tomorrow</strong>.`
+    : `Times already started are faded. Tap any time to buy that seat.`;
+}
+
+async function pickDay(d){
+  theatreDay = d;
+  rolledForward = false;
+  await loadTheaters({ noRoll: true });
+  renderMovies();
+}
+
+function pickTheatre(id){
+  selectedTheatre = id;
+  state.theatreId = id;
+  save();
+  renderTheatreBar();
+  renderTheatrePicker();
+  renderMovies();
+  const t = currentTheatre();
+  if (t) toast('Showing ' + t.name);
+}
+
+function showLocEditor(show){
+  const ed = document.getElementById('locEditor');
+  ed.style.display = show ? 'block' : 'none';
+  if (show){
+    if (state.place && state.place.zip) document.getElementById('zipInput').value = state.place.zip;
+    document.getElementById('zipInput').focus();
+  }
+}
+
+async function useMyLocation(){
+  if (!navigator.geolocation){ locMsg('This browser can\'t share a location. Type a ZIP code instead.', 'warn'); showLocEditor(true); return; }
+  locMsg('Asking your browser for your location…');
+  navigator.geolocation.getCurrentPosition(async pos => {
+    locMsg('');
+    await loadTheaters({ lat: pos.coords.latitude, lon: pos.coords.longitude });
+    renderMovies();
+  }, err => {
+    locMsg('<strong>Your browser wouldn\'t share a location.</strong><br>' +
+      escapeHTML(err.message || '') + '<br>Type a ZIP code and it works just the same.', 'warn');
+    showLocEditor(true);
+  }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 600000 });
+}
+
+async function findTheatresFromInput(){
+  const zip = (document.getElementById('zipInput').value || '').trim();
+  const city = (document.getElementById('cityInput').value || '').trim();
+  const st = (document.getElementById('stateInput').value || '').trim().toUpperCase();
+  if (!zip && !(city && st)){ locMsg('Enter a 5-digit ZIP code, or a city and its two-letter state.', 'warn'); return; }
+  if (zip && !/^\d{5}$/.test(zip)){ locMsg('A ZIP code is five digits, like 45069.', 'warn'); return; }
+  locMsg('');
+  state.theatreId = null;      // a new place means a new cinema
+  selectedTheatre = null;
+  await loadTheaters(zip ? { zip } : { city, state: st });
+  showLocEditor(false);
+  renderMovies();
+}
+
+/* ---- matching a film to what is on at the chosen cinema ---- */
 const stTitleKey = s => String(s || '').toLowerCase()
-  .replace(/\s*\((?:20\d\d|19\d\d)\)\s*$/, '')
+  .replace(/\s*\((?:19|20)\d\d\)\s*$/, '')
   .replace(/[:\-–—'’.,!?]/g, ' ')
   .replace(/\b(the|a|an)\b/g, ' ')
   .replace(/&/g, 'and')
   .replace(/\s+/g, ' ').trim();
 
-function showtimesFor(title, day){
-  if (!SHOWTIMES) return null;
-  const films = SHOWTIMES.days[day || showtimesDay];
-  if (!films || !films.length) return null;
+function showtimesFor(title){
+  const t = currentTheatre();
+  if (!t || !t.movies.length) return null;
   const want = stTitleKey(title);
-  let hit = films.find(f => stTitleKey(f.title) === want);
-  if (!hit) {
-    // AMC appends things like "The IMAX Experience" or a re-release suffix
-    hit = films.find(f => {
-      const k = stTitleKey(f.title);
-      return k.startsWith(want) || want.startsWith(k);
-    });
-  }
-  return hit || null;
+  if (!want) return null;
+  return t.movies.find(m => stTitleKey(m.title) === want)
+      || t.movies.find(m => { const k = stTitleKey(m.title); return k.startsWith(want) || want.startsWith(k); })
+      || null;
 }
 
-// Which visual treatment a format gets. Everything else stays neutral.
 function fmtClass(f){
   const s = String(f || '').toLowerCase();
   if (s.includes('imax')) return 'imax';
   if (s.includes('dolby')) return 'dolby';
   if (s.includes('3d')) return 'threed';
-  if (s.includes('artisan')) return 'artisan';
+  if (/artisan|premium|plf|prime|screenx|4dx|xd\b|rpx|bigd/.test(s)) return 'artisan';
   return '';
 }
-// "Dolby Cinema at AMC" -> "Dolby Cinema"; "IMAX at AMC" -> "IMAX".
-const fmtShort = f => String(f || 'Standard').replace(/\s+at AMC$/i, '').trim();
-
-const stPassed = t => new Date(t.utc).getTime() < Date.now();
+const fmtShort = f => String(f || 'Standard').replace(/\s+(?:at|@)\s+AMC$/i, '').trim();
 
 function timeChip(t, showGone){
-  const sold = t.status && /sold out/i.test(t.status);
-  const tight = t.status && /almost full|few seats/i.test(t.status);
-  const gone = stPassed(t);
-  if (gone && !showGone) return '';
-  const cls = ['st-time', gone ? 'gone' : '', sold ? 'sold' : '', tight ? 'tight' : ''].filter(Boolean).join(' ');
-  const tip = [t.status || '', gone ? 'already started' : ''].filter(Boolean).join(' · ');
-  return `<a class="${cls}" href="${escapeHTML(t.url)}" target="_blank" rel="noopener"
-     onclick="event.stopPropagation()" title="${escapeHTML(tip || 'Get tickets')}">${escapeHTML(t.time)}</a>`;
+  if (t.expired && !showGone) return '';
+  const cls = ['st-time', t.expired ? 'gone' : '', t.soldOut ? 'sold' : ''].filter(Boolean).join(' ');
+  const tip = t.soldOut ? 'Sold out' : (t.expired ? 'already started' : 'Get tickets — ' + t.label);
+  const href = t.url || (currentTheatre() || {}).url || '#';
+  return '<a class="' + cls + '" href="' + escapeHTML(href) + '" target="_blank" rel="noopener"' +
+    ' onclick="event.stopPropagation()" title="' + escapeHTML(tip) + '">' + escapeHTML(t.time) + '</a>';
 }
 
-/* Compact strip for a card: the next few times still to come today. */
+/* Compact strip for a card: the next few times per format. */
 function cardShowtimesHTML(m){
-  if (!SHOWTIMES) return '';
+  const t = currentTheatre();
+  if (!t) return '';
   const f = showtimesFor(m.title);
-  const isToday = showtimesDay === todayLocal();
-  if (!f) {
-    return `<div class="showtimes"><span class="st-none">Not on at ${escapeHTML(SHOWTIMES.theatre.name.replace('AMC ',''))} ${isToday ? 'today' : 'that day'}</span></div>`;
-  }
+  if (!f) return '<div class="showtimes"><span class="st-none">Not on at ' + escapeHTML(t.name) + '</span></div>';
   const rows = f.formats.map(g => {
-    const upcoming = g.times.filter(t => !isToday || !stPassed(t));
-    if (!upcoming.length) return '';
-    const shown = upcoming.slice(0, 4);
-    const extra = upcoming.length - shown.length;
-    return `<div class="st-row">
-      <span class="st-fmt ${fmtClass(g.format)}">${escapeHTML(fmtShort(g.format))}</span>
-      <span class="st-times">${shown.map(t => timeChip(t)).join('')}
-      ${extra > 0 ? `<span class="st-more">+${extra}</span>` : ''}</span>
-    </div>`;
+    const left = g.times.filter(x => !x.expired);
+    if (!left.length) return '';
+    const shown = left.slice(0, 4), extra = left.length - shown.length;
+    return '<div class="st-row"><span class="st-fmt ' + fmtClass(g.format) + '">' + escapeHTML(fmtShort(g.format)) + '</span>' +
+      '<span class="st-times">' + shown.map(x => timeChip(x)).join('') +
+      (extra > 0 ? '<span class="st-more">+' + extra + '</span>' : '') + '</span></div>';
   }).filter(Boolean);
-  if (!rows.length) {
-    return `<div class="showtimes"><span class="st-none">Last show has started — tap for tomorrow</span></div>`;
-  }
-  return `<div class="showtimes">${rows.join('')}</div>`;
+  if (!rows.length) return '<div class="showtimes"><span class="st-none">Today\'s last show has started here</span></div>';
+  return '<div class="showtimes">' + rows.join('') + '</div>';
 }
 
-/* Full breakdown for the modal: every day, every format, every time. */
+/* Full breakdown for the modal. */
 function modalShowtimesHTML(m){
-  if (!SHOWTIMES) return '';
-  const days = Object.keys(SHOWTIMES.days).sort();
-  const tabs = days.map(d => {
-    const dt = new Date(d + 'T12:00:00');
-    const label = d === todayLocal() ? 'Today'
-      : d === ymdLocal(new Date(Date.now() + 86400000)) ? 'Tomorrow'
-      : dt.toLocaleDateString('en', { weekday: 'short', month: 'short', day: 'numeric' });
-    return `<button class="st-daytab ${d === showtimesDay ? 'on' : ''}"
-      onclick="event.stopPropagation();setShowtimesDay('${d}',${m.tmdb})">${escapeHTML(label)}</button>`;
-  }).join('');
-
+  const t = currentTheatre();
+  if (!t) return '';
   const f = showtimesFor(m.title);
-  let body;
-  if (!f) {
-    body = `<p class="st-none">${escapeHTML(m.title)} is not on the schedule at ${escapeHTML(SHOWTIMES.theatre.name)} that day.</p>`;
-  } else {
-    const isToday = showtimesDay === todayLocal();
-    body = f.formats.map(g => `
-      <div class="st-row" style="margin-bottom:8px">
-        <span class="st-fmt ${fmtClass(g.format)}">${escapeHTML(fmtShort(g.format))}</span>
-        <span class="st-times">${g.times.map(t => timeChip(t, isToday)).join('') || '<span class="st-none">—</span>'}</span>
-      </div>
-      ${g.attributes && g.attributes.length
-        ? `<div style="font-size:11px;color:var(--muted);margin:-4px 0 12px 4px">${g.attributes.map(escapeHTML).join(' · ')}</div>`
-        : ''}`).join('');
-  }
-
-  const when = new Date(SHOWTIMES.scrapedAt);
-  const stale = SHOWTIMES.scrapedDayET !== todayLocal();
-  return `
-    <div style="font-size:13px;font-weight:600;margin:16px 0 2px">
-      Showtimes at ${escapeHTML(SHOWTIMES.theatre.name)}
-    </div>
-    <div class="st-daytabs">${tabs}</div>
-    ${body}
-    <div class="src-note" style="margin-top:2px">
-      Straight from AMC — every time links to that exact showing's ticket page. Faded times have already started;
-      struck-through means sold out. Checked ${escapeHTML(when.toLocaleString('en', { month:'short', day:'numeric', hour:'numeric', minute:'2-digit' }))}.
-      ${stale ? '<span class="st-stale">This list is from a previous day — the schedule refreshes through the day.</span>' : ''}
-    </div>`;
+  const head = '<div style="font-size:13px;font-weight:600;margin:16px 0 6px">Showtimes at ' + escapeHTML(t.name) +
+    (t.distance != null ? ' <span style="color:var(--muted);font-weight:400">· ' + t.distance + ' mi away</span>' : '') + '</div>';
+  if (!f) return head + '<p class="st-none">' + escapeHTML(m.title) + ' is not on the schedule here today.</p>';
+  const body = f.formats.map(g =>
+    '<div class="st-row" style="margin-bottom:8px">' +
+      '<span class="st-fmt ' + fmtClass(g.format) + '">' + escapeHTML(fmtShort(g.format)) + '</span>' +
+      '<span class="st-times">' + (g.times.map(x => timeChip(x, true)).join('') || '<span class="st-none">—</span>') + '</span>' +
+    '</div>' +
+    (g.amenities && g.amenities.length
+      ? '<div style="font-size:11px;color:var(--muted);margin:-4px 0 12px 4px">' + g.amenities.map(escapeHTML).join(' · ') + '</div>'
+      : '')).join('');
+  return head + body +
+    '<div class="src-note" style="margin-top:2px">Straight from the theatre — every time links to that showing\'s ticket page. ' +
+    'Faded times have already started. ' + (t.url ? '<a href="' + escapeHTML(t.url) + '" target="_blank" rel="noopener">All showtimes at ' + escapeHTML(t.name) + ' ↗</a>' : '') + '</div>';
 }
 
-function setShowtimesDay(d, reopenTmdb){
-  showtimesDay = d;
-  renderMovies();
-  if (reopenTmdb) openMovie(reopenTmdb);
-}
-
-function dayLabel(d){
-  if (d === todayLocal()) return 'Today';
-  if (d === ymdLocal(new Date(Date.now() + 86400000))) return 'Tomorrow';
-  return new Date(d + 'T12:00:00').toLocaleDateString('en', { weekday: 'short', month: 'short', day: 'numeric' });
-}
-
-/* One day picker for the whole grid, so he can see the theatre's Saturday
-   without opening a film first. */
-function renderShowtimeDayTabs(){
-  const row = document.getElementById('movieDayRow');
-  if (movieMode !== 'now' || !SHOWTIMES){ row.style.display = 'none'; return; }
-  row.style.display = 'flex';
-  const days = Object.keys(SHOWTIMES.days).sort();
-  document.getElementById('movieDayTabs').innerHTML = days.map(d =>
-    `<button class="st-daytab ${d === showtimesDay ? 'on' : ''}" onclick="setShowtimesDay('${d}')">${escapeHTML(dayLabel(d))}</button>`
-  ).join('');
-  const note = document.getElementById('movieDayNote');
-  note.innerHTML = showtimesDay === todayLocal()
-    ? `Times already started are faded. Tap any time to buy that seat.`
-    : `Today's last show has started, so this is <strong>${escapeHTML(dayLabel(showtimesDay))}</strong>. Tap any time to buy that seat.`;
+/* Films on at this cinema that did not clear the quality bar — still worth
+   listing, because he might be going anyway. */
+function alsoPlayingHTML(shownTitles){
+  const t = currentTheatre();
+  if (!t || !t.movies.length) return '';
+  const shown = new Set(shownTitles.map(stTitleKey));
+  const rest = t.movies.filter(m => !shown.has(stTitleKey(m.title)));
+  if (!rest.length) return '';
+  return '<div class="src-note" style="margin-top:14px"><strong>Also on at ' + escapeHTML(t.name) + '</strong> ' +
+    '(these did not clear the quality bar): ' +
+    rest.map(m => escapeHTML(m.title) + ' <span style="color:var(--muted)">' +
+      m.formats.map(g => fmtShort(g.format)).join('/') + '</span>').join(' · ') + '</div>';
 }
 
 function movieCardHTML(m, i, mode){
@@ -2217,7 +2389,7 @@ function playMovieTrailer(tmdb){
 function openMovie(tmdb){
   const m = findMovie(tmdb);
   if (!m) return;
-  const th = (state.movies[movieMode] && state.movies[movieMode].theatre) || MOVIE_THEATRE;
+  const th = currentTheatre();
   const want = !!state.movieWant[m.tmdb];
   const mins = m.runtime ? Math.floor(m.runtime/60) + 'h ' + (m.runtime%60) + 'm' : '—';
   const d = daysUntil(m.release);
@@ -2252,26 +2424,19 @@ function openMovie(tmdb){
       <div class="modal-actions" style="margin:16px 0">
         <button class="btn trailer-btn" onclick="playMovieTrailer(${m.tmdb})">▶ Play Trailer</button>
         <button class="btn ${want ? 'active' : ''}" onclick="toggleMovieWant(${m.tmdb});openMovie(${m.tmdb})">${want ? '★ On my list' : '☆ Want to see'}</button>
-        <a class="btn" href="${escapeHTML(th.amc)}" target="_blank" rel="noopener">🎟️ Showtimes at ${escapeHTML(th.name)} ↗</a>
-        <a class="btn" href="${escapeHTML(th.fandango)}" target="_blank" rel="noopener">Fandango ↗</a>
+        ${th && th.url ? `<a class="btn" href="${escapeHTML(th.url)}" target="_blank" rel="noopener">🎟️ All showtimes at ${escapeHTML(th.name)} ↗</a>` : ''}
+        ${th && th.mapUrl ? `<a class="btn" href="${escapeHTML(th.mapUrl)}" target="_blank" rel="noopener">📍 Directions ↗</a>` : ''}
         ${m.rtUrl ? `<a class="btn" href="${escapeHTML(m.rtUrl)}" target="_blank" rel="noopener">🍅 Rotten Tomatoes ↗</a>` : ''}
         ${m.imdbId ? `<a class="btn" href="https://www.imdb.com/title/${escapeHTML(m.imdbId)}/" target="_blank" rel="noopener">★ IMDb ↗</a>` : ''}
       </div>
       <div class="src-note">
         Scores are read from their own sources at search time — Popcornmeter and Tomatometer from Rotten Tomatoes,
         the IMDb rating from IMDb. A dash means that score has not been published yet; it is never estimated.
-        Showtimes live at ${escapeHTML(th.name)} — the buttons above open the real, current listings.
+        ${th ? 'Showtimes are live from ' + escapeHTML(th.name) + '.' : ''}
       </div>
     </div>
   </div>`;
 }
-
-const MOVIE_THEATRE = {
-  name: 'AMC West Chester 18',
-  address: '9415 Civic Center Blvd., West Chester, OH 45069',
-  amc: 'https://www.amctheatres.com/movie-theatres/cincinnati/amc-west-chester-18',
-  fandango: 'https://www.fandango.com/amc-west-chester-18-AAWWU/theater-page',
-};
 
 function renderMovies(){
   const grid = document.getElementById('movieGrid');
@@ -2291,29 +2456,32 @@ function renderMovies(){
   }
 
   document.getElementById('movieBarRow').style.display = movieMode === 'now' ? 'flex' : 'none';
-  renderShowtimeDayTabs();
+  document.getElementById('theatrePicker').style.display = movieMode === 'now' ? 'grid' : 'none';
+  renderTheatrePicker();
+  renderDayTabs();
 
   const note = document.getElementById('movieSrcNote');
   if (!list.length){
+    const th0 = currentTheatre();
     grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
       <h3>${payload ? 'Nothing cleared the bar' : 'Press the search button'}</h3>
       <p>${payload
         ? 'Every film playing was checked against real scores and none reached this bar. Try loosening the quality bar above.'
         : movieMode === 'now'
-          ? 'It looks up what is on at AMC West Chester 18 today, with real Rotten Tomatoes and IMDb user scores.'
+          ? `It looks up what is in theatres today${th0 ? ' near ' + escapeHTML(th0.city || th0.name) : ''}, with real Rotten Tomatoes and IMDb user scores — then shows you the showtimes.`
           : 'It looks up everything opening in the next three weeks, with posters, trailers and summaries.'}</p></div>`;
-    note.innerHTML = '';
+    note.innerHTML = movieMode === 'now' ? alsoPlayingHTML([]) : '';
     return;
   }
   grid.innerHTML = list.map((m, i) => movieCardHTML(m, i, movieMode)).join('');
-  const th = payload.theatre || MOVIE_THEATRE;
-  const stWhen = SHOWTIMES ? new Date(SHOWTIMES.scrapedAt) : null;
+  const th = currentTheatre();
   note.innerHTML = movieMode === 'now'
     ? `Showing US releases in theatres now that cleared the bar, checked ${payload.scanned || 0} films. ` +
-      (SHOWTIMES
-        ? `Showtimes and formats come straight from ${escapeHTML(th.name)} — last checked ${escapeHTML(stWhen.toLocaleString('en',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}))}, and every time links to that showing's ticket page. `
-        : `Showtimes are loading — tap a film for the full schedule. `) +
+      (th
+        ? `Showtimes and formats are live from ${escapeHTML(th.name)}${th.distance != null ? ' (' + th.distance + ' mi away)' : ''} — every time links to that showing's ticket page. Pick a different cinema above at any point. `
+        : `Cinemas are loading — pick one above to see showtimes. `) +
       `Every 🍿 and 🍅 is a real Rotten Tomatoes score and every ★ a real IMDb rating; a dash means not yet published.`
+      + alsoPlayingHTML(list.map(x => x.title))
     : `Opening in the next ${payload.windowDays || 21} days. Films that are not out yet have no audience or critic score to show — those slots stay empty rather than being guessed. ` +
       `Posters, summaries, cast and trailers are live now.`;
 }
@@ -2357,7 +2525,7 @@ async function runMovieSearch(){
     state.movies[movieMode] = data;
     save();
     renderMovies();
-    loadShowtimes().then(j => { if (j) renderMovies(); });
+    loadTheaters().then(j => { if (j) renderMovies(); });
 
     const bits = [];
     bits.push('<strong>' + (data.found
@@ -3218,6 +3386,17 @@ document.addEventListener('keydown',e=>{
     // The bar is applied server-side, so changing it means asking again.
     if (state.movies.now) movieMsg('Quality bar changed — press search to apply it.', 'warn');
   };
+
+  // Location controls
+  document.getElementById('changeLocBtn').onclick = () =>
+    showLocEditor(document.getElementById('locEditor').style.display === 'none');
+  document.getElementById('useLocBtn').onclick = useMyLocation;
+  document.getElementById('findTheatresBtn').onclick = findTheatresFromInput;
+  ['zipInput','cityInput','stateInput'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => {
+      if (e.key === 'Enter'){ e.preventDefault(); findTheatresFromInput(); }
+    });
+  });
 })();
 
 render();
