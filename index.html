@@ -743,7 +743,11 @@ footer {
    Film cards are poster-forward rather than landscape-header like the TV
    cards: a movie poster IS the artwork, and standing them up in 2:3 makes the
    section read as a cinema lobby instead of a second copy of the TV grid. */
-.movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 22px; }
+/* 260px, not 300px+. A movie poster is 2:3, so column width sets card height —
+   at a 300px minimum a 1500px window gave four ~530px-tall posters and pushed
+   the scores and plot of every card below the fold. 260 keeps the poster the
+   hero while leaving the numbers visible without scrolling. */
+.movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); gap: 20px; }
 .movie-card {
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
   overflow: hidden; display: flex; flex-direction: column; cursor: pointer;
@@ -1904,7 +1908,7 @@ function movieCardHTML(m, i, mode){
   return `<article class="movie-card" style="animation-delay:${i*0.03}s" onclick="openMovie(${m.tmdb})">
     <div class="movie-poster">
       ${m.poster
-        ? `<img src="${escapeHTML(m.poster)}" alt="Poster for ${escapeHTML(m.title)}" ${i<6?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" onerror="this.remove()">`
+        ? `<img src="${escapeHTML(m.poster)}" alt="Poster for ${escapeHTML(m.title)}" ${i<10?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" onerror="this.remove()">`
         : `<div class="movie-poster-fallback">${escapeHTML(m.title.charAt(0))}</div>`}
       <button class="movie-play" title="Play the trailer" aria-label="Play the trailer for ${escapeHTML(m.title)}"
               onclick="event.stopPropagation();playMovieTrailer(${m.tmdb})"><span>▶</span></button>
