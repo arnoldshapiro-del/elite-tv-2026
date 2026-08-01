@@ -41,3 +41,10 @@
   for = "/manifest.json"
   [headers.values]
     Cache-Control = "public, max-age=3600"
+
+# The service worker must never be served stale, or a cached copy keeps controlling
+# the app long after a new one has shipped.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

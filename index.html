@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Elite TV 2026">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="description" content="60 elite 2026 series on Hulu, Prime Video, Apple TV and Netflix, plus what's playing and opening at AMC West Chester 18 — real posters, one-click official trailers, verified Rotten Tomatoes and IMDb scores, watchlist, ratings and stats.">
+<meta name="description" content="60 elite 2026 series on Hulu, Prime Video, Apple TV and Netflix, plus what's playing at cinemas near you anywhere in the US — real posters, one-click official trailers, verified Rotten Tomatoes and IMDb scores, episode tracking, watchlist and stats.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
@@ -922,6 +922,36 @@ footer {
   .movie-body { padding: 9px 10px 11px; gap: 7px; }
 }
 
+/* ---------- Narrator (read-aloud bar, bottom-right — reads the whole page) ---------- */
+.narrator{position:fixed;right:14px;bottom:14px;z-index:80;max-width:min(540px,calc(100vw - 28px))}
+.nar-read-btn{min-height:32px;background:var(--accent);color:#fff;border:1px solid var(--accent);border-radius:9px;font-family:inherit;font-weight:700;font-size:.74rem;letter-spacing:.2px;padding:7px 12px;box-shadow:0 4px 16px rgba(0,0,0,.45);cursor:pointer}
+.nar-read-btn:hover{background:#a78bfa;border-color:#a78bfa}
+.nar-controls{background:var(--surface);border:1px solid var(--accent);border-radius:11px;box-shadow:0 8px 28px rgba(0,0,0,.55);padding:8px 9px}
+.nar-status{display:flex;align-items:center;gap:7px;font-weight:700;font-size:.7rem;color:var(--accent);margin-bottom:6px}
+.nar-anim{display:inline-flex;align-items:flex-end;gap:2px;height:12px}
+.nar-anim i{width:2.5px;height:4px;background:var(--accent);border-radius:2px}
+.narrator.playing:not(.paused) .nar-anim i{animation:narbar .8s ease-in-out infinite alternate}
+.nar-anim i:nth-child(2){animation-delay:.15s}.nar-anim i:nth-child(3){animation-delay:.3s}.nar-anim i:nth-child(4){animation-delay:.45s}
+@keyframes narbar{from{height:3px}to{height:12px}}
+.nar-btn-row{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.nar-btn{min-height:26px;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:7px;font-family:inherit;font-weight:600;font-size:.68rem;padding:4px 7px;cursor:pointer;white-space:nowrap}
+.nar-btn:hover{border-color:var(--accent)}
+.nar-primary{background:var(--accent);color:#fff;border-color:var(--accent);min-width:70px;font-weight:800}
+.nar-primary:hover{background:#a78bfa}
+.nar-stop{background:rgba(239,68,68,.12);color:var(--danger);border-color:rgba(239,68,68,.5);min-width:58px;font-weight:700}
+.nar-seek{color:var(--accent);border-color:var(--accent-glow)}
+.nar-opts{display:flex;flex-wrap:wrap;gap:6px 13px;margin-top:7px;align-items:center}
+.nar-opt{display:flex;align-items:center;gap:5px;font-weight:600;font-size:.66rem;color:var(--muted)}
+.nar-opt input[type=range]{width:84px;height:14px;accent-color:var(--accent)}
+.nar-opt select{min-height:24px;padding:3px 5px;border:1px solid var(--border);border-radius:6px;font-size:.66rem;background:var(--surface2);color:var(--text);font-family:inherit;max-width:140px}
+#nar-rate-label{color:var(--accent);font-variant-numeric:tabular-nums}
+@media (max-width:640px){
+  .narrator{left:10px;right:10px;bottom:10px;max-width:none}
+  .nar-read-btn{width:100%}
+  .nar-btn-row{justify-content:center}
+}
+@media print{ .narrator{display:none!important} }
+
 </style>
 </head>
 <body>
@@ -943,6 +973,7 @@ footer {
     </div>
     <div class="nav-actions">
       <button class="icon-btn" id="themeBtn" title="Toggle theme">◐</button>
+      <button class="icon-btn" id="installBtn" title="Install this app" style="display:none">📲</button>
       <button class="icon-btn" id="exportBtn" title="Back up everything (ratings, watchlist, episode progress)">⤓</button>
       <button class="icon-btn" id="importBtn" title="Restore from a backup file">⤒</button>
       <input type="file" id="importFile" accept="application/json,.json" style="display:none">
@@ -1224,7 +1255,7 @@ footer {
 </section>
 
 <footer>
-  Created July 2026 · Revised July 31, 2026 · IMDb scores via OMDb · Posters, seasons, episode &amp; film data from TMDB · Rotten Tomatoes audience and critic scores read from Rotten Tomatoes, matched by Wikidata id — shown only where verified, never estimated · Showtimes live at AMC West Chester 18 · Everything you tick stays in your browser — use ⤓ to back it up · Press / to search · Esc to close
+  Created July 2026 · Revised August 1, 2026 · IMDb scores read from IMDb's own ratings feed · Posters, seasons, episode &amp; film data from TMDB · Rotten Tomatoes audience and critic scores read from Rotten Tomatoes, matched by Wikidata id — shown only where verified, never estimated · Showtimes live from your chosen cinema — every US chain · Everything you tick stays in your browser — use ⤓ to back it up · Press / to search · Esc to close
 </footer>
 </div>
 <div class="modal-overlay" id="modal"></div>
@@ -1842,16 +1873,6 @@ async function runFind(sinceArg, srcBtn, windowLabel){
     }
     const data = await res.json();
 
-    if (data.code === 'MISSING_KEYS'){
-      findMsg('<strong>One setup step left — the search keys aren\'t installed yet.</strong>' +
-        '<ol>' +
-        '<li>Get a free key at <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">themoviedb.org</a> (this is what finds the shows and posters).</li>' +
-        '<li>Get a free key at <a href="https://www.omdbapi.com/apikey.aspx" target="_blank" rel="noopener">omdbapi.com</a> (this is what supplies the real IMDb ratings).</li>' +
-        '<li>In your hosting dashboard, open this project → Settings → Environment Variables.</li>' +
-        '<li>Add <code>TMDB_API_KEY</code> and <code>OMDB_API_KEY</code>, then redeploy.</li>' +
-        '</ol>Missing right now: <code>' + (data.missing||[]).join('</code>, <code>') + '</code>', 'warn');
-      return;
-    }
     if (!data.ok){
       findMsg('<strong>The search couldn\'t finish.</strong><br>' +
         (data.message || 'Unknown error') + '<br>Nothing was added or changed.', 'err');
@@ -3410,6 +3431,74 @@ document.addEventListener('keydown',e=>{
 })();
 
 render();
+
+/* ---------- Install this app (PWA) ----------
+   Chrome and Edge offer the install themselves, but only through a menu most people
+   never open. The browser tells us when the app qualifies; we hold that moment and put
+   a visible 📲 button in the nav instead. Once it is installed — or if the app is
+   already running in its own window — the button never shows again. */
+(function initInstall(){
+  const btn = document.getElementById('installBtn');
+  if (!btn) return;
+  let deferredPrompt = null;
+
+  const alreadyInstalled = () => {
+    try { return window.matchMedia('(display-mode: standalone)').matches; }
+    catch (e) { return false; }
+  };
+  if (alreadyInstalled() || window.navigator.standalone) return;
+
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();            // stop the browser's own mini-bar
+    deferredPrompt = e;
+    btn.style.display = 'flex';
+  });
+
+  btn.onclick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const choice = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    if (choice && choice.outcome === 'accepted') btn.style.display = 'none';
+  };
+
+  window.addEventListener('appinstalled', () => {
+    deferredPrompt = null;
+    btn.style.display = 'none';
+  });
+})();
+
+/* ---------- Service worker ----------
+   Makes the app open with no signal after the first visit. Skipped on file:// — a
+   service worker needs a real http(s) origin. /api/ is never cached; see sw.js. */
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
 </script>
+
+<!-- Read-aloud bar. Click anywhere on the page and it starts reading from that spot. -->
+<div id="narrator" class="narrator" hidden>
+  <button id="nar-read" class="nar-read-btn" type="button" title="Or just click anywhere on the page — it starts reading from that spot. Click somewhere else to jump there.">🔊 Read this page to me</button>
+  <div id="nar-controls" class="nar-controls" hidden>
+    <div class="nar-status"><span class="nar-anim" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span id="nar-status-label">Reading…</span></div>
+    <div class="nar-btn-row">
+      <button class="nar-btn nar-seek" data-seek="-60" type="button" aria-label="Back one minute">⏪&nbsp;1m</button>
+      <button class="nar-btn nar-seek" data-seek="-30" type="button" aria-label="Back 30 seconds">⏪&nbsp;30s</button>
+      <button class="nar-btn nar-seek" data-seek="-15" type="button" aria-label="Back 15 seconds">⏪&nbsp;15s</button>
+      <button id="nar-pause" class="nar-btn nar-primary" type="button">⏸ Pause</button>
+      <button id="nar-stop" class="nar-btn nar-stop" type="button">⏹ Stop</button>
+      <button class="nar-btn nar-seek" data-seek="15" type="button" aria-label="Forward 15 seconds">15s&nbsp;⏩</button>
+      <button class="nar-btn nar-seek" data-seek="30" type="button" aria-label="Forward 30 seconds">30s&nbsp;⏩</button>
+      <button class="nar-btn nar-seek" data-seek="60" type="button" aria-label="Forward one minute">1m&nbsp;⏩</button>
+    </div>
+    <div class="nar-opts">
+      <label class="nar-opt">Speed <input id="nar-rate" type="range" min="0.6" max="1.4" step="0.05" value="0.95"><span id="nar-rate-label">0.95×</span></label>
+      <label class="nar-opt">Voice <select id="nar-voice"></select></label>
+    </div>
+  </div>
+</div>
+<script src="/narrator.js" defer></script>
 </body>
 </html>
