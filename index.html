@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Elite TV 2026">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="description" content="60 elite 2026 series on Hulu, Prime Video, Apple TV and Netflix — real posters, one-click official trailers, watchlist, ratings and stats.">
+<meta name="description" content="60 elite 2026 series on Hulu, Prime Video, Apple TV and Netflix, plus what's playing and opening at AMC West Chester 18 — real posters, one-click official trailers, verified Rotten Tomatoes and IMDb scores, watchlist, ratings and stats.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
@@ -739,6 +739,132 @@ footer {
   .list-view .card-header { height: 150px; }
 }
 
+/* ---- Movies -------------------------------------------------------------
+   Film cards are poster-forward rather than landscape-header like the TV
+   cards: a movie poster IS the artwork, and standing them up in 2:3 makes the
+   section read as a cinema lobby instead of a second copy of the TV grid. */
+.movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 22px; }
+.movie-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; display: flex; flex-direction: column; cursor: pointer;
+  transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+  animation: fadeUp 0.4s ease both; position: relative;
+}
+.movie-card:hover {
+  transform: translateY(-6px); box-shadow: 0 18px 52px var(--accent-glow);
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+}
+.movie-poster {
+  position: relative; width: 100%; aspect-ratio: 2 / 3; overflow: hidden;
+  background: linear-gradient(135deg, #1a1a2e, #2d0d3a);
+}
+.movie-poster img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.movie-poster::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top, rgba(7,7,12,0.92) 0%, rgba(7,7,12,0.15) 42%, transparent 62%);
+}
+.movie-poster-fallback {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-size: 3.4rem; font-weight: 700; color: rgba(255,255,255,0.22);
+}
+.movie-play {
+  position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.2s; border: none; background: rgba(7,7,12,0.42); cursor: pointer;
+}
+.movie-card:hover .movie-play { opacity: 1; }
+.movie-play span {
+  width: 62px; height: 62px; border-radius: 50%; background: var(--accent); color: #fff;
+  display: flex; align-items: center; justify-content: center; font-size: 24px; padding-left: 4px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+}
+.movie-play:focus-visible { opacity: 1; outline: 2px solid var(--accent); outline-offset: -4px; }
+.movie-cert {
+  position: absolute; top: 10px; left: 10px; z-index: 2; font-size: 10px; font-weight: 700;
+  padding: 3px 7px; border-radius: 5px; background: rgba(0,0,0,0.62); color: #fff;
+  border: 1px solid rgba(255,255,255,0.28); backdrop-filter: blur(4px);
+}
+.movie-when {
+  position: absolute; top: 10px; right: 10px; z-index: 2; font-size: 10px; font-weight: 800;
+  letter-spacing: 0.04em; padding: 4px 8px; border-radius: 6px;
+  background: var(--accent); color: #fff; backdrop-filter: blur(4px);
+}
+.movie-when.soon { background: var(--warning); color: #1a1200; }
+.movie-when.today { background: var(--success); color: #04240f; }
+.movie-poster-title {
+  position: absolute; left: 12px; right: 12px; bottom: 10px; z-index: 2;
+}
+.movie-poster-title h3 {
+  font-size: 1.02rem; font-weight: 700; line-height: 1.25; color: #fff;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.75);
+}
+.movie-poster-title .sub { font-size: 11px; color: rgba(255,255,255,0.75); margin-top: 2px; }
+.movie-body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 9px; flex: 1; }
+.movie-scores { display: flex; gap: 6px; flex-wrap: wrap; }
+.mscore {
+  display: flex; align-items: center; gap: 5px; background: var(--surface2);
+  border-radius: 8px; padding: 4px 8px; font-size: 12px; font-weight: 700; line-height: 1;
+}
+.mscore .ic { font-size: 13px; filter: saturate(1.2); }
+.mscore .lab { color: var(--muted); font-weight: 500; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.04em; }
+.mscore.aud .val { color: var(--rt); }
+.mscore.crit .val { color: var(--rt); }
+.mscore.imdb .val { color: var(--gold); }
+.mscore.meta .val { color: var(--prime); }
+.mscore.na .val { color: var(--muted); }
+.mscore.certified { border: 1px solid rgba(250,50,10,0.45); }
+.movie-plot {
+  font-size: 12.5px; color: var(--muted); line-height: 1.5; flex: 1;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.movie-foot {
+  display: flex; justify-content: space-between; align-items: center; gap: 8px;
+  padding-top: 8px; border-top: 1px solid var(--border); margin-top: auto;
+  font-size: 11px; color: var(--muted);
+}
+.movie-want {
+  border: 1px solid var(--border); background: var(--surface2); color: var(--muted);
+  border-radius: 8px; padding: 5px 10px; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.15s;
+}
+.movie-want:hover { border-color: var(--warning); color: var(--warning); }
+.movie-want.on { background: var(--warning); border-color: var(--warning); color: #1a1200; }
+
+/* theatre banner */
+.theatre-bar {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  background: linear-gradient(120deg, color-mix(in srgb, var(--accent) 16%, var(--surface)), var(--surface));
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 14px 18px; margin-bottom: 18px;
+}
+.theatre-bar .marquee { font-size: 26px; line-height: 1; }
+.theatre-bar .who { flex: 1; min-width: 220px; }
+.theatre-bar .who strong { font-size: 15px; display: block; }
+.theatre-bar .who span { font-size: 12px; color: var(--muted); }
+.tix-btn {
+  background: var(--accent); border: 1px solid var(--accent); color: #fff;
+  border-radius: 10px; padding: 9px 15px; font-size: 12.5px; font-weight: 700;
+  cursor: pointer; text-decoration: none; white-space: nowrap; display: inline-block;
+}
+.tix-btn:hover { filter: brightness(1.12); }
+.tix-btn.ghost { background: var(--surface2); color: var(--text); border-color: var(--border); }
+
+/* modal extras for films */
+.modal-backdrop-art { position: absolute; inset: 0; overflow: hidden; }
+.modal-backdrop-art img { width: 100%; height: 100%; object-fit: cover; opacity: 0.55; }
+.cast-line { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.cast-chip {
+  font-size: 11px; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 4px 10px; color: var(--text);
+}
+.cast-chip em { color: var(--muted); font-style: normal; }
+.src-note { font-size: 11px; color: var(--muted); line-height: 1.6; margin-top: 10px; }
+.src-note a { color: var(--accent); }
+@media (max-width: 640px) {
+  .movie-grid { grid-template-columns: repeat(auto-fill, minmax(min(160px, 100%), 1fr)); gap: 12px; }
+  .movie-poster-title h3 { font-size: 0.85rem; }
+  .movie-plot { display: none; }
+  .movie-body { padding: 9px 10px 11px; gap: 7px; }
+}
+
 </style>
 </head>
 <body>
@@ -751,6 +877,7 @@ footer {
       <button class="nav-tab" data-section="upnext">Up Next</button>
       <button class="nav-tab" data-section="foryou">For You</button>
       <button class="nav-tab" data-section="finds">New Finds</button>
+      <button class="nav-tab" data-section="movies">🍿 Movies</button>
       <button class="nav-tab" data-section="watchlist">My List</button>
       <button class="nav-tab" data-section="stats">Stats</button>
       <button class="nav-tab" data-section="calendar">Calendar</button>
@@ -878,26 +1005,77 @@ footer {
 <section class="section" id="finds">
   <div class="hero" style="padding-bottom:16px">
     <h1>New Finds</h1>
-    <p>Search Hulu, Prime Video, Apple TV & Netflix for series and new seasons that appeared since a date you pick — added alongside your 60, never replacing them</p>
+    <p>Pick a stretch of time — the past week, month, 3 months, 6 months or year — and it searches Hulu, Prime Video, Apple TV and Netflix for new series and new seasons released in it. Everything found is held to the same IMDb 7.5 bar and joins your list, never replacing it.</p>
   </div>
   <div class="controls">
-    <div class="controls-row">
-      <button class="btn" id="findSinceLastBtn" style="background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700">🔍 What's new since last time</button>
-      <span style="font-size:12px;color:var(--muted)" id="lastSearchLabel"></span>
+    <div class="controls-row" style="gap:10px">
+      <label style="font-size:13px;font-weight:700" for="findWindow">Released in the past</label>
+      <select id="findWindow" style="font-weight:700">
+        <option value="7">Week</option>
+        <option value="30" selected>Month</option>
+        <option value="90">3 Months</option>
+        <option value="180">6 Months</option>
+        <option value="365">Year</option>
+      </select>
+      <button class="btn" id="findWindowBtn" style="background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700">🔍 Find these shows</button>
       <div class="stat-pills">
         <span class="stat-pill"><strong id="findCount">0</strong> found</span>
         <span class="stat-pill">Bar: IMDb ≥ 7.5</span>
       </div>
     </div>
     <div class="controls-row" style="gap:8px">
-      <label style="font-size:12px;color:var(--muted)" for="findSince">Or search from a specific date</label>
+      <button class="btn" id="findSinceLastBtn">↻ Only what's new since last time</button>
+      <span style="font-size:12px;color:var(--muted)" id="lastSearchLabel"></span>
+      <label style="font-size:12px;color:var(--muted);margin-left:8px" for="findSince">Or from an exact date</label>
       <input type="date" id="findSince" style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:8px 11px;color:var(--text);font-size:13px;outline:none">
-      <button class="btn" id="findBtn">Search from this date</button>
+      <button class="btn" id="findBtn">Search</button>
       <button class="ep-mini" id="resetSearchBtn" title="Forget the last-search date and start fresh">Reset</button>
     </div>
     <div class="controls-row" id="findStatus" style="display:none"></div>
   </div>
   <div class="grid" id="findGrid"></div>
+</section>
+
+<section class="section" id="movies">
+  <div class="hero" style="padding-bottom:16px">
+    <h1>At the Movies</h1>
+    <p>What's on the big screen right now — and what lands in the next three weeks — held to the same bar as the TV list, with real Rotten Tomatoes and IMDb user scores</p>
+  </div>
+  <div class="theatre-bar">
+    <div class="marquee">🎬</div>
+    <div class="who">
+      <strong id="theatreName">AMC West Chester 18</strong>
+      <span id="theatreAddr">9415 Civic Center Blvd., West Chester, OH 45069</span>
+    </div>
+    <a class="tix-btn" id="amcLink" href="https://www.amctheatres.com/movie-theatres/cincinnati/amc-west-chester-18" target="_blank" rel="noopener">Showtimes &amp; tickets at AMC ↗</a>
+    <a class="tix-btn ghost" id="fandangoLink" href="https://www.fandango.com/amc-west-chester-18-AAWWU/theater-page" target="_blank" rel="noopener">Fandango ↗</a>
+  </div>
+  <div class="controls">
+    <div class="controls-row">
+      <div class="btn-group" id="movieMode">
+        <button class="btn active" data-mmode="now">🎟️ Playing Now</button>
+        <button class="btn" data-mmode="soon">📅 Coming in 3 Weeks</button>
+      </div>
+      <button class="btn" id="movieRefresh" style="background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700">🔍 Search for today's movies</button>
+      <div class="stat-pills">
+        <span class="stat-pill"><strong id="movieCount">0</strong> films</span>
+        <span class="stat-pill" id="movieFresh">not searched yet</span>
+      </div>
+    </div>
+    <div class="controls-row" id="movieBarRow" style="gap:8px">
+      <label style="font-size:12px;color:var(--muted)" for="movieBar">Quality bar</label>
+      <select id="movieBar">
+        <option value="7.5|75" selected>Elite — IMDb ≥ 7.5 or RT audience ≥ 75%</option>
+        <option value="7|70">Great — IMDb ≥ 7.0 or RT audience ≥ 70%</option>
+        <option value="6|60">Good — IMDb ≥ 6.0 or RT audience ≥ 60%</option>
+        <option value="0|0">Show everything playing</option>
+      </select>
+      <span style="font-size:11.5px;color:var(--muted)">Same height as the TV list. Films just released often have one score before the other, so either one clearing the bar counts.</span>
+    </div>
+    <div class="controls-row" id="movieStatus" style="display:none"></div>
+  </div>
+  <div class="movie-grid" id="movieGrid"></div>
+  <div class="src-note" id="movieSrcNote"></div>
 </section>
 
 <section class="section" id="watchlist">
@@ -968,7 +1146,7 @@ footer {
 </section>
 
 <footer>
-  Created July 2026 · Revised July 29, 2026 · IMDb scores via OMDb · Posters, seasons &amp; episode data from TMDB · Rotten Tomatoes shown only where a verified score exists · Everything you tick stays in your browser — use ⤓ to back it up · Press / to search · Esc to close
+  Created July 2026 · Revised July 31, 2026 · IMDb scores via OMDb · Posters, seasons, episode &amp; film data from TMDB · Rotten Tomatoes audience and critic scores read from Rotten Tomatoes, matched by Wikidata id — shown only where verified, never estimated · Showtimes live at AMC West Chester 18 · Everything you tick stays in your browser — use ⤓ to back it up · Press / to search · Esc to close
 </footer>
 </div>
 <div class="modal-overlay" id="modal"></div>
@@ -1305,8 +1483,13 @@ function findsAsShows(){
     genre: f.genre || 'Drama',
     year: (f.firstAir || '').slice(0,4) || '2026',
     type: f.type === 'new' ? 'new' : 'season',
-    rt: (typeof f.rt === 'number') ? f.rt : null,   // null -> shown as "—", never invented
+    // Real RT audience score where the lookup landed; null -> "—", never invented
+    rt: (typeof f.rt === 'number') ? f.rt : null,
+    rtCritics: (typeof f.rtCritics === 'number') ? f.rtCritics : null,
+    rtCertified: !!f.rtCertified,
+    rtUrl: f.rtUrl || null,
     imdb: (typeof f.imdb === 'number') ? f.imdb : null,
+    imdbId: f.imdbId || null,
     ratingSource: f.ratingSource || null,
     seasons: f.season > 1 ? 'Season ' + f.season : '1 season',
     eps: f.epCount || (f.episodes ? f.episodes.length : null),
@@ -1340,6 +1523,7 @@ document.querySelectorAll('.nav-tab').forEach(tab=>{
     if(tab.dataset.section==='upnext')renderUpNext();
     if(tab.dataset.section==='foryou')renderForYou();
     if(tab.dataset.section==='finds')renderFinds();
+    if(tab.dataset.section==='movies')renderMovies();
     if(tab.dataset.section==='watchlist')renderWatchlist();
     if(tab.dataset.section==='stats')renderStats();
     if(tab.dataset.section==='calendar')renderCalendar();
@@ -1413,8 +1597,10 @@ function cardHTML(s,i){
     <div class="card-body">
       <div class="scores">
         ${typeof s.rt==='number'
-          ?`<div class="score rt"><span class="label">RT</span><span class="value">${s.rt}%</span></div>`
-          :`<div class="score rt na" title="Rotten Tomatoes has no public API — not available for newly found shows"><span class="label">RT</span><span class="value">—</span></div>`}
+          ?`<div class="score rt" title="Rotten Tomatoes audience score${s.rtCritics!=null?' · critics '+s.rtCritics+'%':''}"><span class="label">RT</span><span class="value">${s.rt}%</span></div>`
+          :`<div class="score rt na" title="No verified Rotten Tomatoes audience score for this one — never guessed"><span class="label">RT</span><span class="value">—</span></div>`}
+        ${typeof s.rtCritics==='number'
+          ?`<div class="score rt" title="Rotten Tomatoes Tomatometer — critics${s.rtCertified?' · Certified Fresh':''}"><span class="label">🍅</span><span class="value">${s.rtCritics}%</span></div>`:''}
         ${typeof s.imdb==="number"
           ?`<div class="score imdb"><span class="label">${s.ratingSource==="TMDB"?"TMDB":"IMDb"}</span><span class="value">${s.imdb}</span></div>`
           :`<div class="score imdb na" title="No IMDb rating yet — too new to have accumulated votes"><span class="label">IMDb</span><span class="value">—</span></div>`}
@@ -1520,9 +1706,22 @@ function runFindSinceLast(){
   runFind(since);
 }
 
-async function runFind(sinceArg){
-  const btn = document.getElementById('findBtn');
-  const btn2 = document.getElementById('findSinceLastBtn');
+/* The time-window dropdown: "released in the past week / month / 3 months /
+   6 months / year". It is just a friendlier way to pick the same since-date the
+   search has always taken, so one code path serves all of it. */
+const FIND_WINDOW_LABEL = { 7:'week', 30:'month', 90:'3 months', 180:'6 months', 365:'year' };
+function runFindWindow(){
+  const sel = document.getElementById('findWindow');
+  const days = Number(sel.value) || 30;
+  const since = ymdLocal(new Date(Date.now() - days*86400000));
+  document.getElementById('findSince').value = since;
+  runFind(since, document.getElementById('findWindowBtn'), FIND_WINDOW_LABEL[days] || (days + ' days'));
+}
+
+async function runFind(sinceArg, srcBtn, windowLabel){
+  const btn = srcBtn || document.getElementById('findBtn');
+  const others = ['findBtn','findSinceLastBtn','findWindowBtn']
+    .map(id => document.getElementById(id)).filter(b => b && b !== btn);
   const since = sinceArg || document.getElementById('findSince').value;
   if (!since){ findMsg('Pick a date first — it searches for anything new since then.', 'warn'); return; }
 
@@ -1540,14 +1739,19 @@ async function runFind(sinceArg){
   const titles = SHOWS.map(s => s.title).join('|');
 
   btn.disabled = true;
-  if (btn2) btn2.disabled = true;
+  others.forEach(b => { b.disabled = true; });
   const label = btn.textContent;
   btn.innerHTML = '<span class="spin">◠</span> Searching…';
-  findMsg('Checking Hulu, Prime Video, Apple TV and Netflix for anything new since ' +
-          since + ', then looking up real IMDb ratings. This takes a few seconds.');
+  findMsg('Checking Hulu, Prime Video, Apple TV and Netflix for series and new seasons released ' +
+          (windowLabel ? 'in the past ' + windowLabel : 'since ' + fmtDate(since)) +
+          ', then looking up real IMDb ratings. A wider window takes longer — up to about a minute for a full year.');
 
   try {
+    // today is sent as the BROWSER's local date. The function runs in UTC, so
+    // after 8pm Eastern it would otherwise think tomorrow had already started
+    // and accept episodes that have not aired here yet.
     const url = '/api/discover?since=' + encodeURIComponent(since) +
+                '&today=' + encodeURIComponent(ymdLocal(new Date())) +
                 '&known=' + encodeURIComponent(known) +
                 '&titles=' + encodeURIComponent(titles);
     const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
@@ -1595,11 +1799,18 @@ async function runFind(sinceArg){
     bits.push('<strong>' + (added
       ? `Added ${added} new ${added===1?'show':'shows'}.`
       : 'Nothing new has come out since then.') + '</strong>');
-    bits.push(`Searched ${fmtDate(since)} → ${fmtDate(state.lastSearch)} across Hulu, Prime Video, Apple TV and Netflix; ` +
+    bits.push(`Searched ${fmtDate(since)} → ${fmtDate(state.lastSearch)}` +
+              (data.windowDays ? ` (${data.windowDays} days)` : '') +
+              ` across Hulu, Prime Video, Apple TV and Netflix; ` +
               `checked ${data.scanned||0} candidates and kept only shows whose episodes had actually aired in that window.`);
     if (data.found > added) bits.push(`${data.found - added} were already on your list.`);
     if (data.truncated) bits.push('<span style="color:var(--muted)">More matched than fit in one run — press again to keep going.</span>');
-    if (data.ratingSource) bits.push(`<span style="color:var(--muted)">Ratings shown: ${escapeHTML(data.ratingSource)}. Rotten Tomatoes has no public feed, so RT stays a dash.</span>`);
+    if (data.ratingSource) {
+      const withRT = (data.shows || []).filter(s => typeof s.rt === 'number').length;
+      bits.push(`<span style="color:var(--muted)">Ratings shown: ${escapeHTML(data.ratingSource)}. ` +
+        (withRT ? `Real Rotten Tomatoes scores found for ${withRT} of them` : 'No Rotten Tomatoes score could be verified for these') +
+        ` — anything unverified stays a dash.</span>`);
+    }
     if ((data.notes||[]).length) bits.push('<span style="color:var(--warning)">' + data.notes.map(escapeHTML).join(' ') + '</span>');
     if ((data.upstreamErrors||[]).length) {
       bits.push('<span style="color:var(--muted)">Quiet from: ' +
@@ -1614,8 +1825,323 @@ async function runFind(sinceArg){
   } finally {
     btn.disabled = false;
     btn.textContent = label;
-    if (btn2) btn2.disabled = false;
+    others.forEach(b => { b.disabled = false; });
     updateLastSearchLabel();
+  }
+}
+
+/* ===========================================================================
+   MOVIES — "Playing Now" at AMC West Chester 18, and "Coming in 3 Weeks"
+
+   Same shape as New Finds: the browser holds no API key, it calls this app's
+   own /api/movies endpoint and the host does the work.
+
+   WHAT THE NUMBERS ARE. RT audience is the Popcornmeter (real viewers), RT
+   critics is the Tomatometer, IMDb is the real IMDb user rating. Every one is a
+   published score read from its own source. Anything that could not be verified
+   shows as "—". Nothing here is estimated, and nothing is carried over from the
+   TV side's scores.
+
+   ABOUT SHOWTIMES. AMC's site, Fandango's showtimes feed and every other free
+   source refuse server-side reads, so this app does not print showtimes it
+   cannot stand behind. The list is US wide releases currently in theatres —
+   what an 18-screen AMC runs — and every card links straight to AMC West
+   Chester 18's own page, where the times are always right.
+=========================================================================== */
+if (!state.movies) state.movies = {};        // { now: {...}, soon: {...} } cached payloads
+if (!state.movieWant) state.movieWant = {};  // { tmdbId: true } — films he wants to see
+let movieMode = 'now';
+
+function movieMsg(html, kind){
+  const row = document.getElementById('movieStatus');
+  if (!html){ row.style.display = 'none'; row.innerHTML = ''; return; }
+  row.style.display = 'flex';
+  row.innerHTML = '<div class="find-msg ' + (kind || '') + '">' + html + '</div>';
+}
+
+function movieBarValues(){
+  const v = (document.getElementById('movieBar').value || '7.5|75').split('|');
+  return { imdb: Number(v[0]) || 0, rt: Number(v[1]) || 0 };
+}
+
+// Days until a release, in the viewer's own timezone.
+function daysUntil(iso){
+  if (!iso) return null;
+  const t = new Date(); t.setHours(12,0,0,0);
+  return Math.round((new Date(iso + 'T12:00:00') - t) / 86400000);
+}
+
+function whenBadge(iso, mode){
+  const d = daysUntil(iso);
+  if (mode === 'now') return { cls: '', text: 'NOW PLAYING' };
+  if (d === null) return { cls: 'soon', text: 'COMING SOON' };
+  if (d <= 0) return { cls: 'today', text: 'OUT TODAY' };
+  if (d === 1) return { cls: 'today', text: 'TOMORROW' };
+  if (d <= 7) return { cls: 'today', text: 'IN ' + d + ' DAYS' };
+  return { cls: 'soon', text: 'IN ' + d + ' DAYS' };
+}
+
+function movieScoreChips(m){
+  const out = [];
+  out.push(typeof m.rtAudience === 'number'
+    ? `<div class="mscore aud" title="Rotten Tomatoes Popcornmeter — the real audience score${m.rtAudienceCount ? ', from ' + escapeHTML(String(m.rtAudienceCount)) : ''}"><span class="ic">🍿</span><span class="lab">Users</span><span class="val">${m.rtAudience}%</span></div>`
+    : `<div class="mscore aud na" title="No Rotten Tomatoes audience score published yet — never guessed"><span class="ic">🍿</span><span class="lab">Users</span><span class="val">—</span></div>`);
+  out.push(typeof m.rtCritics === 'number'
+    ? `<div class="mscore crit ${m.rtCertified ? 'certified' : ''}" title="Rotten Tomatoes Tomatometer — critics${m.rtCertified ? ' · Certified Fresh' : ''}"><span class="ic">🍅</span><span class="lab">Critics</span><span class="val">${m.rtCritics}%</span></div>`
+    : `<div class="mscore crit na" title="No Tomatometer score published yet"><span class="ic">🍅</span><span class="lab">Critics</span><span class="val">—</span></div>`);
+  out.push(typeof m.imdb === 'number'
+    ? `<div class="mscore imdb" title="Real IMDb user rating${m.imdbVotes ? ' from ' + m.imdbVotes.toLocaleString() + ' votes' : ''}"><span class="ic">★</span><span class="lab">IMDb</span><span class="val">${m.imdb}</span></div>`
+    : `<div class="mscore imdb na" title="No IMDb rating yet — too new to have accumulated votes"><span class="ic">★</span><span class="lab">IMDb</span><span class="val">—</span></div>`);
+  if (typeof m.metascore === 'number')
+    out.push(`<div class="mscore meta" title="Metacritic score"><span class="lab">Meta</span><span class="val">${m.metascore}</span></div>`);
+  return out.join('');
+}
+
+function movieCardHTML(m, i, mode){
+  const badge = whenBadge(m.release, mode);
+  const want = !!state.movieWant[m.tmdb];
+  const mins = m.runtime ? Math.floor(m.runtime/60) + 'h ' + (m.runtime%60) + 'm' : '';
+  return `<article class="movie-card" style="animation-delay:${i*0.03}s" onclick="openMovie(${m.tmdb})">
+    <div class="movie-poster">
+      ${m.poster
+        ? `<img src="${escapeHTML(m.poster)}" alt="Poster for ${escapeHTML(m.title)}" ${i<6?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" onerror="this.remove()">`
+        : `<div class="movie-poster-fallback">${escapeHTML(m.title.charAt(0))}</div>`}
+      <button class="movie-play" title="Play the trailer" aria-label="Play the trailer for ${escapeHTML(m.title)}"
+              onclick="event.stopPropagation();playMovieTrailer(${m.tmdb})"><span>▶</span></button>
+      ${m.cert ? `<span class="movie-cert">${escapeHTML(m.cert)}</span>` : ''}
+      <span class="movie-when ${badge.cls}">${badge.text}</span>
+      <div class="movie-poster-title">
+        <h3>${escapeHTML(m.title)}</h3>
+        <div class="sub">${escapeHTML(m.genre || '')}${mins ? ' · ' + mins : ''}</div>
+      </div>
+    </div>
+    <div class="movie-body">
+      <div class="movie-scores">${movieScoreChips(m)}</div>
+      <p class="movie-plot">${escapeHTML(m.overview || 'No description available yet.')}</p>
+      <div class="movie-foot">
+        <span>${m.release ? fmtDate(m.release) : 'date to be announced'}</span>
+        <button class="movie-want ${want ? 'on' : ''}" onclick="event.stopPropagation();toggleMovieWant(${m.tmdb})">${want ? '★ On my list' : '☆ Want to see'}</button>
+      </div>
+    </div>
+  </article>`;
+}
+
+function toggleMovieWant(tmdb){
+  if (state.movieWant[tmdb]) delete state.movieWant[tmdb];
+  else state.movieWant[tmdb] = true;
+  save(); renderMovies();
+  toast(state.movieWant[tmdb] ? 'Added to your movie list' : 'Removed from your movie list');
+}
+
+function findMovie(tmdb){
+  for (const k of ['now','soon']){
+    const p = state.movies[k];
+    if (p && p.movies){ const hit = p.movies.find(x => x.tmdb === Number(tmdb)); if (hit) return hit; }
+  }
+  return null;
+}
+
+function playMovieTrailer(tmdb){
+  const m = findMovie(tmdb);
+  if (!m) return;
+  // Same protocol-aware playback the TV side uses: a file:// page cannot host a
+  // YouTube iframe (Error 153), so it opens YouTube instead.
+  if (!m.trailer){
+    window.open('https://www.youtube.com/results?search_query=' +
+      encodeURIComponent(m.title + ' official trailer'), '_blank', 'noopener');
+    toast('Opening YouTube search for ' + m.title);
+    return;
+  }
+  if (location.protocol === 'file:'){
+    window.open('https://www.youtube.com/watch?v=' + encodeURIComponent(m.trailer) + '&autoplay=1', '_blank', 'noopener');
+    toast('Playing trailer on YouTube…');
+    return;
+  }
+  let player = document.getElementById('trailerPlayer');
+  if (!player){
+    player = document.createElement('div');
+    player.id = 'trailerPlayer';
+    player.className = 'trailer-player-overlay';
+    player.addEventListener('click', e => { if (e.target === player) closeTrailerPlayer(); });
+    document.body.appendChild(player);
+  }
+  const src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(m.trailer) +
+    '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+  player.innerHTML =
+    '<div class="trailer-player-box">' +
+      '<button class="trailer-player-close" onclick="closeTrailerPlayer()" aria-label="Close">×</button>' +
+      '<div class="trailer-player-title">' + escapeHTML(m.title) + ' — Official Trailer</div>' +
+      '<div class="trailer-iframe-wrap"><iframe src="' + src + '" title="' + escapeHTML(m.title) + ' trailer" ' +
+        'frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ' +
+        'referrerpolicy="strict-origin-when-cross-origin" allowfullscreen playsinline></iframe></div>' +
+    '</div>';
+  player.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function openMovie(tmdb){
+  const m = findMovie(tmdb);
+  if (!m) return;
+  const th = (state.movies[movieMode] && state.movies[movieMode].theatre) || MOVIE_THEATRE;
+  const want = !!state.movieWant[m.tmdb];
+  const mins = m.runtime ? Math.floor(m.runtime/60) + 'h ' + (m.runtime%60) + 'm' : '—';
+  const d = daysUntil(m.release);
+  const overlay = document.getElementById('modal');
+  overlay.classList.add('open');
+  overlay.dataset.showId = '';
+  overlay.innerHTML = `<div class="modal" style="--c1:#1a1a2e;--c2:#2d0d3a">
+    <div class="modal-header modal-poster">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      ${m.backdrop ? `<div class="modal-backdrop-art"><img src="${escapeHTML(m.backdrop)}" alt="" onerror="this.closest('.modal-backdrop-art').remove()"></div>` : ''}
+      <div style="position:relative;z-index:2;width:100%">
+        <div style="font-size:1.35rem;font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:3px" onclick="playMovieTrailer(${m.tmdb})" title="Play trailer">${escapeHTML(m.title)} ▶</div>
+        <div style="font-size:12px;opacity:0.9;margin-top:4px">${escapeHTML(m.genre || 'Film')}${m.cert ? ' · Rated ' + escapeHTML(m.cert) : ''} · ${mins}</div>
+        ${m.tagline ? `<div style="font-size:12px;opacity:0.75;margin-top:4px;font-style:italic">“${escapeHTML(m.tagline)}”</div>` : ''}
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-scores">${movieScoreChips(m)}</div>
+      <p class="modal-review">${escapeHTML(m.overview || 'No description available yet.')}</p>
+      <div class="modal-details">
+        <div><span>${movieMode === 'now' ? 'In theatres since' : 'Opens'}</span><span>${m.release ? fmtDate(m.release) : 'to be announced'}${d !== null && d > 0 ? ` · in ${d} day${d===1?'':'s'}` : ''}</span></div>
+        <div><span>Running time</span><span>${mins}</span></div>
+        <div><span>Rated</span><span>${escapeHTML(m.cert || '—')}</span></div>
+        ${m.director ? `<div><span>Director</span><span>${escapeHTML(m.director)}</span></div>` : ''}
+        ${m.boxOffice ? `<div><span>Box office</span><span>${escapeHTML(m.boxOffice)}</span></div>` : ''}
+        ${m.awards ? `<div><span>Awards</span><span>${escapeHTML(m.awards)}</span></div>` : ''}
+      </div>
+      ${(m.castRoles && m.castRoles.length) ? `<div style="font-size:13px;font-weight:600;margin:14px 0 2px">Cast</div>
+        <div class="cast-line">${m.castRoles.map(c => `<span class="cast-chip">${escapeHTML(c.name)}${c.role ? ' <em>as ' + escapeHTML(c.role) + '</em>' : ''}</span>`).join('')}</div>`
+        : (m.cast ? `<div style="font-size:13px;font-weight:600;margin:14px 0 2px">Cast</div><div class="cast-line">${m.cast.split(', ').map(n => `<span class="cast-chip">${escapeHTML(n)}</span>`).join('')}</div>` : '')}
+      <div class="modal-actions" style="margin:16px 0">
+        <button class="btn trailer-btn" onclick="playMovieTrailer(${m.tmdb})">▶ Play Trailer</button>
+        <button class="btn ${want ? 'active' : ''}" onclick="toggleMovieWant(${m.tmdb});openMovie(${m.tmdb})">${want ? '★ On my list' : '☆ Want to see'}</button>
+        <a class="btn" href="${escapeHTML(th.amc)}" target="_blank" rel="noopener">🎟️ Showtimes at ${escapeHTML(th.name)} ↗</a>
+        <a class="btn" href="${escapeHTML(th.fandango)}" target="_blank" rel="noopener">Fandango ↗</a>
+        ${m.rtUrl ? `<a class="btn" href="${escapeHTML(m.rtUrl)}" target="_blank" rel="noopener">🍅 Rotten Tomatoes ↗</a>` : ''}
+        ${m.imdbId ? `<a class="btn" href="https://www.imdb.com/title/${escapeHTML(m.imdbId)}/" target="_blank" rel="noopener">★ IMDb ↗</a>` : ''}
+      </div>
+      <div class="src-note">
+        Scores are read from their own sources at search time — Popcornmeter and Tomatometer from Rotten Tomatoes,
+        the IMDb rating from IMDb. A dash means that score has not been published yet; it is never estimated.
+        Showtimes live at ${escapeHTML(th.name)} — the buttons above open the real, current listings.
+      </div>
+    </div>
+  </div>`;
+}
+
+const MOVIE_THEATRE = {
+  name: 'AMC West Chester 18',
+  address: '9415 Civic Center Blvd., West Chester, OH 45069',
+  amc: 'https://www.amctheatres.com/movie-theatres/cincinnati/amc-west-chester-18',
+  fandango: 'https://www.fandango.com/amc-west-chester-18-AAWWU/theater-page',
+};
+
+function renderMovies(){
+  const grid = document.getElementById('movieGrid');
+  const payload = state.movies[movieMode];
+  const list = (payload && payload.movies) || [];
+  document.getElementById('movieCount').textContent = list.length;
+
+  const fresh = document.getElementById('movieFresh');
+  if (payload && payload.fetchedAt){
+    const t = new Date(payload.fetchedAt);
+    const sameDay = ymdLocal(t) === ymdLocal(new Date());
+    fresh.innerHTML = sameDay
+      ? `searched today at ${t.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})}`
+      : `<span style="color:var(--warning)">last searched ${fmtDate(ymdLocal(t))} — press search for today</span>`;
+  } else {
+    fresh.textContent = 'not searched yet';
+  }
+
+  document.getElementById('movieBarRow').style.display = movieMode === 'now' ? 'flex' : 'none';
+
+  const note = document.getElementById('movieSrcNote');
+  if (!list.length){
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+      <h3>${payload ? 'Nothing cleared the bar' : 'Press the search button'}</h3>
+      <p>${payload
+        ? 'Every film playing was checked against real scores and none reached this bar. Try loosening the quality bar above.'
+        : movieMode === 'now'
+          ? 'It looks up what is on at AMC West Chester 18 today, with real Rotten Tomatoes and IMDb user scores.'
+          : 'It looks up everything opening in the next three weeks, with posters, trailers and summaries.'}</p></div>`;
+    note.innerHTML = '';
+    return;
+  }
+  grid.innerHTML = list.map((m, i) => movieCardHTML(m, i, movieMode)).join('');
+  const th = payload.theatre || MOVIE_THEATRE;
+  note.innerHTML = movieMode === 'now'
+    ? `Showing US releases in theatres now that cleared the bar, checked ${payload.scanned || 0} films. ` +
+      `Showtimes are not printed here because no free feed publishes them — the buttons open ${escapeHTML(th.name)}'s own listings, which are always current. ` +
+      `Every 🍿 and 🍅 is a real Rotten Tomatoes score and every ★ a real IMDb rating; a dash means not yet published.`
+    : `Opening in the next ${payload.windowDays || 21} days. Films that are not out yet have no audience or critic score to show — those slots stay empty rather than being guessed. ` +
+      `Posters, summaries, cast and trailers are live now.`;
+}
+
+async function runMovieSearch(){
+  const btn = document.getElementById('movieRefresh');
+  if (location.protocol === 'file:'){
+    movieMsg('<strong>This button needs the live website.</strong><br>' +
+      'It calls a small server-side function so the API keys stay private, and a file opened ' +
+      'from your Desktop has no server behind it. Open the deployed site and press it there.', 'warn');
+    return;
+  }
+  const bar = movieBarValues();
+  btn.disabled = true;
+  const label = btn.textContent;
+  btn.innerHTML = '<span class="spin">◠</span> Searching…';
+  movieMsg(movieMode === 'now'
+    ? 'Checking what is in theatres today, then reading the real Rotten Tomatoes and IMDb scores for each one. Takes a few seconds.'
+    : 'Looking up everything opening in the next three weeks, with posters, summaries, cast and trailers.');
+
+  try {
+    const url = '/api/movies?mode=' + movieMode +
+      '&today=' + encodeURIComponent(ymdLocal(new Date())) +
+      '&days=21' +
+      (movieMode === 'now' ? '&minImdb=' + bar.imdb + '&minRt=' + bar.rt : '');
+    const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+    const ct = res.headers.get('content-type') || '';
+    if (!ct.includes('json')){
+      movieMsg('<strong>The movie service isn\'t running yet.</strong><br>' +
+        'The site answered with a page instead of data, which usually means the serverless ' +
+        'function hasn\'t been deployed. Redeploy the project and try again.', 'err');
+      return;
+    }
+    const data = await res.json();
+    if (!data.ok){
+      movieMsg('<strong>The search couldn\'t finish.</strong><br>' +
+        escapeHTML(data.message || 'Unknown error') + '<br>Nothing was changed.', 'err');
+      return;
+    }
+    data.fetchedAt = Date.now();
+    state.movies[movieMode] = data;
+    save();
+    renderMovies();
+
+    const bits = [];
+    bits.push('<strong>' + (data.found
+      ? `${data.found} film${data.found === 1 ? '' : 's'} ${movieMode === 'now' ? 'playing now' : 'opening in the next 3 weeks'}.`
+      : 'Nothing came back for that.') + '</strong>');
+    if (movieMode === 'now'){
+      bits.push(`Checked ${data.scanned || 0} films in theatres, kept the ones clearing ` +
+        `IMDb ${data.bar ? data.bar.imdb : bar.imdb} or RT audience ${data.bar ? data.bar.rtAudience : bar.rt}%.`);
+      if ((data.rejected || []).length)
+        bits.push(`<span style="color:var(--muted)">Left out: ` +
+          data.rejected.slice(0,4).map(r => escapeHTML(r.title)).join(', ') +
+          (data.rejected.length > 4 ? ` and ${data.rejected.length - 4} more` : '') + `.</span>`);
+    } else {
+      bits.push(`Checked ${data.scanned || 0} upcoming releases across the next ${data.windowDays || 21} days.`);
+    }
+    if (data.truncated) bits.push('<span style="color:var(--muted)">More matched than fit in one run.</span>');
+    if ((data.notes || []).length) bits.push('<span style="color:var(--warning)">' + data.notes.map(escapeHTML).join(' ') + '</span>');
+    movieMsg(bits.join('<br>'), data.found ? '' : 'warn');
+    if (data.found) toast(data.found + ' film' + (data.found === 1 ? '' : 's') + ' found');
+  } catch (e){
+    movieMsg('<strong>Couldn\'t reach the movie service.</strong><br>' +
+      escapeHTML(String(e && e.message || e)) + '<br>Nothing was changed.', 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = label;
   }
 }
 
@@ -2091,7 +2617,9 @@ function openModal(id){
       <div class="modal-scores">
         ${typeof s.rt==='number'
           ?`<div class="score rt"><span class="label">RT Audience</span><span class="value">${s.rt}%</span></div>`
-          :`<div class="score rt na" title="Rotten Tomatoes has no public API, so this isn't available for newly found shows"><span class="label">RT Audience</span><span class="value">—</span></div>`}
+          :`<div class="score rt na" title="No verified Rotten Tomatoes audience score for this one — never guessed"><span class="label">RT Audience</span><span class="value">—</span></div>`}
+        ${typeof s.rtCritics==='number'
+          ?`<div class="score rt" title="Tomatometer${s.rtCertified?' · Certified Fresh':''}"><span class="label">RT Critics</span><span class="value">${s.rtCritics}%</span></div>`:''}
         ${typeof s.imdb==="number"
           ?`<div class="score imdb"><span class="label">${s.ratingSource==="TMDB"?"TMDB":"IMDb"}</span><span class="value">${s.imdb}</span></div>`
           :`<div class="score imdb na" title="No IMDb rating yet — too new to have accumulated votes"><span class="label">IMDb</span><span class="value">—</span></div>`}
@@ -2119,6 +2647,8 @@ function openModal(id){
         <button class="btn ${st==='watching'?'active':''}" onclick="setStatus(${id},'watching');openModal(${id})">▶ Watching</button>
         <button class="btn ${st==='done'?'active':''}" onclick="setStatus(${id},'done');openModal(${id})">✓ Done</button>
         <button class="btn" onclick="saveNote(${id})">Save Note</button>
+        ${s.rtUrl?`<a class="btn" href="${escapeHTML(s.rtUrl)}" target="_blank" rel="noopener">🍅 Rotten Tomatoes ↗</a>`:''}
+        ${s.imdbId?`<a class="btn" href="https://www.imdb.com/title/${escapeHTML(s.imdbId)}/" target="_blank" rel="noopener">★ IMDb ↗</a>`:''}
       </div>
       ${watchSectionHTML(s)}
       ${listsSectionHTML(id)}
@@ -2330,9 +2860,11 @@ document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='
    read it straight back in. */
 document.getElementById('exportBtn').onclick=()=>{
   const data={
-    app:'elite-tv-2026', version:2, exported:new Date().toISOString(),
+    app:'elite-tv-2026', version:3, exported:new Date().toISOString(),
     ratings:state.ratings, status:state.status, notes:state.notes,
     watched:state.watched, finds:state.finds, theme:state.theme,
+    lists:state.lists, epRatings:state.epRatings, epNotes:state.epNotes,
+    movieWant:state.movieWant, lastSearch:state.lastSearch,
   };
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);
@@ -2360,7 +2892,13 @@ document.getElementById('importFile').onchange=(ev)=>{
     Object.assign(state.notes,d.notes||{});
     Object.assign(state.watched,d.watched||{});
     Object.assign(state.finds,d.finds||{});
+    Object.assign(state.lists,d.lists||{});
+    Object.assign(state.epRatings,d.epRatings||{});
+    Object.assign(state.epNotes,d.epNotes||{});
+    Object.assign(state.movieWant,d.movieWant||{});
+    if(d.lastSearch&&!state.lastSearch)state.lastSearch=d.lastSearch;
     if(d.theme==='light'||d.theme==='dark'){state.theme=d.theme;applyTheme();}
+    mergeFindEpisodes();
     save(); render(); renderUpNext();
     const after={r:Object.keys(state.ratings).length,s:Object.keys(state.status).length,
                  w:Object.keys(state.watched).length};
@@ -2411,9 +2949,34 @@ document.addEventListener('keydown',e=>{
   input.max = ymd(today);
   document.getElementById('findBtn').onclick = () => runFind();
   document.getElementById('findSinceLastBtn').onclick = runFindSinceLast;
+  document.getElementById('findWindowBtn').onclick = runFindWindow;
   document.getElementById('resetSearchBtn').onclick = resetSearchMemory;
   mergeFindEpisodes();      // discovered shows get episode tracking on load
   updateLastSearchLabel();
+})();
+
+/* Movies wiring. The two modes keep separate cached results, so flipping
+   between "Playing Now" and "Coming in 3 Weeks" is instant after each has been
+   searched once. */
+(function initMovies(){
+  document.querySelectorAll('#movieMode .btn').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll('#movieMode .btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      movieMode = btn.dataset.mmode;
+      const rb = document.getElementById('movieRefresh');
+      rb.textContent = movieMode === 'now'
+        ? "🔍 Search for today's movies"
+        : '🔍 Search the next 3 weeks';
+      movieMsg('');
+      renderMovies();
+    };
+  });
+  document.getElementById('movieRefresh').onclick = runMovieSearch;
+  document.getElementById('movieBar').onchange = () => {
+    // The bar is applied server-side, so changing it means asking again.
+    if (state.movies.now) movieMsg('Quality bar changed — press search to apply it.', 'warn');
+  };
 })();
 
 render();

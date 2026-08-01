@@ -6,11 +6,17 @@
   command = ""
   functions = "netlify/functions"
 
-# "Find New Shows" calls /api/discover on both hosts. Vercel routes that to
-# api/discover.js natively; Netlify needs this redirect to its own function.
+# The app calls /api/discover and /api/movies on both hosts. Vercel routes those
+# to api/*.js natively; Netlify needs these redirects to its own functions.
 [[redirects]]
   from = "/api/discover"
   to = "/.netlify/functions/discover"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/movies"
+  to = "/.netlify/functions/movies"
   status = 200
   force = true
 

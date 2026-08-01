@@ -3,6 +3,9 @@
   "functions": {
     "api/discover.js": {
       "maxDuration": 60
+    },
+    "api/movies.js": {
+      "maxDuration": 60
     }
   }
 }
