@@ -1,5 +1,61 @@
 # Session Notes — 2026 Elite TV — Ultimate Discovery
 
+## Session — 2026-08-01 (the movies section becomes national)
+
+Arnie: find where the person is, let them pick from the cinemas near them, keep
+the showtimes and the IMAX / Dolby / standard labelling — make it work for
+anybody in the United States.
+
+**I had to overturn my own conclusion from a few hours earlier.** The previous
+note says no free source publishes theatre-level showtimes to a server, and that
+is why there was a scheduled headless-browser scraper for one AMC. The claim was
+based on Fandango's API returning `403 Session expired or invalid token`. It
+does — to a bare fetch, and to a fetch with a real User-Agent. What it actually
+wants is a browser `Accept` header **and** a `Referer` pointing at the matching
+Fandango page. Send both and it hands over plain JSON for any ZIP or city in the
+country: every chain, with distance, coordinates, amenities, premium formats and
+each showing's own ticket link. Checked against West Chester, New York, Beverly
+Hills, Chicago, Austin and Anchorage.
+
+The lesson worth keeping: a 403 that says "session" is a headers problem until
+proven otherwise. I had read it as "needs a browser session" and built a browser
+around it, when two headers were the whole story.
+
+**So the scraper is retired** to `scripts/_retired/` (archived with a README and
+its final snapshot — not deleted), and showtimes are now live per request rather
+than a four-times-a-day snapshot of a single cinema.
+
+**What the Movies tab does now**
+- Works out where you are three ways: the host's IP headers on arrival with no
+  permission prompt, the browser's own geolocation behind a button, or a typed
+  ZIP or city. Whichever you use is remembered.
+- Lists every cinema near you with distance, chain and premium formats. Tap to
+  switch; the choice sticks between visits.
+- Puts that cinema's real showtimes on the film cards, format resolved from the
+  amenity list rather than Fandango's coarse header — IMAX, Dolby Cinema, RPX,
+  XD, ScreenX, 4DX, D-BOX, PLF, 3D, Standard.
+- Seven days to choose from, and it rolls to tomorrow on its own once fewer than
+  three films still have a screening left today.
+- Names the films on at that cinema that missed the quality bar, rather than
+  dropping them silently.
+
+**Two concurrency bugs, both only visible against the live site** (localhost has
+no IP-geolocation headers, so the automatic lookup fails fast and hides them):
+- The auto-rollover called `loadTheaters()`, whose queue wrapper waits on the
+  in-flight lookup — itself. It calls `loadTheatersInner()` now.
+- A slow automatic lookup could land after a typed ZIP and overwrite it, so you
+  ended up looking at the city the IP guessed. Every lookup takes a ticket now
+  and a stale reply drops its own result.
+
+**Verified live: 16 assertions, 16 passed.** 11 cinemas across 8 chains for
+45069, 12 for 10001, switching cinemas, switching cities, real ticket links,
+IMAX and Dolby Cinema labelled, no console errors.
+
+**Not done:** the "Coming in 3 Weeks" list is still national rather than
+per-cinema — cinemas do not publish schedules that far out, so there is nothing
+local to attach to it.
+
+
 ## Session — 2026-07-31 (movies, time-window search, real RT scores)
 
 Arnie asked for three things: a time-window search for newly released TV, a

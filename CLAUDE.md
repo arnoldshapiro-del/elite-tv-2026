@@ -2,7 +2,8 @@
 
 ## What This App Is
 A discovery + tracking app for 60 series across Hulu, Prime Video, Apple TV and
-Netflix, PLUS what is playing and opening at Arnie's cinema. Every series clears
+Netflix, PLUS what is playing at whichever cinema the person using it picks —
+anywhere in the United States, any chain. Every series clears
 IMDb 7.5 and has episodes that actually aired (or are dated) in 2026. Dark
 navy/violet design, light-mode toggle. Full episode-by-episode tracking, an Up
 Next queue, taste-based recommendations, cast browsing, a key-free live search
@@ -118,52 +119,57 @@ is required by `discover-core.js`. Failure is always non-fatal: no match → nul
   limited re-run do not appear), and non-US certificates (India's A/U/UA, the
   UK's 12A/15/18) are dropped — an 18-screen AMC in Ohio runs US releases.
 
-## SHOWTIMES — real times and formats, via a scheduled browser
-The app shows actual showtimes at AMC West Chester 18 with the format (IMAX at
-AMC, Dolby Cinema at AMC, RealD 3D, Digital, AMC Artisan Films, Thrills &
-Chills, subtitled screenings) and AMC's own "Almost Full"/"Sold Out" note. Each
-time links to that exact showing's ticket page.
+## SHOWTIMES + CINEMAS — anywhere in the United States
+The app finds the cinemas near whoever is using it, of EVERY chain, and shows
+each one's real schedule with the format (IMAX, Dolby Cinema, RPX, XD, ScreenX,
+4DX, D-BOX, PLF, 3D, Standard). Each time links to that showing's ticket page.
 
-**It cannot be a serverless fetch, and this was tested hard.** amctheatres.com
-sits behind a Queue-it "Global Safety Net". A plain request — minimal headers,
-full Chrome header set, referer, warmed cookie jar, every combination — returns
-the same 2.6KB JavaScript challenge shell. Passing it needs a real browser to
-run their JS and receive a signed `queueittoken`, HMAC'd server-side and not
-forgeable. `api.amctheatres.com/v2` wants a vendor key (400). Fandango's
-`napi/theaterMovieShowtimes` returns 403 even with cookies, and their
-server-rendered theatre page only contains the site-wide "New & Coming soon"
-footer. Atom 404s, showtimes.com served a Hawaii theatre, Google and Bing have
-zero clock times in their HTML. All probed 2026-07-31.
+**The source is Fandango's own listings API**, and the trick that hid it for a
+whole session is the headers:
 
-**So it is a scheduled scrape.** `scripts/scrape-showtimes.js` drives a real
-browser — which is simply what a visitor does — and writes `data/showtimes.json`.
-`.github/workflows/showtimes.yml` runs it four times a day (6:20am, 11:20am,
-4:20pm, 9:20pm ET) and commits only when the schedule changed; Vercel redeploys
-on that commit. The app then reads a static file: instant, key-free, unlimited.
-- Run it by hand: `node scripts/scrape-showtimes.js 3`
-- Puppeteer is installed by the workflow with `--no-save`. **Keep the app itself
-  dependency-free** — it must stay a static site with no build step.
-- A run that parses zero showtimes exits 1 WITHOUT writing, so a bad scrape can
-  never wipe a good schedule off the live site.
-- **Do NOT wait for `networkidle2`** — AMC's ad and analytics beacons never go
-  quiet and the navigation times out on a page that rendered seconds earlier.
-  Wait for `domcontentloaded`, then for the showtime markup to appear.
-- AMC ships `aria-label="undefined Showtimes"` on standard screens (a bug on
-  their side). The real name is in the block's `<h3>` ("Digital"), so the h3
-  wins and the aria-label is only a fallback.
-- The UI opens on today, but rolls to the next day once fewer than three films
-  still have a screening left — at 11pm "today" is a wall of dead times.
+    GET https://www.fandango.com/napi/theaterswithshowtimes
+        ?zipCode=…&city=…&state=…&date=…&limit=…
 
-Theatre identifiers (both verified): AMC West Chester 18, 9415 Civic Center
-Blvd., West Chester, OH 45069; Fandango theatre id `AAWWU` (from Fandango's own
-search — the guessable `aaowu` slug 404s).
+It answers **403 "Session expired or invalid token" for a bare fetch, even with a
+real User-Agent.** It needs a browser `Accept` header AND a `Referer` pointing at
+the matching Fandango page. With both, it returns plain JSON for any US ZIP or
+city — verified against West Chester, New York, Beverly Hills, Chicago, Austin
+and Anchorage. See `fandangoHeaders()` in lib/theaters-core.js; do not "tidy"
+those headers away.
 
-## Baked-in data (no API key needed at runtime)
-Scraped from TMDB's public pages, committed under `data/`:
-- `EPISODES` — 536 episodes, all 60 shows (number, title, air date, runtime)
-- `CAST` — 465 top-billed credits (person id, name, photo, character)
-- `MEDIA` — poster file, verified trailer id, TMDB id per show
-Deliberate: the app keeps fully working if every key lapses.
+- `/api/theaters?zip=…&date=…` or `?city=…&state=…` or `?lat=…&lon=…`
+- `/api/theaters?locate=1` — just resolve where the visitor is
+- `/api/theaters?selftest=1` — upstream + IP-geolocation status
+- Edge-cached 30 minutes (not 6 hours like /api/movies — "expired" flags move
+  with the clock). Location lookups are never cached.
+
+**Format comes from the AMENITIES, not `filmFormatHeader`.** Fandango's header is
+only "Standard" / "Premium Format" / "3D"; the thing people care about is in the
+amenity list ("IMAX", "Dolby Cinema @ AMC", "RPX", "Cinemark XD"). `FORMAT_RULES`
+is ordered on purpose — IMAX beats a 3D tag, and a Dolby screening is also
+"Reserved seating".
+
+**Where the visitor is**, best source first:
+1. a ZIP or city they typed (wins, and is remembered in `state.place`)
+2. browser geolocation behind the "Use my location" button, reverse-geocoded
+3. the host's IP headers (`x-vercel-ip-city` / `x-vercel-ip-country-region`) — no
+   permission prompt, works the moment the tab opens
+
+**Two concurrency traps, both already paid for:**
+- The auto-rollover to tomorrow must call `loadTheatersInner()`, never
+  `loadTheaters()` — the queue wrapper waits on the in-flight lookup, which in
+  that moment is itself.
+- Every lookup takes a ticket (`theatresSeq`). A slow automatic IP lookup that
+  lands after someone typed a ZIP must drop its own result, or they end up
+  looking at the city the IP guessed.
+
+**The UI opens on today but rolls to tomorrow** once fewer than three films still
+have a screening left — at 11pm "today" is a grid of dead times. Seven days are
+selectable.
+
+The earlier AMC-only scraper is archived at `scripts/_retired/` with its README;
+nothing runs it. It is kept because its AMC-markup parser is still correct and
+its two hard-won browser gotchas are written down there.
 
 ## Full feature list
 Discover: search/filter (platform, genre, type, status, length), 6 sort orders,
@@ -171,10 +177,13 @@ grid/list/compact views, poster wall, Surprise Me, Compare.
 New Finds: a time-window dropdown — past week / month / 3 months / 6 months /
 year — searching all four services for new series and new seasons in that
 stretch, plus "since last time" and an exact-date option.
-Movies: "Playing Now" at AMC West Chester 18 and "Coming in 3 Weeks", with
-poster-forward cards, backdrops, plots, cast with roles, verified trailers,
-countdown badges, a want-to-see list, a selectable quality bar, and deep links
-to AMC, Fandango, Rotten Tomatoes and IMDb.
+Movies: "Playing Now" and "Coming in 3 Weeks", with poster-forward cards,
+backdrops, plots, cast with roles, verified trailers, countdown badges, a
+want-to-see list, a selectable quality bar, and deep links to Rotten Tomatoes
+and IMDb. Location is detected automatically; a picker lists every cinema
+nearby of any chain with its distance and premium formats, and the chosen one's
+showtimes appear on the cards with the format labelled and a ticket link on
+every time.
 Tracking: episode-by-episode ticking with "mark up to here" catch-up, Up Next
 queue, progress bars everywhere, watch-time stats, binge planner, per-episode
 5-star ratings + notes.
@@ -189,6 +198,8 @@ per-episode data, finds) — import merges, never overwrites.
 - index.html — the whole app (CSS + HTML + JS + SHOWS/MEDIA/EPISODES/CAST data)
 - lib/discover-core.js, api/discover.js, netlify/functions/discover.js
 - lib/movies-core.js, api/movies.js, netlify/functions/movies.js
+- lib/theaters-core.js, api/theaters.js, netlify/functions/theaters.js
+- scripts/_retired/ — the superseded AMC-only scraper, kept, not wired up
 - data/episodes.json, data/cast.json — source data (also baked into index.html)
 - manifest.json, icon.svg, icon-maskable.svg, netlify.toml, vercel.json, package.json
 
