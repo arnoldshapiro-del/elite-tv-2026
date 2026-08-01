@@ -53,6 +53,10 @@ visitor IP location). Vercel: https://elite-tv-2026.vercel.app — hot spare.
   is edge-cached 6h — that cache is load-bearing, not an optimisation.
 - **`want` in discover-core is per RUN.** The client auto-continues while
   `truncated` (≤5 passes, banking each) — don't raise `want` instead.
+- **Grow-the-collection bars are caller-set** (`?bar=5.0-9.0&want=4-20`,
+  defaults 7.5/12 byte-identical). The TMDB browse floors MUST follow the
+  caller's bar — TMDB never returns shows under its floor, so a 6.0 request
+  with fixed floors comes home empty. Grow never moves state.lastSearch.
 - **Discover's time budget is host-aware:** `process.env.VERCEL ? 45s : 25s`
   (Vercel ceiling 60s via vercel.json; Netlify ~30s). Never exceed a host cap.
 - **/api/theaters on Netlify must stay Functions 2.0 (.mjs).** v1 never sees
@@ -105,8 +109,11 @@ non-fatal → null → "—".
   showing left. Retired AMC-only scraper: scripts/_retired/ (kept, not wired).
 
 ## Feature list (client)
-Discover: filters, 8 sorts, 3 views, wall, Surprise, Compare, Match % chips,
-🚫 hide/restore, finds unified into grid/search. Tracking: ticks + mark-up-to,
+Discover: filters (+tap-to-filter hero pills), 8 sorts, 3 views, wall,
+Surprise, Compare, Match % chips, 🚫 hide/restore, finds unified into
+grid/search. ❓ Guide tab explains everything in plain English. New Finds has
+"Grow the collection" (N more per service at a chosen bar). Theatre picker
+cards carry street addresses; nav tabs wrap on phones. Tracking: ticks + mark-up-to,
 Up Next (▶ service links, Airing-this-week strip), binge planner, per-episode
 5★+notes, watchLog → streaks / 30-day activity / "2026 So Far" / lifetime,
 ↻ Watch again. Calendar: countdowns, nav badge, 📅 .ics export (-P1D alarms).
@@ -123,10 +130,11 @@ data/*.json (source data, also baked in) · manifest.json, icons, netlify.toml
 (includes /sw.js no-cache header), vercel.json, package.json.
 
 ## Local testing
-No build step, but /api/* needs a server: launch.json entry `elite-tv-2026`
-(port 8199). ⚠️ A preview-spawned server is network-sandboxed — every upstream
-fetch returns HTTP 0 and the selftest lies. Run the server outside the sandbox
-(plain node) for real API tests, or test against the live Netlify URL.
+No build step, but /api/* needs a server: `scripts/devserver.js` (IN the repo
+since 2026-08-01 — scratchpad copies kept getting deleted), launch.json entry
+`elite-tv-2026`, port 8199. ⚠️ A preview-spawned server is network-sandboxed —
+upstream fetches return HTTP 0 and the selftest lies. Run it via plain node
+for real API tests, or test against the live Netlify URL.
 
 ## Known issues
 - Wikidata lags very new/international titles → RT stays "—" (correctly).
