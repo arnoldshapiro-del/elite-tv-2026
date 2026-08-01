@@ -1214,6 +1214,8 @@ footer {
   <div class="chart-box"><h3>Platform Breakdown</h3><div id="platformBars"></div></div>
   <div class="chart-box"><h3>Genre Taste</h3><div id="genreBars"></div></div>
   <div class="chart-box"><h3>Top Rated by You</h3><div id="topRated"></div></div>
+  <div class="chart-box"><h3>Recent activity</h3><div id="recentActivity"></div></div>
+  <div class="chart-box"><h3 id="yearTitle">Your 2026 So Far</h3><div id="yearReview"></div></div>
 </section>
 
 <section class="section" id="calendar">
@@ -1347,6 +1349,8 @@ function mergeFindEpisodes(){
    FIND_ID_BASE so they can never collide with the curated 60 (ids 1-60).
 --------------------------------------------------------------------------- */
 if(!state.watched)state.watched={};   // { showId: [episode numbers watched] }
+if(!state.watchLog)state.watchLog=[];   // append-only history: [{id, ep, at:ISO, cycle}] — state.watched knows WHAT, this knows WHEN
+if(!state.rewatches)state.rewatches={}; // { showId: completed rewatch cycles }; absent or 0 = still on the first run
 
 /* ---------------------------------------------------------------------------
    EPISODE TRACKING
@@ -1359,10 +1363,33 @@ function seasonOf(id){ const d = EPISODES[id]; return d ? d.s : null; }
 function watchedList(id){ return state.watched[id] || []; }
 function isWatched(id, n){ return watchedList(id).indexOf(n) !== -1; }
 
+/* The watch LOG, kept beside the ticks.
+   state.watched is a set — it can only say "seen", never "seen on the 3rd", and it
+   forgets everything the moment you start a rewatch. The log is append-only and
+   dated, so streaks, a real history and a year-in-review become possible. Each
+   entry is stamped with the show's rewatch cycle, so the same episode can honestly
+   appear twice: once for the first run, once for the rewatch. */
+function cycleOf(id){ return state.rewatches[id] || 0; }
+function logWatch(id, n, at){
+  const sid = Number(id), c = cycleOf(sid);
+  // untick-then-retick within the same run is a correction, not a second viewing
+  if (state.watchLog.some(w => Number(w.id)===sid && Number(w.ep)===n && (w.cycle||0)===c)) return;
+  state.watchLog.push({ id: sid, ep: n, at: at || new Date().toISOString(), cycle: c });
+}
+// Unticking means "I mis-tapped", so the record goes with it — but only this run's.
+function unlogWatch(id, n){
+  const sid = Number(id), c = cycleOf(sid);
+  state.watchLog = state.watchLog.filter(w => !(Number(w.id)===sid && Number(w.ep)===n && (w.cycle||0)===c));
+}
+function unlogRun(id){
+  const sid = Number(id), c = cycleOf(sid);
+  state.watchLog = state.watchLog.filter(w => !(Number(w.id)===sid && (w.cycle||0)===c));
+}
+
 function toggleEpisode(id, n, silent){
   const cur = watchedList(id).slice();
   const at = cur.indexOf(n);
-  if (at === -1) cur.push(n); else cur.splice(at, 1);
+  if (at === -1) { cur.push(n); logWatch(id, n); } else { cur.splice(at, 1); unlogWatch(id, n); }
   cur.sort((a,b)=>a-b);
   if (cur.length) state.watched[id] = cur; else delete state.watched[id];
   autoStatusFromProgress(id);
@@ -1374,6 +1401,9 @@ function toggleEpisode(id, n, silent){
 // tracker has, for when you've watched five and only now open the app.
 function markUpTo(id, n){
   const all = epsOf(id).map(e=>e[0]).filter(x=>x<=n);
+  const had = watchedList(id);
+  const at = new Date().toISOString();   // one stamp for the whole catch-up — it was one sitting at the app
+  all.forEach(x => { if (had.indexOf(x) === -1) logWatch(id, x, at); });
   state.watched[id] = all.sort((a,b)=>a-b);
   autoStatusFromProgress(id);
   save(); render(); refreshOpenModal(id);
@@ -1381,8 +1411,19 @@ function markUpTo(id, n){
 }
 function clearEpisodes(id){
   delete state.watched[id];
+  unlogRun(id);   // "Clear" is the eraser — "I didn't actually watch this" — so the history goes too
   save(); render(); refreshOpenModal(id);
   toast('Cleared episode progress');
+}
+
+/* "Watch again" — the thing Trakt puts behind a paid tier. Ticks reset to zero so
+   the season can be watched fresh; the log and every hour already counted stay
+   exactly where they are, tagged to the run that earned them. */
+function rewatchShow(id){
+  state.rewatches[id] = (state.rewatches[id] || 0) + 1;
+  delete state.watched[id];
+  save(); render(); refreshOpenModal(id);
+  toast('Season reset for a rewatch — your history keeps the first run.');
 }
 
 // Watchlist status follows real progress, so the list never lies about itself.
@@ -2688,6 +2729,79 @@ function renderUpNext(){
   }).join('');
 }
 
+/* ---------------------------------------------------------------------------
+   HISTORY, STREAKS AND YEAR IN REVIEW
+   All of it read back out of state.watchLog — the user's own ticks, nothing
+   estimated. Trakt puts rewatch counts and the year-in-review behind a paid tier;
+   the data was local all along, so here it is free. Built in ONE pass so the Stats
+   tab stays instant however long the log grows.
+--------------------------------------------------------------------------- */
+const dayGap = (a,b) => Math.round((new Date(b+'T12:00:00') - new Date(a+'T12:00:00'))/86400000);
+
+function historyStats(){
+  const year = String(new Date().getFullYear());
+  const byDay = {};   // 'YYYY-MM-DD' → { eps, mins, shows }
+  const yr = { eps:0, mins:0, months:new Array(12).fill(0), shows:{}, platforms:{}, genres:{}, days:{} };
+  const firstRun = {};  // 'id:ep' seen on cycle 0 — a tick missing from here predates the log
+  let lifetime = 0;
+
+  // runtimes resolved once per show, not once per log entry
+  const cache = {};
+  const epMins = (id, n) => {
+    const sid = Number(id);
+    let m = cache[sid];
+    if (!m) { m = cache[sid] = {}; epsOf(sid).forEach(e => { m[e[0]] = epRuntime(sid, e); }); }
+    return m[n] || 0;   // an episode that no longer resolves counts zero rather than being guessed
+  };
+
+  state.watchLog.forEach(w => {
+    if (!w || !w.at) return;
+    const mins = epMins(w.id, w.ep);
+    lifetime += mins;
+    if (!(w.cycle||0)) firstRun[Number(w.id)+':'+w.ep] = 1;
+    const d = new Date(w.at); if (isNaN(d)) return;
+    const day = ymdLocal(d);
+    const b = byDay[day] || (byDay[day] = { eps:0, mins:0, shows:{} });
+    b.eps++; b.mins += mins;
+    const s = getShow(Number(w.id));
+    b.shows[s ? s.title : 'A show no longer listed'] = 1;
+    if (day.slice(0,4) === year) {
+      yr.eps++; yr.mins += mins;
+      yr.months[d.getMonth()] += mins;
+      yr.days[day] = (yr.days[day]||0) + mins;
+      if (s) {
+        const t = yr.shows[s.title] || (yr.shows[s.title] = { mins:0, eps:0 });
+        t.mins += mins; t.eps++;
+        yr.platforms[s.platform] = (yr.platforms[s.platform]||0) + mins;
+        String(s.genre||'').split(', ').forEach(g => { if (g) yr.genres[g] = (yr.genres[g]||0) + mins; });
+      }
+    }
+  });
+
+  // Ticks made before this upgrade carry no date. They still count toward a lifetime
+  // total — they simply can't appear on any day, month or streak.
+  Object.keys(state.watched).forEach(k => {
+    if (state.rewatches[k]) return;   // past the first run every tick is logged, so nothing is undated
+    (state.watched[k]||[]).forEach(n => { if (!firstRun[Number(k)+':'+n]) lifetime += epMins(k, n); });
+  });
+
+  return { byDay, yr, year, lifetime, streak: streaksFrom(byDay) };
+}
+
+function streaksFrom(byDay){
+  const days = Object.keys(byDay).sort();   // ISO dates sort correctly as plain text
+  if (!days.length) return { current:0, longest:0 };
+  let longest = 1, run = 1;
+  for (let i=1;i<days.length;i++){ run = dayGap(days[i-1],days[i])===1 ? run+1 : 1; if (run>longest) longest = run; }
+  // a streak survives "haven't watched yet today", but not a whole missed day
+  let current = 0;
+  if (dayGap(days[days.length-1], ymdLocal(new Date())) <= 1) {
+    current = 1;
+    for (let i=days.length-1;i>0;i--){ if (dayGap(days[i-1],days[i])===1) current++; else break; }
+  }
+  return { current, longest };
+}
+
 function renderStats(){
   const rated=Object.keys(state.ratings).length;
   const listed=Object.keys(state.status).length;
@@ -2698,9 +2812,13 @@ function renderStats(){
   const epsSeen=Object.values(state.watched).reduce((n,a)=>n+a.length,0);
   const remain=SHOWS.concat(findsAsShows()).filter(s=>state.status[s.id]&&state.status[s.id]!=='done')
     .reduce((n,s)=>n+minutesRemainingFor(s.id),0);
+  const hist=historyStats();
   document.getElementById('statsCards').innerHTML=`
-    <div class="stat-card"><div class="num">${humanTime(mins)}</div><div class="lbl">Time Watched</div></div>
+    <div class="stat-card"><div class="num">${humanTime(mins)}</div><div class="lbl">Time Watched (current runs)</div></div>
+    <div class="stat-card"><div class="num">${humanTime(hist.lifetime)}</div><div class="lbl">Lifetime Watched</div></div>
     <div class="stat-card"><div class="num">${epsSeen}</div><div class="lbl">Episodes Watched</div></div>
+    <div class="stat-card"><div class="num">${hist.streak.current} ${hist.streak.current===1?'day':'days'}</div><div class="lbl">Current Streak</div></div>
+    <div class="stat-card"><div class="num">${hist.streak.longest} ${hist.streak.longest===1?'day':'days'}</div><div class="lbl">Longest Streak</div></div>
     <div class="stat-card"><div class="num">${humanTime(remain)}</div><div class="lbl">Left On Your List</div></div>
     <div class="stat-card"><div class="num">${listed}</div><div class="lbl">On Your List</div></div>
     <div class="stat-card"><div class="num">${watching}</div><div class="lbl">Currently Watching</div></div>
@@ -2720,6 +2838,53 @@ function renderStats(){
     <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px">
       <span>${s.title}</span><span style="color:var(--gold);font-weight:700">${getUserRating(s.id)} ★</span>
     </div>`).join(''):'<p style="color:var(--muted);font-size:13px">Rate some shows to see your top picks here</p>';
+
+  // ---- Recent activity: the last 30 days, newest first. Days with nothing are skipped.
+  const cutoff=ymdLocal(new Date(Date.now()-29*86400000));
+  const recent=Object.keys(hist.byDay).filter(d=>d>=cutoff).sort().reverse();
+  document.getElementById('recentActivity').innerHTML=recent.length?recent.map(d=>{
+    const b=hist.byDay[d],names=Object.keys(b.shows);
+    const who=names.slice(0,3).join(', ')+(names.length>3?' and '+(names.length-3)+' more':'');
+    return `<div style="display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px">
+      <span style="color:var(--muted);white-space:nowrap">${fmtDate(d)}</span>
+      <span style="flex:1 1 130px;min-width:0">${escapeHTML(who)}</span>
+      <span style="white-space:nowrap;font-weight:600;margin-left:auto">${b.eps} ${b.eps===1?'episode':'episodes'} · ${humanTime(b.mins)}</span>
+    </div>`;
+  }).join(''):'<p style="color:var(--muted);font-size:13px">Tick episodes and your last 30 days show up here.</p>';
+
+  // ---- Year in Review. Log entries only — undated pre-upgrade ticks are deliberately
+  // left out, because a year total you can't date isn't a year total.
+  const y=hist.yr,MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const brief=m=>!m?'':(m<60?Math.round(m)+'m':Math.round(m/60)+'h');
+  const bar=(label,pct,val)=>`<div class="bar-row"><div class="bar-label">${escapeHTML(label)}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div><div class="bar-val">${val}</div></div>`;
+  const sub=t=>`<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:18px 0 8px">${t}</div>`;
+  const line=(k,v)=>`<div style="display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px"><span>${escapeHTML(k)}</span><span style="font-weight:600">${escapeHTML(v)}</span></div>`;
+  document.getElementById('yearTitle').textContent='Your '+hist.year+' So Far';
+  const yBox=document.getElementById('yearReview');
+  if(!y.eps){
+    yBox.innerHTML=`<p style="color:var(--muted);font-size:13px">Nothing logged in ${hist.year} yet — tick an episode and this fills itself in.</p>`;
+  } else {
+    const maxM=Math.max(...y.months);
+    const topShows=Object.entries(y.shows).sort((a,b)=>b[1].mins-a[1].mins).slice(0,5);
+    const plats=Object.entries(y.platforms).sort((a,b)=>b[1]-a[1]);
+    const maxPl=plats[0][1];
+    const topGenre=Object.entries(y.genres).sort((a,b)=>b[1]-a[1])[0];
+    const busiest=Object.entries(y.days).sort((a,b)=>b[1]-a[1])[0];
+    const again=Object.values(state.rewatches).reduce((n,v)=>n+(Number(v)||0),0);
+    yBox.innerHTML=`
+      <div style="font-size:1.5rem;font-weight:800">${humanTime(y.mins)} · ${y.eps} ${y.eps===1?'episode':'episodes'}</div>
+      ${sub('By month')}
+      ${y.months.map((m,i)=>bar(MON[i],maxM?(m/maxM)*100:0,brief(m))).join('')}
+      ${sub('Top shows')}
+      ${topShows.map(([t,v])=>line(t,humanTime(v.mins)+' · '+v.eps+(v.eps===1?' ep':' eps'))).join('')}
+      ${sub('By platform')}
+      ${plats.map(([k,v])=>bar(k,(v/maxPl)*100,brief(v))).join('')}
+      ${sub('Highlights')}
+      ${topGenre?line('Top genre',topGenre[0]+' · '+humanTime(topGenre[1])):''}
+      ${busiest?line('Busiest day',fmtDate(busiest[0])+' · '+humanTime(busiest[1])):''}
+      ${line('Rewatches',String(again))}
+      <p style="color:var(--muted);font-size:11px;margin-top:14px">Counts episodes ticked since August 2026, when history tracking began.</p>`;
+  }
 }
 /* Real episode-level calendar: every dated episode, upcoming ones first with a
    countdown, then what has already aired. Built from the verified episode data
@@ -3214,12 +3379,15 @@ function episodeSectionHTML(id){
   const today = new Date().toISOString().slice(0,10);
   const remain = minutesRemainingFor(id);
   const done = p.seen >= p.total;
+  // completed runs: the finished current one counts on top of the archived ones
+  const runs = (state.rewatches[id]||0) ? (state.rewatches[id] + (done ? 1 : 0)) : 0;
 
   return `<div class="ep-section">
     <div class="ep-head">
       <h3>Episodes${season?` · Season ${season}`:''}</h3>
       <div class="ep-actions">
         ${p.seen<p.total?`<button class="ep-mini" onclick="markUpTo(${id},${eps[eps.length-1][0]})">Mark all watched</button>`:''}
+        ${done?`<button class="ep-mini" onclick="rewatchShow(${id})" title="Start the season over — your watch history is kept">↻ Watch again</button>`:''}
         ${p.seen>0?`<button class="ep-mini" onclick="clearEpisodes(${id})">Clear</button>`:''}
       </div>
     </div>
@@ -3228,7 +3396,7 @@ function episodeSectionHTML(id){
       <span class="prog-label">${p.seen}/${p.total} · ${p.pct}%</span>
     </div>
     <div style="font-size:12px;color:var(--muted);margin-bottom:10px">
-      ${done
+      ${runs?`<strong style="color:var(--success)">Watched ${runs}×</strong> · `:''}${done
         ? `Finished · ${humanTime(minutesWatchedFor(id))} watched`
         : `${humanTime(remain)} left to finish${p.seen?` · ${humanTime(minutesWatchedFor(id))} watched`:''}`}
     </div>
@@ -3300,11 +3468,12 @@ document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='
    read it straight back in. */
 document.getElementById('exportBtn').onclick=()=>{
   const data={
-    app:'elite-tv-2026', version:3, exported:new Date().toISOString(),
+    app:'elite-tv-2026', version:4, exported:new Date().toISOString(),
     ratings:state.ratings, status:state.status, notes:state.notes,
     watched:state.watched, finds:state.finds, theme:state.theme,
     lists:state.lists, epRatings:state.epRatings, epNotes:state.epNotes,
     movieWant:state.movieWant, lastSearch:state.lastSearch,
+    watchLog:state.watchLog, rewatches:state.rewatches,
   };
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);
@@ -3336,6 +3505,22 @@ document.getElementById('importFile').onchange=(ev)=>{
     Object.assign(state.epRatings,d.epRatings||{});
     Object.assign(state.epNotes,d.epNotes||{});
     Object.assign(state.movieWant,d.movieWant||{});
+    /* Watch history (v4 backups). Merged by identity — show, episode, run and the
+       exact timestamp — so importing the same file twice can't double your hours,
+       and an older backup without these fields simply adds nothing. */
+    if(Array.isArray(d.watchLog)){
+      const key=w=>Number(w.id)+':'+Number(w.ep)+':'+(Number(w.cycle)||0)+':'+w.at;
+      const have=new Set(state.watchLog.map(key));
+      d.watchLog.forEach(w=>{
+        if(!w||w.id==null||w.ep==null||!w.at)return;
+        const k=key(w); if(have.has(k))return; have.add(k);
+        state.watchLog.push({id:Number(w.id),ep:Number(w.ep),at:String(w.at),cycle:Number(w.cycle)||0});
+      });
+    }
+    // rewatch counts take the higher of the two — restoring a backup must never lower one
+    Object.entries(d.rewatches||{}).forEach(([k,v])=>{
+      state.rewatches[k]=Math.max(state.rewatches[k]||0,Number(v)||0);
+    });
     if(d.lastSearch&&!state.lastSearch)state.lastSearch=d.lastSearch;
     if(d.theme==='light'||d.theme==='dark'){state.theme=d.theme;applyTheme();}
     mergeFindEpisodes();
