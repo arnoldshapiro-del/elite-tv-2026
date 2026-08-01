@@ -976,6 +976,22 @@ footer {
 .cal-badge:empty { display: none; }
 .nav-tab.active .cal-badge { background: #fff; color: var(--accent); box-shadow: none; }
 
+/* ---- Not interested ------------------------------------------------------ */
+.hide-btn {
+  height: 30px; min-width: 30px; padding: 0 8px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--surface2);
+  color: var(--muted); cursor: pointer; font-size: 13px; font-family: inherit;
+  white-space: nowrap;
+}
+.hide-btn:hover { border-color: var(--accent); color: var(--accent); }
+.hide-btn.restore { font-size: 11.5px; font-weight: 700; color: var(--accent); border-color: var(--accent-glow); }
+.hidden-badge {
+  position: absolute; top: 38px; left: 10px; z-index: 3;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+  padding: 3px 7px; border-radius: 6px;
+  background: rgba(0,0,0,0.6); color: #fff; backdrop-filter: blur(4px);
+}
+
 </style>
 </head>
 <body>
@@ -1049,6 +1065,8 @@ footer {
         <option value="imdb-asc">IMDb ↑</option>
         <option value="title-asc">Title A–Z</option>
         <option value="user-desc">My Rating ↓</option>
+        <option value="premiere-desc">Newest first</option>
+        <option value="airing-next">Airing next</option>
       </select>
     </div>
     <div class="controls-row">
@@ -1070,6 +1088,7 @@ footer {
         <button class="btn" data-status="watching">Watching</button>
         <button class="btn" data-status="done">Done</button>
       </div>
+      <div class="chip-row" id="hiddenToggleBox"></div>
       <div class="stat-pills">
         <span class="stat-pill"><strong id="count">15</strong> shows</span>
         <span class="stat-pill">Avg RT <strong id="avgRT">—</strong></span>
@@ -1184,6 +1203,7 @@ footer {
       <div class="btn-group" id="movieMode">
         <button class="btn active" data-mmode="now">🎟️ Playing Now</button>
         <button class="btn" data-mmode="soon">📅 Coming in 3 Weeks</button>
+        <button class="btn" id="movieMineBtn" title="Everything you starred ☆ Want to see">⭐ My list</button>
       </div>
       <button class="btn" id="movieRefresh" style="background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700">🔍 Search for today's movies</button>
       <div class="stat-pills">
@@ -1355,6 +1375,7 @@ const SHOWS=[
 let state=JSON.parse(localStorage.getItem('eliteTV2026')||'{}');
 if(!state.ratings)state.ratings={};if(!state.status)state.status={};if(!state.notes)state.notes={};if(!state.theme)state.theme='dark';
 if(!state.finds)state.finds={};   // shows discovered by the New Finds button, keyed by TMDB id
+if(!state.hidden)state.hidden={}; // { showId: true } — "not interested", kept out of Discover
 if(!state.lastSearch)state.lastSearch=null;   // ISO date of the last successful search
 
 /* Discovered shows arrive with their own episode list, so fold it into EPISODES
@@ -1417,6 +1438,7 @@ function toggleEpisode(id, n, silent){
   const cur = watchedList(id).slice();
   const at = cur.indexOf(n);
   if (at === -1) { cur.push(n); logWatch(id, n); } else { cur.splice(at, 1); unlogWatch(id, n); }
+  if (state.hidden[id]) delete state.hidden[id];   // ticking an episode un-hides it
   cur.sort((a,b)=>a-b);
   if (cur.length) state.watched[id] = cur; else delete state.watched[id];
   autoStatusFromProgress(id);
@@ -1526,7 +1548,7 @@ function epsAiringWithin(n){
   const today = ymdLocal(new Date());
   const out = [];
   SHOWS.concat(findsAsShows()).forEach(s => {
-    if (!isEngaged(s.id)) return;
+    if (!isEngaged(s.id) || isHidden(s.id)) return;
     epsOf(s.id).forEach(e => {
       if (!e[2] || e[2] < today) return;
       const d = daysUntil(e[2]);
@@ -1539,6 +1561,7 @@ function epsAiringWithin(n){
 function upNextQueue(){
   const out = [];
   SHOWS.concat(findsAsShows()).forEach(s => {
+    if (isHidden(s.id)) return;
     const p = progressOf(s.id);
     if (!p.total) return;
     const started = p.seen > 0;
@@ -1673,6 +1696,7 @@ function recommendations(n){
     if (getStatus(s.id) === 'done' || getStatus(s.id) === 'watching') return false;
     if (getUserRating(s.id)) return false;
     if (progressOf(s.id).seen) return false;
+    if (isHidden(s.id)) return false;          // "not interested" means not recommended
     return true;
   }).map(s => {
     const r = scoreAgainstTaste(s, t);
@@ -1698,7 +1722,7 @@ function computeMatchMap(){
   const rows = [];
   SHOWS.concat(findsAsShows()).forEach(s => {
     if (getStatus(s.id) || getUserRating(s.id) || progressOf(s.id).seen) return;
-    if (state.hidden && state.hidden[s.id]) return;
+    if (isHidden(s.id)) return;
     const r = scoreAgainstTaste(s, t);
     if (r.sc > 0) rows.push({ id: s.id, sc: r.sc, why: r.why });
   });
@@ -1792,7 +1816,10 @@ function render(){
   const platform=document.getElementById('platform').value;
   const genre=document.getElementById('genre').value;
   const sort=document.getElementById('sort').value;
-  let filtered=SHOWS.filter(s=>{
+  // Discovered shows live in the SAME grid as the original 60 — one place to
+  // search, filter and sort everything he has, rather than two half-lists.
+  let filtered=SHOWS.concat(findsAsShows()).filter(s=>{
+    if(isHidden(s.id)&&!showHidden)return false;
     const matchSearch=!search||s.title.toLowerCase().includes(search)||s.genre.toLowerCase().includes(search)||s.platform.toLowerCase().includes(search)||s.review.toLowerCase().includes(search);
     const matchPlatform=platform==='all'||s.platform===platform;
     const matchGenre=genre==='all'||s.genre.includes(genre);
@@ -1810,15 +1837,40 @@ function render(){
       || (currentLength==='long'&&hrs>12);
     return matchSearch&&matchPlatform&&matchGenre&&matchType&&matchStatus&&matchLen;
   });
+  // Discovered shows can legitimately have no RT or IMDb number yet. Treating a
+  // missing score as -1 keeps it at the bottom of a ↓ sort instead of letting
+  // NaN scramble the whole order.
+  const num=v=>typeof v==='number'?v:-1;
+  // Newest first, and anything without a premiere date goes last either way.
+  const premCmp=(a,b)=>{
+    const pa=a.premiere||'',pb=b.premiere||'';
+    if(!pa&&!pb)return 0; if(!pa)return 1; if(!pb)return -1;
+    return pb.localeCompare(pa);
+  };
   filtered.sort((a,b)=>{
     switch(sort){
-      case 'rt-desc':return b.rt-a.rt;case 'rt-asc':return a.rt-b.rt;
-      case 'imdb-desc':return b.imdb-a.imdb;case 'imdb-asc':return a.imdb-b.imdb;
+      case 'rt-desc':return num(b.rt)-num(a.rt);case 'rt-asc':return num(a.rt)-num(b.rt);
+      case 'imdb-desc':return num(b.imdb)-num(a.imdb);case 'imdb-asc':return num(a.imdb)-num(b.imdb);
       case 'title-asc':return a.title.localeCompare(b.title);
       case 'user-desc':return getUserRating(b.id)-getUserRating(a.id);
+      case 'premiere-desc':return premCmp(a,b);
+      case 'airing-next':{
+        const na=nextAiring(a.id),nb=nextAiring(b.id);
+        if(na&&nb)return na.days-nb.days||premCmp(a,b);
+        if(na)return -1; if(nb)return 1;
+        return premCmp(a,b);
+      }
       default:return 0;
     }
   });
+  // The way back from "not interested" — only worth showing once something is hidden.
+  const hb=document.getElementById('hiddenToggleBox');
+  if(hb){
+    const nH=hiddenCount();
+    hb.innerHTML=nH
+      ?`<button class="chip ${showHidden?'on':''}" title="${showHidden?'Hide them again':'Bring the shows you marked not interested back into view'}" onclick="toggleShowHidden()">Show hidden (${nH})</button>`
+      :'';
+  }
   const grid=document.getElementById('grid');
   grid.className='grid'+(currentView==='list'?' list-view':currentView==='compact'?' compact-view':'');
   document.getElementById('count').textContent=filtered.length;
@@ -1846,6 +1898,7 @@ function cardHTML(s,i){
     <div class="card-header">
       ${artHTML(s,i)}
       ${s.isFind?`<span class="new-badge">NEW FIND</span>`:`<span class="year-tag">${s.type==='new'?'New Series':'New Season'}</span>`}
+      ${isHidden(s.id)?`<span class="hidden-badge" title="You marked this not interested">Hidden</span>`:''}
       <span class="platform-tag ${s.platform==='Hulu'?'hulu':s.platform==='Prime Video'?'prime':s.platform==='Netflix'?'netflix':'apple'}">${s.platform}</span>
       <div class="card-title-area"><div class="card-title">${s.title}</div><div class="card-genre">${s.genre}</div></div>
       ${(()=>{const p=progressOf(s.id);return p.total&&p.seen
@@ -1876,13 +1929,48 @@ function cardHTML(s,i){
         </div>
         ${stLabel?`<span class="status-badge ${st}">${stLabel}</span>`
           :`<span style="font-size:11px;color:var(--muted)">${s.metaText||`${s.eps} eps · ~${s.runtime}m`}</span>`}
+        ${isHidden(s.id)
+          ?`<button class="hide-btn restore" title="Put this show back in Discover" onclick="event.stopPropagation();unhideShow(${s.id})">↩ Restore</button>`
+          :canHide(s)?`<button class="hide-btn" title="Not interested — hide this show" onclick="event.stopPropagation();hideShow(${s.id})">✕</button>`:''}
         ${s.isFind?`<button class="find-remove" title="Remove this find" onclick="event.stopPropagation();removeFind(${s.id})">✕</button>`:''}
       </div>
     </div>
   </article>`;
 }
+/* ---------------------------------------------------------------------------
+   NOT INTERESTED
+   Every big tracker has it: the show the algorithm keeps pushing that you are
+   never going to watch. Hiding is only offered on shows he has said NOTHING
+   about — the moment he stars one or ticks an episode it comes back by itself,
+   so "hidden" can never contradict his own list. Nothing is deleted: the reveal
+   toggle under the filters brings the whole set back.
+--------------------------------------------------------------------------- */
+let showHidden = false;   // reveal state — a view, not something worth saving
+const isHidden = id => !!state.hidden[id];
+const hiddenCount = () => Object.keys(state.hidden).filter(k => state.hidden[k]).length;
+// Offered only on shows with no status, no rating and no progress. Finds keep
+// their own ✕ Remove instead — two ✕ buttons meaning different things is worse
+// than one.
+function canHide(s){
+  return !s.isFind && !getStatus(s.id) && !getUserRating(s.id) && !progressOf(s.id).seen;
+}
+function hideShow(id){
+  state.hidden[id] = true;
+  save(); render();
+  const s = getShow(id);
+  toast((s ? s.title : 'Show') + ' hidden — "Show hidden" below brings it back.');
+}
+function unhideShow(id){
+  delete state.hidden[id];
+  save(); render();
+  const s = getShow(id);
+  toast((s ? s.title : 'Show') + ' is back in Discover');
+}
+function toggleShowHidden(){ showHidden = !showHidden; render(); }
+
 function setStatus(id,status){
   if(state.status[id]===status)delete state.status[id];else state.status[id]=status;
+  delete state.hidden[id];   // telling the app anything about a show un-hides it
   save();render();
   if(document.getElementById('watchlist').classList.contains('active'))renderWatchlist();
   toast(state.status[id]?`Marked as ${status==='want'?'Want to Watch':status==='watching'?'Watching':'Finished'}`:'Removed from list');
@@ -1994,7 +2082,9 @@ async function runFind(sinceArg, srcBtn, windowLabel){
     return;
   }
 
-  const known = SHOWS.map(s => (MEDIA[s.id] && MEDIA[s.id].tmdb) || '').filter(Boolean)
+  /* Rebuilt before EVERY pass, not once: each round adds shows to state.finds,
+     and the next round has to know about them or it hands back the same batch. */
+  const knownIds = () => SHOWS.map(s => (MEDIA[s.id] && MEDIA[s.id].tmdb) || '').filter(Boolean)
     .concat(Object.keys(state.finds)).join(',');
   const titles = SHOWS.map(s => s.title).join('|');
 
@@ -2006,57 +2096,86 @@ async function runFind(sinceArg, srcBtn, windowLabel){
           (windowLabel ? 'in the past ' + windowLabel : 'since ' + fmtDate(since)) +
           ', then looking up real IMDb ratings. A wider window takes longer — up to about a minute for a full year.');
 
+  /* AUTO-CONTINUE. The server returns a batch and flags `truncated` when more
+     matched than fitted inside its time budget. Pressing the button again used
+     to be HIS job; now the loop does it, up to five passes, so a host with a
+     25-second ceiling behaves exactly like one with sixty. */
+  const MAX_ROUNDS = 5;
+  let rounds = 0, totalAdded = 0, totalFound = 0, totalScanned = 0;
+  let data = null; const gotShows = [];
+
   try {
-    // today is sent as the BROWSER's local date. The function runs in UTC, so
-    // after 8pm Eastern it would otherwise think tomorrow had already started
-    // and accept episodes that have not aired here yet.
-    const url = '/api/discover?since=' + encodeURIComponent(since) +
-                '&today=' + encodeURIComponent(ymdLocal(new Date())) +
-                '&known=' + encodeURIComponent(known) +
-                '&titles=' + encodeURIComponent(titles);
-    const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
-    const ct = res.headers.get('content-type') || '';
-    if (!ct.includes('json')){
-      findMsg('<strong>The search endpoint isn\'t running yet.</strong><br>' +
-        'The site answered with a page instead of data, which usually means the ' +
-        'serverless function hasn\'t been deployed. Redeploy the project and try again.', 'err');
-      return;
-    }
-    const data = await res.json();
+    while (true) {
+      rounds++;
+      // today is sent as the BROWSER's local date. The function runs in UTC, so
+      // after 8pm Eastern it would otherwise think tomorrow had already started
+      // and accept episodes that have not aired here yet.
+      const url = '/api/discover?since=' + encodeURIComponent(since) +
+                  '&today=' + encodeURIComponent(ymdLocal(new Date())) +
+                  '&known=' + encodeURIComponent(knownIds()) +
+                  '&titles=' + encodeURIComponent(titles);
+      const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+      const ct = res.headers.get('content-type') || '';
+      if (!ct.includes('json')){
+        findMsg('<strong>The search endpoint isn\'t running yet.</strong><br>' +
+          'The site answered with a page instead of data, which usually means the ' +
+          'serverless function hasn\'t been deployed. Redeploy the project and try again.', 'err');
+        return;
+      }
+      data = await res.json();
 
-    if (!data.ok){
-      findMsg('<strong>The search couldn\'t finish.</strong><br>' +
-        (data.message || 'Unknown error') + '<br>Nothing was added or changed.', 'err');
-      return;
-    }
+      if (!data.ok){
+        findMsg('<strong>The search couldn\'t finish.</strong><br>' +
+          (data.message || 'Unknown error') + '<br>' +
+          (totalAdded ? 'The ' + totalAdded + ' found before it stopped are saved.'
+                      : 'Nothing was added or changed.'), 'err');
+        return;
+      }
 
-    let added = 0;
-    (data.shows || []).forEach(f => {
-      if (state.finds[f.tmdb]) return;
-      state.finds[f.tmdb] = f;
-      added++;
-    });
+      let added = 0;
+      (data.shows || []).forEach(f => {
+        gotShows.push(f);
+        if (state.finds[f.tmdb]) return;
+        state.finds[f.tmdb] = f;
+        added++;
+      });
+      totalAdded += added;
+      totalFound += (data.found || 0);
+      totalScanned += (data.scanned || 0);
+
+      // Each pass is banked before the next one starts — a browser closed
+      // mid-search still keeps everything found so far.
+      save();
+      mergeFindEpisodes();
+      renderFinds();
+      render();
+
+      if (data.truncated && rounds < MAX_ROUNDS){
+        findMsg('Found ' + totalAdded + ' so far — still searching…');
+        continue;
+      }
+      break;
+    }
 
     // Remember when we last looked, so next time can pick up exactly here.
     state.lastSearch = data.searchedUpTo || ymdLocal(new Date());
     save();
-    mergeFindEpisodes();          // new finds get episode tracking straight away
-    renderFinds();
     updateLastSearchLabel();
-    render();
 
     const bits = [];
-    bits.push('<strong>' + (added
-      ? `Added ${added} new ${added===1?'show':'shows'}.`
+    bits.push('<strong>' + (totalAdded
+      ? `Added ${totalAdded} new ${totalAdded===1?'show':'shows'}.`
       : 'Nothing new has come out since then.') + '</strong>');
     bits.push(`Searched ${fmtDate(since)} → ${fmtDate(state.lastSearch)}` +
               (data.windowDays ? ` (${data.windowDays} days)` : '') +
-              ` across Hulu, Prime Video, Apple TV and Netflix; ` +
-              `checked ${data.scanned||0} candidates and kept only shows whose episodes had actually aired in that window.`);
-    if (data.found > added) bits.push(`${data.found - added} were already on your list.`);
-    if (data.truncated) bits.push('<span style="color:var(--muted)">More matched than fit in one run — press again to keep going.</span>');
+              ` across Hulu, Prime Video, Apple TV and Netflix` +
+              (rounds > 1 ? ` in ${rounds} passes` : '') + `; ` +
+              `checked ${totalScanned} candidates and kept only shows whose episodes had actually aired in that window.`);
+    if (totalFound > totalAdded) bits.push(`${totalFound - totalAdded} were already on your list.`);
+    if (data.truncated && rounds >= MAX_ROUNDS)
+      bits.push('<span style="color:var(--muted)">Stopped after 5 passes — press again for more.</span>');
     if (data.ratingSource) {
-      const withRT = (data.shows || []).filter(s => typeof s.rt === 'number').length;
+      const withRT = gotShows.filter(s => typeof s.rt === 'number').length;
       bits.push(`<span style="color:var(--muted)">Ratings shown: ${escapeHTML(data.ratingSource)}. ` +
         (withRT ? `Real Rotten Tomatoes scores found for ${withRT} of them` : 'No Rotten Tomatoes score could be verified for these') +
         ` — anything unverified stays a dash.</span>`);
@@ -2067,11 +2186,13 @@ async function runFind(sinceArg, srcBtn, windowLabel){
                 data.upstreamErrors.slice(0,3).map(escapeHTML).join('; ') + '</span>');
     }
     bits.push(`<span style="color:var(--muted)">Next time, “What's new since ${fmtDate(state.lastSearch)}” picks up from here.</span>`);
-    findMsg(bits.join('<br>'), added ? '' : 'warn');
-    if (added) toast('Added ' + added + ' new ' + (added===1?'show':'shows'));
+    findMsg(bits.join('<br>'), totalAdded ? '' : 'warn');
+    if (totalAdded) toast('Added ' + totalAdded + ' new ' + (totalAdded===1?'show':'shows'));
   } catch (e){
     findMsg('<strong>Couldn\'t reach the search service.</strong><br>' +
-      String(e && e.message || e) + '<br>Nothing was added or changed.', 'err');
+      String(e && e.message || e) + '<br>' +
+      (totalAdded ? 'The ' + totalAdded + ' found before it stopped are saved.'
+                  : 'Nothing was added or changed.'), 'err');
   } finally {
     btn.disabled = false;
     btn.textContent = label;
@@ -2102,6 +2223,7 @@ async function runFind(sinceArg, srcBtn, windowLabel){
 if (!state.movies) state.movies = {};        // { now: {...}, soon: {...} } cached payloads
 if (!state.movieWant) state.movieWant = {};  // { tmdbId: true } — films he wants to see
 let movieMode = 'now';
+let movieMine = false;   // the ⭐ My list view — cuts across both modes, so it is its own flag
 
 function movieMsg(html, kind){
   const row = document.getElementById('movieStatus');
@@ -2522,6 +2644,32 @@ function toggleMovieWant(tmdb){
   toast(state.movieWant[tmdb] ? 'Added to your movie list' : 'Removed from your movie list');
 }
 
+/* ⭐ My list — the starred films from BOTH modes in one place, soonest release
+   first, so "what am I actually going to see" is one tap instead of two tabs.
+   A film starred in "Coming in 3 Weeks" and later found in "Playing Now"
+   appears once, from whichever payload has it. */
+function myMovieList(){
+  const seen = new Set(), out = [];
+  ['now','soon'].forEach(k => {
+    const p = state.movies[k];
+    ((p && p.movies) || []).forEach(m => {
+      if (!state.movieWant[m.tmdb] || seen.has(m.tmdb)) return;
+      seen.add(m.tmdb); out.push(m);
+    });
+  });
+  // no release date sorts last rather than pretending to be imminent
+  return out.sort((a,b) => String(a.release || '9999-12-31').localeCompare(String(b.release || '9999-12-31')));
+}
+// Released already -> "NOW PLAYING" and its showtimes; still to come -> the countdown.
+const movieCardMode = m => (daysUntil(m.release) > 0 ? 'soon' : 'now');
+
+function updateMovieMineLabel(){
+  const b = document.getElementById('movieMineBtn');
+  if (!b) return;
+  const n = Object.keys(state.movieWant).filter(k => state.movieWant[k]).length;
+  b.textContent = n ? `⭐ My list (${n})` : '⭐ My list';
+}
+
 function findMovie(tmdb){
   for (const k of ['now','soon']){
     const p = state.movies[k];
@@ -2622,6 +2770,30 @@ function openMovie(tmdb){
 
 function renderMovies(){
   const grid = document.getElementById('movieGrid');
+  updateMovieMineLabel();
+
+  if (movieMine){
+    const mine = myMovieList();
+    document.getElementById('movieCount').textContent = mine.length;
+    document.getElementById('movieBarRow').style.display = 'none';
+    document.getElementById('theatrePicker').style.display = 'none';
+    document.getElementById('theatrePicker').innerHTML = '';
+    document.getElementById('movieDayRow').style.display = 'none';
+    const mnote = document.getElementById('movieSrcNote');
+    if (!mine.length){
+      grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+        <h3>Nothing on your list yet</h3>
+        <p>Star ☆ Want to see on any film and it collects here.</p></div>`;
+      mnote.innerHTML = '';
+      return;
+    }
+    grid.innerHTML = mine.map((m, i) => movieCardHTML(m, i, movieCardMode(m))).join('');
+    mnote.innerHTML = `Everything you starred, from both Playing Now and Coming in 3 Weeks, soonest release first. ` +
+      `Films already out show the showtimes at your cinema; the rest show how long the wait is. ` +
+      `They are all in the calendar export too.`;
+    return;
+  }
+
   const payload = state.movies[movieMode];
   const list = (payload && payload.movies) || [];
   document.getElementById('movieCount').textContent = list.length;
@@ -2791,7 +2963,7 @@ function renderLists(){ if (document.getElementById('foryou').classList.contains
 function renderWall(){
   const el = document.getElementById('wall');
   if (!el) return;
-  const picks = SHOWS.filter(s=>posterOf(s.id)).sort((a,b)=>b.imdb-a.imdb).slice(0,12);
+  const picks = SHOWS.filter(s=>posterOf(s.id)&&!isHidden(s.id)).sort((a,b)=>b.imdb-a.imdb).slice(0,12);
   el.innerHTML = picks.map(s=>
     `<img src="${posterOf(s.id)}" alt="${escapeHTML(s.title)}" title="${escapeHTML(s.title)} · IMDb ${s.imdb}"
       loading="eager" onclick="openModal(${s.id})" onerror="this.remove()">`).join('');
@@ -3114,7 +3286,7 @@ function downloadICS(){
   // Episodes he is actually following — a calendar full of shows he never
   // opened would be worse than no calendar at all.
   SHOWS.concat(findsAsShows()).forEach(s => {
-    if (!isEngaged(s.id)) return;
+    if (!isEngaged(s.id) || isHidden(s.id)) return;
     const season = String(seasonOf(s.id) || 1).padStart(2, '0');
     epsOf(s.id).forEach(e => {
       if (!e[2] || e[2] < today) return;
@@ -3147,8 +3319,9 @@ document.querySelectorAll('.mood-btn').forEach(btn=>{
   btn.onclick=()=>{document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentMood=btn.dataset.mood;};
 });
 document.getElementById('surpriseBtn').onclick=()=>{
-  let pool=SHOWS.filter(s=>!getStatus(s.id)||getStatus(s.id)==='want');
+  let pool=SHOWS.filter(s=>(!getStatus(s.id)||getStatus(s.id)==='want')&&!isHidden(s.id));
   if(currentMood!=='any')pool=pool.filter(s=>s.moods.includes(currentMood));
+  if(!pool.length)pool=SHOWS.filter(s=>!isHidden(s.id));
   if(!pool.length)pool=SHOWS;
   const pick=pool[Math.floor(Math.random()*pool.length)];
   const box=document.getElementById('surpriseResult');
@@ -3693,6 +3866,7 @@ document.getElementById('exportBtn').onclick=()=>{
     lists:state.lists, epRatings:state.epRatings, epNotes:state.epNotes,
     movieWant:state.movieWant, lastSearch:state.lastSearch,
     watchLog:state.watchLog, rewatches:state.rewatches,
+    hidden:state.hidden,
   };
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);
@@ -3724,6 +3898,7 @@ document.getElementById('importFile').onchange=(ev)=>{
     Object.assign(state.epRatings,d.epRatings||{});
     Object.assign(state.epNotes,d.epNotes||{});
     Object.assign(state.movieWant,d.movieWant||{});
+    Object.assign(state.hidden,d.hidden||{});
     /* Watch history (v4 backups). Merged by identity — show, episode, run and the
        exact timestamp — so importing the same file twice can't double your hours,
        and an older backup without these fields simply adds nothing. */
@@ -3803,10 +3978,13 @@ document.addEventListener('keydown',e=>{
    between "Playing Now" and "Coming in 3 Weeks" is instant after each has been
    searched once. */
 (function initMovies(){
-  document.querySelectorAll('#movieMode .btn').forEach(btn => {
+  const clearModeActive = () =>
+    document.querySelectorAll('#movieMode .btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#movieMode .btn[data-mmode]').forEach(btn => {
     btn.onclick = () => {
-      document.querySelectorAll('#movieMode .btn').forEach(b => b.classList.remove('active'));
+      clearModeActive();
       btn.classList.add('active');
+      movieMine = false;
       movieMode = btn.dataset.mmode;
       const rb = document.getElementById('movieRefresh');
       rb.textContent = movieMode === 'now'
@@ -3816,6 +3994,15 @@ document.addEventListener('keydown',e=>{
       renderMovies();
     };
   });
+  // ⭐ My list is a fourth state of the same group: whichever is lit, the others are not.
+  document.getElementById('movieMineBtn').onclick = () => {
+    clearModeActive();
+    document.getElementById('movieMineBtn').classList.add('active');
+    movieMine = true;
+    movieMsg('');
+    renderMovies();
+  };
+  updateMovieMineLabel();
   document.getElementById('movieRefresh').onclick = runMovieSearch;
   document.getElementById('movieBar').onchange = () => {
     // The bar is applied server-side, so changing it means asking again.
