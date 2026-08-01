@@ -1998,6 +1998,7 @@ let selectedTheatre = null; // theatre id the person is looking at
 let theatresLoading = false;
 let theatresPending = null; // in-flight lookup, so a second one queues behind it
 let rolledForward = false;  // true when today was spent and we moved to tomorrow
+let theatresSeq = 0;        // ticket number, so a stale reply cannot win
 
 if (!state.place) state.place = null;        // { zip, city, state } they chose
 if (!state.theatreId) state.theatreId = null; // their usual cinema
@@ -2031,6 +2032,11 @@ async function loadTheatersInner(opts){
     document.getElementById('theatreAddr').textContent = 'Open the deployed site to see cinemas near you';
     return null;
   }
+  /* Every lookup takes a ticket. A slow automatic IP lookup that lands after
+     someone has typed a ZIP must not overwrite their answer with the wrong
+     city — the stale one checks its ticket and drops its result instead. */
+  const ticket = ++theatresSeq;
+  const stale = () => ticket !== theatresSeq;
   theatresLoading = true;
   const name = document.getElementById('theatreName');
   const addr = document.getElementById('theatreAddr');
@@ -2054,6 +2060,7 @@ async function loadTheatersInner(opts){
       return null;
     }
     const data = await res.json();
+    if (stale()) return THEATERS;   // someone asked for somewhere else meanwhile
     if (!data.ok){
       name.textContent = 'Couldn\'t find cinemas';
       addr.textContent = data.message || 'Try typing a ZIP code';
@@ -2086,7 +2093,10 @@ async function loadTheatersInner(opts){
       const filmsLeft = t ? t.movies.filter(m => m.formats.some(f => f.times.some(x => !x.expired))).length : 0;
       if (filmsLeft < 3){
         theatreDay = ymdLocal(new Date(Date.now() + 86400000));
-        return loadTheaters({ ...opts, noRoll: true, rolled: true });
+        /* Straight to the inner function, NOT back through loadTheaters(). The
+           queue wrapper waits on the in-flight lookup, and the in-flight lookup
+           here is this one — going through it would have us wait on ourselves. */
+        return loadTheatersInner({ ...opts, noRoll: true, rolled: true });
       }
     }
     if (opts.rolled) rolledForward = true;
