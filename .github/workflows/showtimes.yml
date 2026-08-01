@@ -1,0 +1,61 @@
+name: Refresh AMC West Chester 18 showtimes
+
+# amctheatres.com is behind a Queue-it gate that no plain server request can
+# pass, so the times are collected by a real browser on a schedule and committed
+# as data/showtimes.json. Vercel redeploys on the commit, so the app always
+# serves a schedule that is current for the day.
+#
+# Times are Eastern (the theatre is in Ohio): 6:20am, 11:20am, 4:20pm, 9:20pm.
+# Cron is UTC, and EDT is UTC-4.
+on:
+  schedule:
+    - cron: '20 10 * * *'
+    - cron: '20 15 * * *'
+    - cron: '20 20 * * *'
+    - cron: '20 01 * * *'
+  workflow_dispatch:
+    inputs:
+      days:
+        description: 'How many days ahead to collect'
+        required: false
+        default: '3'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: showtimes
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Puppeteer is the only dependency and it is only needed here, so it is
+      # installed for the job rather than added to the app's package.json —
+      # the app itself must stay a dependency-free static site.
+      - name: Install Puppeteer
+        run: npm install --no-save puppeteer@23
+
+      - name: Collect showtimes
+        id: scrape
+        run: node scripts/scrape-showtimes.js ${{ github.event.inputs.days || '3' }}
+
+      - name: Commit if the schedule changed
+        run: |
+          if git diff --quiet -- data/showtimes.json; then
+            echo "No change to the schedule — nothing to commit."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/showtimes.json
+          git commit -m "Refresh AMC West Chester 18 showtimes [skip ci]"
+          git push

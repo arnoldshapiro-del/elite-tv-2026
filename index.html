@@ -832,6 +832,39 @@ footer {
 .movie-want:hover { border-color: var(--warning); color: var(--warning); }
 .movie-want.on { background: var(--warning); border-color: var(--warning); color: #1a1200; }
 
+/* ---- showtimes ---- */
+.showtimes { border-top: 1px solid var(--border); padding-top: 9px; display: flex; flex-direction: column; gap: 7px; }
+.st-row { display: flex; align-items: flex-start; gap: 7px; flex-wrap: wrap; }
+.st-fmt {
+  font-size: 9.5px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 3px 7px; border-radius: 5px; white-space: nowrap; flex-shrink: 0;
+  background: var(--surface3); color: var(--muted); border: 1px solid var(--border);
+}
+/* the premium formats get their own identity so IMAX reads as IMAX at a glance */
+.st-fmt.imax { background: rgba(0,168,225,0.16); color: #35b6ea; border-color: rgba(0,168,225,0.45); }
+.st-fmt.dolby { background: rgba(139,92,246,0.18); color: #a78bfa; border-color: rgba(139,92,246,0.5); }
+.st-fmt.threed { background: rgba(34,197,94,0.15); color: #35c46a; border-color: rgba(34,197,94,0.42); }
+.st-fmt.artisan { background: rgba(245,158,11,0.15); color: var(--warning); border-color: rgba(245,158,11,0.42); }
+.st-times { display: flex; gap: 5px; flex-wrap: wrap; }
+.st-time {
+  font-size: 11.5px; font-weight: 700; padding: 3px 8px; border-radius: 6px;
+  background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+  text-decoration: none; white-space: nowrap; display: inline-block;
+}
+.st-time:hover { border-color: var(--accent); color: var(--accent); }
+.st-time.gone { opacity: 0.34; }
+.st-time.tight { border-color: rgba(245,158,11,0.55); }
+.st-time.sold { opacity: 0.4; text-decoration: line-through; }
+.st-more { font-size: 11px; color: var(--muted); align-self: center; }
+.st-none { font-size: 11.5px; color: var(--muted); }
+.st-daytabs { display: flex; gap: 6px; flex-wrap: wrap; margin: 4px 0 12px; }
+.st-daytab {
+  font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 8px; cursor: pointer;
+  background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
+}
+.st-daytab.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.st-stale { font-size: 11px; color: var(--warning); }
+
 /* theatre banner */
 .theatre-bar {
   display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
@@ -1075,6 +1108,11 @@ footer {
         <option value="0|0">Show everything playing</option>
       </select>
       <span style="font-size:11.5px;color:var(--muted)">Same height as the TV list. Films just released often have one score before the other, so either one clearing the bar counts.</span>
+    </div>
+    <div class="controls-row" id="movieDayRow" style="display:none;gap:10px">
+      <label style="font-size:12px;color:var(--muted)">Showtimes for</label>
+      <div class="st-daytabs" id="movieDayTabs" style="margin:0"></div>
+      <span style="font-size:11.5px;color:var(--muted)" id="movieDayNote"></span>
     </div>
     <div class="controls-row" id="movieStatus" style="display:none"></div>
   </div>
@@ -1527,7 +1565,7 @@ document.querySelectorAll('.nav-tab').forEach(tab=>{
     if(tab.dataset.section==='upnext')renderUpNext();
     if(tab.dataset.section==='foryou')renderForYou();
     if(tab.dataset.section==='finds')renderFinds();
-    if(tab.dataset.section==='movies')renderMovies();
+    if(tab.dataset.section==='movies'){renderMovies();loadShowtimes().then(j=>{if(j)renderMovies();});}
     if(tab.dataset.section==='watchlist')renderWatchlist();
     if(tab.dataset.section==='stats')renderStats();
     if(tab.dataset.section==='calendar')renderCalendar();
@@ -1901,6 +1939,198 @@ function movieScoreChips(m){
   return out.join('');
 }
 
+/* ===========================================================================
+   SHOWTIMES at AMC West Chester 18 — real times, real formats.
+
+   data/showtimes.json is produced by scripts/scrape-showtimes.js, which drives
+   a real browser because amctheatres.com sits behind a Queue-it gate that no
+   plain server request can pass. A GitHub Action re-runs it through the day, so
+   the file is always current for the day you are looking at.
+
+   Nothing here is inferred: every time, format and "Almost Full" note is what
+   AMC published, and each time links to that exact showing's ticket page.
+=========================================================================== */
+let SHOWTIMES = null;          // the whole published file
+let showtimesDay = null;       // which day the UI is showing
+let showtimesTried = false;
+
+async function loadShowtimes(){
+  if (SHOWTIMES || showtimesTried) return SHOWTIMES;
+  showtimesTried = true;
+  try {
+    const r = await fetch('/data/showtimes.json', { headers: { 'Accept': 'application/json' } });
+    if (!r.ok) return null;
+    const j = await r.json();
+    if (!j || !j.days) return null;
+    SHOWTIMES = j;
+    const days = Object.keys(j.days).sort();
+    const today = todayLocal();
+
+    /* Default to today — but roll forward once the evening is effectively over.
+       Counting films, not showings: at 11pm a couple of late screenings are
+       still technically "upcoming", and defaulting to today for those left
+       eleven of thirteen cards saying "last show has started". If fewer than
+       three films still have anything left, tomorrow is the useful answer. */
+    const filmsLeftOn = d => (j.days[d] || []).filter(f =>
+      f.formats.some(g => g.times.some(t =>
+        d !== today || new Date(t.utc).getTime() > Date.now()))).length;
+
+    showtimesDay = days.includes(today) && filmsLeftOn(today) >= 3
+      ? today
+      : (days.find(d => d > today && filmsLeftOn(d) > 0)
+         || (days.includes(today) ? today : days[0]));
+    return j;
+  } catch { return null; }
+}
+
+const todayLocal = () => ymdLocal(new Date());
+
+// Title matching across two catalogues: AMC's marquee spelling vs TMDB's.
+const stTitleKey = s => String(s || '').toLowerCase()
+  .replace(/\s*\((?:20\d\d|19\d\d)\)\s*$/, '')
+  .replace(/[:\-–—'’.,!?]/g, ' ')
+  .replace(/\b(the|a|an)\b/g, ' ')
+  .replace(/&/g, 'and')
+  .replace(/\s+/g, ' ').trim();
+
+function showtimesFor(title, day){
+  if (!SHOWTIMES) return null;
+  const films = SHOWTIMES.days[day || showtimesDay];
+  if (!films || !films.length) return null;
+  const want = stTitleKey(title);
+  let hit = films.find(f => stTitleKey(f.title) === want);
+  if (!hit) {
+    // AMC appends things like "The IMAX Experience" or a re-release suffix
+    hit = films.find(f => {
+      const k = stTitleKey(f.title);
+      return k.startsWith(want) || want.startsWith(k);
+    });
+  }
+  return hit || null;
+}
+
+// Which visual treatment a format gets. Everything else stays neutral.
+function fmtClass(f){
+  const s = String(f || '').toLowerCase();
+  if (s.includes('imax')) return 'imax';
+  if (s.includes('dolby')) return 'dolby';
+  if (s.includes('3d')) return 'threed';
+  if (s.includes('artisan')) return 'artisan';
+  return '';
+}
+// "Dolby Cinema at AMC" -> "Dolby Cinema"; "IMAX at AMC" -> "IMAX".
+const fmtShort = f => String(f || 'Standard').replace(/\s+at AMC$/i, '').trim();
+
+const stPassed = t => new Date(t.utc).getTime() < Date.now();
+
+function timeChip(t, showGone){
+  const sold = t.status && /sold out/i.test(t.status);
+  const tight = t.status && /almost full|few seats/i.test(t.status);
+  const gone = stPassed(t);
+  if (gone && !showGone) return '';
+  const cls = ['st-time', gone ? 'gone' : '', sold ? 'sold' : '', tight ? 'tight' : ''].filter(Boolean).join(' ');
+  const tip = [t.status || '', gone ? 'already started' : ''].filter(Boolean).join(' · ');
+  return `<a class="${cls}" href="${escapeHTML(t.url)}" target="_blank" rel="noopener"
+     onclick="event.stopPropagation()" title="${escapeHTML(tip || 'Get tickets')}">${escapeHTML(t.time)}</a>`;
+}
+
+/* Compact strip for a card: the next few times still to come today. */
+function cardShowtimesHTML(m){
+  if (!SHOWTIMES) return '';
+  const f = showtimesFor(m.title);
+  const isToday = showtimesDay === todayLocal();
+  if (!f) {
+    return `<div class="showtimes"><span class="st-none">Not on at ${escapeHTML(SHOWTIMES.theatre.name.replace('AMC ',''))} ${isToday ? 'today' : 'that day'}</span></div>`;
+  }
+  const rows = f.formats.map(g => {
+    const upcoming = g.times.filter(t => !isToday || !stPassed(t));
+    if (!upcoming.length) return '';
+    const shown = upcoming.slice(0, 4);
+    const extra = upcoming.length - shown.length;
+    return `<div class="st-row">
+      <span class="st-fmt ${fmtClass(g.format)}">${escapeHTML(fmtShort(g.format))}</span>
+      <span class="st-times">${shown.map(t => timeChip(t)).join('')}
+      ${extra > 0 ? `<span class="st-more">+${extra}</span>` : ''}</span>
+    </div>`;
+  }).filter(Boolean);
+  if (!rows.length) {
+    return `<div class="showtimes"><span class="st-none">Last show has started — tap for tomorrow</span></div>`;
+  }
+  return `<div class="showtimes">${rows.join('')}</div>`;
+}
+
+/* Full breakdown for the modal: every day, every format, every time. */
+function modalShowtimesHTML(m){
+  if (!SHOWTIMES) return '';
+  const days = Object.keys(SHOWTIMES.days).sort();
+  const tabs = days.map(d => {
+    const dt = new Date(d + 'T12:00:00');
+    const label = d === todayLocal() ? 'Today'
+      : d === ymdLocal(new Date(Date.now() + 86400000)) ? 'Tomorrow'
+      : dt.toLocaleDateString('en', { weekday: 'short', month: 'short', day: 'numeric' });
+    return `<button class="st-daytab ${d === showtimesDay ? 'on' : ''}"
+      onclick="event.stopPropagation();setShowtimesDay('${d}',${m.tmdb})">${escapeHTML(label)}</button>`;
+  }).join('');
+
+  const f = showtimesFor(m.title);
+  let body;
+  if (!f) {
+    body = `<p class="st-none">${escapeHTML(m.title)} is not on the schedule at ${escapeHTML(SHOWTIMES.theatre.name)} that day.</p>`;
+  } else {
+    const isToday = showtimesDay === todayLocal();
+    body = f.formats.map(g => `
+      <div class="st-row" style="margin-bottom:8px">
+        <span class="st-fmt ${fmtClass(g.format)}">${escapeHTML(fmtShort(g.format))}</span>
+        <span class="st-times">${g.times.map(t => timeChip(t, isToday)).join('') || '<span class="st-none">—</span>'}</span>
+      </div>
+      ${g.attributes && g.attributes.length
+        ? `<div style="font-size:11px;color:var(--muted);margin:-4px 0 12px 4px">${g.attributes.map(escapeHTML).join(' · ')}</div>`
+        : ''}`).join('');
+  }
+
+  const when = new Date(SHOWTIMES.scrapedAt);
+  const stale = SHOWTIMES.scrapedDayET !== todayLocal();
+  return `
+    <div style="font-size:13px;font-weight:600;margin:16px 0 2px">
+      Showtimes at ${escapeHTML(SHOWTIMES.theatre.name)}
+    </div>
+    <div class="st-daytabs">${tabs}</div>
+    ${body}
+    <div class="src-note" style="margin-top:2px">
+      Straight from AMC — every time links to that exact showing's ticket page. Faded times have already started;
+      struck-through means sold out. Checked ${escapeHTML(when.toLocaleString('en', { month:'short', day:'numeric', hour:'numeric', minute:'2-digit' }))}.
+      ${stale ? '<span class="st-stale">This list is from a previous day — the schedule refreshes through the day.</span>' : ''}
+    </div>`;
+}
+
+function setShowtimesDay(d, reopenTmdb){
+  showtimesDay = d;
+  renderMovies();
+  if (reopenTmdb) openMovie(reopenTmdb);
+}
+
+function dayLabel(d){
+  if (d === todayLocal()) return 'Today';
+  if (d === ymdLocal(new Date(Date.now() + 86400000))) return 'Tomorrow';
+  return new Date(d + 'T12:00:00').toLocaleDateString('en', { weekday: 'short', month: 'short', day: 'numeric' });
+}
+
+/* One day picker for the whole grid, so he can see the theatre's Saturday
+   without opening a film first. */
+function renderShowtimeDayTabs(){
+  const row = document.getElementById('movieDayRow');
+  if (movieMode !== 'now' || !SHOWTIMES){ row.style.display = 'none'; return; }
+  row.style.display = 'flex';
+  const days = Object.keys(SHOWTIMES.days).sort();
+  document.getElementById('movieDayTabs').innerHTML = days.map(d =>
+    `<button class="st-daytab ${d === showtimesDay ? 'on' : ''}" onclick="setShowtimesDay('${d}')">${escapeHTML(dayLabel(d))}</button>`
+  ).join('');
+  const note = document.getElementById('movieDayNote');
+  note.innerHTML = showtimesDay === todayLocal()
+    ? `Times already started are faded. Tap any time to buy that seat.`
+    : `Today's last show has started, so this is <strong>${escapeHTML(dayLabel(showtimesDay))}</strong>. Tap any time to buy that seat.`;
+}
+
 function movieCardHTML(m, i, mode){
   const badge = whenBadge(m.release, mode);
   const want = !!state.movieWant[m.tmdb];
@@ -1922,6 +2152,7 @@ function movieCardHTML(m, i, mode){
     <div class="movie-body">
       <div class="movie-scores">${movieScoreChips(m)}</div>
       <p class="movie-plot">${escapeHTML(m.overview || 'No description available yet.')}</p>
+      ${mode === 'now' ? cardShowtimesHTML(m) : ''}
       <div class="movie-foot">
         <span>${m.release ? fmtDate(m.release) : 'date to be announced'}</span>
         <button class="movie-want ${want ? 'on' : ''}" onclick="event.stopPropagation();toggleMovieWant(${m.tmdb})">${want ? '★ On my list' : '☆ Want to see'}</button>
@@ -2017,6 +2248,7 @@ function openMovie(tmdb){
       ${(m.castRoles && m.castRoles.length) ? `<div style="font-size:13px;font-weight:600;margin:14px 0 2px">Cast</div>
         <div class="cast-line">${m.castRoles.map(c => `<span class="cast-chip">${escapeHTML(c.name)}${c.role ? ' <em>as ' + escapeHTML(c.role) + '</em>' : ''}</span>`).join('')}</div>`
         : (m.cast ? `<div style="font-size:13px;font-weight:600;margin:14px 0 2px">Cast</div><div class="cast-line">${m.cast.split(', ').map(n => `<span class="cast-chip">${escapeHTML(n)}</span>`).join('')}</div>` : '')}
+      ${movieMode === 'now' ? modalShowtimesHTML(m) : ''}
       <div class="modal-actions" style="margin:16px 0">
         <button class="btn trailer-btn" onclick="playMovieTrailer(${m.tmdb})">▶ Play Trailer</button>
         <button class="btn ${want ? 'active' : ''}" onclick="toggleMovieWant(${m.tmdb});openMovie(${m.tmdb})">${want ? '★ On my list' : '☆ Want to see'}</button>
@@ -2059,6 +2291,7 @@ function renderMovies(){
   }
 
   document.getElementById('movieBarRow').style.display = movieMode === 'now' ? 'flex' : 'none';
+  renderShowtimeDayTabs();
 
   const note = document.getElementById('movieSrcNote');
   if (!list.length){
@@ -2074,9 +2307,12 @@ function renderMovies(){
   }
   grid.innerHTML = list.map((m, i) => movieCardHTML(m, i, movieMode)).join('');
   const th = payload.theatre || MOVIE_THEATRE;
+  const stWhen = SHOWTIMES ? new Date(SHOWTIMES.scrapedAt) : null;
   note.innerHTML = movieMode === 'now'
     ? `Showing US releases in theatres now that cleared the bar, checked ${payload.scanned || 0} films. ` +
-      `Showtimes are not printed here because no free feed publishes them — the buttons open ${escapeHTML(th.name)}'s own listings, which are always current. ` +
+      (SHOWTIMES
+        ? `Showtimes and formats come straight from ${escapeHTML(th.name)} — last checked ${escapeHTML(stWhen.toLocaleString('en',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}))}, and every time links to that showing's ticket page. `
+        : `Showtimes are loading — tap a film for the full schedule. `) +
       `Every 🍿 and 🍅 is a real Rotten Tomatoes score and every ★ a real IMDb rating; a dash means not yet published.`
     : `Opening in the next ${payload.windowDays || 21} days. Films that are not out yet have no audience or critic score to show — those slots stay empty rather than being guessed. ` +
       `Posters, summaries, cast and trailers are live now.`;
@@ -2121,6 +2357,7 @@ async function runMovieSearch(){
     state.movies[movieMode] = data;
     save();
     renderMovies();
+    loadShowtimes().then(j => { if (j) renderMovies(); });
 
     const bits = [];
     bits.push('<strong>' + (data.found

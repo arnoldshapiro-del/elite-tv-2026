@@ -118,17 +118,45 @@ is required by `discover-core.js`. Failure is always non-fatal: no match → nul
   limited re-run do not appear), and non-US certificates (India's A/U/UA, the
   UK's 12A/15/18) are dropped — an 18-screen AMC in Ohio runs US releases.
 
-## SHOWTIMES — why the app does not print them
-AMC's own site, `api.amctheatres.com`, Fandango's `napi` showtimes feed, Atom
-Tickets, showtimes.com and Google/Bing all block server-side reads or require a
-paid vendor key (all six probed 2026-07-31). So the app never claims to know a
-showtime. It lists US wide releases currently in theatres — what an 18-screen
-AMC runs — and every card and modal links straight to the real listings:
-- AMC West Chester 18, 9415 Civic Center Blvd., West Chester, OH 45069
-- Fandango theatre id `AAWWU` (found via Fandango's own search; the guessable
-  `aaowu` slug 404s)
-If a showtimes source ever opens up, `THEATRE` in movies-core.js is where to
-start.
+## SHOWTIMES — real times and formats, via a scheduled browser
+The app shows actual showtimes at AMC West Chester 18 with the format (IMAX at
+AMC, Dolby Cinema at AMC, RealD 3D, Digital, AMC Artisan Films, Thrills &
+Chills, subtitled screenings) and AMC's own "Almost Full"/"Sold Out" note. Each
+time links to that exact showing's ticket page.
+
+**It cannot be a serverless fetch, and this was tested hard.** amctheatres.com
+sits behind a Queue-it "Global Safety Net". A plain request — minimal headers,
+full Chrome header set, referer, warmed cookie jar, every combination — returns
+the same 2.6KB JavaScript challenge shell. Passing it needs a real browser to
+run their JS and receive a signed `queueittoken`, HMAC'd server-side and not
+forgeable. `api.amctheatres.com/v2` wants a vendor key (400). Fandango's
+`napi/theaterMovieShowtimes` returns 403 even with cookies, and their
+server-rendered theatre page only contains the site-wide "New & Coming soon"
+footer. Atom 404s, showtimes.com served a Hawaii theatre, Google and Bing have
+zero clock times in their HTML. All probed 2026-07-31.
+
+**So it is a scheduled scrape.** `scripts/scrape-showtimes.js` drives a real
+browser — which is simply what a visitor does — and writes `data/showtimes.json`.
+`.github/workflows/showtimes.yml` runs it four times a day (6:20am, 11:20am,
+4:20pm, 9:20pm ET) and commits only when the schedule changed; Vercel redeploys
+on that commit. The app then reads a static file: instant, key-free, unlimited.
+- Run it by hand: `node scripts/scrape-showtimes.js 3`
+- Puppeteer is installed by the workflow with `--no-save`. **Keep the app itself
+  dependency-free** — it must stay a static site with no build step.
+- A run that parses zero showtimes exits 1 WITHOUT writing, so a bad scrape can
+  never wipe a good schedule off the live site.
+- **Do NOT wait for `networkidle2`** — AMC's ad and analytics beacons never go
+  quiet and the navigation times out on a page that rendered seconds earlier.
+  Wait for `domcontentloaded`, then for the showtime markup to appear.
+- AMC ships `aria-label="undefined Showtimes"` on standard screens (a bug on
+  their side). The real name is in the block's `<h3>` ("Digital"), so the h3
+  wins and the aria-label is only a fallback.
+- The UI opens on today, but rolls to the next day once fewer than three films
+  still have a screening left — at 11pm "today" is a wall of dead times.
+
+Theatre identifiers (both verified): AMC West Chester 18, 9415 Civic Center
+Blvd., West Chester, OH 45069; Fandango theatre id `AAWWU` (from Fandango's own
+search — the guessable `aaowu` slug 404s).
 
 ## Baked-in data (no API key needed at runtime)
 Scraped from TMDB's public pages, committed under `data/`:

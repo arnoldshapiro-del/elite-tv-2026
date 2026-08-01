@@ -1,0 +1,1769 @@
+{
+ "theatre": {
+  "name": "AMC West Chester 18",
+  "address": "9415 Civic Center Blvd., West Chester, OH 45069",
+  "slug": "amc-west-chester-18",
+  "market": "cincinnati",
+  "amc": "https://www.amctheatres.com/movie-theatres/cincinnati/amc-west-chester-18",
+  "fandango": "https://www.fandango.com/amc-west-chester-18-AAWWU/theater-page"
+ },
+ "scrapedAt": "2026-08-01T02:55:22.697Z",
+ "scrapedDayET": "2026-07-31",
+ "days": {
+  "2026-07-31": [
+   {
+    "title": "Spider-Man: Brand New Day",
+    "amcId": "78598",
+    "slug": "spider-man-brand-new-day",
+    "formats": [
+     {
+      "format": "Dolby Cinema at AMC",
+      "key": "dolbycinemaatamcprime",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "144085002",
+        "utc": "2026-08-01T03:00:00.000Z",
+        "time": "11:00pm",
+        "status": "Almost Full",
+        "url": "https://www.amctheatres.com/showtimes/144085002"
+       }
+      ]
+     },
+     {
+      "format": "RealD 3D",
+      "key": "reald3d",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "144539162",
+        "utc": "2026-08-01T02:30:00.000Z",
+        "time": "10:30pm",
+        "status": "Almost Full",
+        "url": "https://www.amctheatres.com/showtimes/144539162"
+       },
+       {
+        "id": "145610431",
+        "utc": "2026-08-01T03:15:00.000Z",
+        "time": "11:15pm",
+        "status": "Almost Full",
+        "url": "https://www.amctheatres.com/showtimes/145610431"
+       }
+      ]
+     },
+     {
+      "format": "Digital",
+      "key": "digital",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "145687158",
+        "utc": "2026-08-01T02:40:00.000Z",
+        "time": "10:40pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145687158"
+       },
+       {
+        "id": "145690679",
+        "utc": "2026-08-01T02:50:00.000Z",
+        "time": "10:50pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145690679"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Motor City",
+    "amcId": "83470",
+    "slug": "motor-city",
+    "formats": [
+     {
+      "format": "Digital",
+      "key": "digital",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption"
+      ],
+      "times": [
+       {
+        "id": "145610418",
+        "utc": "2026-08-01T02:40:00.000Z",
+        "time": "10:40pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610418"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Obsession",
+    "amcId": "82063",
+    "slug": "obsession",
+    "formats": [
+     {
+      "format": "Thrills & Chills",
+      "key": "thrlschls",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "145610373",
+        "utc": "2026-08-01T02:50:00.000Z",
+        "time": "10:50pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610373"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "2026-08-01": [
+   {
+    "title": "Spider-Man: Brand New Day",
+    "amcId": "78598",
+    "slug": "spider-man-brand-new-day",
+    "formats": [
+     {
+      "format": "Dolby Cinema at AMC",
+      "key": "dolbycinemaatamcprime",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "144084999",
+        "utc": "2026-08-01T12:35:00.000Z",
+        "time": "8:35am",
+        "status": "UP TO 15% OFF, Almost Full",
+        "url": "https://www.amctheatres.com/showtimes/144084999"
+       },
+       {
+        "id": "144084998",
+        "utc": "2026-08-01T16:10:00.000Z",
+        "time": "12:10pm",
+        "status": "UP TO 15% OFF, Almost Full",
+        "url": "https://www.amctheatres.com/showtimes/144084998"
+       },
+       {
+        "id": "144084997",
+        "utc": "2026-08-01T19:45:00.000Z",
+        "time": "3:45pm",
+        "status": "UP TO 15% OFF, Almost Full",
+        "url": "https://www.amctheatres.com/showtimes/144084997"
+       },
+       {
+        "id": "144084996",
+        "utc": "2026-08-01T23:20:00.000Z",
+        "time": "7:20pm",
+        "status": "Almost Full",
+        "url": "https://www.amctheatres.com/showtimes/144084996"
+       },
+       {
+        "id": "144084995",
+        "utc": "2026-08-02T03:00:00.000Z",
+        "time": "11:00pm",
+        "status": "Almost Full",
+        "url": "https://www.amctheatres.com/showtimes/144084995"
+       }
+      ]
+     },
+     {
+      "format": "RealD 3D",
+      "key": "reald3d",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "144084911",
+        "utc": "2026-08-01T13:25:00.000Z",
+        "time": "9:25am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084911"
+       },
+       {
+        "id": "144084848",
+        "utc": "2026-08-01T14:20:00.000Z",
+        "time": "10:20am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084848"
+       },
+       {
+        "id": "144539145",
+        "utc": "2026-08-01T17:30:00.000Z",
+        "time": "1:30pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144539145"
+       },
+       {
+        "id": "144084847",
+        "utc": "2026-08-01T18:00:00.000Z",
+        "time": "2:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084847"
+       },
+       {
+        "id": "144539144",
+        "utc": "2026-08-01T21:10:00.000Z",
+        "time": "5:10pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144539144"
+       },
+       {
+        "id": "144084846",
+        "utc": "2026-08-01T21:40:00.000Z",
+        "time": "5:40pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084846"
+       },
+       {
+        "id": "145694077",
+        "utc": "2026-08-02T01:00:00.000Z",
+        "time": "9:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145694077"
+       },
+       {
+        "id": "144084845",
+        "utc": "2026-08-02T01:20:00.000Z",
+        "time": "9:20pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084845"
+       },
+       {
+        "id": "144539158",
+        "utc": "2026-08-02T02:30:00.000Z",
+        "time": "10:30pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144539158"
+       },
+       {
+        "id": "145610440",
+        "utc": "2026-08-02T03:15:00.000Z",
+        "time": "11:15pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610440"
+       }
+      ]
+     },
+     {
+      "format": "Digital",
+      "key": "digital",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "144539146",
+        "utc": "2026-08-01T13:50:00.000Z",
+        "time": "9:50am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144539146"
+       },
+       {
+        "id": "145610383",
+        "utc": "2026-08-01T14:50:00.000Z",
+        "time": "10:50am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610383"
+       },
+       {
+        "id": "144084892",
+        "utc": "2026-08-01T15:10:00.000Z",
+        "time": "11:10am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084892"
+       },
+       {
+        "id": "144539160",
+        "utc": "2026-08-01T15:40:00.000Z",
+        "time": "11:40am",
+        "status": "20% OFF, Almost Full",
+        "url": "https://www.amctheatres.com/showtimes/144539160"
+       },
+       {
+        "id": "145610429",
+        "utc": "2026-08-01T16:40:00.000Z",
+        "time": "12:40pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610429"
+       },
+       {
+        "id": "144084910",
+        "utc": "2026-08-01T17:00:00.000Z",
+        "time": "1:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084910"
+       },
+       {
+        "id": "145610382",
+        "utc": "2026-08-01T18:20:00.000Z",
+        "time": "2:20pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610382"
+       },
+       {
+        "id": "144084891",
+        "utc": "2026-08-01T18:50:00.000Z",
+        "time": "2:50pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084891"
+       },
+       {
+        "id": "144539159",
+        "utc": "2026-08-01T19:15:00.000Z",
+        "time": "3:15pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144539159"
+       },
+       {
+        "id": "145610428",
+        "utc": "2026-08-01T20:15:00.000Z",
+        "time": "4:15pm",
+        "status": "Almost Full",
+        "url": "https://www.amctheatres.com/showtimes/145610428"
+       },
+       {
+        "id": "144084909",
+        "utc": "2026-08-01T20:40:00.000Z",
+        "time": "4:40pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084909"
+       },
+       {
+        "id": "145610384",
+        "utc": "2026-08-01T22:00:00.000Z",
+        "time": "6:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610384"
+       },
+       {
+        "id": "144084890",
+        "utc": "2026-08-01T22:25:00.000Z",
+        "time": "6:25pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084890"
+       },
+       {
+        "id": "144539157",
+        "utc": "2026-08-01T22:50:00.000Z",
+        "time": "6:50pm",
+        "status": "Almost Full",
+        "url": "https://www.amctheatres.com/showtimes/144539157"
+       },
+       {
+        "id": "145610573",
+        "utc": "2026-08-01T23:00:00.000Z",
+        "time": "7:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610573"
+       },
+       {
+        "id": "145694533",
+        "utc": "2026-08-01T23:10:00.000Z",
+        "time": "7:10pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145694533"
+       },
+       {
+        "id": "145610427",
+        "utc": "2026-08-01T23:50:00.000Z",
+        "time": "7:50pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610427"
+       },
+       {
+        "id": "144084908",
+        "utc": "2026-08-02T00:20:00.000Z",
+        "time": "8:20pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084908"
+       },
+       {
+        "id": "144539143",
+        "utc": "2026-08-02T00:50:00.000Z",
+        "time": "8:50pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144539143"
+       },
+       {
+        "id": "145610464",
+        "utc": "2026-08-02T01:40:00.000Z",
+        "time": "9:40pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610464"
+       },
+       {
+        "id": "144084889",
+        "utc": "2026-08-02T02:00:00.000Z",
+        "time": "10:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084889"
+       },
+       {
+        "id": "145694534",
+        "utc": "2026-08-02T02:40:00.000Z",
+        "time": "10:40pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145694534"
+       },
+       {
+        "id": "145610506",
+        "utc": "2026-08-02T02:45:00.000Z",
+        "time": "10:45pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610506"
+       },
+       {
+        "id": "145694532",
+        "utc": "2026-08-02T03:05:00.000Z",
+        "time": "11:05pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145694532"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "The Odyssey",
+    "amcId": "76238",
+    "slug": "the-odyssey",
+    "formats": [
+     {
+      "format": "IMAX at AMC",
+      "key": "imax",
+      "attributes": [
+       "AMC Artisan Films",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "143802350",
+        "utc": "2026-08-01T14:00:00.000Z",
+        "time": "10:00am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/143802350"
+       },
+       {
+        "id": "143802351",
+        "utc": "2026-08-01T18:00:00.000Z",
+        "time": "2:00pm",
+        "status": "UP TO 15% OFF, Almost Full",
+        "url": "https://www.amctheatres.com/showtimes/143802351"
+       },
+       {
+        "id": "143802352",
+        "utc": "2026-08-01T22:00:00.000Z",
+        "time": "6:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/143802352"
+       },
+       {
+        "id": "143802353",
+        "utc": "2026-08-02T02:00:00.000Z",
+        "time": "10:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/143802353"
+       }
+      ]
+     },
+     {
+      "format": "AMC Artisan Films",
+      "key": "amcartisanfilms",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "145610501",
+        "utc": "2026-08-01T12:40:00.000Z",
+        "time": "8:40am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610501"
+       },
+       {
+        "id": "145610576",
+        "utc": "2026-08-01T15:00:00.000Z",
+        "time": "11:00am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610576"
+       },
+       {
+        "id": "145610462",
+        "utc": "2026-08-01T15:30:00.000Z",
+        "time": "11:30am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610462"
+       },
+       {
+        "id": "145610500",
+        "utc": "2026-08-01T16:35:00.000Z",
+        "time": "12:35pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610500"
+       },
+       {
+        "id": "145610574",
+        "utc": "2026-08-01T19:00:00.000Z",
+        "time": "3:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610574"
+       },
+       {
+        "id": "145610461",
+        "utc": "2026-08-01T19:30:00.000Z",
+        "time": "3:30pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610461"
+       },
+       {
+        "id": "145610499",
+        "utc": "2026-08-01T20:30:00.000Z",
+        "time": "4:30pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610499"
+       },
+       {
+        "id": "145610463",
+        "utc": "2026-08-01T23:30:00.000Z",
+        "time": "7:30pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610463"
+       },
+       {
+        "id": "145610498",
+        "utc": "2026-08-02T00:30:00.000Z",
+        "time": "8:30pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610498"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Minions & Monsters",
+    "amcId": "77563",
+    "slug": "minions-monsters",
+    "formats": [
+     {
+      "format": "RealD 3D",
+      "key": "reald3d",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "145610526",
+        "utc": "2026-08-01T14:15:00.000Z",
+        "time": "10:15am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610526"
+       },
+       {
+        "id": "145610528",
+        "utc": "2026-08-01T19:40:00.000Z",
+        "time": "3:40pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610528"
+       }
+      ]
+     },
+     {
+      "format": "Digital",
+      "key": "digital",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "145610466",
+        "utc": "2026-08-01T17:40:00.000Z",
+        "time": "1:40pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610466"
+       },
+       {
+        "id": "145610421",
+        "utc": "2026-08-02T00:00:00.000Z",
+        "time": "8:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610421"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Toy Story 5",
+    "amcId": "72482",
+    "slug": "toy-story-5",
+    "formats": [
+     {
+      "format": "RealD 3D",
+      "key": "reald3d",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "145610430",
+        "utc": "2026-08-01T13:45:00.000Z",
+        "time": "9:45am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610430"
+       },
+       {
+        "id": "145610529",
+        "utc": "2026-08-01T22:15:00.000Z",
+        "time": "6:15pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610529"
+       }
+      ]
+     },
+     {
+      "format": "Digital",
+      "key": "digital",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "145610527",
+        "utc": "2026-08-01T16:50:00.000Z",
+        "time": "12:50pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610527"
+       },
+       {
+        "id": "145610467",
+        "utc": "2026-08-01T20:20:00.000Z",
+        "time": "4:20pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610467"
+       },
+       {
+        "id": "145610385",
+        "utc": "2026-08-02T01:30:00.000Z",
+        "time": "9:30pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610385"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Moana",
+    "amcId": "72474",
+    "slug": "moana",
+    "formats": [
+     {
+      "format": "Digital",
+      "key": "digital",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "145610368",
+        "utc": "2026-08-01T13:20:00.000Z",
+        "time": "9:20am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610368"
+       },
+       {
+        "id": "145610553",
+        "utc": "2026-08-01T17:05:00.000Z",
+        "time": "1:05pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610553"
+       },
+       {
+        "id": "145610552",
+        "utc": "2026-08-01T20:05:00.000Z",
+        "time": "4:05pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610552"
+       },
+       {
+        "id": "145610551",
+        "utc": "2026-08-01T23:10:00.000Z",
+        "time": "7:10pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610551"
+       },
+       {
+        "id": "145610550",
+        "utc": "2026-08-02T02:15:00.000Z",
+        "time": "10:15pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610550"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Hadestown: The Musical",
+    "amcId": "83319",
+    "slug": "hadestown-the-musical",
+    "formats": [
+     {
+      "format": "Digital",
+      "key": "digital",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption"
+      ],
+      "times": [
+       {
+        "id": "145610554",
+        "utc": "2026-08-01T13:40:00.000Z",
+        "time": "9:40am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610554"
+       },
+       {
+        "id": "145610381",
+        "utc": "2026-08-01T16:25:00.000Z",
+        "time": "12:25pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610381"
+       },
+       {
+        "id": "145610380",
+        "utc": "2026-08-01T19:50:00.000Z",
+        "time": "3:50pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610380"
+       },
+       {
+        "id": "145610379",
+        "utc": "2026-08-01T23:15:00.000Z",
+        "time": "7:15pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610379"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "I Want Your Sex",
+    "amcId": "83178",
+    "slug": "i-want-your-sex",
+    "formats": [
+     {
+      "format": "Digital",
+      "key": "digital",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption"
+      ],
+      "times": [
+       {
+        "id": "145610425",
+        "utc": "2026-08-01T21:25:00.000Z",
+        "time": "5:25pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610425"
+       },
+       {
+        "id": "145610468",
+        "utc": "2026-08-01T23:05:00.000Z",
+        "time": "7:05pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610468"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Motor City",
+    "amcId": "83470",
+    "slug": "motor-city",
+    "formats": [
+     {
+      "format": "Digital",
+      "key": "digital",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption"
+      ],
+      "times": [
+       {
+        "id": "145610417",
+        "utc": "2026-08-01T15:45:00.000Z",
+        "time": "11:45am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610417"
+       },
+       {
+        "id": "145610426",
+        "utc": "2026-08-01T18:35:00.000Z",
+        "time": "2:35pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610426"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Young Washington",
+    "amcId": "80772",
+    "slug": "young-washington-a-founder-s-story",
+    "formats": [
+     {
+      "format": "Digital",
+      "key": "digital",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "145610465",
+        "utc": "2026-08-01T14:30:00.000Z",
+        "time": "10:30am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610465"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Obsession",
+    "amcId": "82063",
+    "slug": "obsession",
+    "formats": [
+     {
+      "format": "Thrills & Chills",
+      "key": "thrlschls",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "145610378",
+        "utc": "2026-08-02T02:50:00.000Z",
+        "time": "10:50pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610378"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Bhai Tera Star Hai",
+    "amcId": "84454",
+    "slug": "bhai-tera-star-hai",
+    "formats": [
+     {
+      "format": "Hindi Spoken with English Subtitles",
+      "key": "hindienglishsubtitle",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "International Films"
+      ],
+      "times": [
+       {
+        "id": "145610505",
+        "utc": "2026-08-01T15:20:00.000Z",
+        "time": "11:20am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610505"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "2026-08-02": [
+   {
+    "title": "Spider-Man: Brand New Day",
+    "amcId": "78598",
+    "slug": "spider-man-brand-new-day",
+    "formats": [
+     {
+      "format": "Dolby Cinema at AMC",
+      "key": "dolbycinemaatamcprime",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "145676917",
+        "utc": "2026-08-02T12:10:00.000Z",
+        "time": "8:10am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145676917"
+       },
+       {
+        "id": "144084994",
+        "utc": "2026-08-02T15:40:00.000Z",
+        "time": "11:40am",
+        "status": "UP TO 15% OFF, Almost Full",
+        "url": "https://www.amctheatres.com/showtimes/144084994"
+       },
+       {
+        "id": "144084993",
+        "utc": "2026-08-02T19:20:00.000Z",
+        "time": "3:20pm",
+        "status": "UP TO 15% OFF, Almost Full",
+        "url": "https://www.amctheatres.com/showtimes/144084993"
+       },
+       {
+        "id": "144084992",
+        "utc": "2026-08-02T23:00:00.000Z",
+        "time": "7:00pm",
+        "status": "Almost Full",
+        "url": "https://www.amctheatres.com/showtimes/144084992"
+       },
+       {
+        "id": "144084991",
+        "utc": "2026-08-03T02:35:00.000Z",
+        "time": "10:35pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084991"
+       }
+      ]
+     },
+     {
+      "format": "English Spoken with Spanish Subtitles",
+      "key": "englishspanishsubtitle",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating"
+      ],
+      "times": [
+       {
+        "id": "145610436",
+        "utc": "2026-08-02T20:15:00.000Z",
+        "time": "4:15pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610436"
+       }
+      ]
+     },
+     {
+      "format": "RealD 3D",
+      "key": "reald3d",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "144084915",
+        "utc": "2026-08-02T13:25:00.000Z",
+        "time": "9:25am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084915"
+       },
+       {
+        "id": "144084852",
+        "utc": "2026-08-02T14:20:00.000Z",
+        "time": "10:20am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084852"
+       },
+       {
+        "id": "144539141",
+        "utc": "2026-08-02T17:30:00.000Z",
+        "time": "1:30pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144539141"
+       },
+       {
+        "id": "144084851",
+        "utc": "2026-08-02T18:00:00.000Z",
+        "time": "2:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084851"
+       },
+       {
+        "id": "144539140",
+        "utc": "2026-08-02T21:10:00.000Z",
+        "time": "5:10pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144539140"
+       },
+       {
+        "id": "144084850",
+        "utc": "2026-08-02T21:40:00.000Z",
+        "time": "5:40pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084850"
+       },
+       {
+        "id": "144539155",
+        "utc": "2026-08-02T23:50:00.000Z",
+        "time": "7:50pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144539155"
+       },
+       {
+        "id": "144084849",
+        "utc": "2026-08-03T01:20:00.000Z",
+        "time": "9:20pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084849"
+       },
+       {
+        "id": "145694799",
+        "utc": "2026-08-03T02:20:00.000Z",
+        "time": "10:20pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145694799"
+       }
+      ]
+     },
+     {
+      "format": "Digital",
+      "key": "digital",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "144539142",
+        "utc": "2026-08-02T13:50:00.000Z",
+        "time": "9:50am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144539142"
+       },
+       {
+        "id": "145610393",
+        "utc": "2026-08-02T14:50:00.000Z",
+        "time": "10:50am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610393"
+       },
+       {
+        "id": "144084888",
+        "utc": "2026-08-02T15:10:00.000Z",
+        "time": "11:10am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084888"
+       },
+       {
+        "id": "144539154",
+        "utc": "2026-08-02T16:30:00.000Z",
+        "time": "12:30pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144539154"
+       },
+       {
+        "id": "145610437",
+        "utc": "2026-08-02T16:40:00.000Z",
+        "time": "12:40pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610437"
+       },
+       {
+        "id": "144084914",
+        "utc": "2026-08-02T17:00:00.000Z",
+        "time": "1:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084914"
+       },
+       {
+        "id": "145610392",
+        "utc": "2026-08-02T18:20:00.000Z",
+        "time": "2:20pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610392"
+       },
+       {
+        "id": "144084887",
+        "utc": "2026-08-02T18:50:00.000Z",
+        "time": "2:50pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084887"
+       },
+       {
+        "id": "144539156",
+        "utc": "2026-08-02T20:10:00.000Z",
+        "time": "4:10pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144539156"
+       },
+       {
+        "id": "144084913",
+        "utc": "2026-08-02T20:40:00.000Z",
+        "time": "4:40pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084913"
+       },
+       {
+        "id": "145610391",
+        "utc": "2026-08-02T22:00:00.000Z",
+        "time": "6:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610391"
+       },
+       {
+        "id": "144084886",
+        "utc": "2026-08-02T22:25:00.000Z",
+        "time": "6:25pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084886"
+       },
+       {
+        "id": "144084912",
+        "utc": "2026-08-03T00:20:00.000Z",
+        "time": "8:20pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084912"
+       },
+       {
+        "id": "144539139",
+        "utc": "2026-08-03T00:50:00.000Z",
+        "time": "8:50pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144539139"
+       },
+       {
+        "id": "144084885",
+        "utc": "2026-08-03T02:05:00.000Z",
+        "time": "10:05pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/144084885"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "The Odyssey",
+    "amcId": "76238",
+    "slug": "the-odyssey",
+    "formats": [
+     {
+      "format": "IMAX at AMC",
+      "key": "imax",
+      "attributes": [
+       "AMC Artisan Films",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "143802354",
+        "utc": "2026-08-02T14:00:00.000Z",
+        "time": "10:00am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/143802354"
+       },
+       {
+        "id": "143802355",
+        "utc": "2026-08-02T18:00:00.000Z",
+        "time": "2:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/143802355"
+       },
+       {
+        "id": "143802356",
+        "utc": "2026-08-02T22:00:00.000Z",
+        "time": "6:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/143802356"
+       },
+       {
+        "id": "143802357",
+        "utc": "2026-08-03T02:00:00.000Z",
+        "time": "10:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/143802357"
+       }
+      ]
+     },
+     {
+      "format": "AMC Artisan Films",
+      "key": "amcartisanfilms",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "145676916",
+        "utc": "2026-08-02T12:35:00.000Z",
+        "time": "8:35am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145676916"
+       },
+       {
+        "id": "145610456",
+        "utc": "2026-08-02T15:00:00.000Z",
+        "time": "11:00am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610456"
+       },
+       {
+        "id": "145610578",
+        "utc": "2026-08-02T15:30:00.000Z",
+        "time": "11:30am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610578"
+       },
+       {
+        "id": "145610493",
+        "utc": "2026-08-02T16:35:00.000Z",
+        "time": "12:35pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610493"
+       },
+       {
+        "id": "145610455",
+        "utc": "2026-08-02T19:00:00.000Z",
+        "time": "3:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610455"
+       },
+       {
+        "id": "145610577",
+        "utc": "2026-08-02T19:30:00.000Z",
+        "time": "3:30pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610577"
+       },
+       {
+        "id": "145610492",
+        "utc": "2026-08-02T20:30:00.000Z",
+        "time": "4:30pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610492"
+       },
+       {
+        "id": "145610457",
+        "utc": "2026-08-02T23:00:00.000Z",
+        "time": "7:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610457"
+       },
+       {
+        "id": "145610572",
+        "utc": "2026-08-02T23:30:00.000Z",
+        "time": "7:30pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610572"
+       },
+       {
+        "id": "145610491",
+        "utc": "2026-08-03T00:30:00.000Z",
+        "time": "8:30pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610491"
+       },
+       {
+        "id": "145610535",
+        "utc": "2026-08-03T01:00:00.000Z",
+        "time": "9:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610535"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Minions & Monsters",
+    "amcId": "77563",
+    "slug": "minions-monsters",
+    "formats": [
+     {
+      "format": "RealD 3D",
+      "key": "reald3d",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "145610531",
+        "utc": "2026-08-02T14:15:00.000Z",
+        "time": "10:15am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610531"
+       },
+       {
+        "id": "145610533",
+        "utc": "2026-08-02T19:40:00.000Z",
+        "time": "3:40pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610533"
+       }
+      ]
+     },
+     {
+      "format": "Digital",
+      "key": "digital",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "145610475",
+        "utc": "2026-08-02T17:40:00.000Z",
+        "time": "1:40pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610475"
+       },
+       {
+        "id": "145610439",
+        "utc": "2026-08-02T23:50:00.000Z",
+        "time": "7:50pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610439"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Toy Story 5",
+    "amcId": "72482",
+    "slug": "toy-story-5",
+    "formats": [
+     {
+      "format": "RealD 3D",
+      "key": "reald3d",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "145610438",
+        "utc": "2026-08-02T13:45:00.000Z",
+        "time": "9:45am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610438"
+       },
+       {
+        "id": "145610534",
+        "utc": "2026-08-02T22:15:00.000Z",
+        "time": "6:15pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610534"
+       }
+      ]
+     },
+     {
+      "format": "Digital",
+      "key": "digital",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "145610532",
+        "utc": "2026-08-02T16:50:00.000Z",
+        "time": "12:50pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610532"
+       },
+       {
+        "id": "145610476",
+        "utc": "2026-08-02T20:20:00.000Z",
+        "time": "4:20pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610476"
+       },
+       {
+        "id": "145610394",
+        "utc": "2026-08-03T01:30:00.000Z",
+        "time": "9:30pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610394"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Moana",
+    "amcId": "72474",
+    "slug": "moana",
+    "formats": [
+     {
+      "format": "Digital",
+      "key": "digital",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "145610367",
+        "utc": "2026-08-02T13:20:00.000Z",
+        "time": "9:20am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610367"
+       },
+       {
+        "id": "145610549",
+        "utc": "2026-08-02T17:05:00.000Z",
+        "time": "1:05pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610549"
+       },
+       {
+        "id": "145610548",
+        "utc": "2026-08-02T20:05:00.000Z",
+        "time": "4:05pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610548"
+       },
+       {
+        "id": "145610547",
+        "utc": "2026-08-02T23:10:00.000Z",
+        "time": "7:10pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610547"
+       },
+       {
+        "id": "145610546",
+        "utc": "2026-08-03T02:15:00.000Z",
+        "time": "10:15pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610546"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Hadestown: The Musical",
+    "amcId": "83319",
+    "slug": "hadestown-the-musical",
+    "formats": [
+     {
+      "format": "Digital",
+      "key": "digital",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption"
+      ],
+      "times": [
+       {
+        "id": "145610555",
+        "utc": "2026-08-02T13:40:00.000Z",
+        "time": "9:40am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610555"
+       },
+       {
+        "id": "145610372",
+        "utc": "2026-08-02T16:25:00.000Z",
+        "time": "12:25pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610372"
+       },
+       {
+        "id": "145610371",
+        "utc": "2026-08-02T19:50:00.000Z",
+        "time": "3:50pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610371"
+       },
+       {
+        "id": "145610370",
+        "utc": "2026-08-02T23:15:00.000Z",
+        "time": "7:15pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610370"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "I Want Your Sex",
+    "amcId": "83178",
+    "slug": "i-want-your-sex",
+    "formats": [
+     {
+      "format": "Digital",
+      "key": "digital",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption"
+      ],
+      "times": [
+       {
+        "id": "145610413",
+        "utc": "2026-08-02T14:25:00.000Z",
+        "time": "10:25am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610413"
+       },
+       {
+        "id": "145610415",
+        "utc": "2026-08-02T22:15:00.000Z",
+        "time": "6:15pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610415"
+       },
+       {
+        "id": "145610481",
+        "utc": "2026-08-02T23:15:00.000Z",
+        "time": "7:15pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610481"
+       },
+       {
+        "id": "145610482",
+        "utc": "2026-08-03T01:50:00.000Z",
+        "time": "9:50pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610482"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Motor City",
+    "amcId": "83470",
+    "slug": "motor-city",
+    "formats": [
+     {
+      "format": "Digital",
+      "key": "digital",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption"
+      ],
+      "times": [
+       {
+        "id": "145610414",
+        "utc": "2026-08-02T19:20:00.000Z",
+        "time": "3:20pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610414"
+       },
+       {
+        "id": "145610416",
+        "utc": "2026-08-03T01:00:00.000Z",
+        "time": "9:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610416"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Young Washington",
+    "amcId": "80772",
+    "slug": "young-washington-a-founder-s-story",
+    "formats": [
+     {
+      "format": "Digital",
+      "key": "digital",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "145610474",
+        "utc": "2026-08-02T14:30:00.000Z",
+        "time": "10:30am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610474"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Obsession",
+    "amcId": "82063",
+    "slug": "obsession",
+    "formats": [
+     {
+      "format": "Thrills & Chills",
+      "key": "thrlschls",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Audio Description"
+      ],
+      "times": [
+       {
+        "id": "145610369",
+        "utc": "2026-08-03T02:35:00.000Z",
+        "time": "10:35pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610369"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Bhai Tera Star Hai",
+    "amcId": "84454",
+    "slug": "bhai-tera-star-hai",
+    "formats": [
+     {
+      "format": "Hindi Spoken with English Subtitles",
+      "key": "hindienglishsubtitle",
+      "attributes": [
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "International Films"
+      ],
+      "times": [
+       {
+        "id": "145610507",
+        "utc": "2026-08-02T15:20:00.000Z",
+        "time": "11:20am",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610507"
+       },
+       {
+        "id": "145610508",
+        "utc": "2026-08-02T23:05:00.000Z",
+        "time": "7:05pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/145610508"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Willy Wonka & the Chocolate Factory 55th Anniversary",
+    "amcId": "82774",
+    "slug": "willy-wonka-the-chocolate-factory-55th-anniversary",
+    "formats": [
+     {
+      "format": "Digital",
+      "key": "digital",
+      "attributes": [
+       "No Trailers",
+       "AMC Signature Recliners",
+       "Reserved Seating",
+       "Closed Caption",
+       "Alternative Content",
+       "Excluded from A-List",
+       "No Passes"
+      ],
+      "times": [
+       {
+        "id": "140483786",
+        "utc": "2026-08-02T17:00:00.000Z",
+        "time": "1:00pm",
+        "status": null,
+        "url": "https://www.amctheatres.com/showtimes/140483786"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "warnings": []
+}
