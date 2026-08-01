@@ -83,14 +83,25 @@ body::before {
 }
 .hero p { color: var(--muted); max-width: 560px; margin: 0 auto 20px; font-size: 15px; }
 .platform-pills { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+/* The four service names under the headline are BUTTONS, not decoration — tap
+   one to see only that service, tap it again for everything. They drive the
+   same #platform dropdown the filters have always used, so the two never
+   disagree with each other. */
 .ppill {
   font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
   padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border);
+  cursor: pointer; transition: all 0.18s; user-select: none;
 }
+.ppill:hover { transform: translateY(-2px); }
 .ppill.hulu { color: var(--hulu); border-color: rgba(28,231,131,0.35); }
 .ppill.prime { color: var(--prime); border-color: rgba(0,168,225,0.35); }
 .ppill.apple { color: var(--apple); border-color: rgba(192,192,200,0.35); }
 .ppill.netflix { color: #e50914; border-color: rgba(229,9,20,0.4); }
+.ppill.on { color: #0b0b12; }
+.ppill.hulu.on { background: var(--hulu); border-color: var(--hulu); box-shadow: 0 4px 14px rgba(28,231,131,0.35); }
+.ppill.prime.on { background: var(--prime); border-color: var(--prime); box-shadow: 0 4px 14px rgba(0,168,225,0.35); }
+.ppill.apple.on { background: var(--apple); border-color: var(--apple); box-shadow: 0 4px 14px rgba(192,192,200,0.3); }
+.ppill.netflix.on { background: #e50914; border-color: #e50914; color: #fff; box-shadow: 0 4px 14px rgba(229,9,20,0.35); }
 .platform-tag.netflix { background: rgba(229,9,20,0.22); color: #e50914; }
 
 .controls {
@@ -334,11 +345,21 @@ footer {
   border-top: 1px solid var(--border); color: var(--muted); font-size: 12px;
 }
 @media (max-width: 640px) {
-  .nav-tabs { order: 3; width: 100%; overflow-x: auto; }
   .controls-row { flex-direction: column; align-items: stretch; }
   .stat-pills { margin-left: 0; }
   .list-view .card { flex-direction: column; }
   .list-view .card-header { width: 100%; min-width: 0; height: 100px; }
+}
+/* PHONES: every tab on screen, no sideways scrolling.
+   The tab row used to run off the edge, so 🍿 Movies and everything after it
+   could only be reached by turning the phone sideways. Now the row simply wraps
+   onto as many lines as it needs, under the logo, and every tab is thumb-sized
+   and visible at 375px. */
+@media (max-width: 760px) {
+  .nav-inner { flex-wrap: wrap; gap: 10px; }
+  .nav-tabs { order: 3; width: 100%; flex: 1 0 100%; flex-wrap: wrap; overflow-x: visible; gap: 5px; }
+  .nav-tab { padding: 6px 10px; font-size: 12px; }
+  .nav-actions { margin-left: auto; }
 }
 
 .modal-poster { min-height: 180px; }
@@ -563,6 +584,18 @@ footer {
 .card-prog { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: rgba(0,0,0,0.45); z-index: 3; }
 .card-prog span { display: block; height: 100%; background: var(--accent); }
 .card-prog span.done { background: var(--success); }
+
+/* The in-app guide. Deliberately ordinary paragraphs — that is exactly what the
+   read-aloud narrator is built to start from when he taps a sentence. */
+.guide { max-width: 800px; margin: 0 auto; }
+.guide-block {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 18px 20px; margin-bottom: 14px; box-shadow: var(--shadow);
+}
+.guide-block h3 { font-size: 15.5px; margin-bottom: 10px; }
+.guide-block p { font-size: 14px; line-height: 1.7; color: var(--muted); margin-bottom: 11px; }
+.guide-block p:last-child { margin-bottom: 0; }
+.guide-block strong { color: var(--text); }
 
 .ep-section { border-top: 1px solid var(--border); padding-top: 16px; margin-top: 8px; }
 .ep-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
@@ -881,6 +914,9 @@ footer {
 .tcard:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); transform: translateY(-2px); }
 .tcard.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--surface)); }
 .tcard .tname { font-size: 13.5px; font-weight: 700; line-height: 1.25; }
+/* Three AMCs in one city look identical by name alone. The street address is
+   the only thing that tells him which one he actually drives to. */
+.tcard .taddr { font-size: 11px; color: var(--muted); line-height: 1.35; white-space: normal; }
 .tcard .tmeta { font-size: 11.5px; color: var(--muted); }
 .tcard .tfmts { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 2px; }
 .tchip {
@@ -1028,6 +1064,7 @@ footer {
       <button class="nav-tab" data-section="calendar">Calendar</button>
       <button class="nav-tab" data-section="surprise">Surprise Me</button>
       <button class="nav-tab" data-section="compare">Compare</button>
+      <button class="nav-tab" data-section="guide">❓ Guide</button>
     </div>
     <div class="nav-actions">
       <button class="icon-btn" id="themeBtn" title="Toggle theme">◐</button>
@@ -1044,10 +1081,10 @@ footer {
     <h1>The Best of 2026 Streaming</h1>
     <p>60 series on Hulu, Prime Video, Apple TV &amp; Netflix — every one IMDb 7.5 or better, with episodes that actually aired (or are dated) in 2026. Rotten Tomatoes shown where a verified score exists.</p>
     <div class="platform-pills">
-      <span class="ppill hulu">Hulu</span>
-      <span class="ppill prime">Prime Video</span>
-      <span class="ppill apple">Apple TV</span>
-      <span class="ppill netflix">Netflix</span>
+      <span class="ppill hulu" data-plat="Hulu" title="Show only Hulu — click again for all" onclick="pickPlatform('Hulu')">Hulu</span>
+      <span class="ppill prime" data-plat="Prime Video" title="Show only Prime Video — click again for all" onclick="pickPlatform('Prime Video')">Prime Video</span>
+      <span class="ppill apple" data-plat="Apple TV" title="Show only Apple TV — click again for all" onclick="pickPlatform('Apple TV')">Apple TV</span>
+      <span class="ppill netflix" data-plat="Netflix" title="Show only Netflix — click again for all" onclick="pickPlatform('Netflix')">Netflix</span>
     </div>
   </div>
   <div class="wall" id="wall" title="Your highest-rated posters — click any of them"></div>
@@ -1181,6 +1218,24 @@ footer {
       <input type="date" id="findSince" style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:8px 11px;color:var(--text);font-size:13px;outline:none">
       <button class="btn" id="findBtn">Search</button>
       <button class="ep-mini" id="resetSearchBtn" title="Forget the last-search date and start fresh">Reset</button>
+    </div>
+    <div class="controls-row" style="gap:8px;border-top:1px solid var(--border);padding-top:12px">
+      <label style="font-size:13px;font-weight:700">Grow the collection</label>
+      <select id="growCount" title="How many more shows to bring back from each service">
+        <option value="5">5</option>
+        <option value="10" selected>10</option>
+        <option value="15">15</option>
+        <option value="25">25</option>
+      </select>
+      <label style="font-size:12px;color:var(--muted)" for="growCount">more per service</label>
+      <label style="font-size:12px;color:var(--muted);margin-left:8px" for="growBar">rated at least</label>
+      <select id="growBar" title="The lowest rating you're willing to accept">
+        <option value="7.5" selected>7.5 — Elite</option>
+        <option value="7.0">7.0 — Great</option>
+        <option value="6.5">6.5 — Good</option>
+        <option value="6.0">6.0 — Fine</option>
+      </select>
+      <button class="btn" id="growBtn" style="background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700" title="Sweep all of 2026 and keep hunting until every service has given up its share">➕ Add more shows</button>
     </div>
     <div class="controls-row" id="findStatus" style="display:none"></div>
   </div>
@@ -1320,6 +1375,59 @@ footer {
     <select id="cmpB"><option value="">Select show B…</option></select>
   </div>
   <div id="cmpResult"></div>
+</section>
+
+<section class="section" id="guide">
+  <div class="hero" style="padding-bottom:16px">
+    <h1>How to use this app</h1>
+    <p>Everything this app can do, in plain English. Tap any sentence and it will read the page to you from there.</p>
+  </div>
+  <div class="guide">
+
+    <div class="guide-block">
+      <h3>The basics</h3>
+      <p>Every show is a card. The three little buttons on a card are all you really need: <strong>★</strong> means you want to watch it, <strong>▶</strong> means you are watching it now, and <strong>✓</strong> means you have finished it.</p>
+      <p>Tap the card itself and it opens up to show every episode. Tick them off as you go. If you have already watched a stretch of them, tap the last one you saw and choose <strong>mark up to here</strong> — it ticks everything before it in one go.</p>
+      <p><strong>Up Next</strong> is the page to open when you sit down in the evening. It tells you exactly which episode comes next in everything you have going, and the <strong>▶</strong> button takes you straight into Hulu, Prime Video, Apple TV or Netflix to play it.</p>
+    </div>
+
+    <div class="guide-block">
+      <h3>The four coloured names at the top are buttons</h3>
+      <p>On the main page, under the headline, you will see Hulu, Prime Video, Apple TV and Netflix in their own colours. Those are not decoration. Tap one and the page shows only that service. Tap the lit one again and everything comes back.</p>
+    </div>
+
+    <div class="guide-block">
+      <h3>What is new — August 1</h3>
+      <p><strong>It reads to you.</strong> Tap any sentence anywhere in the app and it starts reading aloud from that spot. The controls sit in the bottom right corner, so you can pause it or stop it whenever you like.</p>
+      <p><strong>It lives on your phone.</strong> The <strong>📲</strong> button puts the app on your home screen like any other app, and it keeps working when you have no signal.</p>
+      <p><strong>It remembers when you watch.</strong> Not just what you watched — when. Your streaks and a page called <strong>Your 2026 So Far</strong> now live in Stats. If you want to rewatch something you have already finished, <strong>↻ Watch again</strong> starts it over without throwing away the history of the first time.</p>
+      <p><strong>It knows what is coming.</strong> Every show with another episode on the way tells you when. <strong>Airing this week</strong> sits right at the top of Up Next, and the Calendar tab carries a little count so you can see at a glance how much is coming. Inside Calendar, the <strong>📅</strong> button downloads a file that drops every upcoming episode onto your phone's own calendar, reminders and all.</p>
+      <p><strong>It has learned your taste.</strong> Shows you have not started yet now carry a <strong>Match %</strong> — how well it fits what you like, worked out from the ratings you have given other shows. Nobody else's opinion, just yours.</p>
+      <p><strong>New Finds does the work itself.</strong> It keeps searching on its own until it has found everything, instead of stopping and waiting for you to press the button again. Anything it finds joins the main page and turns up in search like everything else.</p>
+      <p><strong>Small comforts.</strong> The <strong>🚫</strong> button hides a show you never want to see again, and <strong>Show hidden</strong> brings it back if you change your mind. The <strong>🍿 Movies</strong> tab has a <strong>⭐ My list</strong> that collects films you are waiting for, with a countdown to each one. And if you have not backed anything up in a month, a quiet reminder appears — no nagging.</p>
+    </div>
+
+    <div class="guide-block">
+      <h3>Growing the collection</h3>
+      <p>In <strong>New Finds</strong> there is a row called <strong>Grow the collection</strong>. Choose how many more shows you want from each service, choose the lowest rating you are willing to accept, and press the button once.</p>
+      <p>From there it looks after itself. It sweeps the whole of 2026 across all four services and keeps hunting, pass after pass, until every service has given you what you asked for — or until it has honestly run out of shows that good, in which case it tells you so plainly rather than pretending.</p>
+    </div>
+
+    <div class="guide-block">
+      <h3>Movies, wherever you are</h3>
+      <p>The <strong>🍿 Movies</strong> tab finds the cinemas near you by itself and shows you what is playing today, with real showtimes. Every time listed is a ticket link — tap it and you are buying that seat.</p>
+      <p><strong>Change location</strong> takes any US ZIP code or city name. That is how somebody in another city sees their own cinemas, and how you see the local ones when you are travelling.</p>
+      <p>Every theatre button now shows its street address underneath the name, so when a city has three AMCs you can tell instantly which one is the one you actually drive to.</p>
+    </div>
+
+    <div class="guide-block">
+      <h3>Your data belongs to you</h3>
+      <p>Everything you tick, rate and save stays in your own browser, on your own device. There is no account and nothing is sent anywhere.</p>
+      <p>The <strong>⤓</strong> button backs up all of it into a single file. The <strong>⤒</strong> button reads that file back in and merges it with whatever is already there, so nothing gets lost either way.</p>
+      <p>This matters more than it sounds. In July 2026, TV Time deleted everybody's viewing history — years of it, gone, with no way to get it back. Nothing you record here is ever trapped anywhere you cannot reach it. Back it up now and then, and it is yours for good.</p>
+    </div>
+
+  </div>
 </section>
 
 <footer>
@@ -1827,11 +1935,33 @@ document.querySelectorAll('.nav-tab').forEach(tab=>{
     if(tab.dataset.section==='stats')renderStats();
     if(tab.dataset.section==='calendar')renderCalendar();
     if(tab.dataset.section==='compare')populateCompare();
+    // 'guide' is deliberately absent — it is plain written text with nothing to
+    // recalculate, so showing the section is the whole job.
   };
 });
 function getUserRating(id){return state.ratings[id]||0;}
 function getStatus(id){return state.status[id]||null;}
+/* Tapping a service name filters to it; tapping the lit one clears back to all.
+   It sets the dropdown rather than keeping a second copy of the answer, so
+   there is only ever one place that knows which platform is showing. */
+function pickPlatform(name){
+  const sel=document.getElementById('platform');
+  sel.value = sel.value===name ? 'all' : name;
+  render();
+}
+// Keeps the pills honest when the dropdown is the thing that changed.
+function syncPills(){
+  const cur=document.getElementById('platform').value;
+  document.querySelectorAll('.ppill').forEach(p=>{
+    const on=p.dataset.plat===cur;
+    p.classList.toggle('on',on);
+    p.title = on ? 'Showing only '+p.dataset.plat+' — click again for all'
+                 : 'Show only '+p.dataset.plat+' — click again for all';
+  });
+}
+
 function render(){
+  syncPills();         // pills follow the dropdown, whichever one he touched
   computeMatchMap();   // one pass per render — every card reads the same numbers
   document.getElementById('backupNudge').innerHTML = backupNudgeHTML();   // cheap — recomputed on every render anyway
   const search=document.getElementById('search').value.toLowerCase();
@@ -2088,9 +2218,28 @@ function runFindWindow(){
   runFind(since, document.getElementById('findWindowBtn'), FIND_WINDOW_LABEL[days] || (days + ' days'));
 }
 
-async function runFind(sinceArg, srcBtn, windowLabel){
+/* The four services, spelled exactly as the server spells them. A find can be on
+   two at once ("Hulu · Netflix"), which is why counting uses includes(). */
+const BASE_SERVICES = ['Hulu','Prime Video','Apple TV','Netflix'];
+const SHORT_SERVICE = { 'Hulu':'Hulu', 'Prime Video':'Prime', 'Apple TV':'Apple', 'Netflix':'Netflix' };
+
+/* "Grow the collection" — the same search machinery, aimed at the whole of 2026
+   with a bar he picks, and told to keep going until every service has handed
+   over its share or has plainly run out of shows to give. */
+function runGrow(){
+  const perService = Number(document.getElementById('growCount').value) || 10;
+  const bar = Number(document.getElementById('growBar').value) || 7.5;
+  return runFind('2026-01-01', document.getElementById('growBtn'), 'year',
+                 { bar: bar, want: 16, perService: perService, maxRounds: 8 });
+}
+
+async function runFind(sinceArg, srcBtn, windowLabel, opts){
+  opts = opts || {};
+  const grow = !!opts.perService;
+  // Say the bar back to him the way he picked it — "6.0", not "6".
+  const barText = opts.bar ? Number(opts.bar).toFixed(1) : '';
   const btn = srcBtn || document.getElementById('findBtn');
-  const others = ['findBtn','findSinceLastBtn','findWindowBtn']
+  const others = ['findBtn','findSinceLastBtn','findWindowBtn','growBtn']
     .map(id => document.getElementById(id)).filter(b => b && b !== btn);
   const since = sinceArg || document.getElementById('findSince').value;
   if (!since){ findMsg('Pick a date first — it searches for anything new since then.', 'warn'); return; }
@@ -2114,17 +2263,24 @@ async function runFind(sinceArg, srcBtn, windowLabel){
   others.forEach(b => { b.disabled = true; });
   const label = btn.textContent;
   btn.innerHTML = '<span class="spin">◠</span> Searching…';
-  findMsg('Checking Hulu, Prime Video, Apple TV and Netflix for series and new seasons released ' +
-          (windowLabel ? 'in the past ' + windowLabel : 'since ' + fmtDate(since)) +
-          ', then looking up real IMDb ratings. A wider window takes longer — up to about a minute for a full year.');
+  findMsg(grow
+    ? 'Sweeping all of 2026 on Hulu, Prime Video, Apple TV and Netflix for anything rated ' +
+      barText + ' or better, and it keeps going by itself until each service has given you ' +
+      opts.perService + ' more or has run out. This one takes a few minutes — leave it running.'
+    : 'Checking Hulu, Prime Video, Apple TV and Netflix for series and new seasons released ' +
+      (windowLabel ? 'in the past ' + windowLabel : 'since ' + fmtDate(since)) +
+      ', then looking up real IMDb ratings. A wider window takes longer — up to about a minute for a full year.');
 
   /* AUTO-CONTINUE. The server returns a batch and flags `truncated` when more
      matched than fitted inside its time budget. Pressing the button again used
      to be HIS job; now the loop does it, up to five passes, so a host with a
      25-second ceiling behaves exactly like one with sixty. */
-  const MAX_ROUNDS = 5;
+  const MAX_ROUNDS = opts.maxRounds || 5;
   let rounds = 0, totalAdded = 0, totalFound = 0, totalScanned = 0;
   let data = null; const gotShows = [];
+  // What THIS run has added, service by service — the scoreboard "Grow the
+  // collection" hunts against.
+  const perSvc = {}; BASE_SERVICES.forEach(nm => { perSvc[nm] = 0; });
 
   try {
     while (true) {
@@ -2135,7 +2291,11 @@ async function runFind(sinceArg, srcBtn, windowLabel){
       const url = '/api/discover?since=' + encodeURIComponent(since) +
                   '&today=' + encodeURIComponent(ymdLocal(new Date())) +
                   '&known=' + encodeURIComponent(knownIds()) +
-                  '&titles=' + encodeURIComponent(titles);
+                  '&titles=' + encodeURIComponent(titles) +
+                  // Only "Grow the collection" sends these. Every other button
+                  // sends neither, so the standing 7.5 bar is untouched.
+                  (opts.bar ? '&bar=' + encodeURIComponent(opts.bar) : '') +
+                  (opts.want ? '&want=' + encodeURIComponent(opts.want) : '');
       const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
       const ct = res.headers.get('content-type') || '';
       if (!ct.includes('json')){
@@ -2160,6 +2320,9 @@ async function runFind(sinceArg, srcBtn, windowLabel){
         if (state.finds[f.tmdb]) return;
         state.finds[f.tmdb] = f;
         added++;
+        // A find can live on two services at once ("Hulu · Netflix"). It counts
+        // for each of them, because it really is on both.
+        BASE_SERVICES.forEach(nm => { if (String(f.platform || '').includes(nm)) perSvc[nm]++; });
       });
       totalAdded += added;
       totalFound += (data.found || 0);
@@ -2172,11 +2335,47 @@ async function runFind(sinceArg, srcBtn, windowLabel){
       renderFinds();
       render();
 
+      if (grow){
+        /* Keep hunting until every service has handed over its share — or until
+           a whole pass turns up nothing new, which means the well is dry and
+           pressing on would only waste his time. */
+        const short = BASE_SERVICES.filter(nm => perSvc[nm] < opts.perService);
+        if (short.length && added > 0 && rounds < MAX_ROUNDS){
+          findMsg('Added ' + totalAdded + ' so far (' +
+            BASE_SERVICES.map(nm => SHORT_SERVICE[nm] + ' ' + perSvc[nm]).join(' · ') +
+            ') — still hunting…');
+          continue;
+        }
+        break;
+      }
+
       if (data.truncated && rounds < MAX_ROUNDS){
         findMsg('Found ' + totalAdded + ' so far — still searching…');
         continue;
       }
       break;
+    }
+
+    if (grow){
+      /* Deliberately does NOT move the "last searched" date. Growing is an extra
+         sweep at his own bar, not the running bookkeeping that
+         "what's new since last time" depends on. */
+      const bits = [];
+      bits.push('<strong>' + (totalAdded
+        ? `Added ${totalAdded} new ${totalAdded===1?'show':'shows'}.`
+        : 'Nothing to add — you already have everything 2026 offers at that rating.') + '</strong>');
+      bits.push('Per service: ' +
+        BASE_SERVICES.map(nm => nm + ' ' + perSvc[nm]).join(' · ') +
+        ` (you asked for ${opts.perService} each)`);
+      BASE_SERVICES.filter(nm => perSvc[nm] < opts.perService).forEach(nm => {
+        bits.push('<span style="color:var(--muted)">' + nm +
+          ' ran out of shows above ' + barText + " — that's everything 2026 has there.</span>");
+      });
+      bits.push(`<span style="color:var(--muted)">Swept all of 2026 in ${rounds} pass${rounds===1?'':'es'}; ` +
+        `checked ${totalScanned} candidates.</span>`);
+      findMsg(bits.join('<br>'), totalAdded ? '' : 'warn');
+      if (totalAdded) toast('Added ' + totalAdded + ' new ' + (totalAdded===1?'show':'shows'));
+      return;
     }
 
     // Remember when we last looked, so next time can pick up exactly here.
@@ -2458,6 +2657,7 @@ function renderTheatrePicker(){
     const fmts = (t.premiumFormats || []).slice(0, 4);
     return '<button class="tcard ' + (t.id === selectedTheatre ? 'on' : '') + '" onclick="pickTheatre(\'' + t.id + '\')">' +
       '<span class="tname">' + escapeHTML(t.name) + '</span>' +
+      (t.fullAddress ? '<span class="taddr">' + escapeHTML(t.fullAddress) + '</span>' : '') +
       '<span class="tmeta">' + escapeHTML(t.chain || '') +
         (t.distance != null ? ' · <span class="tdist">' + t.distance + ' mi</span>' : '') +
         ' · ' + (t.movieCount ? t.movieCount + ' film' + (t.movieCount === 1 ? '' : 's') : 'no showtimes') + '</span>' +
@@ -4015,6 +4215,7 @@ document.addEventListener('keydown',e=>{
   document.getElementById('findBtn').onclick = () => runFind();
   document.getElementById('findSinceLastBtn').onclick = runFindSinceLast;
   document.getElementById('findWindowBtn').onclick = runFindWindow;
+  document.getElementById('growBtn').onclick = runGrow;
   document.getElementById('resetSearchBtn').onclick = resetSearchMemory;
   mergeFindEpisodes();      // discovered shows get episode tracking on load
   updateLastSearchLabel();
