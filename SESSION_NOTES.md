@@ -369,3 +369,10 @@ the repo and launch.json points at it (scratchpad copies kept getting deleted).
 Verified live: pills toggle, 375px nav clean, guide renders, production
 /api/discover?bar=6.5 returns 6.5-7.4 shows. Grow deliberately does NOT move
 state.lastSearch (it's an extra sweep, not the "what's new" bookkeeping).
+
+## Session — 2026-08-02 — Home-screen name fix (the "Ultimate app" confusion)
+**What we did:** Arnie was convinced a separate, more-featured "Ultimate" TV app existed somewhere and asked me to find it. Full sweep of GitHub (incl. archived repos), all 178 Netlify sites, every local folder, the gallery, and the Vercel twin found nothing — this app IS the Ultimate one (`<title>2026 Elite TV — Ultimate Discovery`). The confusion was self-inflicted: the installed PWA icon's short name said "Elite TV 2026" while the full page title says "Ultimate Discovery" — two different names for one app made it look like two apps. Fixed both install-name surfaces: `manifest.json` short_name and the `apple-mobile-web-app-title` meta tag now both read "Elite TV Ultimate". Bumped the footer Revised date to August 2. Pushed d773208.
+**What's working:** Live-verified on both Netlify (primary) and the Vercel twin (auto-deploys off the same repo/main) — manifest, meta tag, and footer date all match. Confirmed this app has 33 commits of work July 29–Aug 1 (episode tracking, Up Next, watch history/streaks, Year in Review, narrator, nationwide showtimes, tap-to-filter pills, Guide tab) vs. the now-deleted Codex twin's 3 commits — not a close call, nothing was lost by removing the Codex one.
+**What's next:** Nothing outstanding.
+**Important decisions:** No new screenshot taken — nothing in the visible page UI changed (install metadata + a one-line footer date only), so the gallery card thumbnail doesn't need refreshing.
+**Problems encountered:** None.

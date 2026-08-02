@@ -27,6 +27,10 @@ visitor IP location). Vercel: https://elite-tv-2026.vercel.app — hot spare.
   history in SESSION_NOTES.md. GitHub is the source of truth.
 
 ## Do-not-redo list (each cost real debugging — read before touching)
+- **`short_name` in manifest.json and `apple-mobile-web-app-title` must match
+  the page `<title>`'s branding** ("Elite TV Ultimate", not "Elite TV 2026")
+  — a mismatch here is exactly what made Arnie think a separate, better
+  "Ultimate" app existed (2026-08-02 fix, d773208).
 - **Never hand-write a YouTube trailer id.** Verify via oembed (200 = exists +
   embeddable) AND check the returned title names the show.
 - **file:// can't host a YouTube iframe** (Error 153). playTrailer() is
