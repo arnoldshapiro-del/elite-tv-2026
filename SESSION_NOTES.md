@@ -1,5 +1,62 @@
 # Session Notes — 2026 Elite TV — Ultimate Discovery
 
+## Session — 2026-08-03 (Best of Streaming: five services, a hundred slots, all verified)
+
+Arnie: the top-rated movies — at least 85% on Rotten Tomatoes and/or at least
+7.5 on IMDb — twenty for each of the four services we use, plus HBO Max as a
+fifth, baked right into the program. And a search that finds what's been ADDED
+since the last search, tracking the date so it never repeats itself. Also make
+sure the TV search does the same. "If you think of any other important helpful
+things, go ahead and add them."
+
+**The TV search already did it** — verified before touching anything: runFind
+sends every known id AND title, rebuilt before every pass, and state.lastSearch
+advances to `searchedUpTo` after each run. Nothing to fix there.
+
+**🏆 Best of Streaming** is a fourth mode inside the Movies tab. 92 unique
+films filling 100 service slots (a film on two services counts for both — same
+rule as the TV side), service pills to see one service's twenty, cards and
+modal in the existing movie style with the service name where "NOW PLAYING"
+usually sits. Every score satisfied the bar and was read from its own source:
+IMDb from IMDb's ratings feed by exact tt-id, RT from RT's page found through
+Wikidata. 91/92 got oEmbed-verified trailers.
+
+**HBO Max is TMDB provider 1899** — the old 384 id answers with an empty page.
+Probed before building anything on it.
+
+**The pipeline is repeatable, not a one-off**: build-streaming-top.js (paced
+politely — RT ~1.3s a hit, YouTube ~3s — with incremental saves and a
+single-service top-up mode) writes data/streaming-top.json;
+bake-streaming-top.js splices it between STREAMTOP markers in index.html.
+
+**Apple TV stalled at 13 of 20** on the first run — its catalogue is small and
+its best shelf is documentaries with high RT scores but few TMDB votes. Two
+lower candidate tiers (vote floors 50/25) filled it honestly: The Year Earth
+Changed RT 100%, Come from Away IMDb 8.5/RT 98%, STILL RT 99%. The floors only
+widen the candidate pool; the verified bar still gates every film.
+
+**The movie "what's new since last search" button** mirrors the TV side's
+bookkeeping exactly: state.streamLastSearch drives the label, and the client
+sends every known tmdb id (baked + previous finds, rebuilt each pass) so a
+search can only return films never shown before. mode=stream in movies-core
+does the verification server-side (fixed bar 85/7.5, round-robin across
+services, host-aware time budget, truncated/auto-continue ≤3 rounds, banks
+each pass). nocache=1 because `known` varies per user under a 6h edge cache.
+
+**Also shipped unasked**: NEW badges (14 days) on found films, ⭐ My list picks
+up starred streaming films, backup export/import carries streamFinds +
+streamLastSearch, a Remove button on finds, a Guide section, selftest gained a
+streamingBrowse probe, and the checked-date stamp uses LOCAL time (the first
+run stamped tomorrow's date from UTC — the repo's oldest lesson, now applied
+to build scripts too).
+
+**Verified locally before deploy**: selftest all green; a live mode=stream call
+returned 12 films all clearing the bar with One Direction: This Is Us (IMDb
+4.4, TMDB-inflated) correctly rejected; in-browser press added 12, badged them
+NEW, advanced the date, second-press exclusion confirmed; per-service pills
+20/20/20/20/20; zero console errors; no horizontal scroll at 390px; four
+baked IMDb numbers re-checked live against the feed — all matched.
+
 ## Session — 2026-08-01 (the movies section becomes national)
 
 Arnie: find where the person is, let them pick from the cinemas near them, keep
