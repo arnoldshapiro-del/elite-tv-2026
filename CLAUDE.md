@@ -31,9 +31,8 @@ visitor IP location). Vercel: https://elite-tv-2026.vercel.app — hot spare.
 
 ## Do-not-redo list (each cost real debugging — read before touching)
 - **`short_name` in manifest.json and `apple-mobile-web-app-title` must match
-  the page `<title>`'s branding** ("Elite TV Ultimate", not "Elite TV 2026")
-  — a mismatch here is exactly what made Arnie think a separate, better
-  "Ultimate" app existed (2026-08-02 fix, d773208).
+  the page `<title>`'s branding** ("Elite TV Ultimate") — a mismatch made Arnie
+  think a separate "Ultimate" app existed (fixed 2026-08-02, d773208).
 - **Never hand-write a YouTube trailer id.** Verify via oembed (200 = exists +
   embeddable) AND check the returned title names the show.
 - **file:// can't host a YouTube iframe** (Error 153). playTrailer() is
@@ -42,12 +41,10 @@ visitor IP location). Vercel: https://elite-tv-2026.vercel.app — hot spare.
   `.art-blur`. **Card size = the grid's min column (430px), not page width.**
 - **"Find New Shows" needs NO API key** — TMDB public pages. `OMDB_API_KEY` is
   optional (plot/cast extras only); never make it required again.
-- **IMDb ratings are key-free too (2026-08-01).** imdb.com title pages are
-  bot-gated (HTTP 202 even with full browser headers) — do NOT scrape them.
-  `imdbFromWidget()` (movies-core) reads IMDb's widget ratings feed
-  p.media-imdb.com/static-content/…/title/tt…/ratings…data.json by exact tt-id:
-  real rating + votes, movies AND TV. OMDb first when a key exists; the feed is
-  the fallback and the whole source on Netlify.
+- **IMDb ratings are key-free.** imdb.com title pages are bot-gated (HTTP 202)
+  — do NOT scrape them. `imdbFromWidget()` (movies-core) reads IMDb's widget
+  ratings feed by exact tt-id: real rating + votes, movies AND TV. OMDb first
+  when a key exists; the feed is the fallback and the whole source on Netlify.
 - **Discovery episodes must satisfy `air >= since && air <= today`** — an early
   version reported shows that hadn't aired.
 - **Interleave discovery candidates round-robin across services** or Netflix
@@ -70,21 +67,18 @@ visitor IP location). Vercel: https://elite-tv-2026.vercel.app — hot spare.
   visitor location; v2 `context.geo` → the x-nf-client-* headers the core
   reads. Don't "simplify" it back to exports.handler.
 - **Movie cards are 2:3 — column width sets height.** 260px min, not 300px.
-- **HBO Max = TMDB provider id 1899** (the "Max"-era id still answers after the
-  2025 rename back; the OLD id 384 returns an empty page — probed 2026-08-03).
-  All five: 15 Hulu, 8 Netflix, 350 Apple TV, 9 Prime Video, 1899 HBO Max.
-- **Best of Streaming refresh path:** `node scripts/build-streaming-top.js`
-  (10-15 min, paced for RT/YouTube; add a service name arg to top up just one)
-  then `node scripts/bake-streaming-top.js` (splices data/streaming-top.json
-  into index.html between /*STREAMTOP:BEGIN*/…/*STREAMTOP:END*/). Never edit
-  the baked const by hand.
-- **Apple TV's catalogue is small** — its top-20 needs the low TMDB vote tiers
-  (50/25) or it stalls at 13; the low floors are candidate filters only, the
-  verified-score bar still gates. Build scripts must stamp `checked` with the
-  LOCAL date, not toISOString() (UTC rolled it to tomorrow once already).
+- **Streaming provider ids: 15 Hulu, 8 Netflix, 350 Apple TV, 9 Prime Video,
+  1899 HBO Max** (old 384 returns an empty page — probed 2026-08-03).
+- **Best of Streaming refresh:** `node scripts/build-streaming-top.js` (10-15
+  min, paced; a service-name arg tops up just that one) then
+  `node scripts/bake-streaming-top.js` (splices the JSON between the STREAMTOP
+  markers). Never edit the baked const by hand. Apple TV needs the low vote
+  tiers (50/25) or it stalls at 13 — floors filter candidates only, the
+  verified bar still gates. Stamp `checked` with the LOCAL date, never
+  toISOString() (UTC rolled it to tomorrow once).
 - **The movie "what's new" search is exclusion-driven, not date-driven:** the
-  client sends every known tmdb id (baked + finds); the date is honest
-  bookkeeping for the label. Don't "optimise" the known list away.
+  client sends every known tmdb id (baked + finds); the date is bookkeeping
+  for the label. Don't "optimise" the known list away.
 - **Narrator walk root is document.body** — the modals live OUTSIDE `.app`; an
   open modal is the visible page. Backdrop clicks close, never start reading;
   every app control/card is guarded via CTRL_SEL + [onclick].
