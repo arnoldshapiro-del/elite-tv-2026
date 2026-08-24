@@ -14,7 +14,7 @@
       doesn't fill up over months of browsing.
    Everything else from other sites (YouTube, ticket links) is left completely alone.
 */
-const CACHE = 'elite-tv-v1';
+const CACHE = 'elite-tv-v2';
 const MEDIA_CACHE = 'elite-tv-media-v1';
 const MEDIA_CAP = 120;
 const MEDIA_HOSTS = [
