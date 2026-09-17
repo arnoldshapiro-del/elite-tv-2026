@@ -10,7 +10,9 @@ IMDb ≥ 7.5, baked in verified, with a date-tracked "what's been added since I
 last searched" button. Dark navy/violet, light toggle. Episode tracking, Up
 Next, dated watch history (streaks, Year-in-Review, rewatches), taste recs +
 Match %, custom lists, calendar with .ics export, Narrator read-aloud,
-installable PWA with offline shell. Scores are never invented: every RT/IMDb
+installable PWA with offline shell. **English-language titles only by default**
+(2026-09-16): a remembered Language box (Discover / New Finds / Best of
+Streaming) flips to All languages; nothing is deleted, only set aside. Scores are never invented: every RT/IMDb
 number is a published score read from its own source; unverified → null → "—".
 
 ## Repo / Live
@@ -82,6 +84,27 @@ visitor IP location). Vercel: https://elite-tv-2026.vercel.app — hot spare.
 - **Narrator walk root is document.body** — the modals live OUTSIDE `.app`; an
   open modal is the visible page. Backdrop clicks close, never start reading;
   every app control/card is guarded via CTRL_SEL + [onclick].
+- **English-only is a BROWSE-time filter, never a post-filter:**
+  `with_original_language=en` on TMDB's public /tv and /movie browse pages
+  (verified 2026-09-16 — the site honours it like the API); `?lang=any` lifts
+  it. Every result carries `lang`; the client hides by `state.langMode`
+  ('en' default). Never gate now/soon server-side — that 6h edge cache is
+  shared by every visitor. Unknown language = visible, never hidden on a
+  guess; older finds back-fill through `?lang_of=` (discover + movies).
+- **Language data is baked, never hand-typed:** `node scripts/annotate-languages.js
+  && node scripts/bake-languages.js` (SHOW_LANG between the LANG markers + `lang`
+  on every STREAMTOP film; bake-streaming-top.js keeps it). 9 of the 75 shows
+  and 26 of the 92 films are not English — they stay in the data.
+- **His own lists never filter by language** (watchlist, Up Next, Calendar,
+  Stats, custom lists). Only discovery surfaces do: Discover, poster wall,
+  For You, Surprise, Compare, New Finds, Best of Streaming, theatre results.
+- **The working copy is CRLF (git autocrlf=true).** Anchor-based patch scripts
+  must match on LF and write back CRLF; `grep $'\r'` inside the Bash tool
+  reports LF falsely. Cost an hour on 2026-09-16.
+- **`.claude/launch.json` is git-ignored** and the preview tool reads
+  `Desktop\.claude\launch.json`, not the repo's — run `node scripts/devserver.js`
+  by hand and open http://localhost:8199 (the pane also refuses to register the
+  service worker on plain localhost; production registers fine).
 
 ## THE SCORE-MATCHING BRIDGE (the important idea in this repo)
 RT has no public API but the score IS in its page markup. The hard part is
@@ -130,7 +153,10 @@ non-fatal → null → "—".
   showing left. Retired AMC-only scraper: scripts/_retired/ (kept, not wired).
 
 ## Feature list (client)
-Discover: filters (+tap-to-filter hero pills), 8 sorts, 3 views, wall,
+Discover: filters (+tap-to-filter hero pills with an **All** pill first), a
+remembered **Language** box (English only / All languages — tags on foreign
+cards, Language row in every modal), **✕ Clear filters** whenever anything is
+narrowing the page, 8 sorts, 3 views, wall,
 Surprise, Compare, Match % chips, 🚫 hide/restore, finds unified into
 grid/search. ❓ Guide tab explains everything in plain English. New Finds has
 "Grow the collection" (N more per service at a chosen bar). Theatre picker
@@ -151,7 +177,9 @@ index.html (app + SHOWS/MEDIA/EPISODES/CAST/STREAMTOP data) · narrator.js
 (donor: trend-check-pro — canonical) · sw.js · lib/{discover,movies,theaters}-core.js ·
 api/*.js (Vercel) · netlify/functions/{discover,movies}.js + theaters.mjs ·
 data/*.json (source data, also baked in; streaming-top.json = Best of
-Streaming) · scripts/{build,bake}-streaming-top.js (refresh path) ·
+Streaming; languages.json = original language of every baked title) ·
+scripts/{build,bake}-streaming-top.js (refresh path) ·
+scripts/{annotate,bake}-languages.js (language refresh path) ·
 manifest.json, icons, netlify.toml (includes /sw.js no-cache header),
 vercel.json, package.json.
 

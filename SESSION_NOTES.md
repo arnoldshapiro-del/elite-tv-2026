@@ -433,3 +433,52 @@ state.lastSearch (it's an extra sweep, not the "what's new" bookkeeping).
 **What's next:** Nothing outstanding.
 **Important decisions:** No new screenshot taken — nothing in the visible page UI changed (install metadata + a one-line footer date only), so the gallery card thumbnail doesn't need refreshing.
 **Problems encountered:** None.
+
+---
+
+## Session — 2026-09-16 — English only, the All pill, one-tap Clear filters (Claude Code, Fable 5.1)
+
+**Arnie asked for three things:** only English-language shows; a visible way to
+see every service at once (he did not know a lit pill clears on a second tap);
+and anything else that makes the app dramatically better.
+
+**What shipped (two commits, both live on Netlify):**
+- f434664 — server cores. TMDB's public browse pages honour
+  `with_original_language=en` exactly like the API (probed: a Netflix page fell
+  from 20 mixed cards to 5 English ones), so discovery and the Best of Streaming
+  search now filter at browse time; `?lang=any` lifts it. Every find and film
+  carries `lang` (read from its own TMDB page when needed). New `?lang_of=` on
+  both functions answers the real language of older finds. Language data for all
+  75 shows + 92 films read from TMDB into data/languages.json — 9 shows (4
+  Japanese, 3 Korean, French, Italian) and 26 films are not English.
+- 3a0bb0c — the client. One remembered Language box (state.langMode, default
+  English only) on Discover, New Finds and Best of Streaming; discovery surfaces
+  filter by it, his own lists never do; foreign titles wear a language tag and
+  every modal has a Language row; the hero sentence states the real counts (66
+  English-language series, 9 set aside). "All" pill first in the hero row.
+  ✕ Clear filters chip beside the show count (and in the empty state) whenever
+  search/platform/genre/type/length/status is narrowing the page. Theatre
+  results hide foreign films client-side (the server answer is edge-cached for
+  everyone). Guide block "What is new — September 16", footer date, sw v3,
+  package 1.3.0. Older finds back-fill their language on load.
+
+**Verified:** plain-node tests against the live sources (11/11 default finds
+English; lang=any surfaced One Piece / Mushoku Tensei as Japanese; lang_of
+Korean/Korean/English; HBO Max English browse drops Spirited Away). Local dev
+server: 66/66 in English mode, 75/92 in All-languages with 9 tags; Netflix pill
+14 → All 66; chip appears/clears; The Hunt modal says Language: French; phone
+width clean; inline script passes node --check. Production: function and page
+checks in the wait scripts (see the closing report of the transcript).
+
+**Decisions:** foreign titles are set aside, never deleted (his "archive, never
+destroy" rule) — All languages brings them back labelled. Unknown language stays
+visible until the back-fill answers; hiding on a guess would be invented data.
+Future Best of Streaming rebuilds are English-only by default.
+
+**Problems:** the working copy is CRLF (git autocrlf=true) — the first patch
+script matched nothing until it normalised line endings; the Bash tool also
+mangles `$'\r'`, so a grep for CR lied. The source-of-truth guard fired twice on
+my own in-progress edits (tree was clean and in sync at session start) — resolved
+by committing Phase 1 first. The browser pane refuses service-worker registration
+on plain localhost ("unknown error occurred when fetching the script"); sw.js is
+served fine and production registers normally.
