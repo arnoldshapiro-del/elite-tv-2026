@@ -98,6 +98,13 @@ visitor IP location). Vercel: https://elite-tv-2026.vercel.app — hot spare.
 - **His own lists never filter by language** (watchlist, Up Next, Calendar,
   Stats, custom lists). Only discovery surfaces do: Discover, poster wall,
   For You, Surprise, Compare, New Finds, Best of Streaming, theatre results.
+- **Services are a mix-and-match SET, never a single pick** (2026-09-16 pm):
+  `state.services` (empty = all five) drives the hero pills, the #svcFilter
+  row, the #streamSvc buttons AND which providers New Finds / newly-added
+  movies search (`?providers=<ids>`; unknown ids fall back to all five).
+  Tap = toggle; All = clear; dropping the last lit name relights All. Clear
+  filters must NOT touch it — it is his standing choice, not a narrowing.
+  A "Hulu · Netflix" find matches if EITHER is lit (strict equality never did).
 - **The working copy is CRLF (git autocrlf=true).** Anchor-based patch scripts
   must match on LF and write back CRLF; `grep $'\r'` inside the Bash tool
   reports LF falsely. Cost an hour on 2026-09-16.
@@ -153,7 +160,8 @@ non-fatal → null → "—".
   showing left. Retired AMC-only scraper: scripts/_retired/ (kept, not wired).
 
 ## Feature list (client)
-Discover: filters (+tap-to-filter hero pills with an **All** pill first), a
+Discover: filters (+mix-and-match hero pills — tap to add, tap again to drop,
+**All** clears; the same set in the filter row and Best of Streaming), a
 remembered **Language** box (English only / All languages — tags on foreign
 cards, Language row in every modal), **✕ Clear filters** whenever anything is
 narrowing the page, 8 sorts, 3 views, wall,

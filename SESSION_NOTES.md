@@ -482,3 +482,17 @@ my own in-progress edits (tree was clean and in sync at session start) — resol
 by committing Phase 1 first. The browser pane refuses service-worker registration
 on plain localhost ("unknown error occurred when fetching the script"); sw.js is
 served fine and production registers normally.
+
+**Same evening — services as a set (3rd commit).** Arnie: "click one and
+highlight it, click the next and it shows two… or click All — and how do I clear,
+how do I get back to just one?" Every service name is now a toggle: lit = shown,
+tap a lit one to drop it, All clears, dropping the last lit one relights All (the
+page can never show nothing). One remembered set (state.services) drives the hero
+pills, a new Services button row in the filter box (the single-choice dropdown is
+gone), the Best of Streaming buttons, and which services New Finds / Grow / the
+newly-added-movies search actually query (discover-core gained ?providers=). A
+toast names what is showing after every tap; the hero sentence names the lit
+services. Clear filters leaves the set alone. Verified on the local server: Netflix
+20 → +Hulu 35 → drop Netflix 15 → drop Hulu = All, 75; Prime+Apple 25; three
+controls in step; Best of Streaming 20 for HBO Max; server providers=8 returns
+Netflix-only finds; unknown id falls back to all five.

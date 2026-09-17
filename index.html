@@ -1116,14 +1116,14 @@ footer {
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         <input type="text" id="search" placeholder="Search titles, genres, platforms…">
       </div>
-      <select id="platform">
-        <option value="all">All Platforms</option>
-        <option value="Hulu">Hulu</option>
-        <option value="Prime Video">Prime Video</option>
-        <option value="Apple TV">Apple TV</option>
-        <option value="Netflix">Netflix</option>
-        <option value="HBO Max">HBO Max</option>
-      </select>
+      <div class="btn-group" id="svcFilter" title="Which services to show — tap any mix; a lit one taps off; All shows every service">
+        <button class="btn active" data-svc="all">All</button>
+        <button class="btn" data-svc="Hulu">Hulu</button>
+        <button class="btn" data-svc="Prime Video">Prime</button>
+        <button class="btn" data-svc="Apple TV">Apple TV</button>
+        <button class="btn" data-svc="Netflix">Netflix</button>
+        <button class="btn" data-svc="HBO Max">HBO Max</button>
+      </div>
       <select id="langSel" class="langSel" title="English-language shows only, or every language — it remembers your choice">
         <option value="en">English only</option>
         <option value="all">All languages</option>
@@ -1220,7 +1220,7 @@ footer {
 <section class="section" id="finds">
   <div class="hero" style="padding-bottom:16px">
     <h1>New Finds</h1>
-    <p>Pick a stretch of time — the past week, month, 3 months, 6 months or year — and it searches Hulu, Prime Video, Apple TV, Netflix and HBO Max for new English-language series and new seasons released in it. Everything found is held to the same IMDb 7.5 bar and joins your list, never replacing it.</p>
+    <p>Pick a stretch of time — the past week, month, 3 months, 6 months or year — and it searches the services you have lit on the main page (all five unless you chose) for new English-language series and new seasons released in it. Everything found is held to the same IMDb 7.5 bar and joins your list, never replacing it.</p>
   </div>
   <div class="controls">
     <div class="controls-row" style="gap:10px">
@@ -1440,13 +1440,14 @@ footer {
 
     <div class="guide-block">
       <h3>The coloured names at the top are buttons</h3>
-      <p>On the main page, under the headline, you will see <strong>All</strong>, then Hulu, Prime Video, Apple TV, Netflix and HBO Max in their own colours. Those are not decoration. Tap one and the page shows only that service. Tap <strong>All</strong> and every service comes back.</p>
+      <p>On the main page, under the headline, you will see <strong>All</strong>, then Hulu, Prime Video, Apple TV, Netflix and HBO Max in their own colours. Those are not decoration — they are a mix-and-match set. Tap Netflix and the page shows only Netflix. Tap Hulu as well and it lights up too, so you see both. Tap a lit name again to drop it. Tap <strong>All</strong> and every service comes back — and if you drop the last lit name, All lights up by itself.</p>
+      <p>Your choice is remembered, and the same set drives the <strong>Services</strong> buttons in the filter box, the <strong>Best of Streaming</strong> buttons in Movies, and where <strong>New Finds</strong> searches — so if you have dropped Netflix, it stops looking there.</p>
     </div>
 
     <div class="guide-block">
       <h3>What is new — September 16</h3>
       <p><strong>English only.</strong> The shows, New Finds and Best of Streaming now show English-language titles only, and every search brings back English-language shows and films only. Nothing was thrown away: a box called <strong>Language</strong> sits beside the filters, and switching it to <strong>All languages</strong> brings the Japanese, Korean, French and Italian titles back, each labelled on its card. It remembers your choice. Anything you have already starred or ticked stays on your own lists whatever its language.</p>
-      <p><strong>All.</strong> The row of service names under the headline now starts with <strong>All</strong>, so one tap shows every service again.</p>
+      <p><strong>Mix-and-match services.</strong> The service names under the headline now work as a set: tap any mix to light them up, tap a lit one to drop it, and tap <strong>All</strong> to see every service again. The filter box, Best of Streaming and New Finds all follow the same set.</p>
       <p><strong>✕ Clear filters.</strong> Whenever a filter or a search is narrowing the page, a button appears beside the show count that puts everything back in one tap — no more hunting for which filter hid the shows.</p>
     </div>
 
@@ -1580,6 +1581,7 @@ if(!state.ratings)state.ratings={};if(!state.status)state.status={};if(!state.no
 if(!state.finds)state.finds={};   // shows discovered by the New Finds button, keyed by TMDB id
 if(!state.hidden)state.hidden={}; // { showId: true } — "not interested", kept out of Discover
 if(!state.langMode)state.langMode='en'; // 'en' = English-language only (his standing rule, 2026-09-16) · 'all' = every language
+if(!Array.isArray(state.services))state.services=[]; // the lit service names; empty = every service (2026-09-16)
 if(!state.lastSearch)state.lastSearch=null;   // ISO date of the last successful search
 if(!state.lastExport)state.lastExport=null;   // ISO date of the last backup export — drives the gentle nudge below
 if(!state.nudgeDismissed)state.nudgeDismissed=null; // 'YYYY-MM' the backup nudge was last dismissed
@@ -2049,23 +2051,49 @@ function getStatus(id){return state.status[id]||null;}
 /* Tapping a service name filters to it; tapping the lit one clears back to all.
    It sets the dropdown rather than keeping a second copy of the answer, so
    there is only ever one place that knows which platform is showing. */
-function pickPlatform(name){
-  const sel=document.getElementById('platform');
-  sel.value = (name==='all' || sel.value===name) ? 'all' : name;
-  render();
+/* SERVICES — a mix-and-match set, not a single pick (Arnie, 2026-09-16).
+   Tap a name to light it and add its shows; tap it again to drop it; tap All
+   to clear the lot. Dropping the last lit name lights All by itself, so there
+   is no way to end up looking at nothing. ONE remembered set (state.services)
+   drives the hero pills, the Services row in the filters, the Best of
+   Streaming buttons, and which services New Finds and the newly-added-movies
+   search look at — so "I quit Netflix" is one tap, everywhere. */
+const SERVICE_IDS = { 'Hulu': 15, 'Netflix': 8, 'Prime Video': 9, 'Apple TV': 350, 'HBO Max': 1899 };
+function selectedServices(){ return (state.services || []).filter(s => SERVICE_IDS[s]); }
+function activeServices(){ const s = selectedServices(); return s.length ? s : Object.keys(SERVICE_IDS); }
+// A find can sit on two services ("Hulu · Netflix") — it shows if EITHER is lit.
+function serviceOk(platform){
+  const sel = selectedServices(); if (!sel.length) return true;
+  return String(platform || '').split(/\s*·\s*/).some(p => sel.includes(p.trim()));
 }
-// Keeps the pills honest when the dropdown is the thing that changed. "All"
-// is lit exactly when no single service is chosen.
-function syncPills(){
-  const cur=document.getElementById('platform').value;
-  document.querySelectorAll('.ppill').forEach(p=>{
-    const isAll=p.dataset.plat==='all';
-    const on=isAll ? cur==='all' : p.dataset.plat===cur;
-    p.classList.toggle('on',on);
-    p.title = isAll ? (on ? 'Showing every service' : 'Show every service')
-            : on ? 'Showing only '+p.dataset.plat+' — tap All for every service'
-                 : 'Show only '+p.dataset.plat;
+function servicesSentence(){
+  const s = activeServices();
+  return s.length === 1 ? s[0] : s.slice(0, -1).join(', ') + ' and ' + s[s.length - 1];
+}
+function providersParam(){
+  const sel = selectedServices();
+  return sel.length ? '&providers=' + sel.map(s => SERVICE_IDS[s]).join(',') : '';
+}
+function toggleService(name){
+  if (name === 'all' || name === 'All') state.services = [];
+  else if (SERVICE_IDS[name]) {
+    const i = state.services.indexOf(name);
+    if (i === -1) state.services.push(name); else state.services.splice(i, 1);
+  }
+  save(); syncServiceControls(); render(); renderMovies();
+  toast(selectedServices().length ? 'Showing ' + servicesSentence() : 'Showing every service');
+}
+function pickPlatform(name){ toggleService(name); }   // the hero pills' onclick
+// Every control that shows the set reads it from one place, so they never disagree.
+function syncServiceControls(){
+  const sel = selectedServices();
+  const lit = item => (item === 'all' || item === 'All') ? !sel.length : sel.includes(item);
+  document.querySelectorAll('.ppill').forEach(p => {
+    const on = lit(p.dataset.plat); p.classList.toggle('on', on);
+    p.title = p.dataset.plat === 'all' ? (on ? 'Showing every service' : 'Show every service')
+            : on ? 'Showing ' + p.dataset.plat + ' — tap again to drop it' : 'Add ' + p.dataset.plat;
   });
+  document.querySelectorAll('#svcFilter .btn, #streamSvc .btn').forEach(b => b.classList.toggle('active', lit(b.dataset.svc)));
 }
 /* The hero sentence tells the truth about what is on the page: how many
    English-language series, and how many are set aside by the Language box. */
@@ -2075,12 +2103,14 @@ function updateHeroBlurb(){
   el.textContent = state.langMode==='all'
     ? `${n} series across Hulu, Prime Video, Apple TV, Netflix & HBO Max — every one IMDb 7.5 or better, with episodes that actually aired (or are dated) in 2026 — ${other} of them in other languages, labelled on their cards. Rotten Tomatoes shown where a verified score exists.`
     : `${en} English-language series across Hulu, Prime Video, Apple TV, Netflix & HBO Max — every one IMDb 7.5 or better, with episodes that actually aired (or are dated) in 2026. Rotten Tomatoes shown where a verified score exists. ${other} foreign-language shows are set aside — the Language box below brings them back.`;
+  if (selectedServices().length) el.textContent += ' Showing ' + servicesSentence() + ' only — tap a lit name to drop it, or All for every service.';
 }
 /* ✕ Clear filters — shown only while a filter or search is narrowing the page,
    so "where did everything go?" is always one tap from fixed. */
 function filtersActive(){
+  // Services are not counted here: they are his standing choice with their
+  // own All button, not a one-off narrowing.
   return !!(document.getElementById('search').value
-    || document.getElementById('platform').value!=='all'
     || document.getElementById('genre').value!=='all'
     || currentType!=='all' || currentStatus!=='all' || currentLength!=='all');
 }
@@ -2091,7 +2121,6 @@ function updateClearFilters(){
 }
 function clearFilters(){
   document.getElementById('search').value='';
-  document.getElementById('platform').value='all';
   document.getElementById('genre').value='all';
   currentType='all';currentStatus='all';currentLength='all';
   [['#typeFilter','type'],['#lengthFilter','len'],['#statusFilter','status']].forEach(([sel,key])=>{
@@ -2102,11 +2131,10 @@ function clearFilters(){
 }
 
 function render(){
-  syncPills();         // pills follow the dropdown, whichever one he touched
+  syncServiceControls();   // every service control shows the same lit set
   computeMatchMap();   // one pass per render — every card reads the same numbers
   document.getElementById('backupNudge').innerHTML = backupNudgeHTML();   // cheap — recomputed on every render anyway
   const search=document.getElementById('search').value.toLowerCase();
-  const platform=document.getElementById('platform').value;
   const genre=document.getElementById('genre').value;
   const sort=document.getElementById('sort').value;
   // Discovered shows live in the SAME grid as the original 75 — one place to
@@ -2114,7 +2142,7 @@ function render(){
   let filtered=catalog().filter(s=>{
     if(isHidden(s.id)&&!showHidden)return false;
     const matchSearch=!search||s.title.toLowerCase().includes(search)||s.genre.toLowerCase().includes(search)||s.platform.toLowerCase().includes(search)||s.review.toLowerCase().includes(search);
-    const matchPlatform=platform==='all'||s.platform===platform;
+    const matchPlatform=serviceOk(s.platform);
     const matchGenre=genre==='all'||s.genre.includes(genre);
     const matchType=currentType==='all'||s.type===currentType;
     const st=getStatus(s.id);
@@ -2408,11 +2436,11 @@ async function runFind(sinceArg, srcBtn, windowLabel, opts){
   const label = btn.textContent;
   btn.innerHTML = '<span class="spin">◠</span> Searching…';
   findMsg(grow
-    ? 'Sweeping all of 2026 on Hulu, Prime Video, Apple TV, Netflix and HBO Max for ' +
+    ? 'Sweeping all of 2026 on ' + servicesSentence() + ' for ' +
       (state.langMode === 'all' ? 'anything' : 'English-language shows') + ' rated ' +
       barText + ' or better, and it keeps going by itself until each service has given you ' +
       opts.perService + ' more or has run out. This one takes a few minutes — leave it running.'
-    : 'Checking Hulu, Prime Video, Apple TV, Netflix and HBO Max for ' +
+    : 'Checking ' + servicesSentence() + ' for ' +
       (state.langMode === 'all' ? '' : 'English-language ') + 'series and new seasons released ' +
       (windowLabel ? 'in the past ' + windowLabel : 'since ' + fmtDate(since)) +
       ', then looking up real IMDb ratings. A wider window takes longer — up to about a minute for a full year.');
@@ -2426,7 +2454,8 @@ async function runFind(sinceArg, srcBtn, windowLabel, opts){
   let data = null; const gotShows = [];
   // What THIS run has added, service by service — the scoreboard "Grow the
   // collection" hunts against.
-  const perSvc = {}; BASE_SERVICES.forEach(nm => { perSvc[nm] = 0; });
+  const svcs = activeServices();
+  const perSvc = {}; svcs.forEach(nm => { perSvc[nm] = 0; });
 
   try {
     while (true) {
@@ -2440,6 +2469,8 @@ async function runFind(sinceArg, srcBtn, windowLabel, opts){
                   '&titles=' + encodeURIComponent(titles) +
                   // English-language only unless his Language box says otherwise.
                   (state.langMode === 'all' ? '&lang=any' : '') +
+                  // Only the lit services (none lit = all five).
+                  providersParam() +
                   // Only "Grow the collection" sends these. Every other button
                   // sends neither, so the standing 7.5 bar is untouched.
                   (opts.bar ? '&bar=' + encodeURIComponent(opts.bar) : '') +
@@ -2470,7 +2501,7 @@ async function runFind(sinceArg, srcBtn, windowLabel, opts){
         added++;
         // A find can live on two services at once ("Hulu · Netflix"). It counts
         // for each of them, because it really is on both.
-        BASE_SERVICES.forEach(nm => { if (String(f.platform || '').includes(nm)) perSvc[nm]++; });
+        svcs.forEach(nm => { if (String(f.platform || '').includes(nm)) perSvc[nm]++; });
       });
       totalAdded += added;
       totalFound += (data.found || 0);
@@ -2487,10 +2518,10 @@ async function runFind(sinceArg, srcBtn, windowLabel, opts){
         /* Keep hunting until every service has handed over its share — or until
            a whole pass turns up nothing new, which means the well is dry and
            pressing on would only waste his time. */
-        const short = BASE_SERVICES.filter(nm => perSvc[nm] < opts.perService);
+        const short = svcs.filter(nm => perSvc[nm] < opts.perService);
         if (short.length && added > 0 && rounds < MAX_ROUNDS){
           findMsg('Added ' + totalAdded + ' so far (' +
-            BASE_SERVICES.map(nm => SHORT_SERVICE[nm] + ' ' + perSvc[nm]).join(' · ') +
+            svcs.map(nm => SHORT_SERVICE[nm] + ' ' + perSvc[nm]).join(' · ') +
             ') — still hunting…');
           continue;
         }
@@ -2513,9 +2544,9 @@ async function runFind(sinceArg, srcBtn, windowLabel, opts){
         ? `Added ${totalAdded} new ${totalAdded===1?'show':'shows'}.`
         : 'Nothing to add — you already have everything 2026 offers at that rating.') + '</strong>');
       bits.push('Per service: ' +
-        BASE_SERVICES.map(nm => nm + ' ' + perSvc[nm]).join(' · ') +
+        svcs.map(nm => nm + ' ' + perSvc[nm]).join(' · ') +
         ` (you asked for ${opts.perService} each)`);
-      BASE_SERVICES.filter(nm => perSvc[nm] < opts.perService).forEach(nm => {
+      svcs.filter(nm => perSvc[nm] < opts.perService).forEach(nm => {
         bits.push('<span style="color:var(--muted)">' + nm +
           ' ran out of shows above ' + barText + " — that's everything 2026 has there.</span>");
       });
@@ -2537,7 +2568,7 @@ async function runFind(sinceArg, srcBtn, windowLabel, opts){
       : 'Nothing new has come out since then.') + '</strong>');
     bits.push(`Searched ${fmtDate(since)} → ${fmtDate(state.lastSearch)}` +
               (data.windowDays ? ` (${data.windowDays} days)` : '') +
-              ` across Hulu, Prime Video, Apple TV, Netflix and HBO Max (${state.langMode === 'all' ? 'every language' : 'English-language only'})` +
+              ` across ${servicesSentence()} (${state.langMode === 'all' ? 'every language' : 'English-language only'})` +
               (rounds > 1 ? ` in ${rounds} passes` : '') + `; ` +
               `checked ${totalScanned} candidates and kept only shows whose episodes had actually aired in that window.`);
     if (totalFound > totalAdded) bits.push(`${totalFound - totalAdded} were already on your list.`);
@@ -2595,7 +2626,7 @@ if (!state.streamFinds) state.streamFinds = {};       // { tmdbId: movie } — f
 if (!state.streamLastSearch) state.streamLastSearch = null; // ISO date of that search — the next one picks up from here
 let movieMode = 'now';
 let movieMine = false;   // the ⭐ My list view — cuts across both modes, so it is its own flag
-let streamSvc = 'All';   // which service pill is lit in Best of Streaming
+// Best of Streaming's service buttons are the same lit set as everywhere else (state.services).
 
 /* THE BAKED-IN LIST — the 20 highest-rated films on each of the five services,
    every score verified from its own source on the date in `checked` (IMDb from
@@ -2618,7 +2649,8 @@ function streamList(){
   (STREAMTOP.movies || []).forEach(m => { if (!seen.has(m.tmdb)){ seen.add(m.tmdb); out.push(m); } });
   Object.values(state.streamFinds).forEach(m => { if (!seen.has(m.tmdb)){ seen.add(m.tmdb); out.push(m); } });
   const inLang = out.filter(movieLangOk);
-  const list = streamSvc === 'All' ? inLang : inLang.filter(m => streamServicesOf(m).includes(streamSvc));
+  const sel = selectedServices();
+  const list = sel.length ? inLang.filter(m => streamServicesOf(m).some(s => sel.includes(s))) : inLang;
   return list.sort((a,b) => ((b.imdb||0)-(a.imdb||0)) || ((b.rtCritics||0)-(a.rtCritics||0)));
 }
 // How many Best of Streaming films the Language box is currently setting aside.
@@ -3254,14 +3286,14 @@ function renderMovies(){
     const note = document.getElementById('movieSrcNote');
     if (!list.length){
       grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
-        <h3>${streamSvc === 'All' ? 'The list is still being built' : 'Nothing here for ' + escapeHTML(streamSvc) + ' yet'}</h3>
+        <h3>${selectedServices().length ? 'Nothing here for ' + escapeHTML(servicesSentence()) + ' yet' : 'The list is still being built'}</h3>
         <p>The 20 highest-rated films on each service live here, with real verified scores.</p></div>`;
       note.innerHTML = '';
       return;
     }
     grid.innerHTML = list.map((m, i) => movieCardHTML(m, i, 'stream')).join('');
     const finds = Object.keys(state.streamFinds).length;
-    note.innerHTML = `The highest-rated films streaming on ${streamSvc === 'All' ? 'Hulu, Netflix, Apple TV, Prime Video and HBO Max' : escapeHTML(streamSvc)} — ` +
+    note.innerHTML = `The highest-rated films streaming on ${escapeHTML(servicesSentence())} — ` +
       `every film cleared <strong>Tomatometer ≥ ${STREAMTOP.bar.rtCritics}% or IMDb ≥ ${STREAMTOP.bar.imdb}</strong>, and every score was read from its own source` +
       (STREAMTOP.checked ? ` on ${fmtDate(STREAMTOP.checked)}` : '') + ` — nothing is estimated. ` +
       `A film can sit on two services at once; it counts for both. ` +
@@ -3419,7 +3451,7 @@ async function runStreamSearch(){
   btn.disabled = true;
   const label = btn.textContent;
   btn.innerHTML = '<span class="spin">◠</span> Searching…';
-  movieMsg('Checking Hulu, Netflix, Apple TV, Prime Video and HBO Max for high-rated ' +
+  movieMsg('Checking ' + servicesSentence() + ' for high-rated ' +
     (state.langMode === 'all' ? '' : 'English-language ') + 'films you haven\'t been shown yet' +
     (state.streamLastSearch ? ' (last looked ' + fmtDate(state.streamLastSearch) + ')' : '') +
     ', then verifying every score at its own source. Takes up to a minute.');
@@ -3433,6 +3465,7 @@ async function runStreamSearch(){
       const url = '/api/movies?mode=stream&nocache=1' +
         '&today=' + encodeURIComponent(ymdLocal(new Date())) +
         (state.langMode === 'all' ? '&lang=any' : '') +
+        providersParam() +
         '&known=' + encodeURIComponent(knownIds());
       const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
       const ct = res.headers.get('content-type') || '';
@@ -3471,8 +3504,8 @@ async function runStreamSearch(){
     const bits = [];
     bits.push('<strong>' + (totalAdded
       ? `Added ${totalAdded} new film${totalAdded === 1 ? '' : 's'} to Best of Streaming.`
-      : 'Nothing new — the highest-rated films on all five services are already on your list.') + '</strong>');
-    bits.push(`Checked ${totalScanned} candidates across Hulu, Netflix, Apple TV, Prime Video and HBO Max` +
+      : 'Nothing new — the highest-rated films on ' + servicesSentence() + ' are already on your list.') + '</strong>');
+    bits.push(`Checked ${totalScanned} candidates across ${servicesSentence()}` +
       (rounds > 1 ? ` in ${rounds} passes` : '') +
       `; kept only films clearing Tomatometer ${(data.bar && data.bar.rtCritics) || 85}% or IMDb ${(data.bar && data.bar.imdb) || 7.5}, every score verified at its own source.`);
     if (rejectedAll.length)
@@ -4564,7 +4597,7 @@ document.getElementById('importFile').onchange=(ev)=>{
   rd.readAsText(f);
 };
 document.getElementById('search').oninput=render;
-document.getElementById('platform').onchange=render;
+document.querySelectorAll('#svcFilter .btn').forEach(b=>{b.onclick=()=>toggleService(b.dataset.svc);});
 document.getElementById('genre').onchange=render;
 document.getElementById('sort').onchange=render;
 document.querySelectorAll('#typeFilter .btn').forEach(btn=>{
@@ -4666,15 +4699,8 @@ function backfillStreamLanguages(){ return backfillLanguages('/api/movies', stat
       renderMovies();
     };
   });
-  // Best of Streaming's service pills — tap to see one service's top list
-  document.querySelectorAll('#streamSvc .btn').forEach(btn => {
-    btn.onclick = () => {
-      document.querySelectorAll('#streamSvc .btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      streamSvc = btn.dataset.svc;
-      renderMovies();
-    };
-  });
+  // Best of Streaming's service buttons — the same mix-and-match set as the hero pills
+  document.querySelectorAll('#streamSvc .btn').forEach(btn => { btn.onclick = () => toggleService(btn.dataset.svc); });
   // ⭐ My list is a fourth state of the same group: whichever is lit, the others are not.
   document.getElementById('movieMineBtn').onclick = () => {
     clearModeActive();
