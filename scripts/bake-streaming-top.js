@@ -23,6 +23,7 @@ const lean = data.movies.map(m => ({
   imdbId: m.imdbId, rtCritics: m.rtCritics, rtAudience: m.rtAudience,
   rtCertified: m.rtCertified, rtUrl: m.rtUrl, trailer: m.trailer,
   cast: m.cast, castRoles: m.castRoles, director: m.director,
+  lang: m.lang || null,   // original language, stamped by bake-languages.js
 }));
 
 const payload = {
