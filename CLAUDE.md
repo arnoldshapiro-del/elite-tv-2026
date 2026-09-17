@@ -84,34 +84,21 @@ visitor IP location). Vercel: https://elite-tv-2026.vercel.app — hot spare.
 - **Narrator walk root is document.body** — the modals live OUTSIDE `.app`; an
   open modal is the visible page. Backdrop clicks close, never start reading;
   every app control/card is guarded via CTRL_SEL + [onclick].
-- **English-only is a BROWSE-time filter, never a post-filter:**
-  `with_original_language=en` on TMDB's public /tv and /movie browse pages
-  (verified 2026-09-16 — the site honours it like the API); `?lang=any` lifts
-  it. Every result carries `lang`; the client hides by `state.langMode`
-  ('en' default). Never gate now/soon server-side — that 6h edge cache is
-  shared by every visitor. Unknown language = visible, never hidden on a
-  guess; older finds back-fill through `?lang_of=` (discover + movies).
+- **English-only is a BROWSE-time filter** (`with_original_language=en` on TMDB's
+  public pages, verified 2026-09-16; `?lang=any` lifts it). Results carry `lang`;
+  the client hides by `state.langMode`. Never gate now/soon server-side (shared
+  edge cache). Unknown language = visible; older finds back-fill via `?lang_of=`.
 - **Language data is baked, never hand-typed:** `node scripts/annotate-languages.js
-  && node scripts/bake-languages.js` (SHOW_LANG between the LANG markers + `lang`
-  on every STREAMTOP film; bake-streaming-top.js keeps it). 9 of the 75 shows
-  and 26 of the 92 films are not English — they stay in the data.
-- **His own lists never filter by language** (watchlist, Up Next, Calendar,
-  Stats, custom lists). Only discovery surfaces do: Discover, poster wall,
-  For You, Surprise, Compare, New Finds, Best of Streaming, theatre results.
-- **Services are a mix-and-match SET, never a single pick** (2026-09-16 pm):
-  `state.services` (empty = all five) drives the hero pills, the #svcFilter
-  row, the #streamSvc buttons AND which providers New Finds / newly-added
-  movies search (`?providers=<ids>`; unknown ids fall back to all five).
-  Tap = toggle; All = clear; dropping the last lit name relights All. Clear
-  filters must NOT touch it — it is his standing choice, not a narrowing.
-  A "Hulu · Netflix" find matches if EITHER is lit (strict equality never did).
-- **The working copy is CRLF (git autocrlf=true).** Anchor-based patch scripts
-  must match on LF and write back CRLF; `grep $'\r'` inside the Bash tool
-  reports LF falsely. Cost an hour on 2026-09-16.
-- **`.claude/launch.json` is git-ignored** and the preview tool reads
-  `Desktop\.claude\launch.json`, not the repo's — run `node scripts/devserver.js`
-  by hand and open http://localhost:8199 (the pane also refuses to register the
-  service worker on plain localhost; production registers fine).
+  && node scripts/bake-languages.js` (SHOW_LANG + `lang` on STREAMTOP films).
+- **His own lists never filter by language or service** (watchlist, Up Next,
+  Calendar, Stats, lists) — only discovery surfaces do.
+- **Services are a mix-and-match SET** (`state.services`, empty = all five): one
+  set drives hero pills, #svcFilter, #streamSvc and the searches' `?providers=`.
+  Tap = toggle, All = clear, last one dropped relights All. Clear filters must
+  NOT touch it. A "Hulu · Netflix" find matches if EITHER is lit.
+- **Working copies are CRLF (autocrlf=true):** anchor patches match on LF, write
+  back CRLF. `.claude/launch.json` is git-ignored — run `node scripts/devserver.js`
+  by hand (the pane refuses SW registration on localhost; production is fine).
 
 ## THE SCORE-MATCHING BRIDGE (the important idea in this repo)
 RT has no public API but the score IS in its page markup. The hard part is
