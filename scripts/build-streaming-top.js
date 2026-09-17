@@ -4,6 +4,10 @@
    (Hulu, Netflix, Apple TV, Prime Video, HBO Max), every score VERIFIED.
 
    Bar (Arnie's, 2026-08-03): Tomatometer >= 85% OR IMDb >= 7.5.
+   Language (Arnie's, 2026-09-16): English-language films only — browseStream
+   defaults to with_original_language=en, so a rebuild never brings the
+   foreign-language classics back. The 26 already baked stay (data is never
+   destroyed); the app hides them behind the Language box.
    Nothing is invented: candidates come from TMDB's public provider-filtered
    browse pages (JustWatch availability data, published by TMDB), the IMDb
    number from IMDb's own ratings feed by exact tt-id, the RT number from RT's
