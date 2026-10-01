@@ -4,7 +4,8 @@
 
 ## 2026-10-01 — ⭐ Added by Me
 A fourth Discover category for shows Arnie adds himself (SHOWS 76+, `type:"mine"`);
-first six = the Harlan Coben series from MovieWeb's Sept 30, 2026 list. How to add
+first six = the Harlan Coben series from MovieWeb's Sept 30, 2026 list. It has its own gold
+tab in the top nav (right after Discover) — the filter-row button alone was too easy to miss. How to add
 more is in CLAUDE.md's do-not-redo list; provenance in data/added-by-me.json.
 
 ## Earlier — 2026-09-16

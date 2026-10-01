@@ -1,6 +1,6 @@
 {
   "name": "elite-tv-2026",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "private": true,
   "description": "2026 Elite TV — Ultimate Discovery. Static single-file app plus one serverless function for the Find New Shows button.",
   "engines": {

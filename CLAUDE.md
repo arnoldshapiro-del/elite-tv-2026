@@ -100,6 +100,9 @@ visitor IP location). Vercel: https://elite-tv-2026.vercel.app — hot spare.
   NOT touch it. A "Hulu · Netflix" find matches if EITHER is lit.
 - **⭐ Added by Me = SHOWS ids 76+ with `type:"mine"`** (2026-10-01). His own picks:
   no 7.5 bar, any year/language, carry `added`/`addedFrom`/`addedUrl` + `imdbId`/`rtUrl`.
+  **They have their own gold top-nav tab (`#mine`, renderMine(), refreshed by every
+  render())** — the Discover type-row button alone was invisible to him (three
+  screens down on a phone; his shows sorted to slots 56-61 of 72). Keep the tab.
   `langOk()` always lets them through (his own list — the Language box never hides
   them); the hero blurb counts only the curated set. `typeLabel(s)` is the one place
   the category name lives. To add more: append to SHOWS, MEDIA, EPISODES, CAST_RAW

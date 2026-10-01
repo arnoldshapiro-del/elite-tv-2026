@@ -532,3 +532,13 @@ its blurb explains.
 no page errors, no horizontal overflow; inline script passes node --check; all six
 poster URLs return 200 image/jpeg.
 
+**Same day, follow-up — "Where does it say Added by Me? I don't see it anywhere."**
+The category button sat in Discover's second filter row (~1,000 px down on a
+phone, under search, services, language, genre and sort), and in the All view his
+six sorted to slots 56-61 of 72. Fix: a gold **⭐ Added by Me** tab in the top nav
+right after Discover, opening its own page (#mine) of just his picks in the order
+added — never filtered by service/language/hidden. renderMine() runs inside
+render(), so ★ ▶ ✓ stay in step. The filter-row button stays as a second route.
+Verified at 390 and 1280 px, dark + light (gold tab #f5c518 / #a16207 on light),
+six cards in order, ★ saves and stays on the tab, no page errors, no overflow.
+

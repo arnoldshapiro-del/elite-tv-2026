@@ -69,6 +69,9 @@ body::before {
 }
 .nav-tab:hover { color: var(--text); background: var(--surface2); }
 .nav-tab.active { color: #fff; background: var(--accent); }
+/* ⭐ Added by Me — his own picks, so the tab wears gold until it is the active one. */
+.nav-tab.mine-tab:not(.active) { color: var(--gold); }
+[data-theme="light"] .nav-tab.mine-tab:not(.active) { color: #a16207; }
 .nav-actions { display: flex; gap: 8px; align-items: center; }
 .icon-btn {
   width: 38px; height: 38px; border-radius: 10px; background: var(--surface2);
@@ -1076,6 +1079,7 @@ footer {
     <div class="logo">2026 Elite TV</div>
     <div class="nav-tabs">
       <button class="nav-tab active" data-section="discover">Discover</button>
+      <button class="nav-tab mine-tab" data-section="mine" title="Shows you added yourself">⭐ Added by Me</button>
       <button class="nav-tab" data-section="upnext">Up Next</button>
       <button class="nav-tab" data-section="foryou">For You</button>
       <button class="nav-tab" data-section="finds">New Finds</button>
@@ -1191,6 +1195,14 @@ footer {
     <span style="font-size:12px;color:var(--muted)" id="viewLabel">Grid view</span>
   </div>
   <div class="grid" id="grid"></div>
+</section>
+
+<section class="section" id="mine">
+  <div class="hero" style="padding-bottom:16px">
+    <h1>⭐ Added by Me</h1>
+    <p>Shows you picked yourself — any year, any language. Tap a card for the trailer, every episode, and the article it came from.</p>
+  </div>
+  <div class="grid" id="mineGrid"></div>
 </section>
 
 <section class="section" id="foryou">
@@ -1449,7 +1461,7 @@ footer {
 
     <div class="guide-block">
       <h3>What is new — October 1: ⭐ Added by Me</h3>
-      <p>There is a new category for <strong>shows you add yourself</strong>. On the main page, next to <strong>New Series</strong> and <strong>New Season</strong>, tap <strong>⭐ Added by Me</strong> and the page shows only your own picks. Each one wears a gold <strong>Added by Me</strong> tag, so you can spot them in the full list too.</p>
+      <p>There is a new category for <strong>shows you add yourself</strong>. It has its own gold tab at the very top of the app, right next to <strong>Discover</strong>: tap <strong>⭐ Added by Me</strong> and you see only your own picks. (The same button also sits beside <strong>New Series</strong> and <strong>New Season</strong> in the filters on the main page.) Each one wears a gold <strong>Added by Me</strong> tag, so you can spot them in the full list too.</p>
       <p>The first six are the Harlan Coben series from MovieWeb's list of great Coben shows most Americans missed: <strong>The Woods</strong>, <strong>Just One Look</strong>, <strong>No Second Chance</strong>, <strong>Hold Tight</strong>, <strong>Gone for Good</strong> and <strong>The Innocent</strong>. They are Polish, French and Spanish, so they come with English subtitles or dubbing. Because you chose them yourself, the <strong>English only</strong> setting never hides them. Each card has the real IMDb rating, the Rotten Tomatoes score where one exists, the trailer, the cast and every episode, ready to tick off. Open one and you will find a link back to the article it came from.</p>
     </div>
 
@@ -2055,6 +2067,7 @@ document.querySelectorAll('.nav-tab').forEach(tab=>{
     document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');
     document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
     document.getElementById(tab.dataset.section).classList.add('active');
+    if(tab.dataset.section==='mine')renderMine();
     if(tab.dataset.section==='upnext')renderUpNext();
     if(tab.dataset.section==='foryou')renderForYou();
     if(tab.dataset.section==='finds')renderFinds();
@@ -2125,7 +2138,7 @@ function updateHeroBlurb(){
   el.textContent = state.langMode==='all'
     ? `${n} series across Hulu, Prime Video, Apple TV, Netflix & HBO Max — every one IMDb 7.5 or better, with episodes that actually aired (or are dated) in 2026 — ${other} of them in other languages, labelled on their cards. Rotten Tomatoes shown where a verified score exists.`
     : `${en} English-language series across Hulu, Prime Video, Apple TV, Netflix & HBO Max — every one IMDb 7.5 or better, with episodes that actually aired (or are dated) in 2026. Rotten Tomatoes shown where a verified score exists. ${other} foreign-language shows are set aside — the Language box below brings them back.`;
-  if (mine) el.textContent += ` Plus ${mine} show${mine===1?'':'s'} you added yourself — tap ⭐ Added by Me to see just those.`;
+  if (mine) el.textContent += ` Plus ${mine} show${mine===1?'':'s'} you added yourself — tap ⭐ Added by Me at the top to see just those.`;
   if (selectedServices().length) el.textContent += ' Showing ' + servicesSentence() + ' only — tap a lit name to drop it, or All for every service.';
 }
 /* ✕ Clear filters — shown only while a filter or search is narrowing the page,
@@ -2153,9 +2166,20 @@ function clearFilters(){
   toast('Filters cleared — showing everything');
 }
 
+/* ⭐ Added by Me has its own tab at the top (2026-10-01) — a filter button deep in
+   Discover's controls was too easy to miss. His picks, in the order he added them;
+   never filtered by service, language or hidden, like his other own lists. */
+function renderMine(){
+  const grid=document.getElementById('mineGrid'); if(!grid)return;
+  const items=SHOWS.filter(isMine);
+  grid.innerHTML=items.length
+    ?items.map((s,i)=>cardHTML(s,i)).join('')
+    :'<div class="empty-state" style="grid-column:1/-1"><h3>Nothing added yet</h3><p>Shows you add yourself will appear here.</p></div>';
+}
 function render(){
   syncServiceControls();   // every service control shows the same lit set
   computeMatchMap();   // one pass per render — every card reads the same numbers
+  renderMine();        // six cards — cheap, and keeps its ★ ▶ ✓ in step with Discover
   document.getElementById('backupNudge').innerHTML = backupNudgeHTML();   // cheap — recomputed on every render anyway
   const search=document.getElementById('search').value.toLowerCase();
   const genre=document.getElementById('genre').value;
