@@ -1,5 +1,5 @@
 {
- "checked": "2026-09-16",
+ "checked": "2026-10-01",
  "tv": {
   "1": "English",
   "2": "English",
@@ -75,7 +75,13 @@
   "72": "English",
   "73": "English",
   "74": "English",
-  "75": "English"
+  "75": "English",
+  "76": "Polish",
+  "77": "Polish",
+  "78": "French",
+  "79": "Polish",
+  "80": "French",
+  "81": "Spanish; Castilian"
  },
  "movies": {
   "12": "English",

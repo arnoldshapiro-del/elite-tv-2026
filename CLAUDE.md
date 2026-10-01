@@ -12,7 +12,9 @@ Next, dated watch history (streaks, Year-in-Review, rewatches), taste recs +
 Match %, custom lists, calendar with .ics export, Narrator read-aloud,
 installable PWA with offline shell. **English-language titles only by default**
 (2026-09-16): a remembered Language box (Discover / New Finds / Best of
-Streaming) flips to All languages; nothing is deleted, only set aside. Scores are never invented: every RT/IMDb
+Streaming) flips to All languages; nothing is deleted, only set aside. **⭐ Added by Me** (2026-10-01): a fourth Discover category
+for shows Arnie picks himself — any year, any language, no 7.5 bar (first six:
+the Harlan Coben series from a MovieWeb list). Scores are never invented: every RT/IMDb
 number is a published score read from its own source; unverified → null → "—".
 
 ## Repo / Live
@@ -96,6 +98,16 @@ visitor IP location). Vercel: https://elite-tv-2026.vercel.app — hot spare.
   set drives hero pills, #svcFilter, #streamSvc and the searches' `?providers=`.
   Tap = toggle, All = clear, last one dropped relights All. Clear filters must
   NOT touch it. A "Hulu · Netflix" find matches if EITHER is lit.
+- **⭐ Added by Me = SHOWS ids 76+ with `type:"mine"`** (2026-10-01). His own picks:
+  no 7.5 bar, any year/language, carry `added`/`addedFrom`/`addedUrl` + `imdbId`/`rtUrl`.
+  `langOk()` always lets them through (his own list — the Language box never hides
+  them); the hero blurb counts only the curated set. `typeLabel(s)` is the one place
+  the category name lives. To add more: append to SHOWS, MEDIA, EPISODES, CAST_RAW
+  (data from each show's own TMDB pages, scores via wikidataIds → imdbFromWidget /
+  rtForSeries, trailer oembed-verified), then annotate+bake languages, and record the
+  provenance in data/added-by-me.json. Check the US service on TMDB's /watch?locale=US
+  page — an article's "on Netflix" can be wrong (No Second Chance is Prime Video's
+  France Channel add-on in the US).
 - **Working copies are CRLF (autocrlf=true):** anchor patches match on LF, write
   back CRLF. `.claude/launch.json` is git-ignored — run `node scripts/devserver.js`
   by hand (the pane refuses SW registration on localhost; production is fine).
@@ -172,7 +184,8 @@ index.html (app + SHOWS/MEDIA/EPISODES/CAST/STREAMTOP data) · narrator.js
 (donor: trend-check-pro — canonical) · sw.js · lib/{discover,movies,theaters}-core.js ·
 api/*.js (Vercel) · netlify/functions/{discover,movies}.js + theaters.mjs ·
 data/*.json (source data, also baked in; streaming-top.json = Best of
-Streaming; languages.json = original language of every baked title) ·
+Streaming; languages.json = original language of every baked title;
+added-by-me.json = provenance + verified scores of the ⭐ Added by Me shows) ·
 scripts/{build,bake}-streaming-top.js (refresh path) ·
 scripts/{annotate,bake}-languages.js (language refresh path) ·
 manifest.json, icons, netlify.toml (includes /sw.js no-cache header),

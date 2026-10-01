@@ -496,3 +496,39 @@ services. Clear filters leaves the set alone. Verified on the local server: Netf
 20 → +Hulu 35 → drop Netflix 15 → drop Hulu = All, 75; Prime+Apple 25; three
 controls in step; Best of Streaming 20 for HBO Max; server providers=8 returns
 Netflix-only finds; unknown id falls back to all five.
+
+## Session — 2026-10-01 — ⭐ Added by Me (Claude Code, cloud session)
+
+Arnie sent MovieWeb's "6 Great Harlan Coben Series American Viewers Probably
+Missed on Streaming" (Sept 30, 2026) and asked for the six to be added, in a new
+category for TV shows he adds himself.
+
+**Built:** a fourth button in Discover's type row, **⭐ Added by Me**, beside New
+Series / New Season. The six are baked as SHOWS 76-81 (`type:"mine"`) in the
+article's order: The Woods (Polish, 2020), Just One Look (Polish, 2025), No Second
+Chance (French, 2015), Hold Tight (Polish, 2022), Gone for Good (French, 2021), The
+Innocent (Spanish, 2021). Each has its TMDB poster, full cast and every episode
+(tracking works), IMDb by exact tt-id from the ratings feed, RT from the
+Wikidata-named page where one exists, and an oembed-verified trailer (five from
+Netflix's own channels incl. Netflix Polska for Just One Look; the UK distributor
+Eureka for No Second Chance). Gold "⭐ Added by Me" card tag; the modal shows
+"Added from" with a link to the article. Language box never hides them; hero
+sentence still counts only the curated set and adds "Plus 6 shows you added
+yourself". Guide block + footer Revised date updated; languages re-annotated and
+baked by the scripts (76-81 → Polish ×3, French ×2, Spanish; Castilian).
+
+**Honest scores (2026-10-01):** IMDb The Innocent 7.8 · No Second Chance 7.1 ·
+The Woods 6.5 · Gone for Good 6.3 · Just One Look 6.2 · Hold Tight 6.2. RT: The
+Woods 59% audience / 89% critics; The Innocent 78% / 100%; No Second Chance has an
+RT page with no scores; the other three have no RT id on Wikidata → "—". Only The
+Innocent clears the curated 7.5 bar — which is why "mine" has no bar.
+
+**Correction to the article:** TMDB's US watch page lists No Second Chance on the
+France Channel (Prime Video add-on), not Netflix — the card says Prime Video and
+its blurb explains.
+
+**Verified:** Playwright at 1280 and 390 px — English-only default shows 72
+(66 English + 6 mine), ⭐ Added by Me shows exactly the six, modal fields right,
+no page errors, no horizontal overflow; inline script passes node --check; all six
+poster URLs return 200 image/jpeg.
+

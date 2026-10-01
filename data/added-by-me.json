@@ -1,0 +1,94 @@
+{
+ "note": "Shows Arnie added himself (the ⭐ Added by Me category). Scores read from their own sources on the checked date: IMDb ratings feed by exact tt-id; RT via the Wikidata-named page; US service from TMDB's watch page. Baked into index.html as SHOWS ids 76+.",
+ "checked": "2026-10-01",
+ "source": {
+  "title": "MovieWeb — 6 Great Harlan Coben Series American Viewers Probably Missed on Streaming (Sept 30, 2026)",
+  "url": "https://movieweb.com/harlan-coben-shows-not-english/"
+ },
+ "shows": [
+  {
+   "id": 76,
+   "title": "The Woods",
+   "tmdb": 103425,
+   "imdbId": "tt1910645",
+   "imdb": 6.5,
+   "imdbVotes": 9666,
+   "rtUrl": "https://www.rottentomatoes.com/tv/the_woods",
+   "rtAudience": 59,
+   "rtCritics": 89,
+   "language": "Polish",
+   "platformUS": "Netflix",
+   "trailer": "4RlU1A_AJx4"
+  },
+  {
+   "id": 77,
+   "title": "Just One Look",
+   "tmdb": 283484,
+   "imdbId": "tt30876484",
+   "imdb": 6.2,
+   "imdbVotes": 3939,
+   "rtUrl": null,
+   "rtAudience": null,
+   "rtCritics": null,
+   "language": "Polish",
+   "platformUS": "Netflix",
+   "trailer": "JEJbAwXVmaY"
+  },
+  {
+   "id": 78,
+   "title": "No Second Chance",
+   "tmdb": 64093,
+   "imdbId": "tt4322334",
+   "imdb": 7.1,
+   "imdbVotes": 1751,
+   "rtUrl": "https://www.rottentomatoes.com/tv/une_chance_de_trop",
+   "rtAudience": null,
+   "rtCritics": null,
+   "language": "French",
+   "platformUS": "Prime Video",
+   "trailer": "cZsGQRUNOtE"
+  },
+  {
+   "id": 79,
+   "title": "Hold Tight",
+   "tmdb": 158155,
+   "imdbId": "tt15019128",
+   "imdb": 6.2,
+   "imdbVotes": 5660,
+   "rtUrl": null,
+   "rtAudience": null,
+   "rtCritics": null,
+   "language": "Polish",
+   "platformUS": "Netflix",
+   "trailer": "mpApguBHmfw"
+  },
+  {
+   "id": 80,
+   "title": "Gone for Good",
+   "tmdb": 128068,
+   "imdbId": "tt14252964",
+   "imdb": 6.3,
+   "imdbVotes": 6678,
+   "rtUrl": null,
+   "rtAudience": null,
+   "rtCritics": null,
+   "language": "French",
+   "platformUS": "Netflix",
+   "trailer": "-DUc1otr9XE"
+  },
+  {
+   "id": 81,
+   "title": "The Innocent",
+   "tmdb": 119988,
+   "imdbId": "tt10147644",
+   "imdb": 7.8,
+   "imdbVotes": 44943,
+   "rtUrl": "https://www.rottentomatoes.com/tv/the_innocent",
+   "rtAudience": 78,
+   "rtCritics": 100,
+   "language": "Spanish; Castilian",
+   "platformUS": "Netflix",
+   "trailer": "LhERIj0ddXI"
+  }
+ ]
+}

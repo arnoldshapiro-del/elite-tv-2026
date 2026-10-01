@@ -1,6 +1,13 @@
 # CONTINUE — elite-tv-2026
 
-**Date:** 2026-09-16 · **State:** FINISHED — nothing open. Live at https://elite-tv-2026.netlify.app (main @ a2425c5, package 1.3.1).
+**Date:** 2026-10-01 · **State:** FINISHED — nothing open. Live at https://elite-tv-2026.netlify.app (package 1.4.0).
+
+## 2026-10-01 — ⭐ Added by Me
+A fourth Discover category for shows Arnie adds himself (SHOWS 76+, `type:"mine"`);
+first six = the Harlan Coben series from MovieWeb's Sept 30, 2026 list. How to add
+more is in CLAUDE.md's do-not-redo list; provenance in data/added-by-me.json.
+
+## Earlier — 2026-09-16
 
 ## What this session did (Arnie's three asks, all live)
 1. **English-language titles only, by default.** Discovery and the Best of Streaming search filter at
@@ -30,4 +37,4 @@ by lit services (today only the Discover grid, finds search and Best of Streamin
 - Language refresh path: `node scripts/annotate-languages.js && node scripts/bake-languages.js`.
 
 ## Resume prompt
-"Back to elite-tv-2026" — read CLAUDE.md + the 2026-09-16 entries in SESSION_NOTES.md; everything is live.
+"Back to elite-tv-2026" — read CLAUDE.md + the 2026-10-01 entry in SESSION_NOTES.md; everything is live.
