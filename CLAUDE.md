@@ -17,6 +17,61 @@ for shows Arnie picks himself — any year, any language, no 7.5 bar (first six:
 the Harlan Coben series from a MovieWeb list). Scores are never invented: every RT/IMDb
 number is a published score read from its own source; unverified → null → "—".
 
+## Session handoff (do this every session)
+- Start: read `SESSION_NOTES.md` (the dated journal) and `CONTINUATION.md` if present, before touching anything. The newest entry says what was decided, what was verified and what is next.
+- Wrap-up: add a dated entry to `SESSION_NOTES.md` with what was asked, what changed, what was verified (and how) and what is next. Commit and push it together with the work.
+- Every settled decision goes in the ledger below as ONE line: what we decided, why, and what was ruled out and why. Every correction Arnie gives gets logged with his reason. Reasons matter more than facts: facts can be re-derived from the code, reasons cannot.
+- Unsure what was agreed? Re-read this file and the journal before asking Arnie again.
+
+## Decisions and why (one line each, newest last)
+- Scores are never invented: every RT/IMDb number is read from its own source, unverified → null → "—" (2026-07-29, the founding rule after the Grok file's fabricated data). Ruled out: plausible-looking guesses, because they ship looking right.
+- Never hand-write a YouTube trailer id; verify via oembed AND check the returned title names the show (2026-07-29). Why: 16 of the Grok file's 19 ids did not exist and 2 pointed at the wrong video. Ruled out: trusting cached ids.
+- playTrailer() is protocol-aware: new tab on file:, inline player on http(s) (2026-07-29). Why: file:// cannot host a YouTube iframe (Error 153), proven with a controlled test page; no client-side fix exists.
+- GitHub (branch main) is the source of truth; the Desktop copy is a mirror and GitHub wins if they diverge (2026-07-29). Why: the deployed app builds from the repo.
+- Find New Shows uses TMDB for discovery and OMDb for genuine IMDb ratings; RT shows "—" when unverified (2026-07-29, Arnie's choice). Why: RT has no public API; he chose enforcing the other half of the bar for real. Ruled out: a guessed RT number.
+- Found-show ids = 100000 + tmdbId (2026-07-29). Why: can never collide with the curated 1-60; getShow() resolves both.
+- Dates come from LOCAL date parts, never toISOString() (2026-07-29, the repo's oldest lesson, re-applied to build scripts 2026-08-03). Why: UTC rolls the date to tomorrow during a US evening.
+- Where-to-watch links are derived from platform + title, not fetched (2026-07-30). Why: they cannot go stale and need no key.
+- Cast cross-reference and taste recommendations are computed locally in the browser (2026-07-30). Why: no key, and nothing about his taste leaves the browser.
+- Rating an episode marks it watched (2026-07-30). Why: you cannot rate what you have not seen.
+- Import merges, never replaces (2026-07-30). Why: an import should never lose data.
+- Discovery runs on TMDB's public pages with NO API key; OMDb is optional enrichment only (2026-07-30). Why: Arnie said "definitely" and the private-API button did nothing while his key sat unverified. Ruled out: making any key required again.
+- Discovery episodes must satisfy air >= since AND air <= today (2026-07-30). Why: an early version reported shows that had not aired.
+- Discovery candidates interleave round-robin across services (2026-07-30). Why: one run returned 12 Netflix shows and nothing else.
+- Discover header averages only shows that actually have each score (2026-07-30). Why: counting unverified RT as zero understated the average.
+- Discovery runs as capped-concurrency passes inside a time budget; the client auto-continues truncated runs, banking each pass (2026-07-30, budget host-aware 2026-08-01). Why: the first draft took 134s, fatal in a serverless function. Ruled out: raising `want`.
+- RT pages are found through Wikidata (P1258 + P345 against the TMDB id), never by guessing a slug from the title; OMDb is asked by tt-id (2026-07-31). Why: a guessed slug returned the 2016 Moana's 57% for the 2026 film. Ruled out: title-derived slugs.
+- RT's title is read from og:title, not the h1 (2026-07-31). Why: the h1 wraps the title in a nested sr-text and the regex never matched.
+- `want` is per run and verification stops once enough shows pass (2026-07-31). Why: a one-year search took 55s against a 60s ceiling; now 24s.
+- The browser sends its local date as `today` (2026-07-31). Why: the functions run in UTC; after 8pm Eastern the server thought tomorrow had started.
+- "Now playing" is bounded to the last 110 days and non-US certificates are dropped (2026-07-31). Why: restored classics on re-run (a 1997 anime) and Indian/UK certificates leaked in.
+- Movie cards: 2:3 posters, 260px minimum column (2026-07-31). Why: 300px gave 530px-tall cards that pushed every score below the fold.
+- /api/movies is edge-cached 6h, load-bearing (2026-07-31). Why: RT rate-limits (403 = score lost). Ruled out: treating the cache as an optimisation to remove.
+- Showtimes come live from Fandango's own napi with a browser Accept AND a Referer header (2026-08-01). Why: its 403 "session expired" was a headers problem, not a session problem. Ruled out: the scheduled headless AMC scraper (retired to scripts/_retired/, archived not deleted).
+- Premium format comes from the amenity list, not filmFormatHeader (2026-08-01). Why: the header is coarse; FORMAT_RULES is ordered on purpose.
+- The 11pm auto-rollover calls loadTheatersInner(), and every lookup takes a ticket (2026-08-01). Why: the queue wrapper waited on itself, and a slow IP lookup overwrote a typed ZIP.
+- "Coming in 3 Weeks" stays national, not per-cinema (2026-08-01). Why: cinemas do not publish schedules that far out.
+- IMDb ratings are key-free via IMDb's widget ratings feed by exact tt-id; OMDb first when a key exists (2026-08-01). Why: no OMDb key on Netlify and setting env vars was blocked; imdb.com title pages are bot-gated (HTTP 202). Ruled out: scraping imdb.com pages.
+- /api/theaters on Netlify is Functions 2.0 (.mjs) (2026-08-01). Why: v1 functions never see visitor location; context.geo feeds the headers the core reads.
+- Netlify is the primary host, Vercel the hot spare (2026-08-01). (reason not recorded)
+- Narrator walks from document.body and backdrop clicks only close (2026-08-01). Why: the modals live outside .app, so an open modal is the visible page.
+- Skipped on purpose (2026-08-01): "leaving soon" (no honest key-free source), social/accounts (local-first philosophy), push notifications (the .ics route needs no server and rings his phone).
+- Finds are unified into the main grid and search (2026-08-01, supersedes the 2026-07-29 separate section). (reason not recorded)
+- Grow the collection: bars are caller-set, TMDB browse floors follow the caller's bar, and Grow never moves state.lastSearch (2026-08-01). Why: fixed floors return nothing for a 6.0 request; Grow is an extra sweep, not the "what's new" bookkeeping.
+- scripts/devserver.js lives in the repo (2026-08-01). Why: scratchpad copies kept getting deleted.
+- CLAUDE.md is kept lean under a size budget (8KB per commits cedc030/9ef8e4e/e60d1ad; trimmed again 05362f9). (reason not recorded) Note: the file already exceeds it; the sections added 2026-10-21 were requested by Arnie.
+- Install name is "Elite TV Ultimate" in manifest short_name and apple-mobile-web-app-title, matching the page title (2026-08-02). Why: two names for one app made Arnie think a second "Ultimate" app existed.
+- Best of Streaming: 20 films per service on five services, fixed bar RT ≥ 85% OR IMDb ≥ 7.5, every score verified and baked (2026-08-03). A film on two services counts for both, same rule as the TV side. HBO Max is TMDB provider 1899, because 384 answers an empty page (probed).
+- Apple TV uses low vote tiers (50/25) in the build script (2026-08-03). Why: it stalled at 13 of 20; the floors widen candidates only, the verified bar still gates.
+- The movie "what's new" search is exclusion-driven (client sends every known tmdb id) with nocache=1 (2026-08-03). Why: `known` varies per user under the shared 6h cache; the date is only the label.
+- English-language titles only by default, as a browse-time filter (`with_original_language=en`), with a remembered Language box; foreign titles are set aside, never deleted (2026-09-16). Why: Arnie asked for English only, and his "archive, never destroy" rule. Unknown language stays visible, because hiding on a guess would be invented data; now/soon are never gated server-side because the edge cache is shared.
+- Language data is baked by scripts (annotate + bake), never hand-typed (2026-09-16). (reason not recorded)
+- Services are a mix-and-match set: tap adds, tap again drops, All clears, dropping the last relights All; Clear filters leaves the set alone (2026-09-16). Why: Arnie's correction, "click one and highlight it, click the next and it shows two… how do I clear?" and the page may never show nothing. Ruled out: the single-choice dropdown.
+- ⭐ Added by Me: his own picks as SHOWS 76+ with type "mine", no 7.5 bar, any year or language, never hidden by the Language box, hero blurb counts only the curated set (2026-10-01). Why: only one of the six Harlan Coben series clears 7.5, which is why "mine" has no bar.
+- Service comes from TMDB's US watch page, not the article (2026-10-01). Why: MovieWeb said Netflix for No Second Chance; in the US it is Prime Video's France Channel add-on.
+- Added by Me has its own gold top-nav tab (#mine), the filter-row button kept as a second route (2026-10-01). Why: Arnie's correction, "Where does it say Added by Me? I don't see it anywhere." The button sat ~1,000px down on a phone and his shows sorted to slots 56-61 of 72.
+- Session memory lives in this file and `SESSION_NOTES.md`, never only in chat: cloud sessions start on a fresh computer, chat history gets compacted, and only files in the repo survive (2026-10-21, after Dylan Davis's "decisions.md" video). Ruled out: a separate decisions.md, because this file is the one Claude Code re-reads after compaction.
+
 ## Repo / Live
 arnoldshapiro-del/elite-tv-2026 (branch `main`).
 **Netlify (primary since 2026-08-01): https://elite-tv-2026.netlify.app** —
@@ -207,3 +262,12 @@ for real API tests, or test against the live Netlify URL.
 - Poster/trailer data is hotlinked; pulled assets fall back gracefully.
 - The deployment-specific Vercel URL requires login; public addresses are the
   two in "Repo / Live" above.
+
+## Compact Instructions
+When this conversation is compacted, the summary must keep, in this order:
+1. Every decision made this session, with its reason and what was ruled out.
+2. Every correction Arnie gave, in his words where possible, and his reason.
+3. What has been verified and how (test run, build, live check with URL and time) versus what is only claimed or planned.
+4. What is next and what is still open, including anything waiting on Arnie's yes.
+5. The exact files changed, the branch, and whether the work is committed and pushed.
+Drop tool output, file contents and search results; they can be re-read from disk.

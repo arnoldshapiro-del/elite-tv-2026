@@ -542,3 +542,20 @@ render(), so ★ ▶ ✓ stay in step. The filter-row button stays as a second r
 Verified at 390 and 1280 px, dark + light (gold tab #f5c518 / #a16207 on light),
 six cards in order, ★ saves and stays on the tab, no page errors, no overflow.
 
+
+## Session — 2026-10-21 — Session memory in CLAUDE.md (notes only, Claude Code cloud session)
+
+Arnie asked that the reasons behind decisions survive new sessions and
+compaction, after Dylan Davis's video "ChatGPT & Claude Quietly Forget Mid-Task.
+One File Fixes It".
+
+**Added to CLAUDE.md, modeled on who-dey-101-2026:** "Session handoff" (read the
+journal first, write a dated entry at wrap-up, log every decision and every
+correction with its reason), "Decisions and why" (a one-line ledger built only
+from this repo's own notes and commit messages, "(reason not recorded)" where a
+why was never written down) and "Compact Instructions" (what a compaction
+summary must keep, in order). A separate decisions.md was ruled out because
+CLAUDE.md is the file Claude Code re-reads after compaction.
+
+**Notes-only change:** CLAUDE.md and this file. No code, data, config or deploy
+file touched; the app is unchanged.
